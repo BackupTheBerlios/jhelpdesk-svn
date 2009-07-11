@@ -3,11 +3,7 @@ package de.berlios.jhelpdesk.model;
 import java.util.Date;
 
 /**
- * @hibernate.class
- * 		table="hd_bug_comment"
- * 
  * @author jjhop
- *
  */
 public class BugComment {
 	private Long bugCommentId;
@@ -22,14 +18,6 @@ public class BugComment {
 	}
 
 	/**
-	 * @hibernate.id
-	 * 		generator-class="sequence"
-	 * 		column="comment_id"
-	 * 		type="java.lang.Long"
-	 * @hibernate.generator-param
-	 * 		name="sequence"
-	 * 		value="hd_bug_comment_comment_id_seq" 
-	 * 
 	 * @return Returns the bugCommentId.
 	 */
 	public Long getBugCommentId() {
@@ -45,11 +33,6 @@ public class BugComment {
 	
 
 	/**
-	 * @hibernate.property
-	 * 		column="bug_id"
-	 * 		type="java.lang.Long"
-	 * 		not-null="true"
-	 * 
 	 * @return Returns the bugId.
 	 */
 	public Long getBugId() {
@@ -64,10 +47,6 @@ public class BugComment {
 	}
 
 	/**
-	 * @hibernate.many-to-one
-	 * 		column="comment_author"
-	 * 		not-null="true"
-	 * 
 	 * @return Returns the commentAuthor.
 	 */
 	public User getCommentAuthor() {
@@ -82,11 +61,6 @@ public class BugComment {
 	}
 
 	/**
-	 * @hibernate.property
-	 * 		column="comment_date"
-	 * 		type="java.util.Date"
-	 * 		length="255"
-	 * 
 	 * @return Returns the commentDate.
 	 */
 	public Date getCommentDate() {
@@ -102,11 +76,6 @@ public class BugComment {
 
 
 	/**
-	 * @hibernate.property
-	 * 		column="comment_text"
-	 * 		type="java.lang.String"
-	 * 		length="255"
-	 * 
 	 * @return Returns the commentText.
 	 */
 	public String getCommentText() {
@@ -128,10 +97,6 @@ public class BugComment {
 	}
 
 	/**
-	 * @hibernate.property
-	 * 		column="not_for_plain_user"
-	 * 		type="boolean"
-	 * 		not-null="true"
 	 * @return Returns the notForPlainUser.
 	 */
 	public boolean isNotForPlainUser() {

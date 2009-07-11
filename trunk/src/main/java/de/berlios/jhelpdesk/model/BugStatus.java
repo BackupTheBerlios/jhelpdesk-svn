@@ -1,9 +1,6 @@
 package de.berlios.jhelpdesk.model;
 
-import net.sf.hibernate.PersistentEnum;
-
-@SuppressWarnings("deprecation")
-public class BugStatus implements PersistentEnum  {
+public class BugStatus {
 	
 	private final int statusId;
 	private final String statusName;
@@ -19,8 +16,6 @@ public class BugStatus implements PersistentEnum  {
 	
 	// TODO: tymczasowe rozwiazanie...
 	public static final BugStatus UNKNOWN  = new BugStatus( 6, "NIEZNANY", "desc", "228664", true );
-
-	
 	
 	public BugStatus( int id, String name, String desc, String bgColor, boolean active ) {
 		this.isActive = active;

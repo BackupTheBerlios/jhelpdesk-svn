@@ -1,14 +1,11 @@
 package de.berlios.jhelpdesk.model;
 
-import net.sf.hibernate.PersistentEnum;
-
-@SuppressWarnings("deprecation")
-public class EventType implements PersistentEnum {
+public class EventType {
 
 	private final int code;
 	private final String typeName;
 	
-	public EventType( int code, String typeName ) {
+	public EventType(int code, String typeName) {
 		this.code = code;
 		this.typeName = typeName;
 	}
@@ -24,7 +21,7 @@ public class EventType implements PersistentEnum {
 	public static final EventType STATUSCHANGEEVENT   = new EventType( 8, "Zmiana statusu." );
 	public static final EventType COMMENTADDEVENT     = new EventType( 9, "Dodanie komentarza." );
 
-	public int toInt( ) {
+	public int toInt() {
 		return code;
 	}
 	
@@ -32,8 +29,8 @@ public class EventType implements PersistentEnum {
 		return typeName;
 	}
 	
-	public static EventType fromInt( int code ) {
-		switch ( code ) {
+	public static EventType fromInt(int code) {
+		switch (code) {
 			case 1: return CREATEEVENT;
 			case 2: return ASSIGNEVENT;
 			case 3: return REASSIGNEVENT;
@@ -43,7 +40,7 @@ public class EventType implements PersistentEnum {
 			case 7: return PRIORITYCHANGEEVENT;
 			case 8: return STATUSCHANGEEVENT;
 			case 9: return COMMENTADDEVENT;
-			default: throw new RuntimeException( "Nieznany typ zdarzenia." );
+			default: throw new RuntimeException("Nieznany typ zdarzenia.");
 		}
 	}
 	
