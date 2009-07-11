@@ -1,4 +1,4 @@
-package de.berlios.jhelpdesk.filter;
+package de.berlios.jhelpdesk.web.filter;
 
 import java.io.IOException;
 
