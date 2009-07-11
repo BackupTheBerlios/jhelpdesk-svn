@@ -1,9 +1,9 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
 
-<jsp:useBean id="ppChart" class="com.jjhop.helpdesk.web.charts.HDChartPostProcessor"/>
-<jsp:useBean id="pageViews1" class="com.jjhop.helpdesk.web.charts.BugStatsByNotyfier1DatasetProducer" scope="request"/>
-<jsp:useBean id="pageViews2" class="com.jjhop.helpdesk.web.charts.BugStatsByNotyfier2DatasetProducer" scope="request"/>
+<jsp:useBean id="ppChart" class="de.berlios.jhelpdesk.web.charts.HDChartPostProcessor"/>
+<jsp:useBean id="pageViews1" class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier1DatasetProducer" scope="request"/>
+<jsp:useBean id="pageViews2" class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier2DatasetProducer" scope="request"/>
 	
 <cewolf:chart 
 	id="line1" 

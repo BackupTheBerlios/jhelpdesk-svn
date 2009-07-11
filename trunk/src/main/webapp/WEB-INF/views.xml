@@ -4,10 +4,10 @@
 <beans>
 	<bean 
 		id="full-list-pdf"
-		class="com.jjhop.helpdesk.web.pdf.BugsPdfView">
+		class="de.berlios.jhelpdesk.web.pdf.BugsPdfView">
 	</bean>
 	<bean
 		id="one-pdf"
-		class="com.jjhop.helpdesk.web.pdf.BugPdfView">
+		class="de.berlios.jhelpdesk.web.pdf.BugPdfView">
 	</bean>
 </beans>

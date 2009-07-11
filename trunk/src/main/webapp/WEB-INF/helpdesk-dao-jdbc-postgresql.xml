@@ -3,7 +3,7 @@
 <beans>
     <bean 
     	id="hdBugDAO" 
-    	class="com.jjhop.helpdesk.dao.impl.jdbc.BugDAOJdbc">
+    	class="de.berlios.jhelpdesk.dao.impl.jdbc.BugDAOJdbc">
     	<property name="dataSource">
     		<ref bean="dataSource"/>
     	</property>
@@ -11,7 +11,7 @@
     
     <bean
     	id="hdBugDAOJdbc"
-    	class="com.jjhop.helpdesk.dao.impl.jdbc.BugDAOJdbc">
+    	class="de.berlios.jhelpdesk.dao.impl.jdbc.BugDAOJdbc">
     	<property name="dataSource">
     		<ref bean="dataSource"/>
     	</property>
@@ -19,7 +19,7 @@
     
     <bean 
     	id="hdBugCategoryDAO" 
-    	class="com.jjhop.helpdesk.dao.impl.jdbc.BugCategoryDAOJdbc">
+    	class="de.berlios.jhelpdesk.dao.impl.jdbc.BugCategoryDAOJdbc">
     	<property name="dataSource">
     		<ref bean="dataSource"/>
     	</property>
@@ -27,17 +27,17 @@
     
     <bean
     	id="hdBugPriorityDAO"
-    	class="com.jjhop.helpdesk.dao.impl.jdbc.BugPriorityDAOJdbc">
+    	class="de.berlios.jhelpdesk.dao.impl.jdbc.BugPriorityDAOJdbc">
    	</bean>
    	
    	<bean
    		id="hdBugStatusDAO"
-   		class="com.jjhop.helpdesk.dao.impl.jdbc.BugStatusDAOJdbc">
+   		class="de.berlios.jhelpdesk.dao.impl.jdbc.BugStatusDAOJdbc">
 	</bean>
 	
 	<bean
 		id="hdUserDAO"
-		class="com.jjhop.helpdesk.dao.impl.jdbc.UserDAOJdbc">
+		class="de.berlios.jhelpdesk.dao.impl.jdbc.UserDAOJdbc">
     	<property name="dataSource">
     		<ref bean="dataSource"/>
     	</property>
@@ -45,7 +45,7 @@
 	
 	<bean
 		id="informationDAO"
-		class="com.jjhop.helpdesk.dao.impl.jdbc.InformationDAOJdbc">
+		class="de.berlios.jhelpdesk.dao.impl.jdbc.InformationDAOJdbc">
     	<property name="dataSource">
     		<ref bean="dataSource"/>
     	</property>
@@ -53,7 +53,7 @@
 	
 	<bean
 		id="knowledgeDAO"
-		class="com.jjhop.helpdesk.dao.impl.jdbc.KnowledgeDAOJdbc">
+		class="de.berlios.jhelpdesk.dao.impl.jdbc.KnowledgeDAOJdbc">
     	<property name="dataSource">
     		<ref bean="dataSource"/>
     	</property>
@@ -61,7 +61,7 @@
 	
 	<bean
 		id="knowledgeSectionDAO"
-		class="com.jjhop.helpdesk.dao.impl.jdbc.KnowledgeSectionDAOJdbc">
+		class="de.berlios.jhelpdesk.dao.impl.jdbc.KnowledgeSectionDAOJdbc">
     	<property name="dataSource">
     		<ref bean="dataSource"/>
     	</property>
@@ -69,14 +69,14 @@
 	
 	<bean
 		id="eventDAO"
-		class="com.jjhop.helpdesk.dao.impl.jdbc.BugEventDAOJdbc">
+		class="de.berlios.jhelpdesk.dao.impl.jdbc.BugEventDAOJdbc">
     	<property name="dataSource">
     		<ref bean="dataSource"/>
     	</property>
 	</bean>
 	<bean
 		id="setStatsCategoryPAO"
-		class="com.jjhop.helpdesk.pao.plpgsql.StatsCategoryPAOPgSql">
+		class="de.berlios.jhelpdesk.pao.plpgsql.StatsCategoryPAOPgSql">
 		<property name="dataSource">
 			<ref bean="dataSource"/>
 		</property>
@@ -84,7 +84,7 @@
 	
 	<bean
 		id="statsPriorityPAO"
-		class="com.jjhop.helpdesk.pao.plpgsql.StatsPriorityPAOPgSql">
+		class="de.berlios.jhelpdesk.pao.plpgsql.StatsPriorityPAOPgSql">
 		<property name="dataSource">
 			<ref bean="dataSource"/>
 		</property>
@@ -92,7 +92,7 @@
 	
 	<bean
 		id="statsSaviourPAO"
-		class="com.jjhop.helpdesk.pao.plpgsql.StatsSaviourPAOPgSql">
+		class="de.berlios.jhelpdesk.pao.plpgsql.StatsSaviourPAOPgSql">
 		<property name="dataSource">
 			<ref bean="dataSource"/>
 		</property>

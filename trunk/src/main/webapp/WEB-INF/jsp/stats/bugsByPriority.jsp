@@ -1,7 +1,7 @@
-<%@page contentType="text/html;charset=UTF-8" import="com.jjhop.helpdesk.web.charts.BugStatsByPriorityDatasetProducer"%>
+<%@page contentType="text/html;charset=UTF-8" import="de.berlios.jhelpdesk.web.charts.BugStatsByPriorityDatasetProducer"%>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
 
-<jsp:useBean id="ppChart" class="com.jjhop.helpdesk.web.charts.HDChartPostProcessor"/>
+<jsp:useBean id="ppChart" class="de.berlios.jhelpdesk.web.charts.HDChartPostProcessor"/>
 
 <%
 BugStatsByPriorityDatasetProducer currentWeek = ( BugStatsByPriorityDatasetProducer ) request.getAttribute( "currentWeek" );

@@ -1,8 +1,8 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
 
-<jsp:useBean id="ppChart" class="com.jjhop.helpdesk.web.charts.HDChartPostProcessor"/>
-<jsp:useBean id="pageViews" class="com.jjhop.helpdesk.web.charts.BugStatsByStatusDatasetProducer" scope="request"/>
+<jsp:useBean id="ppChart" class="de.berlios.jhelpdesk.web.charts.HDChartPostProcessor"/>
+<jsp:useBean id="pageViews" class="de.berlios.jhelpdesk.web.charts.BugStatsByStatusDatasetProducer" scope="request"/>
 <cewolf:chart 
 	id="line" 
 	title="Zgłoszenia w podziale na bieżący status" 

@@ -3,21 +3,21 @@
 <beans>
 	<bean
 		id="hdUserValidator"
-		class="com.jjhop.helpdesk.web.tools.HDUserValidator">
+		class="de.berlios.jhelpdesk.web.tools.HDUserValidator">
 	</bean>
 	
 	<bean
 		id="hdBugCategoryValidator"
-		class="com.jjhop.helpdesk.web.tools.HDBugCategoryValidator">
+		class="de.berlios.jhelpdesk.web.tools.HDBugCategoryValidator">
 	</bean>
 	
 	<bean
 		id="hdInformationValidator"
-		class="com.jjhop.helpdesk.web.tools.HDInformationValidator">
+		class="de.berlios.jhelpdesk.web.tools.HDInformationValidator">
 	</bean>
 	
 	<bean
 		id="hdKnowledgeSectionValidator"
-		class="com.jjhop.helpdesk.web.tools.HDKnowledgeSectionValidator">
+		class="de.berlios.jhelpdesk.web.tools.HDKnowledgeSectionValidator">
 	</bean>
 </beans>

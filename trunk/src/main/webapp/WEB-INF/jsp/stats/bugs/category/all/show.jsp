@@ -1,11 +1,11 @@
 <%@page contentType="text/html;charset=UTF-8"
-        import="com.jjhop.helpdesk.web.charts.BugStatsByCategoryDatasetProducer,
-            com.jjhop.helpdesk.web.charts.category.Vertical3DChartCategoryDatasetProducer,
-            com.jjhop.helpdesk.web.charts.BugsStatsByCategoryFullDatasetProducer"
+        import="de.berlios.jhelpdesk.web.charts.BugStatsByCategoryDatasetProducer,
+            de.berlios.jhelpdesk.web.charts.category.Vertical3DChartCategoryDatasetProducer,
+            de.berlios.jhelpdesk.web.charts.BugsStatsByCategoryFullDatasetProducer"
 %>
 
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
-<jsp:useBean id="ppChart" class="com.jjhop.helpdesk.web.charts.HDChartPostProcessor"/>
+<jsp:useBean id="ppChart" class="de.berlios.jhelpdesk.web.charts.HDChartPostProcessor"/>
 
 <%
 	BugStatsByCategoryDatasetProducer allTime = ( BugStatsByCategoryDatasetProducer ) request.getAttribute( "allTime" );
