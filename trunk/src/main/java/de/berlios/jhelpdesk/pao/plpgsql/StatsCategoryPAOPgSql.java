@@ -22,7 +22,7 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 	private static Log log = LogFactory.getLog( StatsCategoryPAOPgSql.class );
 	
 	@SuppressWarnings("unchecked")
-	public Map getStatsForCurrentWeek() {
+	public Map<String, Long> getStatsForCurrentWeek() {
 		DateUtil du = new DateUtil();
 		log.info( "du.getWeekStartDate() => " + du.getWeekStartDate() );
 		log.info( "du.getWeekEndDate() => " + du.getWeekEndDate() );
@@ -30,7 +30,7 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 			new StatsCategoryQueryBuilder().getQueryForDates(
 				du.getWeekStartDate(),
 				du.getWeekEndDate() );
-		Map tr = new HashMap();
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByCategoryViewBean> list = 
 			new StatForAllQuery(
 				getDataSource(),
@@ -42,13 +42,13 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map getStatsForCurrentMonth() {
+	public Map<String, Long> getStatsForCurrentMonth() {
 		DateUtil du = new DateUtil();
 		String query = 
 			new StatsCategoryQueryBuilder().getQueryForDates(
 				du.getMonthStartDate(),
 				du.getMonthEndDate() );
-		Map tr = new HashMap();
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByCategoryViewBean> list = 
 			new StatForAllQuery(
 				getDataSource(),
@@ -60,14 +60,14 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map getStatsForThreePreviousMonths() {
+	public Map<String, Long> getStatsForThreePreviousMonths() {
 		DateUtil du = new DateUtil();
 		String query = 
 			new StatsCategoryQueryBuilder().getQueryForDates(
 				du.get3MonthsEarlierDate(),
 				du.getPreviousMonthLastDayDate() );
 		
-		Map tr = new HashMap();
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByCategoryViewBean> list = 
 			new StatForAllQuery(
 				getDataSource(),
@@ -80,13 +80,13 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 
 	// TODO
 	@SuppressWarnings("unchecked")
-	public Map getStatsForLastYear() {
+	public Map<String, Long> getStatsForLastYear() {
 		DateUtil du = new DateUtil();
 		String query = 
 			new StatsCategoryQueryBuilder().getQueryForDates(
 				du.getPreviousMonthLastDayDate(),
 				du.getMonthEndDate() );
-		Map tr = new HashMap();
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByCategoryViewBean> list = 
 			new StatForAllQuery(
 				getDataSource(),
@@ -98,8 +98,8 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map getStatsForAll() {
-		Map tr = new HashMap();
+	public Map<String, Long> getStatsForAll() {
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByCategoryViewBean> list =
 			new StatForAllQuery( 
 				getDataSource(),

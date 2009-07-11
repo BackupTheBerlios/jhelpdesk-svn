@@ -3,15 +3,13 @@ package de.berlios.jhelpdesk.web.manager.knowledge.section;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 
 public class ShowAllController implements Controller {
-	private static Log log = LogFactory.getLog(  ShowAllController.class );
+//	private static Log log = LogFactory.getLog(  ShowAllController.class );
 	private KnowledgeSectionDAO sectionDAO;
 
 	public ModelAndView handleRequest( HttpServletRequest request, HttpServletResponse response ) throws Exception {

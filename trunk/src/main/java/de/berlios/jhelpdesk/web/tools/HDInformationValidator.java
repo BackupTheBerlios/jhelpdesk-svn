@@ -8,12 +8,12 @@ import de.berlios.jhelpdesk.model.Information;
 
 public class HDInformationValidator implements Validator {
 
-	public boolean supports( Class clazz ) {
-		return Information.class.equals( clazz );
+	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { // implementujemy Validator.supports(Class)
+		return Information.class.equals(clazz);
 	}
 
-	public void validate( Object information, Errors errors ) {
-		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "title", "errors.information.title" );
-		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "lead",  "errors.information.lead" );
+	public void validate(Object information, Errors errors) {
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "errors.information.title");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lead", "errors.information.lead");
 	}
 }

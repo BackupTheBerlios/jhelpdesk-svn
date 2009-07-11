@@ -21,68 +21,69 @@ import de.berlios.jhelpdesk.pao.ifc.IStatsCategory;
 import de.berlios.jhelpdesk.web.charts.BugStatsByCategoryDatasetProducer;
 import de.berlios.jhelpdesk.web.charts.BugsStatsByCategoryFullDatasetProducer;
 import de.berlios.jhelpdesk.web.charts.category.Vertical3DChartCategoryDatasetProducer;
-       
+
 public class BugsByCategoryViewController implements Controller {
-	private static Log log = LogFactory.getLog( BugsByCategoryViewController.class );
+	
+	private static Log log = LogFactory.getLog(BugsByCategoryViewController.class);
 	private IStatsCategory statsPAO;
 
-	public void setStatsPAO( IStatsCategory statsPAO ) {
+	public void setStatsPAO(IStatsCategory statsPAO) {
 		this.statsPAO = statsPAO;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public ModelAndView handleRequest( HttpServletRequest request, HttpServletResponse response ) throws Exception {
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		log.debug("handleRequest()");
 		ModelAndView mav = new ModelAndView("stats/bugsByCategory");
-		
-		TreeMap currentWeekMap  = new TreeMap( statsPAO.getStatsForCurrentWeek() );
-		TreeMap currentMonthMap = new TreeMap( statsPAO.getStatsForCurrentMonth() );
-		TreeMap threeMonthsMap  = new TreeMap( statsPAO.getStatsForThreePreviousMonths() );
-		Map allMap = rebuildMap( statsPAO.getStatsForAll(), 9 );
-			
-		mav.addObject( "currentWeekData", currentWeekMap );
-		mav.addObject( "currentMonthData", currentMonthMap );
-		mav.addObject( "threeMonthsData", threeMonthsMap );
-		mav.addObject( "allData", allMap );
-				
-		mav.addObject( "currentWeek", new BugStatsByCategoryDatasetProducer( currentWeekMap ) );
-		mav.addObject( "currentWeekDayByDayData", new Vertical3DChartCategoryDatasetProducer( currentWeekMap ) );
-		
-		mav.addObject( "currentMonth", new BugStatsByCategoryDatasetProducer( currentMonthMap ) );
-		mav.addObject( "currentMonthWeekByWeekData", new Vertical3DChartCategoryDatasetProducer( currentWeekMap ) );
-		
-		mav.addObject( "threeMonths", new BugStatsByCategoryDatasetProducer( threeMonthsMap ) );
-		mav.addObject( "threeMonthsMonthByMonth", new Vertical3DChartCategoryDatasetProducer( threeMonthsMap ) );
-		
-		mav.addObject( "allTime", new BugStatsByCategoryDatasetProducer( allMap ) );
-		mav.addObject( "allTimeFull", new BugsStatsByCategoryFullDatasetProducer( allMap) );
+
+		TreeMap currentWeekMap = new TreeMap(statsPAO.getStatsForCurrentWeek());
+		TreeMap currentMonthMap = new TreeMap(statsPAO.getStatsForCurrentMonth());
+		TreeMap threeMonthsMap = new TreeMap(statsPAO.getStatsForThreePreviousMonths());
+		Map<String, Long> allMap = rebuildMap(statsPAO.getStatsForAll(), 9);
+
+		mav.addObject("currentWeekData", currentWeekMap);
+		mav.addObject("currentMonthData", currentMonthMap);
+		mav.addObject("threeMonthsData", threeMonthsMap);
+		mav.addObject("allData", allMap);
+
+		mav.addObject("currentWeek", new BugStatsByCategoryDatasetProducer(currentWeekMap));
+		mav.addObject("currentWeekDayByDayData", new Vertical3DChartCategoryDatasetProducer(currentWeekMap));
+
+		mav.addObject("currentMonth", new BugStatsByCategoryDatasetProducer(currentMonthMap));
+		mav.addObject("currentMonthWeekByWeekData", new Vertical3DChartCategoryDatasetProducer(currentWeekMap));
+
+		mav.addObject("threeMonths", new BugStatsByCategoryDatasetProducer(threeMonthsMap));
+		mav.addObject("threeMonthsMonthByMonth", new Vertical3DChartCategoryDatasetProducer(threeMonthsMap));
+
+		mav.addObject("allTime", new BugStatsByCategoryDatasetProducer(allMap));
+		mav.addObject("allTimeFull", new BugsStatsByCategoryFullDatasetProducer(allMap));
 		return mav;
 	}
-	
-	private static Map rebuildMap( Map<String, Long> entryMap, int maxSize ) {
+
+	private static Map<String, Long> rebuildMap(Map<String, Long> entryMap, int maxSize) {
 		Map<String, Long> newMapToReturn = new LinkedHashMap<String, Long>();
-		
-		SortedSet<Entry<String,Long>> ss = new TreeSet<Entry<String,Long>>( new CustomComparator() );
-		ss.addAll( entryMap.entrySet() );
+
+		SortedSet<Entry<String, Long>> ss = new TreeSet<Entry<String, Long>>(new CustomComparator());
+		ss.addAll(entryMap.entrySet());
 		int count = 0;
 		long otherSum = 0;
-		
-		for( Iterator<Entry<String,Long>> it = ss.iterator(); it.hasNext(); count++ ) {
-			Entry<String,Long> entry = it.next();
-			if( count < maxSize )
-				newMapToReturn.put( entry.getKey(), entry.getValue() );
+
+		for (Iterator<Entry<String, Long>> it = ss.iterator(); it.hasNext(); count++) {
+			Entry<String, Long> entry = it.next();
+			if (count < maxSize)
+				newMapToReturn.put(entry.getKey(), entry.getValue());
 			else
 				otherSum += entry.getValue();
 		}
-		if( count > maxSize )
-			newMapToReturn.put( "Pozostałe...", otherSum );
-		
+		if (count > maxSize)
+			newMapToReturn.put("Pozostałe...", otherSum);
+
 		return newMapToReturn;
 	}
-	
+
 	private static class CustomComparator implements Comparator<Entry<String, Long>> {
-		public int compare( Entry<String, Long> o1, Entry<String, Long> o2 ) {
-			return o2.getValue().compareTo( o1.getValue() );
+		public int compare(Entry<String, Long> o1, Entry<String, Long> o2) {
+			return o2.getValue().compareTo(o1.getValue());
 		}
 	}
 }

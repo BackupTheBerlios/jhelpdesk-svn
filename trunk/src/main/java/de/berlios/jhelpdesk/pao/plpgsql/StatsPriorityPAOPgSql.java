@@ -22,7 +22,7 @@ public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements IStatsPrior
 	private static Log log = LogFactory.getLog( StatsPriorityPAOPgSql.class );
 	
 	@SuppressWarnings("unchecked")
-	public Map getStatsForCurrentWeek() {
+	public Map<String, Long> getStatsForCurrentWeek() {
 		DateUtil du = new DateUtil();
 		log.info( "du.getWeekStartDate() => " + du.getWeekStartDate() );
 		log.info( "du.getWeekEndDate() => " + du.getWeekEndDate() );
@@ -30,7 +30,7 @@ public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements IStatsPrior
 			new StatsPriorityQueryBuilder().getQueryForDates(
 				du.getWeekStartDate(),
 				du.getWeekEndDate() );
-		Map tr = new HashMap();
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByPriorityViewBean> list = 
 			new PriorityStatForAllQuery(
 				getDataSource(),
@@ -42,13 +42,13 @@ public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements IStatsPrior
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map getStatsForCurrentMonth() {
+	public Map<String, Long> getStatsForCurrentMonth() {
 		DateUtil du = new DateUtil();
 		String query = 
 			new StatsPriorityQueryBuilder().getQueryForDates(
 				du.getMonthStartDate(),
 				du.getMonthEndDate() );
-		Map tr = new HashMap();
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByPriorityViewBean> list = 
 			new PriorityStatForAllQuery(
 				getDataSource(),
@@ -60,14 +60,14 @@ public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements IStatsPrior
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map getStatsForThreePreviousMonths() {
+	public Map<String, Long> getStatsForThreePreviousMonths() {
 		DateUtil du = new DateUtil();
 		String query = 
 			new StatsPriorityQueryBuilder().getQueryForDates(
 				du.get3MonthsEarlierDate(),
 				du.getPreviousMonthLastDayDate() );
 		
-		Map tr = new HashMap();
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByPriorityViewBean> list = 
 			new PriorityStatForAllQuery(
 				getDataSource(),
@@ -78,14 +78,14 @@ public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements IStatsPrior
 		return tr;
 	}
 
-	public Map getStatsForLastYear() {
+	public Map<String, Long> getStatsForLastYear() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public Map getStatsForAll() {
-		Map tr = new HashMap();
+		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByPriorityViewBean> list =
 			new PriorityStatForAllQuery(
 				getDataSource(),

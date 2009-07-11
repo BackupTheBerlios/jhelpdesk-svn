@@ -8,12 +8,12 @@ import de.berlios.jhelpdesk.model.BugCategory;
 
 public class HDBugCategoryValidator implements Validator {
 
-	public boolean supports( Class clazz ) {
-		return BugCategory.class.equals( clazz );
+	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { // implementujemy Validator.supports(Class)
+		return BugCategory.class.equals(clazz);
 	}
 
-	public void validate( Object category, Errors errors ) {
-		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "categoryName", "errors.category.categoryName" );
-		ValidationUtils.rejectIfEmptyOrWhitespace( errors, "categoryDesc", "errors.category.categoryDesc" );
+	public void validate(Object category, Errors errors) {
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "categoryName", "errors.category.categoryName");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "categoryDesc", "errors.category.categoryDesc");
 	}
 }
