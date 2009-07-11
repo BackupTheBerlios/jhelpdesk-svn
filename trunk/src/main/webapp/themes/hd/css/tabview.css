@@ -1,0 +1,116 @@
+.TabView {
+margin-top: 4px;
+}
+.TabView .Tabs {
+width: 100%;
+background: #F3F3F3;
+}
+.TabView .Tabs:after {
+content: "";
+display: block;
+height: 0;
+clear: both;
+}
+.TabView .Tabs a {
+float: left;
+display: block;
+text-align: center;
+border-right: 1px solid #f3f3f3;
+background: #f3f3f3 url(../i/chartTabBgLeftU.jpg) no-repeat 0 0;
+text-decoration: none;
+font-family: "Trebuchet MS", Tahoma, sans-serif;
+font-weight: bold;
+font-size: 13px;
+color: #3C496C;
+}
+.TabView .Tabs a.Active {
+background: #f3f3f3 url(../i/chartTabBgLeft.jpg) no-repeat 0 0;
+color: #000000;
+}
+.TabView .Tabs a span {
+display: block;
+padding: 4px 12px 5px;
+background: transparent url(../i/chartTabBgRightU.jpg) no-repeat 100% 0;
+}
+.TabView .Tabs a.Active span {
+background: transparent url(../i/chartTabBgRight.jpg) no-repeat 100% 0;
+color: #000000;
+}
+.TabView .Tabs a:hover,
+.TabView .Tabs a.Active {
+color: #000000;
+}
+.TabView .contenttop {
+background: #D0DBFB url(../i/chartTabBgRight.jpg) no-repeat 100% 0;
+}
+.bypriority .TabView .contenttop {
+background: #F3F3F3 url(../i/hd-contenttop.jpg) no-repeat 0 0;
+}
+.TabView .Pages {
+overflow: hidden;
+height: 280px;
+background: #D0DBFB;
+}
+* html .TabView .Page {
+width: 940px;
+}
+.chartcontainer .chartbox {
+margin-bottom: 20px;
+}
+.chartcontainer .chart {
+width: 320px;
+background: #eee;
+text-align: center;
+vertical-align: top;
+}
+.chartcontainer .data {
+background: #D0DBFB;
+vertical-align: top;
+}
+* html .chartcontainer .data {
+width: 565px;
+}
+.chartcontainer td.data {
+padding: 0;
+}
+.chartcontainer td {
+font-size: 11px;
+}
+#currentWeekTabView .Pages .period td {
+width: 5%;
+}
+#currentMonthTabView .Pages .period td {
+width: 10%;
+}
+#prevThreeMonthsTabView .Pages .period td {
+width: 10%;
+}
+.statsdata {
+}
+.statsdata .period th {
+background: #B15674;
+font-weight: normal;
+color: #fff;
+}
+.statsdata .data td {
+text-align: right;
+}
+.statsdata td.scount {
+width: 30px;
+background: #DDABBE;
+}
+.statsdata td.entrykey {
+text-align: left;
+}
+.statsdata td.entryvalue {
+width: 50px;
+background: #DDABBE;
+}
+
+#currentWeekChart,
+#currentMonthChart,
+#currentThreeMonthsChart,
+#currentAllChart {
+margin-top: 4px;
+}
+

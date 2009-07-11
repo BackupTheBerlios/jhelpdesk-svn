@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+	"http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>0.1</tlib-version>
+	<jsp-version>1.1</jsp-version>
+	<short-name>jHelpDesk Utils TagLib</short-name>
+	<uri>http://jhelpdesk.berlios.de/taglib/attr-replacing.tld</uri>
+	<tag>
+		<name>rewrite</name>
+		<tag-class>com.jjhop.helpdesk.web.taglib.util.AttrReplacingTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>paramGetName</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>paramReturnName</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+	<tag>
+		<name>pdfurl</name>
+		<tag-class>com.jjhop.helpdesk.web.taglib.util.PDFLinkTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>url</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+</taglib>

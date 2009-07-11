@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="loginController" class="com.jjhop.helpdesk.web.LoginController" singleton="false">
+		<property name="commandName"><value>loginForm</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.UserLoginForm</value></property>
+		<property name="formView"><value>login</value></property>
+		<property name="successView"><value>/desktop/main.html</value></property>
+		<property name="hdUserDAO"><ref bean="hdUserDAO"/></property>
+	</bean>
+	
+	<bean 
+		id="logoutController" 
+		class="com.jjhop.helpdesk.web.LogoutController"
+	/>
+	
+	<bean
+		id="desktopViewCtrl"
+		class="com.jjhop.helpdesk.web.desktop.DesktopViewController">
+		<property name="bugDAO"><ref bean="hdBugDAOJdbc"/></property>
+		<property name="eventDAO"><ref bean="eventDAO"/></property>
+		<property name="knowledgeDAO"><ref bean="knowledgeDAO"/></property>
+		<property name="informationDAO"><ref bean="informationDAO"/></property>
+	</bean>
+	
+	<bean
+		id="bugsNotifiedByMeViewController"
+		class="com.jjhop.helpdesk.web.bugkiller.BugsNotifiedByMeViewController"
+		singleton="false">
+		<property name="commandName"><value>filterForm</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.ShowBugsNotifiedByMeFilterForm</value></property>
+		
+		<property name="formView"><value>bugsNotifiedByMeList</value></property>
+		<property name="successView"><value>bugsNotifiedByMeList.html</value></property>
+		
+		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
+		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+		<property name="bugStatusDAO"><ref bean="hdBugStatusDAO"/></property>
+	</bean>
+	
+	<bean
+		id="bugsAssignedToMeViewController"
+		class="com.jjhop.helpdesk.web.bugkiller.BugsAssignedToMeViewController"
+		singleton="false">
+		<property name="commandName"><value>filterForm</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.ShowBugsAssignedToMeFilterForm</value></property>
+		<property name="formView"><value>bugsAssignedToMeList</value></property>
+		<!--<property name="successView"><value>showNewBugs.html</value></property>-->
+		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
+		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
+		<property name="statusDAO"><ref bean="hdBugStatusDAO"/></property>
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+	</bean>
+	
+	<bean
+		id="bugsNonresolvedAssignedToMeViewController"
+		class="com.jjhop.helpdesk.web.bugkiller.BugsNonresolvedAssignedToMeViewController"
+		singleton="false">
+		<property name="formView"><value>bugsNonresolvedAssignedToMeList</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.ShowBugsNonresolvedAssignedToMeFilterForm</value></property>
+	</bean>
+	
+	<bean
+		id="bugsNonresolvedViewController"
+		class="com.jjhop.helpdesk.web.bugkiller.BugsNonresolvedViewController"
+		singleton="false">
+		<property name="formView"><value>bugsNonresolvedList</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.ShowBugsNonresolvedFilterForm</value></property>
+		
+		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
+		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
+		<property name="bugStatusDAO"><ref bean="hdBugStatusDAO"/></property>
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+	</bean>
+	
+	<bean 
+		id="killerNewBugsViewController" 
+		class="com.jjhop.helpdesk.web.bugkiller.BugsNewViewController" 
+		singleton="false">
+		<property name="commandName"><value>filterForm</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.ShowBugsNewFilterForm</value></property>
+		<property name="formView"><value>bugsNewList</value></property>
+		<!--<property name="successView"><value>showNewBugs.html</value></property>-->
+		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
+		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+	</bean>
+	
+	
+	<bean 
+		id="killerBugsViewController" 
+		class="com.jjhop.helpdesk.web.bugkiller.BugsViewController" 
+		singleton="false">
+		<property name="commandName"><value>filterForm</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.ShowBugsFilterForm</value></property>
+		<property name="formView"><value>bugsList</value></property>
+		<!--<property name="successView"><value>showBugs.html</value></property>-->
+		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
+		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
+		<property name="bugStatusDAO"><ref bean="hdBugStatusDAO"/></property>
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+	</bean>
+
+	<bean id="killerBugViewController" class="com.jjhop.helpdesk.web.bugkiller.BugViewController" singleton="false">
+		<property name="bugDao">
+			<ref bean="hdBugDAO"/>
+		</property>
+		<property name="fileRepositoryPath"><value type="java.lang.String">c:\\helpdesk\\files\\</value></property>
+	</bean>
+	
+	<bean id="killerBugEditController" class="com.jjhop.helpdesk.web.bugkiller.BugWizardFormController" singleton="false">
+		<property name="commandName"><value>hdbug</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.model.Bug</value></property>
+		<property name="pages">
+			<list>
+				<value>bugWizard/step1</value>
+				<value>bugWizard/step2</value>
+				<value>bugWizard/step3</value>
+				<value>bugWizard/step4</value>
+				<value>bugWizard/summary</value>
+			</list>
+		</property>		
+		<property name="bugDao"><ref bean="hdBugDAO"/></property>
+		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
+		<property name="bugStatusDAO"><ref bean="hdBugStatusDAO"/></property>
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+		<property name="fileRepositoryPath"><value type="java.lang.String">c:\\helpdesk\\files\\</value></property>
+	</bean>
+	
+	
+	<!-- preferences -->
+	<bean
+		id="preferencesLookAndFeelCtrl"
+		class="com.jjhop.helpdesk.web.preferences.LookAndFeelEditController" singleton="false">
+		<property name="commandName"><value>preferences</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.LookAndFeelForm</value></property>
+		<property name="formView"><value>preferences/lookAndFeel</value></property>
+		<property name="successView"><value>preferences/lookAndFeel</value></property>
+		<!-- jakies DAO -->
+	</bean>
+	
+	<bean
+		id="preferencesDisplayListsCtrl"
+		class="com.jjhop.helpdesk.web.preferences.DisplayListsEditController" singleton="false">
+		<property name="commandName"><value>preferences</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.DisplayListsForm</value></property>
+		<property name="formView"><value>preferences/displayLists</value></property>
+		<property name="successView"><value>preferences/displayLists</value></property>
+	</bean>
+	
+	<bean
+		id="preferencesEventNotifyCtrl"
+		class="com.jjhop.helpdesk.web.preferences.NotifyEditController">
+		<property name="commandName"><value>preferences</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.EventNotifyForm</value></property>
+		<property name="formView"><value>preferences/eventNotify</value></property>
+		<property name="successView"><value>preferences/eventNotify</value></property>
+	</bean>
+	
+	<bean
+		id="preferencesPersonalDataCtrl"
+		class="com.jjhop.helpdesk.web.preferences.PersonalDataEditController">
+		<property name="commandName"><value>preferences</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.web.form.PersonalDataForm</value></property>
+		<property name="formView"><value>preferences/personalData</value></property>
+		<property name="successView"><value>preferences/personalData</value></property>
+	</bean>
+	<!-- end preferences -->
+		
+	<bean id="managerUserShowAllCtrl" class="com.jjhop.helpdesk.web.manager.users.ShowAllUsersController">
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+	</bean>
+	
+	<bean id="managerUserShowOneCtrl" class="com.jjhop.helpdesk.web.manager.users.ShowUserController">
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+	</bean>
+	
+	<bean id="managerUserEditCtrl" class="com.jjhop.helpdesk.web.manager.users.EditUserController">
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+		<property name="commandName"><value>user</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.model.User</value></property>
+		<property name="formView"><value>manager/users/edit</value></property>
+		<property name="validator"><ref bean="hdUserValidator"/></property>
+		<property name="successView"><value>manager/users/show</value></property>
+	</bean>
+	
+	<bean id="managerUserDelCtrl" class="com.jjhop.helpdesk.web.manager.users.DeleteUserController">
+		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+	</bean>
+	
+	<bean id="managerBugCategoryShowAllCtrl" class="com.jjhop.helpdesk.web.manager.bugcategory.ShowAllController">
+		<property name="categoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+	</bean>
+	
+	<bean id="managerBugCategoryShowOneCtrl" class="com.jjhop.helpdesk.web.manager.bugcategory.ShowCategoryController">
+		<property name="categoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+	</bean>
+	
+	<bean id="managerBugCategoryEditCtrl" class="com.jjhop.helpdesk.web.manager.bugcategory.EditCategoryController">
+		<property name="categoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+		<property name="commandName"><value>category</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.model.BugCategory</value></property>
+		<property name="formView"><value>manager/category/edit</value></property>
+		<property name="successView"><value>manager/category/showAll</value></property>
+		<property name="validator"><ref bean="hdBugCategoryValidator"/></property>
+	</bean>
+
+	<bean
+		id="managerBugCategoryDelCtrl"
+		class="com.jjhop.helpdesk.web.manager.bugcategory.DeleteCategoryController">
+		<property name="categoryDAO"><ref bean="hdBugCategoryDAO"/></property>
+	</bean>
+	<bean
+		id="managerBugCategoryUpDownCtrl"
+		class="com.jjhop.helpdesk.web.manager.bugcategory.MoveUpDownCategoryController">
+		<property name="categoryDAO">
+			<ref bean="hdBugCategoryDAO"/>
+		</property>
+		<property name="methodNameResolver">
+			<ref bean="managerBugCategoryUpDownCtrlResolver"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="managerBugCategoryUpDownCtrlResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/manage/category/up.html">moveUp</prop>
+				<prop key="/manage/category/down.html">moveDown</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- zarzadzanie informacjami -->
+	<bean
+		id="managerShowAllInformationsCtrl"
+		class="com.jjhop.helpdesk.web.manager.information.ShowAllInformationsController">
+		<property name="informationDAO"><ref bean="informationDAO"/></property>
+	</bean>
+	
+	<bean
+		id="managerShowInformationCtrl"
+		class="com.jjhop.helpdesk.web.manager.information.ShowInformationController">
+		<property name="informationDAO"><ref bean="informationDAO"/></property>
+	</bean>
+	
+	<bean
+		id="managerDeleteInformationCtrl"
+		class="com.jjhop.helpdesk.web.manager.information.DeleteInformationController">
+		<property name="informationDAO"><ref bean="informationDAO"/></property>
+	</bean>
+	
+	<bean
+		id="managerEditInformationCtrl"
+		class="com.jjhop.helpdesk.web.manager.information.EditInformationController">
+		<property name="informationDAO"><ref bean="informationDAO"/></property>
+		<property name="commandName"><value>information</value></property>
+		<property name="formView"><value>manager/information/edit</value></property>
+		<property name="validator"><ref bean="hdInformationValidator"/></property>
+	</bean>
+		
+	<!-- zarzadzanie sekcjami w bazie wiedzy -->
+	<bean
+		id="managerKnowledgeSectionShowAllCtrl"
+		class="com.jjhop.helpdesk.web.manager.knowledge.section.ShowAllController">
+		<property name="sectionDAO">
+			<ref bean="knowledgeSectionDAO"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="managerKnowledgeSectionShowOneCtrl"
+		class="com.jjhop.helpdesk.web.manager.knowledge.section.ShowOneSectionController">
+		<property name="sectionDAO">
+			<ref bean="knowledgeSectionDAO"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="managerKnowledgeSectionEditCtrl"
+		class="com.jjhop.helpdesk.web.manager.knowledge.section.EditSectionController">
+		<property name="sectionDAO"><ref bean="knowledgeSectionDAO"/></property>
+		<property name="commandName"><value>section</value></property>
+		<property name="commandClass"><value>com.jjhop.helpdesk.model.KnowledgeSection</value></property>
+		<property name="formView"><value>manager/knowledge/section/edit</value></property>
+		<property name="validator"><ref bean="hdKnowledgeSectionValidator"/></property>
+	</bean>
+	
+	<bean
+		id="managerKnowledgeSectionDelCtrl"
+		class="com.jjhop.helpdesk.web.manager.knowledge.section.DelSectionController">
+		<property name="sectionDAO">
+			<ref bean="knowledgeSectionDAO"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="managerKnowledgeSectionUpDownCtrl"
+		class="com.jjhop.helpdesk.web.manager.knowledge.section.MoveUpDownSectionController">
+		<property name="methodNameResolver">
+			<ref bean="managerKnowledgeSectionUpDownCtrlResolver"/>
+		</property>
+		<property name="sectionDAO">
+			<ref bean="knowledgeSectionDAO"/>
+		</property>
+	</bean>
+	
+	<bean 
+		id="managerKnowledgeSectionUpDownCtrlResolver" 
+		class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/manage/knowledge/section/up.html">moveUp</prop>
+				<prop key="/manage/knowledge/section/down.html">moveDown</prop>
+			</props>
+		</property>
+	</bean>
+		
+	<!-- zarzadzanie artykulami w bazie wiedzy -->
+	<bean
+		id="managerKnowledgeArticleShowAll"
+		class="com.jjhop.helpdesk.web.manager.knowledge.article.ShowAllController">
+		<property name="knowledgeDAO"><ref bean="knowledgeDAO"/></property>
+	</bean>
+	
+	<bean
+		id="managerKnowledgeArticleEditCtrl"
+		class="com.jjhop.helpdesk.web.manager.knowledge.article.EditKnowledgeController">
+		<property name="knowledgeDAO"><ref bean="knowledgeDAO"/></property>
+	</bean>
+	
+	<bean
+		id="managerKnowledgeArticleDelCtrl"
+		class="com.jjhop.helpdesk.web.manager.knowledge.article.DelKnowledgeController">
+		<property name="knowledgeDAO"><ref bean="knowledgeDAO"/></property>
+	</bean>
+		
+	<!-- statystyki -->
+	<bean id="bugsByCategoryStatsViewController" class="com.jjhop.helpdesk.web.stats.BugsByCategoryViewController">
+		<property name="statsPAO">
+			<ref bean="setStatsCategoryPAO"/>
+		</property>
+	</bean>
+	
+	<bean 
+		id="statsMyViewCtrl"
+		class="com.jjhop.helpdesk.web.stats.StatsForUserViewController">
+		<property name="hdUserDAO">
+			<ref bean="hdUserDAO"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="bugsByPriorityStatsViewController"
+		class="com.jjhop.helpdesk.web.stats.BugsByPriorityViewController">
+		<property name="statsPAO">
+			<ref bean="statsPriorityPAO"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="bugsByNotyfierStatsViewController"
+		class="com.jjhop.helpdesk.web.stats.BugsByNotyfierViewController"
+		singleton="false">
+		<property name="hdUserDAO">
+			<ref bean="hdUserDAO"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="showSavioursViewCtrl"
+		class="com.jjhop.helpdesk.web.stats.saviour.ShowSavioursViewCtrl"
+		singleton="false">
+		<property name="hdUserDAO">
+			<ref bean="hdUserDAO"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="statsSaviourViewCtrl"
+		class="com.jjhop.helpdesk.web.stats.saviour.StatsSaviourViewCtrl"
+		singleton="false">
+		<property name="statsPAO">
+			<ref bean="statsSaviourPAO"/>
+		</property>
+	</bean>
+	
+	<!-- menu pomoc -->
+	<bean
+		id="helpAboutViewController"
+		class="com.jjhop.helpdesk.web.help.AboutViewController"
+		singleton="true">
+	</bean>
+	<bean
+		id="helpIndexViewController"
+		class="com.jjhop.helpdesk.web.help.IndexViewController"
+		singleton="true">
+	</bean>
+	<bean
+		id="helpBaseViewController"
+		class="com.jjhop.helpdesk.web.help.BaseViewController"
+		singleton="false">
+		<property name="knowledgeDAO">
+			<ref bean="knowledgeDAO"/>
+		</property>
+		<property name="knowledgeSectionDAO">
+			<ref bean="knowledgeSectionDAO"/>
+		</property>
+	</bean>
+	
+	<!--  inne beany widoku -->	
+	<bean
+		id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>message</value>
+		</property>
+	</bean>
+	
+	<bean
+		id="tilesConfigurator"
+		class="org.springframework.web.servlet.view.tiles.TilesConfigurer">
+		<property name="factoryClass">
+			<value>org.apache.struts.tiles.xmlDefinition.I18nFactorySet</value>
+		</property>
+		<property name="definitions">
+			<value>/WEB-INF/tiles-config.xml</value>
+		</property>
+	</bean>
+	
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.tiles.TilesJstlView</value>
+		</property>
+		<property name="requestContextAttribute">
+			<value>rc</value>
+		</property>
+	</bean>
+	
+	<bean 
+		id="pdfViewResolver" 
+		class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="order">
+			<value>1</value>
+		</property>
+		<property name="location" value="/WEB-INF/views.xml"/>
+	</bean>
+	
+	<bean 
+		id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+	/>
+</beans>

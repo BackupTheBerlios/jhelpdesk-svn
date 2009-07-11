@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<!-- akcje zwiazane z logowaniem -->
+				<prop key="/login.html">loginController</prop>
+				<prop key="/logout.html">logoutController</prop>
+				
+				<prop key="/desktop/main.html">desktopViewCtrl</prop>
+				
+				<!-- akcje zwiazane z bledami -->
+				<prop key="/showBugs.html">killerBugsViewController</prop> <!-- lista bledow              -->
+				<prop key="/showNewBugs.html">killerNewBugsViewController</prop> <!-- lista nowych bledow -->
+				<prop key="/showBugsNotifiedByMe.html">bugsNotifiedByMeViewController</prop> <!-- lista bledow zgłoszonych przeze mnie -->
+				<prop key="/showBugsAssignedToMe.html">bugsAssignedToMeViewController</prop> <!-- lista bledow przypisanych do mnie -->
+				<prop key="/showNonresolvedBugsAssignedToMe.html">bugsNonresolvedAssignedToMeViewController</prop><!-- nierozwiązane i zgłoszone przez mnie -->
+				<prop key="/showNonresolvedBugs.html">bugsNonresolvedViewController</prop>
+				<prop key="/bugDetails.html">killerBugViewController</prop> <!-- szczegoly bledu          -->
+				<prop key="/newBug.html">killerBugEditController</prop>   <!-- dodanie/edycja bledu      -->
+				<!--<prop key="/removeBug.html"></prop>-->
+				<!--<prop key="/stats/bugs/resolvingTime.html"></prop>-->
+				<prop key="/stats/bugs/category.html">bugsByCategoryStatsViewController</prop>
+				<prop key="/stats/bugs/priority.html">bugsByPriorityStatsViewController</prop>
+				<prop key="/stats/bugs/notifyier.html">bugsByNotyfierStatsViewController</prop>
+				
+				<prop key="/stats/saviour/showAll.html">showSavioursViewCtrl</prop>
+				<prop key="/stats/saviour/stats.html">statsSaviourViewCtrl</prop>
+				
+				<prop key="/stats/myStats.html">statsMyViewCtrl</prop>
+				
+				<prop key="/preferences/lookAndFeel.html">preferencesLookAndFeelCtrl</prop>
+				<prop key="/preferences/displayLists.html">preferencesDisplayListsCtrl</prop>
+				<prop key="/preferences/eventNotify.html">preferencesEventNotifyCtrl</prop>
+				<prop key="/preferences/personalData.html">preferencesPersonalDataCtrl</prop>
+				
+				<!-- akcje zwiazane z zarzadzaniem uzytkownikami i uprawnieniami -->
+				<prop key="/manage/users/showAll.html">managerUserShowAllCtrl</prop>   <!-- lista uzytkownikow         -->
+				<prop key="/manage/users/show.html">managerUserShowOneCtrl</prop> <!-- szczegoly uzytkownika      -->
+				<prop key="/manage/users/edit.html">managerUserEditCtrl</prop>    <!-- dodanie/edycja uzytkownika -->
+				<prop key="/manage/users/new.html">managerUserEditCtrl</prop>    <!-- dodanie/edycja uzytkownika -->
+				<prop key="/manage/users/remove.html">managerUserDelCtrl</prop>  <!-- usuniecie uzytkownika      -->
+
+				<!-- zarzadzanie kategoriami zgloszen -->
+				<prop key="/manage/category/showAll.html">managerBugCategoryShowAllCtrl</prop>
+				<prop key="/manage/category/show.html">managerBugCategoryShowOneCtrl</prop>
+				<prop key="/manage/category/edit.html">managerBugCategoryEditCtrl</prop>
+				<prop key="/manage/category/new.html">managerBugCategoryEditCtrl</prop>
+				<prop key="/manage/category/remove.html">managerBugCategoryDelCtrl</prop>
+				<prop key="/manage/category/up.html">managerBugCategoryUpDownCtrl</prop>
+				<prop key="/manage/category/down.html">managerBugCategoryUpDownCtrl</prop>
+				
+				<!-- zarzadzanie informacjami -->
+				<prop key="/manage/information/showAll.html">managerShowAllInformationsCtrl</prop>
+				<prop key="/manage/information/show.html">managerShowInformationCtrl</prop>
+				<prop key="/manage/information/edit.html">managerEditInformationCtrl</prop>
+				<prop key="/manage/information/new.html">managerEditInformationCtrl</prop>
+				<prop key="/manage/information/remove.html">managerDeleteInformationCtrl</prop>
+
+				<!-- zarzadzanie baza wiedzy -->
+				<prop key="/manage/knowledge/section/showAll.html">managerKnowledgeSectionShowAllCtrl</prop>
+				<prop key="/manage/knowledge/section/show.html">managerKnowledgeSectionShowOneCtrl</prop>
+				<prop key="/manage/knowledge/section/new.html">managerKnowledgeSectionEditCtrl</prop>
+				<prop key="/manage/knowledge/section/edit.html">managerKnowledgeSectionEditCtrl</prop>
+				<prop key="/manage/knowledge/section/remove.html">managerKnowledgeSectionDelCtrl</prop>
+				<prop key="/manage/knowledge/section/up.html">managerKnowledgeSectionUpDownCtrl</prop>
+				<prop key="/manage/knowledge/section/down.html">managerKnowledgeSectionUpDownCtrl</prop>
+
+				<prop key="/manage/knowledge/article/showAll.html">managerKnowledgeArticleShowAll</prop>
+				<!--
+				<prop key="/manage/knowledge/article/show.html"></prop>
+				<prop key="/manage/knowledge/article/new.html"></prop>
+				<prop key="/manage/knowledge/article/edit.html"></prop>
+				<prop key="/manage/knowledge/article/remove.html"></prop>
+				<prop key="/manage/knowledge/article/up.html"></prop>
+				<prop key="/manage/knowledge/article/down.html"></prop>
+				-->
+				<!-- 
+					TODO: dorzucic zarzadznie powiazanymi z bledem zgloszeniami i plikami
+				-->
+				
+				<!--<prop key="/stats/users/notify.html"></prop>-->
+				<!--<prop key="/stats/users/resolvingTime.html"></prop>-->
+				<!--<prop key="/stats/users/amountOfBugs.html"></prop>-->
+				<!--<prop key="/stats/users/userFullStats.html"></prop>-->
+
+				<!-- TODO: akcje zwiazane z zarzadzaniem waznosciami-->
+				<!--<prop key="/showPriorities.html"></prop>-->  <!-- lista priorytetów1        -->
+				<!--<prop key="/priorityDetails.html"></prop>--> <!-- szczegoly priorytetu      -->
+				<!--<prop key="/editPriority.html"></prop>-->    <!-- dodanie/edycja priorytetu -->
+				<!--<prop key="/removePriority.html"></prop>-->  <!-- usuniecie priorytetu      -->
+				<prop key="/help/about.html">helpAboutViewController</prop>
+				<prop key="/help/base.html">helpBaseViewController</prop>
+				<prop key="/help/index.html">helpIndexViewController</prop>
+				
+			</props>
+		</property>
+	</bean>
+</beans>

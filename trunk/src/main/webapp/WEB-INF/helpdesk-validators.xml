@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean
+		id="hdUserValidator"
+		class="com.jjhop.helpdesk.web.tools.HDUserValidator">
+	</bean>
+	
+	<bean
+		id="hdBugCategoryValidator"
+		class="com.jjhop.helpdesk.web.tools.HDBugCategoryValidator">
+	</bean>
+	
+	<bean
+		id="hdInformationValidator"
+		class="com.jjhop.helpdesk.web.tools.HDInformationValidator">
+	</bean>
+	
+	<bean
+		id="hdKnowledgeSectionValidator"
+		class="com.jjhop.helpdesk.web.tools.HDKnowledgeSectionValidator">
+	</bean>
+</beans>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean 
+    	id="hdBugDAO" 
+    	class="com.jjhop.helpdesk.dao.impl.jdbc.BugDAOJdbc">
+    	<property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+    </bean>
+    
+    <bean
+    	id="hdBugDAOJdbc"
+    	class="com.jjhop.helpdesk.dao.impl.jdbc.BugDAOJdbc">
+    	<property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+    </bean>
+    
+    <bean 
+    	id="hdBugCategoryDAO" 
+    	class="com.jjhop.helpdesk.dao.impl.jdbc.BugCategoryDAOJdbc">
+    	<property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+    </bean>
+    
+    <bean
+    	id="hdBugPriorityDAO"
+    	class="com.jjhop.helpdesk.dao.impl.jdbc.BugPriorityDAOJdbc">
+   	</bean>
+   	
+   	<bean
+   		id="hdBugStatusDAO"
+   		class="com.jjhop.helpdesk.dao.impl.jdbc.BugStatusDAOJdbc">
+	</bean>
+	
+	<bean
+		id="hdUserDAO"
+		class="com.jjhop.helpdesk.dao.impl.jdbc.UserDAOJdbc">
+    	<property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+	</bean>
+	
+	<bean
+		id="informationDAO"
+		class="com.jjhop.helpdesk.dao.impl.jdbc.InformationDAOJdbc">
+    	<property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+	</bean>
+	
+	<bean
+		id="knowledgeDAO"
+		class="com.jjhop.helpdesk.dao.impl.jdbc.KnowledgeDAOJdbc">
+    	<property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+	</bean>
+	
+	<bean
+		id="knowledgeSectionDAO"
+		class="com.jjhop.helpdesk.dao.impl.jdbc.KnowledgeSectionDAOJdbc">
+    	<property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+	</bean>
+	
+	<bean
+		id="eventDAO"
+		class="com.jjhop.helpdesk.dao.impl.jdbc.BugEventDAOJdbc">
+    	<property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+	</bean>
+	<bean
+		id="setStatsCategoryPAO"
+		class="com.jjhop.helpdesk.pao.plpgsql.StatsCategoryPAOPgSql">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="statsPriorityPAO"
+		class="com.jjhop.helpdesk.pao.plpgsql.StatsPriorityPAOPgSql">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+	</bean>
+	
+	<bean
+		id="statsSaviourPAO"
+		class="com.jjhop.helpdesk.pao.plpgsql.StatsSaviourPAOPgSql">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+	</bean>
+</beans>
