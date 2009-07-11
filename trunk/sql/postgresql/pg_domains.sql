@@ -37,6 +37,6 @@ CREATE DOMAIN hd_bug_priority
   DEFAULT 1
   NOT NULL
     CONSTRAINT hd_bug_priority_check CHECK (
-        VALUE INT( 1, 2, 3, 4, 5 )
+        VALUE IN( 1, 2, 3, 4, 5 )
     )
 ;
