@@ -15,14 +15,12 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import sun.net.www.MimeEntry;
-import sun.net.www.MimeTable;
-
 import com.jjhop.helpdesk.dao.BugDAO;
 import com.jjhop.helpdesk.model.AdditionalFile;
 import com.jjhop.helpdesk.model.Bug;
 import com.jjhop.helpdesk.model.BugComment;
 import com.jjhop.helpdesk.model.User;
+import javax.activation.MimetypesFileTypeMap;
 
 public class BugViewController implements Controller {
 	private static Log log = LogFactory.getLog( BugViewController.class );
@@ -74,8 +72,8 @@ public class BugViewController implements Controller {
 			for( File f : repDir.listFiles() ) {
 				AdditionalFile addFile = new AdditionalFile();
 				addFile.setOriginalFileName( f.getName() );
-				MimeEntry me = MimeTable.getDefaultTable().findByFileName( f.getName() );
-				addFile.setContentType( (me != null ) ? me.getType() : "application/octet-strem" );
+                String mimeType = new MimetypesFileTypeMap().getContentType(f.getName());
+	            addFile.setContentType((mimeType != null) ? mimeType : "application/octet-strem");
 				addFile.setFileSize( f.length() );
 				addFile.setHashedFileName( FileUtils.byteCountToDisplaySize( f.length() ) );
 				addFiles.add( addFile );
