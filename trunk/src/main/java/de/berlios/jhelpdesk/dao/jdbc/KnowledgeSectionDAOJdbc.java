@@ -128,7 +128,7 @@ public class KnowledgeSectionDAOJdbc extends JdbcDaoSupport implements Knowledge
 		);
 	}
 
-	public void save( final KnowledgeSection section ) {
+	public void saveOrUpdate( final KnowledgeSection section ) {
 		if( section.getHdKnowledgeSectionId() != null ) {
 			getJdbcTemplate().update(
 				"UPDATE hd_knowledge_section SET section_name=? WHERE knowledge_section_id=?",
