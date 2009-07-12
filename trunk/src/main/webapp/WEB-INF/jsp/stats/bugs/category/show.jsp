@@ -1,5 +1,5 @@
 <%@page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <div id="stats">
 	<div id="pagecontentheader"><h2>Statystyki</h2></div>
