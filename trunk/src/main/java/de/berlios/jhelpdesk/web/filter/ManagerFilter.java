@@ -17,22 +17,19 @@ import de.berlios.jhelpdesk.web.exception.NotAuthorizedAccessException;
 
 public class ManagerFilter implements Filter {
 
-	public void init( FilterConfig config ) throws ServletException {
+	public void init( FilterConfig config ) throws ServletException {}
 
-	}
-
-	public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException, ServletException {
-		HttpServletRequest req = ( HttpServletRequest ) request;
+	public void doFilter(ServletRequest request, ServletResponse response, 
+			FilterChain chain) throws IOException, ServletException {
+		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession sess = req.getSession();
-		User user = ( User )sess.getAttribute( "user" );
-		if( user == null )
-			throw new NotAuthorizedAccessException( "not authorized access!" );
-		if( user.getUserRole().toInt() < Role.MANAGER.toInt() )
-			throw new NotAuthorizedAccessException( "not authorized access!" );
-		chain.doFilter( request, response );
+		User user = (User) sess.getAttribute("user");
+		if (user == null)
+			throw new NotAuthorizedAccessException("not authorized access!");
+		if (user.getUserRole().toInt() < Role.MANAGER.toInt())
+			throw new NotAuthorizedAccessException("not authorized access!");
+		chain.doFilter(request, response);
 	}
 
-	public void destroy() {
-
-	}
+	public void destroy() {}
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.berlios.jhelpdesk.web.filter;
 
 import java.io.IOException;
@@ -14,19 +11,13 @@ import javax.servlet.ServletResponse;
 
 /**
  * @author jjhop
- * 
  */
 public final class EncodingFilter implements Filter {
 
 	private String encoding;
 	private boolean ignore = true;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-	 */
-	public void init( FilterConfig filterConfig ) throws ServletException {
+	public void init(FilterConfig filterConfig) throws ServletException {
 		this.encoding = filterConfig.getInitParameter("encoding");
 		String value = filterConfig.getInitParameter("ignore");
 		if (value == null)
@@ -39,13 +30,7 @@ public final class EncodingFilter implements Filter {
 			this.ignore = false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response,
+	public void doFilter(ServletRequest request, ServletResponse response, 
 			FilterChain chain) throws IOException, ServletException {
 
 		// Conditionally select and set the character encoding to be used
@@ -59,11 +44,6 @@ public final class EncodingFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#destroy()
-	 */
 	public void destroy() {
 		this.encoding = null;
 	}
