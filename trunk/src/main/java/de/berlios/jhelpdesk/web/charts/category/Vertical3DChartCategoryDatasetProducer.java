@@ -11,17 +11,18 @@ import de.laures.cewolf.DatasetProducer;
 public class Vertical3DChartCategoryDatasetProducer implements DatasetProducer {
 
 	private static final long serialVersionUID = 2099638445614051852L;
-	
-	private Map data;
-	
-	public Vertical3DChartCategoryDatasetProducer() {}
-	
-	public Vertical3DChartCategoryDatasetProducer( Map data ) {
+
+	private Map<String, Long> data;
+
+	public Vertical3DChartCategoryDatasetProducer() {
+	}
+
+	public Vertical3DChartCategoryDatasetProducer(Map<String, Long> data) {
 		this.data = data;
 	}
 
-	public Object produceDataset( Map params ) throws DatasetProduceException {
-		// TODO: zlokaizować nazwy dni tygodnia
+	public Object produceDataset(@SuppressWarnings("unchecked") Map params) throws DatasetProduceException {
+		// TODO: zlokalizować nazwy dni tygodnia
 		final String[] weekDays = { "Pon.", "Wt.", "Śr.", "Czw.", "Pią.", "Sob.", "Ndz." };
 		final String[] categoryNames = { "Peter", "Helga", "Franz", "Olga" };
 		final Integer[][] startValues = new Integer[categoryNames.length][weekDays.length];
@@ -33,12 +34,12 @@ public class Vertical3DChartCategoryDatasetProducer implements DatasetProducer {
 				endValues[series][i] = new Integer(y + (int) (Math.random() * 10));
 			}
 		}
-		DefaultIntervalCategoryDataset ds =
-			new DefaultIntervalCategoryDataset( categoryNames, weekDays, startValues, endValues );
+		DefaultIntervalCategoryDataset ds = new DefaultIntervalCategoryDataset(categoryNames, weekDays, startValues,
+				endValues);
 		return ds;
 	}
 
-	public boolean hasExpired( Map params, Date date ) {
+	public boolean hasExpired(@SuppressWarnings("unchecked") Map params, Date date) {
 		return false;
 	}
 

@@ -13,7 +13,6 @@ import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
-
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.dao.BugStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
@@ -31,64 +30,64 @@ public class BugStatsByNotyfier2DatasetProducer implements DatasetProducer, PieT
 
 	private static final long serialVersionUID = -6385829065111292806L;
 	private static final Log log = LogFactory.getLog(BugStatsByNotyfier2DatasetProducer.class);
-	
+
 	private UserDAO userDAO;
-	private BugStatusDAO  statusDAO;
+	private BugStatusDAO statusDAO;
 	private BugDAO bugDAO;
 
 	/**
 	 * @param statusDAO The statusDAO to set.
 	 */
 	public void setStatusDAO(BugStatusDAO statusDAO) {
-		log.debug( "Ustawiam statusDAO w 2..." );
+		log.debug("Ustawiam statusDAO w 2...");
 		this.statusDAO = statusDAO;
-		log.debug( "...ustawione." );
+		log.debug("...ustawione.");
 	}
 
 	/**
 	 * @param userDAO The userDAO to set.
 	 */
 	public void setUserDAO(UserDAO userDAO) {
-		log.debug( "Ustawiam userDAO w 2..." );
+		log.debug("Ustawiam userDAO w 2...");
 		this.userDAO = userDAO;
-		log.debug( "...ustawione." );
+		log.debug("...ustawione.");
 	}
 
 	/**
 	 * @param bugDAO The bugDAO to set.
 	 */
 	public void setBugDAO(BugDAO bugDAO) {
-		log.debug( "Ustawiam bugDAO w 2..." );
+		log.debug("Ustawiam bugDAO w 2...");
 		this.bugDAO = bugDAO;
-		log.debug( "...ustawione." );
+		log.debug("...ustawione.");
 	}
-	
-	public Object produceDataset(Map arg0) throws DatasetProduceException {
+
+	public Object produceDataset(@SuppressWarnings("unchecked") Map arg0) throws DatasetProduceException {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 
 		List<BugStatus> listOfStatuses = statusDAO.getNonOpenedStatuses();
 		List<Bug> listOfBugs = new ArrayList<Bug>();
-		for( BugStatus status : listOfStatuses ) {
-			listOfBugs.addAll( bugDAO.getBugsByStatus( status ) );
-			log.debug( "Nowy rozmiar listy => " + listOfBugs.size() );
+		for (BugStatus status : listOfStatuses) {
+			listOfBugs.addAll(bugDAO.getBugsByStatus(status));
+			log.debug("Nowy rozmiar listy => " + listOfBugs.size());
 		}
 
 		List<User> listOfUsers = userDAO.getAllUser();
-		log.debug( "Ilosc uzytkownikow w liscie -> " + listOfUsers.size() );
-		
-		for( User user : listOfUsers ) {
+		log.debug("Ilosc uzytkownikow w liscie -> " + listOfUsers.size());
+
+		for (User user : listOfUsers) {
 			int numOfBugs = 0;
-			for( Bug bug : listOfBugs )
-				if( bug.getNotifier().getUserId().longValue() == user.getUserId().longValue() )
+			for (Bug bug : listOfBugs)
+				if (bug.getNotifier().getUserId().longValue() == user.getUserId().longValue())
 					numOfBugs++;
-			log.debug( "Ilosc bledow [" + user.getFullName() + "] => " + numOfBugs );
-			if( numOfBugs > 0 )
-				dataset.setValue( user.getFullName(), numOfBugs );
+			log.debug("Ilosc bledow [" + user.getFullName() + "] => " + numOfBugs);
+			if (numOfBugs > 0)
+				dataset.setValue(user.getFullName(), numOfBugs);
 		}
 		return dataset;
 	}
 
-	public boolean hasExpired(Map arg0, Date arg1) {
+	public boolean hasExpired(@SuppressWarnings("unchecked") Map arg0, Date arg1) {
 		return false;
 	}
 
@@ -96,7 +95,7 @@ public class BugStatsByNotyfier2DatasetProducer implements DatasetProducer, PieT
 		return null;
 	}
 
-	public String generateToolTip(PieDataset arg0, Comparable arg1, int arg2) {
+	public String generateToolTip(PieDataset arg0, @SuppressWarnings("unchecked") Comparable arg1, int arg2) {
 		return null;
 	}
 
@@ -104,11 +103,12 @@ public class BugStatsByNotyfier2DatasetProducer implements DatasetProducer, PieT
 		return null;
 	}
 
-	public String generateSectionLabel(PieDataset arg0, Comparable arg1) {
+	public String generateSectionLabel(PieDataset arg0, @SuppressWarnings("unchecked") Comparable arg1) {
 		return null;
 	}
 
-    public AttributedString generateAttributedSectionLabel(PieDataset arg0, Comparable arg1) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	public AttributedString generateAttributedSectionLabel(PieDataset arg0,
+			@SuppressWarnings("unchecked") Comparable arg1) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

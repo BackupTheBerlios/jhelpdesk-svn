@@ -31,14 +31,13 @@ public class BugsByCategoryViewController implements Controller {
 		this.statsPAO = statsPAO;
 	}
 
-	@SuppressWarnings("unchecked")
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		log.debug("handleRequest()");
 		ModelAndView mav = new ModelAndView("stats/bugsByCategory");
 
-		TreeMap currentWeekMap = new TreeMap(statsPAO.getStatsForCurrentWeek());
-		TreeMap currentMonthMap = new TreeMap(statsPAO.getStatsForCurrentMonth());
-		TreeMap threeMonthsMap = new TreeMap(statsPAO.getStatsForThreePreviousMonths());
+		TreeMap<String, Long> currentWeekMap = new TreeMap<String, Long>(statsPAO.getStatsForCurrentWeek());
+		TreeMap<String, Long> currentMonthMap = new TreeMap<String, Long>(statsPAO.getStatsForCurrentMonth());
+		TreeMap<String, Long> threeMonthsMap = new TreeMap<String, Long>(statsPAO.getStatsForThreePreviousMonths());
 		Map<String, Long> allMap = rebuildMap(statsPAO.getStatsForAll(), 9);
 
 		mav.addObject("currentWeekData", currentWeekMap);

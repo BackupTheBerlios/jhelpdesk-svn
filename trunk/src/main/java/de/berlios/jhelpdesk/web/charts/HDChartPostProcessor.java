@@ -10,9 +10,9 @@ import de.laures.cewolf.ChartPostProcessor;
 
 public class HDChartPostProcessor implements ChartPostProcessor {
 
-	public void processChart( Object chart, Map args ) {
-		JFreeChart jfreechart = (JFreeChart)chart;
-		PiePlot3D pie3dplot = (PiePlot3D)jfreechart.getPlot();
+	public void processChart(Object chart, @SuppressWarnings("unchecked") Map args) {
+		JFreeChart jfreechart = (JFreeChart) chart;
+		PiePlot3D pie3dplot = (PiePlot3D) jfreechart.getPlot();
 		pie3dplot.setStartAngle(270D);
 		pie3dplot.setDirection(Rotation.CLOCKWISE);
 		pie3dplot.setForegroundAlpha(0.5F);

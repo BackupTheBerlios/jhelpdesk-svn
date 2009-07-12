@@ -20,29 +20,29 @@ import de.laures.cewolf.tooltips.ToolTipGenerator;
 
 public class BugStatsByCategoryDatasetProducer implements DatasetProducer, PieToolTipGenerator,
 		PieSectionLinkGenerator, PieSectionLabelGenerator, ToolTipGenerator, Serializable {
-	
+
 	private static final long serialVersionUID = -5257467386158073984L;
 	private static final Log log = LogFactory.getLog(BugStatsByCategoryDatasetProducer.class);
-    //private final static String[] seriesNames  = {"cewolfset.jsp", "tutorial.jsp", "testpage.jsp", "performancetest.jsp"};
-    
-    private Map<String,Long> chartData; 
-    
-    @SuppressWarnings("unchecked")
-	public BugStatsByCategoryDatasetProducer( Map chartData ) {
-    	log.debug( "" );
-    	this.chartData = chartData;
-    }
+	// private final static String[] seriesNames = {"cewolfset.jsp", "tutorial.jsp", "testpage.jsp",
+	// "performancetest.jsp"};
 
-	public Object produceDataset(Map params) throws DatasetProduceException {
-		DefaultPieDataset dataset = new DefaultPieDataset();
-	
-		for( String key : chartData.keySet() ) {
-			dataset.setValue(  key, chartData.get( key ) );
-		}
-        return dataset;
+	private Map<String, Long> chartData;
+
+	public BugStatsByCategoryDatasetProducer(Map<String, Long> chartData) {
+		log.debug("");
+		this.chartData = chartData;
 	}
 
-	public boolean hasExpired( Map params, Date since ) {
+	public Object produceDataset(@SuppressWarnings("unchecked") Map params) throws DatasetProduceException {
+		DefaultPieDataset dataset = new DefaultPieDataset();
+
+		for (String key : chartData.keySet()) {
+			dataset.setValue(key, chartData.get(key));
+		}
+		return dataset;
+	}
+
+	public boolean hasExpired(@SuppressWarnings("unchecked") Map params, Date since) {
 		return (System.currentTimeMillis() - since.getTime()) > 5000;
 	}
 
@@ -51,26 +51,27 @@ public class BugStatsByCategoryDatasetProducer implements DatasetProducer, PieTo
 	}
 
 	public String generateToolTip(CategoryDataset arg0, int series, int arg2) {
-		return "";//seriesNames[series];
+		return "";// seriesNames[series];
 	}
 
 	public String generateLink(Object arg0, int series, Object arg2) {
-		return "";//seriesNames[series];
+		return "";// seriesNames[series];
 	}
 
-	public String generateToolTip( PieDataset dataset, Comparable key, int pieIndex ) {
+	public String generateToolTip(PieDataset dataset, @SuppressWarnings("unchecked") Comparable key, int pieIndex) {
 		return "jop";
 	}
 
 	public String generateLink(Object dataset, Object category) {
-		return "showBugsByCategory.html?categoryId=" + category.toString() ;
+		return "showBugsByCategory.html?categoryId=" + category.toString();
 	}
 
-	public String generateSectionLabel(PieDataset arg0, Comparable arg1) {
+	public String generateSectionLabel(PieDataset arg0, @SuppressWarnings("unchecked") Comparable arg1) {
 		return "section label";
 	}
 
-    public AttributedString generateAttributedSectionLabel(PieDataset arg0, Comparable arg1) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	public AttributedString generateAttributedSectionLabel(PieDataset arg0,
+			@SuppressWarnings("unchecked") Comparable arg1) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }
