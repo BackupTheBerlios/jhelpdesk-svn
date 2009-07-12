@@ -8,7 +8,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class IndexViewController implements Controller {
 
-	public ModelAndView handleRequest( HttpServletRequest request, HttpServletResponse response ) throws Exception {
-		return new ModelAndView( "help/index" );
+	public ModelAndView handleRequest(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		return new ModelAndView("help/index");
 	}
 }

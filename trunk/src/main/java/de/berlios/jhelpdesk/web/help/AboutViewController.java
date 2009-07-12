@@ -8,7 +8,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class AboutViewController implements Controller {
 
-	public ModelAndView handleRequest(HttpServletRequest arg0, HttpServletResponse arg1) throws Exception {
-		return new ModelAndView( "help/about" );
+	public ModelAndView handleRequest(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		return new ModelAndView("help/about");
 	}
 }

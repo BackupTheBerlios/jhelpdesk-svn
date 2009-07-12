@@ -12,22 +12,23 @@ import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 
 public class BaseViewController implements Controller {
-	
-	private static Log log = LogFactory.getLog( BaseViewController.class );
-	
+
+	private static Log log = LogFactory.getLog(BaseViewController.class);
+
 	private KnowledgeDAO knowledgeDAO;
 	private KnowledgeSectionDAO knowledgeSectionDAO;
 
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse arg1) throws Exception {
-		String key = request.getParameter( "key" );
-		String id  = request.getParameter( "id" );
+	public ModelAndView handleRequest(HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
+		String key = request.getParameter("key");
+		String id = request.getParameter("id");
 		ModelAndView mav = null;
-		if( ( key != null ) && key.equalsIgnoreCase( "details" ) ) {
-			mav = new ModelAndView( "help/base/one" );
-			mav.addObject( "article", knowledgeDAO.getById( Long.parseLong( id ) ) );
+		if ((key != null) && key.equalsIgnoreCase("details")) {
+			mav = new ModelAndView("help/base/one");
+			mav.addObject("article", knowledgeDAO.getById(Long.parseLong(id)));
 		} else {
-			mav =  new ModelAndView( "help/base" );
-			mav.addObject( "sections", knowledgeSectionDAO.getAllSections() );
+			mav = new ModelAndView("help/base");
+			mav.addObject("sections", knowledgeSectionDAO.getAllSections());
 		}
 		return mav;
 	}
@@ -35,16 +36,16 @@ public class BaseViewController implements Controller {
 	/**
 	 * @param knowledgeDAO The knowledgeDAO to set.
 	 */
-	public void setKnowledgeDAO( KnowledgeDAO knowledgeDAO ) {
-		log.debug( "setKnowledgeDAO( IHDKnowledgeDAO knowledgeDAO )" );
+	public void setKnowledgeDAO(KnowledgeDAO knowledgeDAO) {
+		log.debug("setKnowledgeDAO( IHDKnowledgeDAO knowledgeDAO )");
 		this.knowledgeDAO = knowledgeDAO;
 	}
 
 	/**
 	 * @param knowledgeSectionDAO The knowledgeSectionDAO to set.
 	 */
-	public void setKnowledgeSectionDAO( KnowledgeSectionDAO knowledgeSectionDAO ) {
-		log.debug( "setKnowledgeSectionDAO( IHDKnowledgeSectionDAO knowledgeSectionDAO )" );
+	public void setKnowledgeSectionDAO(KnowledgeSectionDAO knowledgeSectionDAO) {
+		log.debug("setKnowledgeSectionDAO(KnowledgeSectionDAO)");
 		this.knowledgeSectionDAO = knowledgeSectionDAO;
 	}
 }
