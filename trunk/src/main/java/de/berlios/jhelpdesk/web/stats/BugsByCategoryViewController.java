@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import de.berlios.jhelpdesk.pao.ifc.IStatsCategory;
+import de.berlios.jhelpdesk.pao.StatsCategoryPAO;
 import de.berlios.jhelpdesk.web.charts.BugStatsByCategoryDatasetProducer;
 import de.berlios.jhelpdesk.web.charts.BugsStatsByCategoryFullDatasetProducer;
 import de.berlios.jhelpdesk.web.charts.category.Vertical3DChartCategoryDatasetProducer;
@@ -25,9 +25,9 @@ import de.berlios.jhelpdesk.web.charts.category.Vertical3DChartCategoryDatasetPr
 public class BugsByCategoryViewController implements Controller {
 	
 	private static Log log = LogFactory.getLog(BugsByCategoryViewController.class);
-	private IStatsCategory statsPAO;
+	private StatsCategoryPAO statsPAO;
 
-	public void setStatsPAO(IStatsCategory statsPAO) {
+	public void setStatsPAO(StatsCategoryPAO statsPAO) {
 		this.statsPAO = statsPAO;
 	}
 

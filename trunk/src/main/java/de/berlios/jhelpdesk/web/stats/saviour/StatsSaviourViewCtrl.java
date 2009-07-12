@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import de.berlios.jhelpdesk.pao.ifc.IStatsSaviour;
+import de.berlios.jhelpdesk.pao.StatsSaviourPAO;
 
 public class StatsSaviourViewCtrl implements Controller {
-	private IStatsSaviour statsPAO;
+	private StatsSaviourPAO statsPAO;
 	
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response ) throws Exception {
 		ModelAndView mav = new ModelAndView( "stats/saviour/saviourStats" );
@@ -21,7 +21,7 @@ public class StatsSaviourViewCtrl implements Controller {
 	/**
 	 * @param statsPAO The statsPAO to set.
 	 */
-	public void setStatsPAO(IStatsSaviour statsPAO) {
+	public void setStatsPAO(StatsSaviourPAO statsPAO) {
 		this.statsPAO = statsPAO;
 	}
 	

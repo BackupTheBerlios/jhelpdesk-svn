@@ -10,14 +10,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import de.berlios.jhelpdesk.pao.ifc.IStatsPriority;
+import de.berlios.jhelpdesk.pao.StatsPriorityPAO;
 import de.berlios.jhelpdesk.web.charts.BugStatsByPriorityDatasetProducer;
 
 public class BugsByPriorityViewController implements Controller {
 	private static Log log = LogFactory.getLog( BugsByPriorityViewController.class );
-	private IStatsPriority statsPAO;
+	private StatsPriorityPAO statsPAO;
 
-	public void setStatsPAO( IStatsPriority statsPAO ) {
+	public void setStatsPAO( StatsPriorityPAO statsPAO ) {
 		this.statsPAO = statsPAO;
 	}	
 	@SuppressWarnings("unchecked")
