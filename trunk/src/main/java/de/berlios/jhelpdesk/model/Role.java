@@ -21,9 +21,9 @@ import java.util.List;
 
 /**
  * <p>
- * Klasa modelująca role użytkowników w systemie. Dla wygody programisty zawiera
- * statyczne wartości dla wszystkich ról oraz metody pozwalające na wygodne
- * używanie jej obiektów (np. zapisywanie ról w bazie za pomocą liczb i odtwarzenie
+ * Role użytkowników w systemie. Dla wygody programisty zawiera statyczne
+ * wartości dla wszystkich ról oraz metody pozwalające na wygodne używanie 
+ * jej obiektów (np. zapisywanie ról w bazie za pomocą liczb i odtwarzenie
  * tychże z zapisanych liczba - szczegóły w dokumentacji poszczególnych metod).
  * </p>
  * <p>
@@ -104,7 +104,7 @@ public class Role {
      * </p>
      * @param code identyfikator roli
      * @return prawidłowy obiekt Role
-     * @throws RuntimeException jeśli podane liczba ma wartość inną niż 1, 10, lub 100
+     * @throws RuntimeException jeśli podana liczba ma wartość inną niż 1, 10, lub 100
      *
      * @see #code
      * @see #getRoleCode()
@@ -136,7 +136,7 @@ public class Role {
 
     /**
      * Zwraca liczbową reprezenację roli. Zwrócona liczba jest identyfikatorem roli.
-     * Na jej podstawie można bezpiczenie odtworzyć role za pomocą {@link #fromInt(code)}.
+     * Na jej podstawie można bezpieczenie odtworzyć role za pomocą {@link #fromInt(code)}.
      *
      * @return liczbowa reprezentacja roli
      *

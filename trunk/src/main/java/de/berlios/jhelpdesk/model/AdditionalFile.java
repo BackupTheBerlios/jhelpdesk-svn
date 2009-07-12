@@ -16,7 +16,7 @@
 package de.berlios.jhelpdesk.model;
 
 /**
- * Klasa modelująca w aplikacji pliki dołączane do zgłoszenia. Do każdego zgłoszenia można
+ * Pliki w systmie, które są dołączane do zgłoszenia . Do każdego zgłoszenia można
  * dołączyć dowolną (ograniczoną przestrzenią dyskową) ilość plików. Pliki z założenia
  * mają pomóc osobie zajmującej się zgłoszeniem rozwiązać problem.
  *
