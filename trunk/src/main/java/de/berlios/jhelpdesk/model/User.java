@@ -1,181 +1,360 @@
+/*
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright: (C) 2006 jHelpdesk Developers Team
+ */
 package de.berlios.jhelpdesk.model;
 
 /**
+ * Reprezentacja użytkownika w systemie. Przechowuje wszystkie istotne informacje związane z użytkownikem
+ * i udostępnia je aplikacji.
+ *
+ * <p>
+ * Klasa funkcjonuje jako <i>bean</i>, ale część danych nie powinna ulegać zmianie po pierwszym zapisaniu
+ * w bazie danych. Przy polach, które nie powinny być zmieniane zostało to ujete w komentarzu przy
+ * metodzie {@code setXXX(Object data)}. Oczywiście metody te są używane także podczas wiązania danych
+ * z formularza z odpowiednimi polami obiektu.
+ * </p>
+ *
  * @author jjhop
  */
 public class User {
-	
-	private Long userId;
-	private String login;
-	private String password;
-	private String firstName;
-	private String lastName;
-	private Role userRole;
-	private String email;
-	private String phone; // numer staacjonarny
-	private String mobile; // numer kom�rkowy
-	private boolean isActive;
-	
-	public User() {
-		
-	}
-	
-	/**
-	 * @param userId
-	 * @param login
-	 * @param firstName
-	 * @param lastName
-	 */
-	public User(Long userId, String login, String firstName, String lastName) {
-		this.userId = userId;
-		this.login = login;
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
 
-	/**
-	 * @return Returns the login.
-	 */
-	public String getLogin() {
-		return login;
-	}
+    /**
+     * Identyfikator bazodanowy użytkownika.
+     */
+    private Long userId;
 
-	/**
-	 * @param login The login to set.
-	 */
-	public void setLogin(String login) {
-		this.login = login;
-	}
+    /**
+     * Login użytkownika. Musi być unikalny w obrębie systemu.
+     */
+    private String login;
+    
+    /**
+     * Hasło użytkownika.
+     */
+    private String password;
 
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * Imię użytkownika.
+     */
+    private String firstName;
 
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * Nazwisko użytkownika.
+     */
+    private String lastName;
 
-	/**
-	 * @return Returns the userRole.
-	 */
-	public Role getUserRole() {
-		return userRole;
-	}
+    /**
+     * Rola użytkownika.
+     */
+    private Role userRole;
 
-	/**
-	 * @param userRole The userRole to set.
-	 */
-	public void setUserRole(Role userRole) {
-		this.userRole = userRole;
-	}
+    /**
+     * Email użytkownika. Email nie może być pusty i jest unikalny w obrębie aplikacji.
+     */
+    private String email;
 
-	public Long getUserId() {
-		return userId;
-	}
+    /**
+     * Numer kontaktowy użytkownika.
+     */
+    private String phone;
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    /**
+     * Numer telefonu komórkowego użytkownika.
+     */
+    private String mobile;
 
-	/**
-	 * @return Returns the email.
-	 */
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * Przechowuje informację o tym, czy użytkownika może się logować.
+     */
+    private boolean isActive;
 
-	/**
-	 * @param email The email to set.
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    /**
+     * Pusty konstuktor. Umieszczony dlatego, że w klasie jest także inny konstruktor.
+     */
+    public User() {
+    }
 
-	/**
-	 * @return Returns the firstName.
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
+    /**
+     * Konstruktor inicjalizujący kilka niezbędnych zmiennych w obiekcie.
+     *
+     * @param userId identyfikator użytkownika
+     * @param login login użytkownika
+     * @param firstName imię użytkownika
+     * @param lastName nazwisko użytkownika
+     */
+    public User(Long userId, String login, String firstName, String lastName) {
+        this.userId = userId;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
-	/**
-	 * @param firstName The firstName to set.
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    /**
+     * Zwraca bazodanowy identyfikator uzytkownika.
+     *
+     * @return bazodanowy identyfikator uzytkownika
+     *
+     * @see #userId
+     */
+    public Long getUserId() {
+        return userId;
+    }
 
-	/**
-	 * @return Returns the isActive.
-	 */
-	public boolean isActive() {
-		return isActive;
-	}
+    /**
+     * Ustawia bazodanowy identyfikator użytkownika. Metod powinna być wykorzystywana tylko
+     * i wyłącznie przez mechanizm przepisywania danych z bazy.
+     *
+     * @param userId identyfikator do ustawienia
+     *
+     * @see #userId
+     * @see #getUserId() 
+     */
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	/**
-	 * @param isActive The isActive to set.
-	 */
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
+    /**
+     * Zwraca login użytkownika. Login jest unikalny w obrębie systemu.
+     *
+     * @return login użytkownika
+     *
+     * @see #login
+     */
+    public String getLogin() {
+        return login;
+    }
 
-	/**
-	 * @return Returns the lastName.
-	 */
-	public String getLastName() {
-		return lastName;
-	}
+    /**
+     * Ustawia login użytkownika. Po pierwszym ustawieniu i zapisaniu w bazie danych
+     * login nie mogę podlegać zmianom. Od tego czasu metoda powinna być wykorzystywana
+     * tylko przez mechanizm przepisywania danych z bazy.
+     * 
+     * @param login login użytkownika do zapisania
+     */
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-	/**
-	 * @param lastName The lastName to set.
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    /**
+     * Zwraca hasło użytkownika. Hasło jest skrótem wybranej przez użytkownika wartości.
+     *
+     * @return hasło użytkownika w postaci skrótu
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	/**
-	 * @return Returns the mobile.
-	 */
-	public String getMobile() {
-		return mobile;
-	}
+    /**
+     * Ustawia hasło użytkownika.
+     *
+     * @param password hasło użytkownika
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	/**
-	 * @param mobile The mobile to set.
-	 */
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    /**
+     * Zwraca systemową rolę użytkownika.
+     * 
+     * @return systemowa rola użytkownika
+     *
+     * @see #userRole
+     * @see Role
+     */
+    public Role getUserRole() {
+        return userRole;
+    }
 
-	/**
-	 * @return Returns the phone.
-	 */
-	public String getPhone() {
-		return phone;
-	}
+    /**
+     * Ustawia nową rolę systemową dla użytkownika.
+     * 
+     * @param userRole rsystemowa rola, którą przydzielamy użytkownikowi
+     *
+     * @see #userRole
+     * @see #getUserRole() 
+     * @see Role
+     */
+    public void setUserRole(Role userRole) {
+        this.userRole = userRole;
+    }
 
-	/**
-	 * @param phone The phone to set.
-	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    /**
+     * Zwraca email użytkownika. Email jest unikalny w obrębie aplikacji.
+     *
+     * @return email użytkownika ({@code email != null})
+     *
+     * @see #email
+     */
+    public String getEmail() {
+        return email;
+    }
 
-	public static boolean authorizeUser(String login, String passw) {
-		return false;
-	}
+    /**
+     * Ustawia email dla użytkownika.
+     * 
+     * @param email email dla użytkownika.
+     *
+     * @see #email
+     * @see #getEmail() 
+     */
+    public void setEmail(String email) {
+        assert email != null : "Email nie może być pusty";
+        this.email = email;
+    }
 
-	public String toString() {
-		return new StringBuilder("").append(firstName).append(" ").append(lastName).toString();
-	}
+    /**
+     * Zwraca imię użytkownika.
+     *
+     * @return imię użytkownika
+     * 
+     * @see #firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getFullName() {
-		return toString();
-	}
+    /**
+     * Ustawia imię dla użytkownika.
+     * 
+     * @param firstName imię użytkownika
+     *
+     * @see #firstName
+     * @see #getFirstName() 
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Zwraca nazwisko użytkownika.
+     *
+     * @return nazwisko użytkownika
+     *
+     * @see #lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Ustawia nazwisko użytkownika.
+     * 
+     * @param lastName nazwisko użytkownika
+     *
+     * @see #lastName
+     * @see #getLastName() 
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * Informuje czy użytkownik może się logować.
+     *
+     * @return {@code true} jeśli użytkowni możę się logować i {@code false} w przeciwnym wypadku
+     *
+     * @see #isActive
+     */
+    public boolean isActive() {
+        return isActive;
+    }
+
+    /**
+     * Ustawia status użytkownika. Jeśli użytkownika nie ma prawa do logowania to status
+     * jest {@code false}.
+     *
+     * @param isActive status logowania dla użytkownika
+     *
+     * @see #isActive
+     * @see #isActive() 
+     */
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    /**
+     * Zwraca numer telefonu komórkowego użytkownika.
+     *
+     * @return numer telefonu komórkowego użytkownika
+     *
+     * @see #mobile
+     */
+    public String getMobile() {
+        return mobile;
+    }
+
+    /**
+     * Ustawia numer telefonu komórkowego dla użytkownika.
+     * 
+     * @param mobile The mobile to set.
+     *
+     * @see #mobile
+     * @see #getMobile() 
+     */
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    /**
+     * Zwraca numer telefonu użytkownika.
+     *
+     * @return numer telefonu użytkownika
+     *
+     * @see #phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * Ustawia numer telefonu użytkownika.
+     *
+     * @param phone numer telefonu użytkownika
+     *
+     * @see #phone
+     * @see #getPhone() 
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Deprecated
+    public static boolean authorizeUser(String login, String passw) {
+        return false;
+    }
+
+    /**
+     * Zwraca łańcuchową reprezentację użytkownika. Jest to string postaci "imię nazwisko".
+     * 
+     * @return łańcuchowa reprezentacja uzytkownika
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder("").append(firstName).append(" ").append(lastName).toString();
+    }
+
+    /**
+     * Zwraca łańcuch składający się z imienia i nazwiska użytkownika.
+     *
+     * @return łańcuch składający się z imienia i nazwiska użytkownika
+     *
+     * @see #firstName
+     * @see #lastName
+     * @see #toString() 
+     */
+    public String getFullName() {
+        return toString();
+    }
 }
