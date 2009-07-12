@@ -1,4 +1,4 @@
-package de.berlios.jhelpdesk.dao.impl.jdbc;
+package de.berlios.jhelpdesk.dao.jdbc;
 
 import java.util.ArrayList;
 import java.util.List;
