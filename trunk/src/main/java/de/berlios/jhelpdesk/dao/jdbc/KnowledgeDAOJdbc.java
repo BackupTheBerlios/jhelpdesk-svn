@@ -72,7 +72,7 @@ public class KnowledgeDAOJdbc extends JdbcDaoSupport implements KnowledgeDAO {
 	/* (non-Javadoc)
 	 * @see de.berlios.jhelpdesk.dao.ifc.IHDKnowledgeDAO#save(de.berlios.jhelpdesk.model.Knowledge)
 	*/
-	public void save( final Knowledge knowledge ) {
+	public void saveOrUpdate(final Knowledge knowledge) {
 		if( knowledge.getKnowledgeId() != null ) {
 			// if knowledgeId is set to null we have a new object
 			// and we have to save it as new one (and return with 
