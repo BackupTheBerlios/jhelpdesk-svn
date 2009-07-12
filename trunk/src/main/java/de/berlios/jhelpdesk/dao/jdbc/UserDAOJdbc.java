@@ -140,7 +140,7 @@ public class UserDAOJdbc extends JdbcDaoSupport implements UserDAO {
 		);
 	}
 
-	public void save( final User user ) {
+	public void saveOrUpdate( final User user ) {
 		if( user.getUserId() != null ) {
 			// update
 			getJdbcTemplate().update(
@@ -159,7 +159,7 @@ public class UserDAOJdbc extends JdbcDaoSupport implements UserDAO {
 				}
 			);
 		} else {
-			// save
+			// saveOrUpdate
 			getJdbcTemplate().execute(
 				new ConnectionCallback() {
 					public Object doInConnection( Connection conn ) throws SQLException, DataAccessException {

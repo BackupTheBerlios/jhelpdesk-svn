@@ -64,7 +64,7 @@ public class EditUserController extends SimpleFormController {
 			HttpServletResponse response, Object command, BindException errors) 
 			throws Exception {
 		User user = (User) command;
-		userDAO.save(user);
+		userDAO.saveOrUpdate(user);
 		return super.onSubmit(request, response, command, errors);
 	}
 
