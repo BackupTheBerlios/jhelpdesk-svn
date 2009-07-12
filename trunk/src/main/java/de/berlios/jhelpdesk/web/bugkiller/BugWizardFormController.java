@@ -119,7 +119,7 @@ public class BugWizardFormController extends AbstractWizardFormController {
 			if( thisBugRepository.mkdir() ) {
 				for( AdditionalFile addFile : bug.getAddFilesList() ) {
 					FileCopyUtils.copy( 
-						addFile.getFileDate(), 
+						addFile.getFileData(), 
 						new File(
 							new StringBuffer( thisBugRepository.getAbsolutePath() )
 								.append( File.separatorChar )
