@@ -9,7 +9,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * 
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
@@ -32,8 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
  * <p>
  * Klasa funkcjonuje jako <i>bean</i>, ale większość danych nie powinna ulegać zmianie po pierwszym zapisaniu
  * zgłoszenia w bazie danych. Przy polach, które nie powinny być zmieniane zostało to ujete w komentarzu przy
- * metodzie {@code setXXX(Object data)}. Oczywiście metody te są używane także podczas wiązania danych z formularz
- * z odpowiednimi polami obiektu.
+ * metodzie {@code setXXX(Object data)}. Oczywiście metody te są używane także podczas wiązania danych
+ * z formularza z odpowiednimi polami obiektu.
  * </p>
  *
  * @author jjhop
@@ -41,7 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Bug {
 
     /**
-     * Identyfikato zgłoszenia w bazie danych.
+     * Identyfikator zgłoszenia w bazie danych.
      */
     private Long bugId;
 
