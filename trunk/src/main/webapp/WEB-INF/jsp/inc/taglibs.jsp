@@ -3,6 +3,6 @@
 <%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
 <%@ taglib uri="/WEB-INF/cewolf.tld" prefix="cewolf" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://jhelpdesk.berlios.de/taglib/auth-tag.tld" prefix="auth" %>
 <%@ taglib uri="http://jhelpdesk.berlios.de/taglib/helpdesk-utils.tld" prefix="util" %>

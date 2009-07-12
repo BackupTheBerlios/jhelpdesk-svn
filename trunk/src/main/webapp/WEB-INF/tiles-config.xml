@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tiles-definitions PUBLIC
-	"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
-	"http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 	<definition 
 		name="baseLayout"
-		path="/WEB-INF/jsp/layouts/baseLayout.jsp">
-		<put name="title" value=""/>
-		<put name="menuPanel" value="/WEB-INF/jsp/inc/menu.jsp"/>
-		<put name="footer" value="/WEB-INF/jsp/inc/footer.jsp"/>
+		template="/WEB-INF/jsp/layouts/baseLayout.jsp">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="menuPanel" value="/WEB-INF/jsp/inc/menu.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/jsp/inc/footer.jsp"/>
 	</definition>
 	
 	<definition
 		name="loginLayout"
-		path="/WEB-INF/jsp/layouts/loginLayout.jsp">
-		<put name="title" value="Logowanie do systemu"/>
+		template="/WEB-INF/jsp/layouts/loginLayout.jsp">
+		<put-attribute name="title" value="Logowanie do systemu"/>
 	</definition>
 
 	<definition
@@ -25,65 +25,65 @@
 	<definition
 		name="desktop/main"
 		extends="baseLayout">
-		<put name="title" value="Biurko"/>
-		<put name="displayFilterLink" value="block"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/desktop/main.jsp"/>
+		<put-attribute name="title" value="Biurko"/>
+		<put-attribute name="displayFilterLink" value="block"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/desktop/main.jsp"/>
 	</definition>
 	
 	<definition
 		name="bugsList" 
 		extends="baseLayout">
-		<put name="title" value="Pokaz wszystkie bledy"/>
-		<put name="displayFilterLink" value="block"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/showBugsForm.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugsList.jsp"/>
+		<put-attribute name="title" value="Pokaz wszystkie bledy"/>
+		<put-attribute name="displayFilterLink" value="block"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showBugsForm.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugsList.jsp"/>
 	</definition>
 	
 	<!-- Kreator zgłoszenia -->
 	 <definition
 	 	name="bugWizard/step1"
 	 	extends="baseLayout">
-	 	<put name="title" value="Dodawanie zgloszenia - krok 1..."/>
-	 	<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugWizard/step1.jsp"/>
+	 	<put-attribute name="title" value="Dodawanie zgloszenia - krok 1..."/>
+	 	<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/step1.jsp"/>
 	 </definition>
 	 
  	 <definition
 	 	name="bugWizard/step2"
 	 	extends="baseLayout">
-	 	<put name="title" value="Dodawanie zgloszenia - krok 2..."/>
-	 	<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugWizard/step2.jsp"/>
+	 	<put-attribute name="title" value="Dodawanie zgloszenia - krok 2..."/>
+	 	<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/step2.jsp"/>
 	 </definition>
 	 
  	 <definition
 	 	name="bugWizard/step3"
 	 	extends="baseLayout">
-	 	<put name="title" value="Dodawanie zgloszenia - krok 3..."/>
-	 	<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugWizard/step3.jsp"/>
+	 	<put-attribute name="title" value="Dodawanie zgloszenia - krok 3..."/>
+	 	<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/step3.jsp"/>
 	 </definition>
 	 
  	 <definition
 	 	name="bugWizard/step4"
 	 	extends="baseLayout">
-	 	<put name="title" value="Dodawanie zgloszenia - krok 4..."/>
-	 	<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugWizard/step4.jsp"/>
+	 	<put-attribute name="title" value="Dodawanie zgloszenia - krok 4..."/>
+	 	<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/step4.jsp"/>
 	 </definition>
 	 
  	 <definition
 	 	name="bugWizard/summary"
 	 	extends="baseLayout">
-	 	<put name="title" value="Dodawanie zgloszenia - podsumowanie"/>
-	 	<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugWizard/summary.jsp"/>
+	 	<put-attribute name="title" value="Dodawanie zgloszenia - podsumowanie"/>
+	 	<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/summary.jsp"/>
 	 </definition>
 	 
 	<!-- koniec kreatora  -->
@@ -91,307 +91,307 @@
 	<definition
 		name="bugsNewList"
 		extends="baseLayout">
-		<put name="title" value="Pokaż nowe błędy"/>
-		<put name="displayFilterLink" value="block"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/showBugsNewForm.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugsNewList.jsp"/>
+		<put-attribute name="title" value="Pokaż nowe błędy"/>
+		<put-attribute name="displayFilterLink" value="block"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showBugsNewForm.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugsNewList.jsp"/>
 	</definition>
 	
 	<definition
 		name="bugsAssignedToMeList"
 		extends="baseLayout">
-		<put name="title" value="Pokaż zgłoszenia przypisane do mnie"/>
-		<put name="displayFilterLink" value="block"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/showBugsAssignedToMeForm.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugsAssignedToMeList.jsp"/>
+		<put-attribute name="title" value="Pokaż zgłoszenia przypisane do mnie"/>
+		<put-attribute name="displayFilterLink" value="block"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showBugsAssignedToMeForm.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugsAssignedToMeList.jsp"/>
 	</definition>
 	<definition
 		name="bugsNonresolvedAssignedToMeList"
 		extends="baseLayout">
-		<put name="title" value="Pokaż zgłoszenia przypisane do mnie i nierozwiązane"/>
-		<put name="displayFilterLink" value="block"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugsNonresolvedAssignedToMeList.jsp"/>
+		<put-attribute name="title" value="Pokaż zgłoszenia przypisane do mnie i nierozwiązane"/>
+		<put-attribute name="displayFilterLink" value="block"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugsNonresolvedAssignedToMeList.jsp"/>
 	</definition>
 	
 	<definition
 		name="bugsNonresolvedList"
 		extends="baseLayout">
-		<put name="title" value="Pokaż zgłoszenia nierozwiązane"/>
-		<put name="displayFilterLink" value="block"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugsNonresolvedList.jsp"/>
+		<put-attribute name="title" value="Pokaż zgłoszenia nierozwiązane"/>
+		<put-attribute name="displayFilterLink" value="block"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugsNonresolvedList.jsp"/>
 	</definition>
 	
 	<definition
 		name="bugsNotifiedByMeList"
 		extends="baseLayout">
-		<put name="title" value="Pokaż moje zgłoszenia"/>
-		<put name="displayFilterLink" value="block"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/showBugsNotifiedByMeForm.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugsNotifiedByMe.jsp"/>
+		<put-attribute name="title" value="Pokaż moje zgłoszenia"/>
+		<put-attribute name="displayFilterLink" value="block"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showBugsNotifiedByMeForm.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugsNotifiedByMe.jsp"/>
 	</definition>
 	
 	<definition
 		name="editBug"
 		extends="baseLayout">
-		<put name="title" value="Dodawanie/edycja zgłoszenia"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/editBug.jsp"/>
+		<put-attribute name="title" value="Dodawanie/edycja zgłoszenia"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/editBug.jsp"/>
 	</definition>
 
 	<definition
 		name="bugDetails"
 		extends="baseLayout">
-		<put name="title" value="Szczegóły zgłoszenia"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/bugDetails.jsp"/>
+		<put-attribute name="title" value="Szczegóły zgłoszenia"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugDetails.jsp"/>
 	</definition>
 	
 	<!-- preferencje -->
 	<definition 
 		name="preferences/lookAndFeel"
 		extends="baseLayout">
-		<put name="title" value="Edycja preferencji - lukendfil"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/preferences/lookAndFeel.jsp"/>
+		<put-attribute name="title" value="Edycja preferencji - lukendfil"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/preferences/lookAndFeel.jsp"/>
 	</definition>
 	
 	<definition 
 		name="preferences/displayLists"
 		extends="baseLayout">
-		<put name="title" value="Edycja preferencji - ustawienia list"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/preferences/displayLists.jsp"/>
+		<put-attribute name="title" value="Edycja preferencji - ustawienia list"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/preferences/displayLists.jsp"/>
 	</definition>
 
 	<definition 
 		name="preferences/eventNotify"
 		extends="baseLayout">
-		<put name="title" value="Edycja preferencji - ustawienia powiadamiania"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/preferences/eventNotify.jsp"/>
+		<put-attribute name="title" value="Edycja preferencji - ustawienia powiadamiania"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/preferences/eventNotify.jsp"/>
 	</definition>
 	
 	<definition 
 		name="preferences/personalData"
 		extends="baseLayout">
-		<put name="title" value="Edycja preferencji - ustawienia powiadamiania"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/preferences/personalData.jsp"/>
+		<put-attribute name="title" value="Edycja preferencji - ustawienia powiadamiania"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/preferences/personalData.jsp"/>
 	</definition>
 	
 	<!-- zarzadzanie -->
 	<definition
 		name="manager/users/showAll"
 		extends="baseLayout">
-		<put name="title" value="show all manager"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/users/showAll.jsp"/>
+		<put-attribute name="title" value="show all manager"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/users/showAll.jsp"/>
 	</definition>
 
 	<definition
 		name="manager/users/show"
 		extends="baseLayout">
-		<put name="title" value="Szcegoly uzytkownika"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/users/show.jsp"/>
+		<put-attribute name="title" value="Szcegoly uzytkownika"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/users/show.jsp"/>
 	</definition>
 	
 	<definition
 		name="manager/users/edit"
 		extends="baseLayout">
-		<put name="title" value="Edycja uzytkownika"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/users/edit.jsp"/>
+		<put-attribute name="title" value="Edycja uzytkownika"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/users/edit.jsp"/>
 	</definition>
 	
 	<definition
 		name="manager/category/showAll"
 		extends="baseLayout">
-		<put name="title" value="Lista kategorii"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/category/showAll.jsp"/>		
+		<put-attribute name="title" value="Lista kategorii"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/category/showAll.jsp"/>
 	</definition>
 	
 	<definition
 		name="manager/category/edit"
 		extends="baseLayout">
-		<put name="title" value="edycja..."/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/category/edit.jsp"/>
+		<put-attribute name="title" value="edycja..."/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/category/edit.jsp"/>
 	</definition>
 	
 	<definition
 		name="manager/information/showAll"
 		extends="baseLayout">
-		<put name="title" value="pokaz info wszystki"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/information/showAll.jsp"/>
+		<put-attribute name="title" value="pokaz info wszystki"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/information/showAll.jsp"/>
 	</definition>
 	
 	<definition
 		name="manager/information/show"
 		extends="baseLayout">
-		<put name="title" value="pokaz info"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/information/show.jsp"/>
+		<put-attribute name="title" value="pokaz info"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/information/show.jsp"/>
 	</definition>
 	
 	<definition
 		name="manager/information/edit"
 		extends="baseLayout">
-		<put name="title" value="edytuj/dodaj info"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/information/edit.jsp"/>
+		<put-attribute name="title" value="edytuj/dodaj info"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/information/edit.jsp"/>
 	</definition>
 		
 	<definition
 		name="manager/knowledge/section/showAll"
 		extends="baseLayout">
-		<put name="title" value="List sekcji"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/knowledge/section/showAll.jsp"/>
+		<put-attribute name="title" value="List sekcji"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/section/showAll.jsp"/>
 	</definition>
 	
 	<definition
 		name="manager/knowledge/section/show"
 		extends="baseLayout">
-		<put name="title" value="Pojedyncza sekcja"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/knowledge/section/show.jsp"/>
+		<put-attribute name="title" value="Pojedyncza sekcja"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/section/show.jsp"/>
 	</definition>
 	
 	<definition
 		name="manager/knowledge/section/edit"
 		extends="baseLayout">
-		<put name="title" value="Pojedyncza sekcja"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/knowledge/section/edit.jsp"/>
+		<put-attribute name="title" value="Pojedyncza sekcja"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/section/edit.jsp"/>
 	</definition>
 	
 	<definition
 		name="manage/knowledge/article/showAll"
 		extends="baseLayout">
-		<put name="title" value="Artykuly w sekcji.."/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/admin/knowledge/article/showAll.jsp"/>
+		<put-attribute name="title" value="Artykuly w sekcji.."/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/article/showAll.jsp"/>
 	</definition>
 	
 	<definition
 		name="stats/bugsByCategory"
 		extends="baseLayout">
-		<put name="title" value="Statystyki - według kategorii"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/stats/bugs/category/show.jsp"/>
+		<put-attribute name="title" value="Statystyki - według kategorii"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/stats/bugs/category/show.jsp"/>
 	</definition>
 
 	<definition
 		name="stats/bugsByPriority"
 		extends="baseLayout">
-		<put name="title" value="Statystyki - według ważności"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/stats/bugsByPriority.jsp"/>
+		<put-attribute name="title" value="Statystyki - według ważności"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/stats/bugsByPriority.jsp"/>
 	</definition>
 
 	<definition
 		name="stats/bugsByNotyfierList"
 		extends="baseLayout">
-		<put name="title" value="Statystyki - według zgłaszającego"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/stats/bugsByNotyfierList.jsp"/>
+		<put-attribute name="title" value="Statystyki - według zgłaszającego"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/stats/bugsByNotyfierList.jsp"/>
 	</definition>
 	
 	<definition
 		name="stats/bugsByNotyfierStats"
 		extends="baseLayout">
-		<put name="title" value="Statystyki - według zgłaszającego"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/stats/bugsByNotyfierStats.jsp"/>
+		<put-attribute name="title" value="Statystyki - według zgłaszającego"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/stats/bugsByNotyfierStats.jsp"/>
 	</definition>
 	
 	<definition
 		name="stats/saviour/savioursList"
 		extends="baseLayout">
-		<put name="title" value="Statystyki - lista rozwiązujących"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/stats/saviour/savioursList.jsp"/>
+		<put-attribute name="title" value="Statystyki - lista rozwiązujących"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/stats/saviour/savioursList.jsp"/>
 	</definition>
 	
 	<definition
 		name="stats/saviour/saviourStats"
 		extends="baseLayout">
-		<put name="title" value="Statystyki - lista rozwiązujących"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/stats/saviour/saviourStats.jsp"/>
+		<put-attribute name="title" value="Statystyki - lista rozwiązujących"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/stats/saviour/saviourStats.jsp"/>
 	</definition>
 	
 	<definition
 		name="stats/myStats"
 		extends="baseLayout">
-		<put name="title" value="Statystyki"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/stats/myStats.jsp"/>
+		<put-attribute name="title" value="Statystyki"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/stats/myStats.jsp"/>
 	</definition>		
 	
 	<definition
 		name="help/about"
 		extends="baseLayout">
-		<put name="title" value="jHelpDesk - informacje"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/help/about.jsp"/>
+		<put-attribute name="title" value="jHelpDesk - informacje"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/help/about.jsp"/>
 	</definition>
 	
 	<definition
 		name="help/base"
 		extends="baseLayout">
-		<put name="title" value="Baza wiedzy"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/help/base.jsp"/>
+		<put-attribute name="title" value="Baza wiedzy"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/help/base.jsp"/>
 	</definition>
 
 	<definition
 		name="help/base/one"
 		extends="baseLayout">
-		<put name="title" value="Baza wiedzy"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/help/baseOne.jsp"/>
+		<put-attribute name="title" value="Baza wiedzy"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/help/baseOne.jsp"/>
 	</definition>
 	
 	<definition
 		name="help/index"
 		extends="baseLayout">
-		<put name="title" value="jHelpDesk - pomoc"/>
-		<put name="displayFilterLink" value="none"/>
-		<put name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put name="content" value="/WEB-INF/jsp/help/index.jsp"/>
+		<put-attribute name="title" value="jHelpDesk - pomoc"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/help/index.jsp"/>
 	</definition>
 </tiles-definitions>

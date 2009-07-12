@@ -425,7 +425,8 @@
 			<value>message</value>
 		</property>
 	</bean>
-	
+
+	<!--
 	<bean
 		id="tilesConfigurator"
 		class="org.springframework.web.servlet.view.tiles.TilesConfigurer">
@@ -436,10 +437,21 @@
 			<value>/WEB-INF/tiles-config.xml</value>
 		</property>
 	</bean>
+    -->
+    
+    <bean
+		id="tilesConfigurator"
+        class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="preparerFactoryClass"
+			value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
+        <property name="definitions">
+            <value>/WEB-INF/tiles-config.xml</value>
+        </property>
+    </bean>
 	
-	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass">
-			<value>org.springframework.web.servlet.view.tiles.TilesJstlView</value>
+			<value>org.springframework.web.servlet.view.tiles2.TilesView</value>
 		</property>
 		<property name="requestContextAttribute">
 			<value>rc</value>

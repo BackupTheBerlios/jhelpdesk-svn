@@ -148,11 +148,11 @@
 	<body>
 		<div id="pagecontainer">
 			<div id="pageheader"><a href="<c:url value="/"/>">Helpdesk Management System</a></div>
-            <div id="pagemenu"><tiles:insert attribute="menuPanel" /></div>
-			<div id="pagecontent"><tiles:insert attribute="content" /></div>
-			<div id="pagefooter"><tiles:insert attribute="footer" /></div>
+            <div id="pagemenu"><tiles:insertAttribute name="menuPanel" /></div>
+            <div id="pagecontent"><tiles:insertAttribute name="content" /></div>
+            <div id="pagefooter"><tiles:insertAttribute name="footer" /></div>
 		</div>
-		<div id="filterbox"><tiles:insert attribute="filterForm" /></div>
+        <div id="filterbox"><tiles:insertAttribute name="filterForm" /></div>
 		<div id="infoarea"><textarea></textarea></div>
 	</body>
 </html>
