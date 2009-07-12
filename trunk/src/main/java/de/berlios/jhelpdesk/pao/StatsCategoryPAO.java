@@ -1,8 +1,8 @@
-package de.berlios.jhelpdesk.pao.ifc;
+package de.berlios.jhelpdesk.pao;
 
 import java.util.Map;
 
-public interface IStatsCategory {
+public interface StatsCategoryPAO {
 	// statystyki dla piechartów
 	Map<String, Long> getStatsForCurrentWeek();
 	Map<String, Long> getStatsForCurrentMonth();

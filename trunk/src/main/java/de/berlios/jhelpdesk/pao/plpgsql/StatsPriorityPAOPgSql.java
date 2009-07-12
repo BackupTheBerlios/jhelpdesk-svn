@@ -14,10 +14,10 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.object.MappingSqlQuery;
 
 import de.berlios.jhelpdesk.DateUtil;
-import de.berlios.jhelpdesk.pao.ifc.IStatsPriority;
+import de.berlios.jhelpdesk.pao.StatsPriorityPAO;
 import de.berlios.jhelpdesk.web.view.bean.StatsByPriorityViewBean;
 
-public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements IStatsPriority {
+public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements StatsPriorityPAO {
 
 	private static Log log = LogFactory.getLog( StatsPriorityPAOPgSql.class );
 	

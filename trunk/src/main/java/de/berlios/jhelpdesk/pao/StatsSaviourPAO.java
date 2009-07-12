@@ -1,8 +1,8 @@
-package de.berlios.jhelpdesk.pao.ifc;
+package de.berlios.jhelpdesk.pao;
 
 import java.util.Map;
 
-public interface IStatsSaviour {
+public interface StatsSaviourPAO {
 	void setSaviourId( String sav );
 	Map getStatsForCurrentWeek();
 	Map getStatsForCurrentMonth();

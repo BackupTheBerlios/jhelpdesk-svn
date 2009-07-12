@@ -14,30 +14,30 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.object.MappingSqlQuery;
 
 import de.berlios.jhelpdesk.DateUtil;
-import de.berlios.jhelpdesk.pao.ifc.IStatsCategory;
+import de.berlios.jhelpdesk.pao.StatsCategoryPAO;
 import de.berlios.jhelpdesk.web.view.bean.StatsByCategoryViewBean;
 
-public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCategory {
+public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements StatsCategoryPAO {
 	
 	private static Log log = LogFactory.getLog( StatsCategoryPAOPgSql.class );
 	
 	@SuppressWarnings("unchecked")
-	public Map<String, Long> getStatsForCurrentWeek() {
-		DateUtil du = new DateUtil();
-		log.info( "du.getWeekStartDate() => " + du.getWeekStartDate() );
-		log.info( "du.getWeekEndDate() => " + du.getWeekEndDate() );
+    public Map<String, Long> getStatsForCurrentWeek() {
+        DateUtil du = new DateUtil();
+        log.info("du.getWeekStartDate() => " + du.getWeekStartDate());
+        log.info("du.getWeekEndDate() => " + du.getWeekEndDate());
 		String query = 
 			new StatsCategoryQueryBuilder().getQueryForDates(
 				du.getWeekStartDate(),
-				du.getWeekEndDate() );
+                du.getWeekEndDate());
 		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByCategoryViewBean> list = 
 			new StatForAllQuery(
 				getDataSource(),
 				query).execute();
-		for( StatsByCategoryViewBean bean : list ) {
-			tr.put( bean.getCategoryName(), bean.getAmount() );
-		}
+        for (StatsByCategoryViewBean bean : list) {
+            tr.put(bean.getCategoryName(), bean.getAmount());
+        }
 		return tr;
 	}
 
@@ -47,15 +47,15 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 		String query = 
 			new StatsCategoryQueryBuilder().getQueryForDates(
 				du.getMonthStartDate(),
-				du.getMonthEndDate() );
+				du.getMonthEndDate());
 		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByCategoryViewBean> list = 
 			new StatForAllQuery(
 				getDataSource(),
 				query).execute();
-		for( StatsByCategoryViewBean bean : list ) {
-			tr.put( bean.getCategoryName(), bean.getAmount() );
-		}
+        for (StatsByCategoryViewBean bean : list) {
+            tr.put(bean.getCategoryName(), bean.getAmount());
+        }
 		return tr;
 	}
 
@@ -72,9 +72,9 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 			new StatForAllQuery(
 				getDataSource(),
 				query).execute();
-		for( StatsByCategoryViewBean bean : list ) {
-			tr.put( bean.getCategoryName(), bean.getAmount() );
-		}
+        for (StatsByCategoryViewBean bean : list) {
+            tr.put(bean.getCategoryName(), bean.getAmount());
+        }
 		return tr;
 	}
 
@@ -85,15 +85,15 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 		String query = 
 			new StatsCategoryQueryBuilder().getQueryForDates(
 				du.getPreviousMonthLastDayDate(),
-				du.getMonthEndDate() );
+				du.getMonthEndDate());
 		Map<String, Long> tr = new HashMap<String, Long>();
 		List<StatsByCategoryViewBean> list = 
 			new StatForAllQuery(
 				getDataSource(),
 				query).execute();
-		for( StatsByCategoryViewBean bean : list ) {
-			tr.put( bean.getCategoryName(), bean.getAmount() );
-		}
+        for (StatsByCategoryViewBean bean : list) {
+            tr.put(bean.getCategoryName(), bean.getAmount());
+        }
 		return tr;
 	}
 
@@ -105,51 +105,50 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements IStatsCateg
 				getDataSource(),
 				new StatsCategoryQueryBuilder().getQueryForAll()
 		).execute();
-		
-		for( StatsByCategoryViewBean bean : list ) {
-			tr.put( bean.getCategoryName(), bean.getAmount() );
-		}
+        for (StatsByCategoryViewBean bean : list) {
+            tr.put(bean.getCategoryName(), bean.getAmount());
+        }
 		return tr;
 	}
 }
 
 class StatsCategoryQueryBuilder {
 	private final static StringBuffer sb = 
-		new StringBuffer( "SELECT category_id,t_left,category_name,count(*) as amount " )
-			.append( "FROM hd_bug " )
-			.append( "LEFT OUTER JOIN hd_bug_category " )
-			.append( "ON hd_bug.bug_category = hd_bug_category.category_id " );
+		new StringBuffer("SELECT category_id,t_left,category_name,count(*) as amount ")
+			.append("FROM hd_bug ")
+			.append("LEFT OUTER JOIN hd_bug_category ")
+			.append("ON hd_bug.bug_category = hd_bug_category.category_id ");
 
 	public String getQueryForAll() {
-		StringBuffer s = new StringBuffer( sb.toString() )
-			.append( "GROUP BY category_name,category_id,t_left " )
-			.append( "ORDER BY category_name ASC " );
+        StringBuffer s = new StringBuffer(sb.toString())
+			.append("GROUP BY category_name,category_id,t_left ")
+			.append("ORDER BY category_name ASC ");
 		return s.toString();
 	}
-	public String getQueryForDates( String start_date, String end_date ) {
-		StringBuffer s = new StringBuffer( sb.toString() )
-			.append( "WHERE create_date >= '" + start_date +  "' AND " )
-			.append( " create_date <= '" + end_date + "' " )
-			.append( "GROUP BY category_name,category_id,t_left " )
-			.append( "ORDER BY category_name ASC " );
+	public String getQueryForDates(String start_date, String end_date) {
+		StringBuffer s = new StringBuffer(sb.toString())
+			.append("WHERE create_date >= '" + start_date + "' AND ")
+			.append(" create_date <= '" + end_date + "' ")
+			.append("GROUP BY category_name,category_id,t_left ")
+			.append("ORDER BY category_name ASC ");
 		return s.toString();
 	}
 }
 
 class StatForAllQuery extends MappingSqlQuery {
 
-	public StatForAllQuery( DataSource ds, String query ) {
-		super( ds, query );
-		compile();
-	}
-	
-	@Override
-	protected Object mapRow( ResultSet rs, int rowNum ) throws SQLException {
-		StatsByCategoryViewBean bean = new StatsByCategoryViewBean();
-		bean.setCategoryId( rs.getLong( "category_id" ) );
-		bean.setCategoryName( rs.getString( "category_name" ) );
-		bean.setCatLeft( rs.getLong( "t_left" ) );
-		bean.setAmount( rs.getLong( "amount" ) );
-		return bean;
-	}
+    public StatForAllQuery(DataSource ds, String query) {
+        super(ds, query);
+        compile();
+    }
+
+    @Override
+    protected Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+        StatsByCategoryViewBean bean = new StatsByCategoryViewBean();
+        bean.setCategoryId(rs.getLong("category_id"));
+        bean.setCategoryName(rs.getString("category_name"));
+        bean.setCatLeft(rs.getLong("t_left"));
+        bean.setAmount(rs.getLong("amount"));
+        return bean;
+    }
 }

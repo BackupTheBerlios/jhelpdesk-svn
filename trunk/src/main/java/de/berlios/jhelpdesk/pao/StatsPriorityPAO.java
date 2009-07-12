@@ -1,8 +1,8 @@
-package de.berlios.jhelpdesk.pao.ifc;
+package de.berlios.jhelpdesk.pao;
 
 import java.util.Map;
 
-public interface IStatsPriority {
+public interface StatsPriorityPAO {
 	Map<String, Long> getStatsForCurrentWeek();
 	Map<String, Long> getStatsForCurrentMonth();
 	Map<String, Long> getStatsForThreePreviousMonths();

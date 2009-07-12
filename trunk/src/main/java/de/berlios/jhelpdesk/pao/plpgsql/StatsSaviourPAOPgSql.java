@@ -17,10 +17,10 @@ import org.springframework.jdbc.object.MappingSqlQuery;
 import de.berlios.jhelpdesk.DateUtil;
 import de.berlios.jhelpdesk.model.BugCategory;
 import de.berlios.jhelpdesk.model.BugStatus;
-import de.berlios.jhelpdesk.pao.ifc.IStatsSaviour;
+import de.berlios.jhelpdesk.pao.StatsSaviourPAO;
 import de.berlios.jhelpdesk.web.view.bean.SaviourStatsFullViewBean;
 
-public class StatsSaviourPAOPgSql extends JdbcDaoSupport implements IStatsSaviour {
+public class StatsSaviourPAOPgSql extends JdbcDaoSupport implements StatsSaviourPAO {
 	private static Log log = LogFactory.getLog( StatsSaviourPAOPgSql.class );
 	 private String saviourId; 
 	 private String statusId;
