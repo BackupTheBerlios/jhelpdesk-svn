@@ -16,8 +16,9 @@ public class DeleteUserController implements Controller {
     private static Log log = LogFactory.getLog(DeleteUserController.class);
     private UserDAO userDAO;
 
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.debug("handleRequest( HttpServletRequest request, HttpServletResponse response )");
+	public ModelAndView handleRequest(HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
+		log.debug("handleRequest(HttpServletRequest, HttpServletResponse)");
         /*
          * try {
          * 		userDAO.remove( request.getParameter( "userId") );
@@ -28,9 +29,11 @@ public class DeleteUserController implements Controller {
         return new ModelAndView(new RedirectView("showAll.html", true));
     }
 
-    /** @param userDAO the userDAO to set */
-    public void setUserDAO(UserDAO userDAO) {
-        log.debug("setUserDAO( IHDUserDAO userDAO )");
-        this.userDAO = userDAO;
-    }
+	/** 
+	 * @param userDAO the userDAO to set 
+	 */
+	public void setUserDAO(UserDAO userDAO) {
+		log.debug("setUserDAO( IHDUserDAO userDAO )");
+		this.userDAO = userDAO;
+	}
 }

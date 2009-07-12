@@ -1,3 +1,18 @@
+/*
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Copyright: (C) 2006 jHelpdesk Developers Team
+ */
 package de.berlios.jhelpdesk.web.manager.knowledge.article;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,19 +27,19 @@ import org.springframework.web.servlet.view.RedirectView;
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 
 public class ShowAllController implements Controller {
-	private static Log log = LogFactory.getLog( ShowAllController.class );
+	
+	private static Log log = LogFactory.getLog(ShowAllController.class);
 	private KnowledgeDAO knowledgeDAO;
 
-	public ModelAndView handleRequest( HttpServletRequest request, HttpServletResponse response ) throws Exception {
-		ModelAndView mav = new ModelAndView( "manage/knowledge/article/showAll" );
+	public ModelAndView handleRequest(HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView("manage/knowledge/article/showAll");
 		try {
-			mav.addObject( 
-				"articles",
-				knowledgeDAO.getForSection( Long.parseLong( request.getParameter( "sectionId" ) ) )
-			);
-		} catch( Exception ex ) {
-			log.error( ex );
-			mav.setView( new RedirectView( "/manage/knowledge/section/showAll.html", true ) );
+			mav.addObject("articles", knowledgeDAO.getForSection(
+					Long.parseLong(request.getParameter("sectionId"))));
+		} catch (Exception ex) {
+			log.error(ex);
+			mav.setView(new RedirectView("/manage/knowledge/section/showAll.html", true));
 		}
 		return mav;
 	}
@@ -32,7 +47,7 @@ public class ShowAllController implements Controller {
 	/**
 	 * @param knowledgeDAO the knowledgeDAO to set
 	 */
-	public void setKnowledgeDAO( KnowledgeDAO knowledgeDAO ) {
+	public void setKnowledgeDAO(KnowledgeDAO knowledgeDAO) {
 		this.knowledgeDAO = knowledgeDAO;
 	}
 

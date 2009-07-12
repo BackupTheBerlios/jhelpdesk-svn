@@ -1,3 +1,18 @@
+/*
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Copyright: (C) 2006 jHelpdesk Developers Team
+ */
 package de.berlios.jhelpdesk.web;
 
 import javax.servlet.ServletException;
@@ -23,7 +38,8 @@ public class LoginController extends SimpleFormController {
     private UserDAO userDAO;
 
     @Override
-    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+    protected Object formBackingObject(HttpServletRequest request) 
+    		throws ServletException {
         log.debug("formBackingObject()->start");
         if (userForm == null) {
             userForm = new UserLoginForm();
@@ -42,7 +58,9 @@ public class LoginController extends SimpleFormController {
     }
 
     @Override
-    protected ModelAndView onSubmit(HttpServletRequest req, HttpServletResponse res, Object command, BindException errors) throws Exception {
+    protected ModelAndView onSubmit(HttpServletRequest req, 
+    		HttpServletResponse res, Object command, BindException errors) 
+    		throws Exception {
         log.debug("onSubmit()->start");
         userForm = (UserLoginForm) command;
         if (userForm == null) {
@@ -51,13 +69,15 @@ public class LoginController extends SimpleFormController {
         if (userDAO == null) {
             throw new RuntimeException("shit2!");
         }
-        System.out.println("l => " + userForm.getLogin() + ", p => " + DigestUtils.shaHex(userForm.getPassw()));
+        System.out.println("l => " + userForm.getLogin() + ", p => " 
+        		+ DigestUtils.shaHex(userForm.getPassw()));
         if (userDAO.checkLoginAndPassw(userForm.getLogin(), userForm.getPassw())) {
             //hdUserDAO.loginUser( userForm.getLogin(), new Date() );
             HttpSession sess = req.getSession();
             sess.setAttribute("user", userDAO.getByLogin(userForm.getLogin()));
             sess.setAttribute("logged", Boolean.TRUE);
-            return new ModelAndView(new RedirectView(req.getContextPath().concat(getSuccessView())));
+            return new ModelAndView(new RedirectView(
+            		req.getContextPath().concat(getSuccessView())));
         }
         ModelAndView mav = new ModelAndView(getFormView());
         userForm.setPassw(null);

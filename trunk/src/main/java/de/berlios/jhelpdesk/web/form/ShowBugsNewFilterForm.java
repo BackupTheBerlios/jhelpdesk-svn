@@ -1,3 +1,18 @@
+/*
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Copyright: (C) 2006 jHelpdesk Developers Team
+ */
 package de.berlios.jhelpdesk.web.form;
 
 import java.util.ArrayList;
@@ -25,43 +40,43 @@ public class ShowBugsNewFilterForm {
 	private UserDAO userDAO;
 	
 	
-	public void setPrioritiesFromRequest( HttpServletRequest req ) {
-		if( priorities != null )
+	public void setPrioritiesFromRequest(HttpServletRequest req) {
+		if (priorities != null)
 			priorities.clear();
 		priorities = new ArrayList<BugPriority>();
-		
-		String[] _priorities = req.getParameterValues( "priorities" );
-		if( ( _priorities != null ) && ( _priorities.length > 0 ) ) {
-			for( String value : _priorities ) {
-				priorities.add( bugPriorityDAO.getById( Long.parseLong( value ) ) );
+
+		String[] _priorities = req.getParameterValues("priorities");
+		if ((_priorities != null) && (_priorities.length > 0)) {
+			for (String value : _priorities) {
+				priorities.add(bugPriorityDAO.getById(Long.parseLong(value)));
 			}
 		}
 	}
 	
-	public void setCategoriesFromRequest( HttpServletRequest req ) {
-		if( categories != null )
+	public void setCategoriesFromRequest(HttpServletRequest req) {
+		if (categories != null)
 			categories.clear();
 		else
 			categories = new ArrayList<BugCategory>();
-		
-		String[] _categories = req.getParameterValues( "categories" );
-		if( ( _categories != null ) && ( _categories.length > 0 ) ) {
-			for( String value : _categories ) {
-				categories.add( bugCategoryDAO.getById( Long.parseLong( value ) ) );
+
+		String[] _categories = req.getParameterValues("categories");
+		if ((_categories != null) && (_categories.length > 0)) {
+			for (String value : _categories) {
+				categories.add(bugCategoryDAO.getById(Long.parseLong(value)));
 			}
 		}
 	}
 	
-	public void setNotifyiersFromRequest( HttpServletRequest req ) {
-		if( notifyiers != null )
+	public void setNotifyiersFromRequest(HttpServletRequest req) {
+		if (notifyiers != null)
 			notifyiers.clear();
-		else 
+		else
 			notifyiers = new ArrayList<User>();
-		
-		String[] _saviours = req.getParameterValues( "notifyiers" );
-		if( ( _saviours != null ) && ( _saviours.length > 0 ) ) {
-			for( String value : _saviours ) {
-				notifyiers.add( userDAO.getById( Long.parseLong( value ) ) );
+
+		String[] _saviours = req.getParameterValues("notifyiers");
+		if ((_saviours != null) && (_saviours.length > 0)) {
+			for (String value : _saviours) {
+				notifyiers.add(userDAO.getById(Long.parseLong(value)));
 			}
 		}
 	}
@@ -72,72 +87,84 @@ public class ShowBugsNewFilterForm {
 	public void setBugCategoryDAO(BugCategoryDAO bugCategoryDAO) {
 		this.bugCategoryDAO = bugCategoryDAO;
 	}
+
 	/**
 	 * @param bugPriorityDAO The bugPriorityDAO to set.
 	 */
 	public void setBugPriorityDAO(BugPriorityDAO bugPriorityDAO) {
 		this.bugPriorityDAO = bugPriorityDAO;
 	}
+
 	/**
 	 * @param userDAO The userDAO to set.
 	 */
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
+
 	/**
 	 * @return Returns the categories.
 	 */
 	public List<BugCategory> getCategories() {
 		return categories;
 	}
+
 	/**
 	 * @param categories The categories to set.
 	 */
 	public void setCategories(List<BugCategory> categories) {
 		this.categories = categories;
 	}
+
 	/**
 	 * @return Returns the endDate.
 	 */
 	public Date getEndDate() {
 		return endDate;
 	}
+
 	/**
 	 * @param endDate The endDate to set.
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
 	/**
 	 * @return Returns the notifyiers.
 	 */
 	public List<User> getNotifyiers() {
 		return notifyiers;
 	}
+
 	/**
 	 * @param notifyiers The notifyiers to set.
 	 */
 	public void setNotifyiers(List<User> notifyiers) {
 		this.notifyiers = notifyiers;
 	}
+
 	/**
 	 * @return Returns the priorities.
 	 */
 	public List<BugPriority> getPriorities() {
 		return priorities;
 	}
+
 	/**
 	 * @param priorities The priorities to set.
 	 */
 	public void setPriorities(List<BugPriority> priorities) {
 		this.priorities = priorities;
 	}
+
 	/**
 	 * @return Returns the startDate.
 	 */
 	public Date getStartDate() {
 		return startDate;
 	}
+
 	/**
 	 * @param startDate The startDate to set.
 	 */

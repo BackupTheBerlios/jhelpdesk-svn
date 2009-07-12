@@ -1,3 +1,18 @@
+/*
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Copyright: (C) 2006 jHelpdesk Developers Team
+ */
 package de.berlios.jhelpdesk.web.taglib.util;
 
 import java.io.IOException;
@@ -20,7 +35,8 @@ public class PDFLinkTag extends TagSupport {
 	@Override
 	public int doStartTag() throws JspException {
 		log.debug("doStartTag()");
-		StringBuilder sb = new StringBuilder("<a href=\"").append(this.url).append("?format=pdf");
+		StringBuilder sb = 
+			new StringBuilder("<a href=\"").append(this.url).append("?format=pdf");
 		HttpServletRequest httpServletRequest = (HttpServletRequest) pageContext.getRequest();
 
 		@SuppressWarnings("unchecked") // @see ServletRequest.getParameterNames()
@@ -39,7 +55,7 @@ public class PDFLinkTag extends TagSupport {
 		try {
 			pageContext.getOut().write(sb.toString());
 		} catch (IOException ioex) {
-			log.error("Wystapil problem z zapisaem do strumienia.", ioex);
+			log.error("Wystapil problem z zapisem do strumienia.", ioex);
 		}
 		return EVAL_BODY_INCLUDE;
 	}
@@ -55,7 +71,7 @@ public class PDFLinkTag extends TagSupport {
 	}
 
 	public void setUrl(String url) {
-		log.debug("setUrl( String url )");
+		log.debug("setUrl(String url)");
 		this.url = url;
 	}
 }
