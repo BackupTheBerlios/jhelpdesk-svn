@@ -51,5 +51,5 @@
 		<li class="last"><a href="<c:url value="/help/about.html"/>"><span>O programie</span></a></li>
 	</ul>
 	</li>
-	<li class="submenu last logout"><a href="<c:url value="/login.html"/>><span>Wyloguj</span></a></li>
+	<li class="submenu last logout"><a href="<c:url value="/login.html"/>"><span>Wyloguj</span></a></li>
 </ul>
