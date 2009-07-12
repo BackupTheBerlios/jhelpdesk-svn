@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import de.berlios.jhelpdesk.model.KnowledgeSection;
 
-public class HDKnowledgeSectionValidator implements Validator {
+public class KnowledgeSectionValidator implements Validator {
 
 	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { // implementujemy Validator.supports(Class)
 		return KnowledgeSection.class.equals(clazz);

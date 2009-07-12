@@ -5,7 +5,7 @@ import org.springframework.validation.Validator;
 
 import de.berlios.jhelpdesk.model.Bug;
 
-public class HDBugValidator implements Validator {
+public class BugValidator implements Validator {
 
 	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { // implementujemy Validator.supports(Class)
 		return Bug.class.equals(clazz);

@@ -36,7 +36,7 @@ import de.berlios.jhelpdesk.model.BugCategory;
 import de.berlios.jhelpdesk.model.BugPriority;
 import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.model.User;
-import de.berlios.jhelpdesk.web.tools.HDUserEditor;
+import de.berlios.jhelpdesk.web.tools.UserEditor;
 
 public class BugWizardFormController extends AbstractWizardFormController {
 	
@@ -51,15 +51,15 @@ public class BugWizardFormController extends AbstractWizardFormController {
 	private String fileRepositoryPath;
 	
 	@Override
-	protected void validatePage( Object command, Errors errors, int page, boolean finish ) {
-		log.debug( "validatePage()->" + page );
-		Bug bug = ( Bug) command;
-		setAllowDirtyBack( true );
-		if( page > 0 ) {
-			if( bug.getSubject() == null || bug.getSubject().trim().length() < 1 )
-				errors.rejectValue( "subject", "hdbug.subject.empty" );
-			if( bug.getDescription() == null || bug.getDescription().trim().length() < 1 )
-				errors.rejectValue( "description", "hdbug.description.empty" );
+	protected void validatePage(Object command, Errors errors, int page, boolean finish) {
+		log.debug("validatePage()->" + page);
+		Bug bug = (Bug) command;
+		setAllowDirtyBack(true);
+		if (page > 0) {
+			if (bug.getSubject() == null || bug.getSubject().trim().length() < 1)
+				errors.rejectValue("subject", "hdbug.subject.empty");
+			if (bug.getDescription() == null || bug.getDescription().trim().length() < 1)
+				errors.rejectValue("description", "hdbug.description.empty");
 		}
 	}
 	
@@ -67,48 +67,49 @@ public class BugWizardFormController extends AbstractWizardFormController {
 	protected void onBindAndValidate( HttpServletRequest request, Object command, 
 				BindException bindErrors, int page ) throws Exception {
 		log.debug( "onBindAndValidate" );
-		Bug bug = ( Bug) command;
-		if( ( request.getParameter( "checkLogin" ) != null ) && ( bug.getNotifier() == null ) ) {
-			bindErrors.rejectValue( "notifier", "hdbug.notifier.notExists", new Object[] { request.getParameter( "notifier" ) }, "defaultMessage" );
-		} else if( bug.getNotifier() == null ) {
-			bindErrors.rejectValue( "notifier", "hdbug.notifier.notEmpty" );
+		Bug bug = (Bug) command;
+		if ((request.getParameter("checkLogin") != null) && (bug.getNotifier() == null)) {
+			bindErrors.rejectValue("notifier", "hdbug.notifier.notExists", 
+					new Object[] { request.getParameter("notifier") }, "defaultMessage");
+		} else if (bug.getNotifier() == null) {
+			bindErrors.rejectValue("notifier", "hdbug.notifier.notEmpty");
 		}
 		
-		if( ( bug.getUploadedFile() != null ) && ( bug.getUploadedFile().getOriginalFilename().length() > 0 ) ) {
+		if ((bug.getUploadedFile() != null) && (bug.getUploadedFile().getOriginalFilename().length() > 0)) {
 			MultipartFile file = bug.getUploadedFile();
 			AdditionalFile addFile = new AdditionalFile();
-			addFile.setContentType( file.getContentType() );
-			addFile.setFileDate( file.getBytes() );
-			addFile.setFileSize( file.getSize() );
-			addFile.setOriginalFileName( file.getOriginalFilename() );
+			addFile.setContentType(file.getContentType());
+			addFile.setFileDate(file.getBytes());
+			addFile.setFileSize(file.getSize());
+			addFile.setOriginalFileName(file.getOriginalFilename());
 			
-			bug.getAddFilesList().add( addFile );
-			if( log.isDebugEnabled() ) {
-				log.debug( "Filename => " + file.getName() +
+			bug.getAddFilesList().add(addFile);
+			if (log.isDebugEnabled()) {
+				log.debug("Filename => " + file.getName() +
 						   "OriginalFilename => " + file.getOriginalFilename() +
 				           "ContentType => " + file.getContentType() +
-				           "Size => " + file.getSize() );
-				log.debug( "Files num => " + bug.getAddFilesList().size() );
+				           "Size => " + file.getSize());
+				log.debug("Files num => " + bug.getAddFilesList().size());
 			}
 		}
 	}
 
 	@Override
-	protected ModelAndView processFinish( HttpServletRequest request, HttpServletResponse response, 
-				Object command, BindException errors ) throws Exception {
+	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
+			Object command, BindException errors) throws Exception {
 		
-		File repository = new File( fileRepositoryPath );
+		File repository = new File(fileRepositoryPath);
 
 		try {
-			Bug bug = ( Bug )command;
+			Bug bug = (Bug) command;
 			// najpierw zapisujemy zgłoszenie w bazie danych
-			bug.setCreateDate(  new Date( System.currentTimeMillis() ) );
-			bug.setBugCategory(  new BugCategory( 10 , "" ) );// TODO
-			bug.setBugPriority( BugPriority.fromInt( 1 ) );   // TODO
-			bug.setBugStatus( BugStatus.NOTIFIED );
-			bug.setInputer( ( User ) request.getSession().getAttribute( "user" ) );
+			bug.setCreateDate(new Date(System.currentTimeMillis()));
+			bug.setBugCategory(new BugCategory(10, ""));// TODO
+			bug.setBugPriority(BugPriority.fromInt(1)); // TODO
+			bug.setBugStatus(BugStatus.NOTIFIED);
+			bug.setInputer((User) request.getSession().getAttribute("user"));
 			
-			bugDao.save( bug );
+			bugDao.save(bug);
 			File thisBugRepository = 
 				new File(
 					new StringBuffer( repository.getAbsolutePath() )
@@ -116,8 +117,8 @@ public class BugWizardFormController extends AbstractWizardFormController {
 						.append( bug.getBugId() )
 						.toString()
 			);
-			if( thisBugRepository.mkdir() ) {
-				for( AdditionalFile addFile : bug.getAddFilesList() ) {
+			if (thisBugRepository.mkdir()) {
+				for (AdditionalFile addFile : bug.getAddFilesList()) {
 					FileCopyUtils.copy( 
 						addFile.getFileData(), 
 						new File(
@@ -129,46 +130,45 @@ public class BugWizardFormController extends AbstractWizardFormController {
 					);
 				}
 			}
-		} catch( Exception ex ) {
+		} catch (Exception ex) {
 			// TODO: jakas sensowna obsluga wyjątku?
-			System.out.println( ex.getMessage() );
+			System.out.println(ex.getMessage());
 		}
 		
-		return new ModelAndView( new RedirectView( "/showNewBugs.html", true ) );
+		return new ModelAndView(new RedirectView("/showNewBugs.html", true));
 	}
 	
 	@Override
-	protected ModelAndView processCancel( HttpServletRequest request, HttpServletResponse response, 
-				Object command, BindException errors ) throws Exception {
-		return super.processCancel( request, response, command, errors );
+	protected ModelAndView processCancel(HttpServletRequest request, HttpServletResponse response, 
+			Object command,	BindException errors) throws Exception {
+		return super.processCancel(request, response, command, errors);
 	}
 
 	protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
-		log.debug( "initBinder()->start" );
+		log.debug("initBinder()->start");
 		NumberFormat nf = NumberFormat.getNumberInstance();
-		binder.registerCustomEditor( Long.class, null, new CustomNumberEditor( Long.class, nf, true ) );
-		SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm" );
-		binder.registerCustomEditor( Date.class, new CustomDateEditor( dateFormat, true ) );
-		binder.registerCustomEditor( byte[].class, new ByteArrayMultipartFileEditor() );
-		HDUserEditor userEditor = new HDUserEditor();
-		userEditor.setUserDAO( userDAO );
-		binder.registerCustomEditor( User.class, userEditor );
+		binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, nf, true));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+		UserEditor userEditor = new UserEditor();
+		userEditor.setUserDAO(userDAO);
+		binder.registerCustomEditor(User.class, userEditor);
 	}
 	
 	@SuppressWarnings("unchecked")
 	protected Map referenceData(HttpServletRequest request) throws ServletException {
 		Map refData = new HashMap();
-		refData.put( "categories", bugCategoryDAO.getAllCategoriesForView() );
-		refData.put( "priorities", bugPriorityDAO.getAllPriorities() );
-		refData.put( "statuses", bugStatusDAO.getAllStatuses() );
-		refData.put( "users", userDAO.getAllUser() );
-		refData.put( "saviours", userDAO.getSaviours() );
+		refData.put("categories", bugCategoryDAO.getAllCategoriesForView());
+		refData.put("priorities", bugPriorityDAO.getAllPriorities());
+		refData.put("statuses", bugStatusDAO.getAllStatuses());
+		refData.put("users", userDAO.getAllUser());
+		refData.put("saviours", userDAO.getSaviours());
 		return refData;
 	}
 
 //	@Override
 //	protected int getTargetPage( HttpServletRequest request, Object command, Errors errors, int page ) {
-//		
 //		if( errors.hasErrors() )
 //			return page;
 //		if( request.getParameter( "checkLogin" ) != null )
@@ -203,7 +203,7 @@ public class BugWizardFormController extends AbstractWizardFormController {
 	}
 
 	/** @param fileRepositoryPath the fileRepositoryPath to set */
-	public void setFileRepositoryPath( String fileRepositoryPath ) {
+	public void setFileRepositoryPath(String fileRepositoryPath) {
 		this.fileRepositoryPath = fileRepositoryPath;
-	}	
+	}
 }

@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import de.berlios.jhelpdesk.model.User;
 
-public class HDUserValidator implements Validator {
+public class UserValidator implements Validator {
 
 	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { // implementujemy Validator.supports(Class)
 		return User.class.equals(clazz);

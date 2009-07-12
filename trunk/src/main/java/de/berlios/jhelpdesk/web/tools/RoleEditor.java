@@ -4,7 +4,7 @@ import java.beans.PropertyEditorSupport;
 
 import de.berlios.jhelpdesk.model.Role;
 
-public class HDRoleEditor extends PropertyEditorSupport {
+public class RoleEditor extends PropertyEditorSupport {
 	
 	@Override
 	public String getAsText() {

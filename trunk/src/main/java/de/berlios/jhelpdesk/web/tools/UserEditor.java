@@ -5,7 +5,7 @@ import java.beans.PropertyEditorSupport;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.User;
 
-public class HDUserEditor extends PropertyEditorSupport {
+public class UserEditor extends PropertyEditorSupport {
 	private UserDAO userDAO;
 	
 	@Override
