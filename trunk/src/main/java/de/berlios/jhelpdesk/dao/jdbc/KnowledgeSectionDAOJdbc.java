@@ -42,11 +42,11 @@ public class KnowledgeSectionDAOJdbc extends JdbcDaoSupport implements Knowledge
 			new RowMapper() {
 				public Object mapRow( ResultSet rs, int rowNum ) throws SQLException {
 					KnowledgeSection section = new KnowledgeSection();
-					section.setHdKnowledgeSectionId( rs.getLong( "knowledge_section_id" ) );
+					section.setKnowledgeSectionId( rs.getLong( "knowledge_section_id" ) );
 					section.setSectionName( rs.getString( "section_name" ) );
 					// to do zmiany niemalze od razu (potrzeby tylko id i tytulow)
 					section.setArticles( 
-						getSectionArticles( section.getHdKnowledgeSectionId() ) 
+						getSectionArticles( section.getKnowledgeSectionId() )
 					);
 					section.setArticlesCount( rs.getInt( "articles_count" ) );
 					return section;
@@ -62,7 +62,7 @@ public class KnowledgeSectionDAOJdbc extends JdbcDaoSupport implements Knowledge
 			new RowMapper() {
 				public Object mapRow( ResultSet rs, int rowNum ) throws SQLException {
 					KnowledgeSection section = new KnowledgeSection();
-					section.setHdKnowledgeSectionId( rs.getLong( "knowledge_section_id" ) );
+					section.setKnowledgeSectionId( rs.getLong( "knowledge_section_id" ) );
 					section.setSectionName( rs.getString( "section_name" ) );
 					section.setArticlesCount( rs.getInt( "articles_count" ) );
 					return section;
@@ -99,10 +99,10 @@ public class KnowledgeSectionDAOJdbc extends JdbcDaoSupport implements Knowledge
 			new RowMapper() {
 				public Object mapRow( ResultSet rs, int rowNum ) throws SQLException {
 					KnowledgeSection section = new KnowledgeSection();
-					section.setHdKnowledgeSectionId( rs.getLong( "knowledge_section_id" ) );
+					section.setKnowledgeSectionId( rs.getLong( "knowledge_section_id" ) );
 					section.setSectionName( rs.getString( "section_name" ) );
 					section.setArticles( 
-						getSectionArticles( section.getHdKnowledgeSectionId() ) 
+						getSectionArticles( section.getKnowledgeSectionId() )
 					);
 					return section;
 				}
@@ -129,12 +129,12 @@ public class KnowledgeSectionDAOJdbc extends JdbcDaoSupport implements Knowledge
 	}
 
 	public void saveOrUpdate( final KnowledgeSection section ) {
-		if( section.getHdKnowledgeSectionId() != null ) {
+		if( section.getKnowledgeSectionId() != null ) {
 			getJdbcTemplate().update(
 				"UPDATE hd_knowledge_section SET section_name=? WHERE knowledge_section_id=?",
 				new Object[] {
 					section.getSectionName(),
-					section.getHdKnowledgeSectionId()
+					section.getKnowledgeSectionId()
 				}
 			);
 		} else {
@@ -156,7 +156,7 @@ public class KnowledgeSectionDAOJdbc extends JdbcDaoSupport implements Knowledge
 							);
 						ResultSet rs = stmt.executeQuery( "SELECT currval('knowledge_section_id_seq')" );
 						if( rs.first() ) {
-							section.setHdKnowledgeSectionId( rs.getLong( 1 ) );
+							section.setKnowledgeSectionId( rs.getLong( 1 ) );
 						}
 						conn.commit();
 						return null;

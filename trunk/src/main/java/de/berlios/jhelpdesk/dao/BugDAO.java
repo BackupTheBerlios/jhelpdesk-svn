@@ -27,124 +27,125 @@ import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.form.ShowBugsFilterForm;
 
 /**
- * Definiuje zestaw metod do obslugi trwalosci obiektow Bug
+ * Definiuje zestaw metod do obsługi trwałości obiektów Bug.
  * 
  * @author jjhop
  */
 public interface BugDAO {
-	/**
-	 * Zwraca Bug o podanym identyfikatorze.
-	 * 
-	 * @param bugId
-	 * @return
-	 */
-	public Bug getBugById(Long bugId);
 
-	/**
-	 * Zwraca osatnio dodany b�ad
-	 * 
-	 * @return
-	 */
-	public Bug getLastAddedBug();
+    /**
+     * Zwraca zgłoszenie o podanym identyfikatorze.
+     *
+     * @param bugId
+     * @return
+     */
+    public Bug getBugById(Long bugId);
 
-	/**
-	 * Zwraca wszystkie b�edy zgloszone w podanym dniu.
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public List<Bug> getBugsByDate(Date date);
+    /**
+     * Zwraca ostatnio dodane zgłoszenie.
+     *
+     * @return
+     */
+    public Bug getLastAddedBug();
 
-	/**
-	 * Zwraca wszystkie b��dy o podanym statusie.
-	 * 
-	 * @param bugStatus
-	 * @return
-	 */
-	public List<Bug> getBugsByStatus(BugStatus bugStatus);
+    /**
+     * Zwraca wszystkie zgłoszenia z podanego dnia.
+     *
+     * @param date
+     * @return
+     */
+    public List<Bug> getBugsByDate(Date date);
 
-	/**
-	 * 
-	 * @param bugStatus
-	 * @param howMuch
-	 * @return
-	 */
-	public List<Bug> getBugsByStatus(BugStatus bugStatus, int howMuch);
+    /**
+     * Zwraca wszystkie zgłoszenia o podanym statusie.
+     *
+     * @param bugStatus
+     * @return
+     */
+    public List<Bug> getBugsByStatus(BugStatus bugStatus);
 
-	/**
-	 * Zwraca wszystkie b��dy o podanej wa�no�ci.
-	 * 
-	 * @param bugPriority
-	 * @return
-	 */
-	public List<Bug> getBugsByPriority(BugPriority bugPriority);
+    /**
+     *
+     * @param bugStatus
+     * @param howMuch
+     * @return
+     */
+    public List<Bug> getBugsByStatus(BugStatus bugStatus, int howMuch);
 
-	/**
-	 * Zwraca wszystkie b��dy wybranej kategorii.
-	 * 
-	 * @param bugCategory
-	 * @return
-	 */
-	public List<Bug> getBugsByCategory(BugCategory bugCategory);
+    /**
+     * Zwraca wszystkie zgłoszenia o podanej ważności.
+     *
+     * @param bugPriority
+     * @return
+     */
+    public List<Bug> getBugsByPriority(BugPriority bugPriority);
 
-	/**
-	 * 
-	 * @param user
-	 * @return
-	 */
-	public List<Bug> getBugsNotifyiedByUser(User user);
+    /**
+     * Zwraca wszystkie zgłoszenia wybranej kategorii.
+     *
+     * @param bugCategory
+     * @return
+     */
+    public List<Bug> getBugsByCategory(BugCategory bugCategory);
 
-	/**
-	 * 
-	 * @param user
-	 * @return
-	 */
-	public List<Bug> getBugsResolvedByUser(User user);
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public List<Bug> getBugsNotifyiedByUser(User user);
 
-	/**
-	 * Usuwa wybrany b��d
-	 * 
-	 * @param bug2Del
-	 * @throws Exception
-	 */
-	public void removeBug(Bug bug2Del) throws Exception;
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public List<Bug> getBugsResolvedByUser(User user);
 
-	/**
-	 * Usuwa b��d o podanym identyfikatorze
-	 * 
-	 * @param bug2DelIId
-	 */
-	public void remove(Long bug2DelIId);
+    /**
+     * Usuwa wybrane zgłoszenie.
+     *
+     * @param bug2Del
+     * @throws Exception
+     */
+    public void removeBug(Bug bug2Del) throws Exception;
 
-	/**
-	 * Zapisuje podany błąd. Jesli jest to błąd istniejący uaktualnie zwi�zane z nim dane.
-	 * 
-	 * @param bug2Save
-	 */
-	public void save(Bug bug2Save) throws Exception;
+    /**
+     * Usuwa zgłoszenie o podanym identyfikatorze.
+     *
+     * @param bug2DelIId
+     */
+    public void remove(Long bug2DelIId);
 
-	/**
-	 * Zwraca wszystkie błędy z bazy.
-	 * 
-	 * @param bug2Save
-	 */
-	public List<Bug> getAllBugs();
+    /**
+     * Zapisuje podane zgłoszenie. Jesli jest to zgłoszenie istniejący uaktualnie związane z nim dane.
+     *
+     * @param bug2Save
+     */
+    public void save(Bug bug2Save) throws Exception;
 
-	/**
-	 * @param filterForm
-	 */
-	public List<Bug> getBugsWithFilter(ShowBugsFilterForm filterForm, int limit, long offset);
+    /**
+     * Zwraca wszystkie błędy z bazy.
+     *
+     * @param bug2Save
+     */
+    public List<Bug> getAllBugs();
 
-	/**
-	 * 
-	 * @param filterForm
-	 * @return
-	 */
-	public Integer countBugsWithFilter(ShowBugsFilterForm filterForm);
+    /**
+     * @param filterForm
+     */
+    public List<Bug> getBugsWithFilter(ShowBugsFilterForm filterForm, int limit, long offset);
 
-	/**
-	 * 
-	 * @param comm
-	 */
-	public void addComment(BugComment comm);
+    /**
+     *
+     * @param filterForm
+     * @return
+     */
+    public Integer countBugsWithFilter(ShowBugsFilterForm filterForm);
+
+    /**
+     *
+     * @param comm
+     */
+    public void addComment(BugComment comm);
 }

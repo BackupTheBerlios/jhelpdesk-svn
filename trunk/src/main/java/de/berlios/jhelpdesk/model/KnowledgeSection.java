@@ -17,26 +17,49 @@ package de.berlios.jhelpdesk.model;
 
 import java.util.Set;
 
+/**
+ *
+ * @author jjhop
+ */
 public class KnowledgeSection {
 
-	private Long hdKnowledgeSectionId;
+    /**
+     *
+     */
+	private Long knowledgeSectionId;
+
+    /**
+     *
+     */
 	private Long sectionPosition;
+
+    /**
+     *
+     */
 	private String sectionName;
+
+    /**
+     *
+     */
 	private int articlesCount;
+
+    /**
+     * 
+     */
 	private Set<Knowledge> articles;
 
 	/**
 	 * @return Returns the hdKnowledgeSectionId.
 	 */
-	public Long getHdKnowledgeSectionId() {
-		return hdKnowledgeSectionId;
+	public Long getKnowledgeSectionId() {
+		return knowledgeSectionId;
 	}
 
 	/**
 	 * @param hdKnowledgeSectionId The hdKnowledgeSectionId to set.
 	 */
-	public void setHdKnowledgeSectionId(Long hdKnowledgeSectionId) {
-		this.hdKnowledgeSectionId = hdKnowledgeSectionId;
+	public void setKnowledgeSectionId(Long hdKnowledgeSectionId) {
+		this.knowledgeSectionId = hdKnowledgeSectionId;
 	}
 
 	/**

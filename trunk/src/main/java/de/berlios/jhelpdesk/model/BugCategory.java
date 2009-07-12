@@ -156,6 +156,7 @@ public class BugCategory implements Comparable<BugCategory> {
 		this.parentCategory = parentCategory;
 	}
 
+    @Override
 	public String toString() {
 		return categoryName;
 	}
@@ -164,10 +165,10 @@ public class BugCategory implements Comparable<BugCategory> {
 		return left + 1 != right;
 	}
 
-	public int compareTo(BugCategory o) {
-		if (BugCategory.class.equals(o.getClass())) {
-			throw new RuntimeException("Operation not supported!");
-		}
-		return getLeft().compareTo(((BugCategory) o).getLeft());
-	}
+    /**
+     * {@inheritDoc }
+     */
+    public int compareTo(BugCategory o) {
+        return getLeft().compareTo(((BugCategory) o).getLeft());
+    }
 }

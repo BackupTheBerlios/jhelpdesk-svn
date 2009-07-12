@@ -19,18 +19,72 @@ import java.util.List;
 
 import de.berlios.jhelpdesk.model.BugCategory;
 
+/**
+ * 
+ * @author jjhop
+ */
 public interface BugCategoryDAO {
-	List<BugCategory> getAllCategories();
-	List<BugCategory> getAllCategoriesForView();
-	BugCategory getById( Long id );
-	BugCategory getById( int id );
-	
-	void insertRootCategory( BugCategory rootCategory );
-	void insertCategory( BugCategory category, BugCategory parent );
-	void deleteCategory( BugCategory category );
-	void updateCategory( BugCategory category );
-	
-	void moveUp( Long categoryId );
-	void moveDown( Long categoryId );
 
+    /**
+     *
+     * @return
+     */
+    List<BugCategory> getAllCategories();
+
+    /**
+     * 
+     * @return
+     */
+    List<BugCategory> getAllCategoriesForView();
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    BugCategory getById(Long id);
+
+    /**
+     * 
+     * @param id
+     * @return
+     */
+    BugCategory getById(int id);
+
+    /**
+     *
+     * @param rootCategory
+     */
+    void insertRootCategory(BugCategory rootCategory);
+
+    /**
+     *
+     * @param category
+     * @param parent
+     */
+    void insertCategory(BugCategory category, BugCategory parent);
+
+    /**
+     *
+     * @param category
+     */
+    void deleteCategory(BugCategory category);
+
+    /**
+     *
+     * @param category
+     */
+    void updateCategory(BugCategory category);
+
+    /**
+     *
+     * @param categoryId
+     */
+    void moveUp(Long categoryId);
+
+    /**
+     *
+     * @param categoryId
+     */
+    void moveDown(Long categoryId);
 }
