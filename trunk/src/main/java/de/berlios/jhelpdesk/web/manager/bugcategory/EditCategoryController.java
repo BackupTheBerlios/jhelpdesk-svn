@@ -33,6 +33,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import de.berlios.jhelpdesk.dao.BugCategoryDAO;
 import de.berlios.jhelpdesk.model.BugCategory;
+import de.berlios.jhelpdesk.web.tools.BugCategoryValidator;
 
 public class EditCategoryController extends SimpleFormController {
 	
@@ -40,6 +41,11 @@ public class EditCategoryController extends SimpleFormController {
 
     @Autowired
 	private BugCategoryDAO categoryDAO;
+
+    @Autowired
+    public EditCategoryController(BugCategoryValidator validator) {
+        setValidator(validator);
+    }
 
 	@Override
 	protected void initBinder(HttpServletRequest request, 

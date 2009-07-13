@@ -15,12 +15,14 @@
  */
 package de.berlios.jhelpdesk.web.tools;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import de.berlios.jhelpdesk.model.BugCategory;
 
+@Component("bugCategoryValidator")
 public class BugCategoryValidator implements Validator {
 	
 	// implementujemy Validator.supports(Class), dlatego SuppressWarnings

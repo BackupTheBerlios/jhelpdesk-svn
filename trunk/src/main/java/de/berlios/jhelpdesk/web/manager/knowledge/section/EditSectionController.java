@@ -30,12 +30,19 @@ import org.springframework.web.servlet.view.RedirectView;
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 import de.berlios.jhelpdesk.model.KnowledgeSection;
 
+import de.berlios.jhelpdesk.web.tools.KnowledgeSectionValidator;
+
 public class EditSectionController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(EditSectionController.class);
 
     @Autowired
     private KnowledgeSectionDAO sectionDAO;
+
+    @Autowired
+    public EditSectionController(KnowledgeSectionValidator validator) {
+        setValidator(validator);
+    }
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {

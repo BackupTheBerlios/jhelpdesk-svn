@@ -14,8 +14,8 @@
 <div class="contentmiddle">
 
 <form action="" method="post">
-	<c:if test="${section.hdKnowledgeSectionId != null}">
-		<spring:bind path="section.hdKnowledgeSectionId">
+	<c:if test="${section.knowledgeSectionId != null}">
+		<spring:bind path="section.knowledgeSectionId">
 		<input type="hidden" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
 		</spring:bind>
 	</c:if>

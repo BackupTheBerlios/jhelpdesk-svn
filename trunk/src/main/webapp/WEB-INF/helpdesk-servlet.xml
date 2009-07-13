@@ -233,9 +233,6 @@
         <property name="formView">
             <value>manager/users/edit</value>
         </property>
-        <property name="validator">
-            <ref bean="hdUserValidator"/>
-        </property>
         <property name="successView">
             <value>manager/users/show</value>
         </property>
@@ -262,9 +259,6 @@
         </property>
         <property name="successView">
             <value>manager/category/showAll</value>
-        </property>
-        <property name="validator">
-            <ref bean="hdBugCategoryValidator"/>
         </property>
     </bean>
 
@@ -299,7 +293,7 @@
     <bean
 		id="managerShowInformationCtrl"
 		class="de.berlios.jhelpdesk.web.manager.information.ShowInformationController"/>
-	
+
     <bean
 		id="managerDeleteInformationCtrl"
 		class="de.berlios.jhelpdesk.web.manager.information.DeleteInformationController"/>
@@ -312,9 +306,6 @@
         </property>
         <property name="formView">
             <value>manager/information/edit</value>
-        </property>
-        <property name="validator">
-            <ref bean="hdInformationValidator"/>
         </property>
     </bean>
 		
@@ -338,9 +329,6 @@
         </property>
         <property name="formView">
             <value>manager/knowledge/section/edit</value>
-        </property>
-        <property name="validator">
-            <ref bean="hdKnowledgeSectionValidator"/>
         </property>
     </bean>
 	
@@ -480,21 +468,4 @@
     <!-- mapowanie kontrolerów -->
     <import resource="helpdesk-mapping.xml" />
 
-    <!-- walidatory -->
-    <bean
-        id="hdUserValidator"
-        class="de.berlios.jhelpdesk.web.tools.UserValidator">
-    </bean>
-    <bean
-        id="hdBugCategoryValidator"
-        class="de.berlios.jhelpdesk.web.tools.BugCategoryValidator">
-    </bean>
-    <bean
-        id="hdInformationValidator"
-        class="de.berlios.jhelpdesk.web.tools.InformationValidator">
-    </bean>
-    <bean
-        id="hdKnowledgeSectionValidator"
-        class="de.berlios.jhelpdesk.web.tools.KnowledgeSectionValidator">
-    </bean>
 </beans>

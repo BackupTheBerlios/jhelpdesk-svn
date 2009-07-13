@@ -37,6 +37,7 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.tools.RoleEditor;
+import de.berlios.jhelpdesk.web.tools.UserValidator;
 
 public class EditUserController extends SimpleFormController {
 	
@@ -45,7 +46,12 @@ public class EditUserController extends SimpleFormController {
     @Autowired
 	private UserDAO userDAO;
 
-	@Override
+    @Autowired
+    public EditUserController(UserValidator validator) {
+        setValidator(validator);
+    }
+
+    @Override
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
 			throws Exception {
 		log.info("initBinder()->start");

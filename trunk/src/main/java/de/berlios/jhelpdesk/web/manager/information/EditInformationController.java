@@ -29,12 +29,18 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import de.berlios.jhelpdesk.dao.InformationDAO;
 import de.berlios.jhelpdesk.model.Information;
+import de.berlios.jhelpdesk.web.tools.InformationValidator;
 
 public class EditInformationController extends SimpleFormController {
 	private static Log log = LogFactory.getLog(EditInformationController.class);
 
     @Autowired
 	private InformationDAO informationDAO;
+
+    @Autowired
+    public EditInformationController(InformationValidator validator) {
+        setValidator(validator);
+    }
 
 	@Override
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {
