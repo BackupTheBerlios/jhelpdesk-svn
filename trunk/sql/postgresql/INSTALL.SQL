@@ -202,7 +202,7 @@ CREATE SEQUENCE bug_id_seq
 CREATE TABLE hd_bug (
   bug_id integer NOT NULL DEFAULT nextval(('public.bug_id_seq'::text)::regclass),
   add_phone character varying(20),
-  bug_category integer NOT NULL,
+  bug_category integer, -- NOT NULL
   bug_priority smallint NOT NULL,
   bug_status integer NOT NULL,
   saviour integer,

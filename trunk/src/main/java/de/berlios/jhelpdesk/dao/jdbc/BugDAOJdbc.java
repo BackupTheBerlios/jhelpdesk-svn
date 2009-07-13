@@ -29,12 +29,11 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.model.Bug;
@@ -407,35 +406,36 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 							"saviour,notifyier,inputer,create_date,description,step_by_step,subject) " +
 							"VALUES(nextval('bug_id_seq'),?,?,?,?,?,?,?,?,?,?,?)"
 						);
-					pstmt.setString( 1, bugToSave.getAddPhone() );
-					pstmt.setLong( 2, bugToSave.getBugCategory().getBugCategoryId() );
-					pstmt.setLong( 3, bugToSave.getBugPriority().getPriorityId() );
-					pstmt.setLong( 4, bugToSave.getBugStatus().getStatusId() );
+					pstmt.setString(1, bugToSave.getAddPhone());
+					pstmt.setNull(2, Types.INTEGER); //(2, bugToSave.getBugCategory().getBugCategoryId());
+					pstmt.setLong(3, bugToSave.getBugPriority().getPriorityId());
+					pstmt.setLong(4, bugToSave.getBugStatus().getStatusId());
 					
-					if( bugToSave.getSaviour() != null )
-						pstmt.setLong( 5, bugToSave.getSaviour().getUserId() );
+					if (bugToSave.getSaviour() != null)
+					    pstmt.setLong(5, bugToSave.getSaviour().getUserId());
 					else
-						pstmt.setNull( 5, Types.INTEGER );
+					    pstmt.setNull(5, Types.INTEGER);
 					
-					pstmt.setLong( 6, bugToSave.getNotifier().getUserId() );
-					pstmt.setLong( 7, bugToSave.getInputer().getUserId() );
-					
-					pstmt.setDate( 8, new java.sql.Date( bugToSave.getCreateDate().getTime() ) );
-					if( bugToSave.getDescription() != null )
-						pstmt.setString( 9, bugToSave.getDescription() );
-					else
-						pstmt.setNull( 9, Types.VARCHAR );
-					
-					if( bugToSave.getStepByStep() != null )
-						pstmt.setString( 10, bugToSave.getStepByStep() );
-					else
-						pstmt.setNull( 10, Types.VARCHAR );
-					if( bugToSave.getSubject() != null )
-						pstmt.setString( 11, bugToSave.getSubject() );
-					else
-						pstmt.setNull( 11, Types.VARCHAR );
-					pstmt.executeUpdate();
-					
+                    pstmt.setLong(6, bugToSave.getNotifier().getUserId());
+                    pstmt.setLong(7, bugToSave.getInputer().getUserId());
+    
+                    pstmt.setDate(8, new java.sql.Date(bugToSave.getCreateDate()
+                            .getTime()));
+                    if (bugToSave.getDescription() != null)
+                        pstmt.setString(9, bugToSave.getDescription());
+                    else
+                        pstmt.setNull(9, Types.VARCHAR);
+    
+                    if (bugToSave.getStepByStep() != null)
+                        pstmt.setString(10, bugToSave.getStepByStep());
+                    else
+                        pstmt.setNull(10, Types.VARCHAR);
+                    if (bugToSave.getSubject() != null)
+                        pstmt.setString(11, bugToSave.getSubject());
+                    else
+                        pstmt.setNull(11, Types.VARCHAR);
+                    pstmt.executeUpdate();
+
 					Statement stmt = 
 						conn.createStatement( 
 							ResultSet.TYPE_SCROLL_INSENSITIVE, 

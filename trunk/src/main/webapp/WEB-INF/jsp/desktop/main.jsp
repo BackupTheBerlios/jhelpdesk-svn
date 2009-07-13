@@ -59,11 +59,11 @@
                                     <th >Data</th>
                                     <th class="lastcol">&nbsp;</th>
                                 </tr>
-                                <tr>
-                                    <c:forEach var="bug" items="${lastBugs}">
+                                <c:forEach var="bug" items="${lastBugs}">
+                                    <tr>
                                         <td><c:out value="${bug.subject}"/></td>
                                         <td><c:out value="${bug.notifier}"/></td>
-                                        <td><c:out value="${bug.bugCategory}"/></td>
+                                        <td>&nbsp;</td>
                                         <td><c:out value="${bug.bugPriority}"/></td>
                                         <td><fmt:formatDate value="${bug.createDate}" pattern="dd/MM/yyyy HH:mm"/></td>
                                         <td class="lastcol"><a href="<c:url value="/bugDetails.html?bugId=${bug.bugId}"/>">wiecej</a></td>

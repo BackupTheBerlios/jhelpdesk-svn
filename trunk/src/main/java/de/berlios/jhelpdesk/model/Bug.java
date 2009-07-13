@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -70,6 +71,7 @@ public class Bug {
     /**
      * @deprecated
      */
+    @Deprecated
     private String addPhone;
 
     /**
@@ -166,6 +168,7 @@ public class Bug {
      *
      * @see #addPhone
      */
+    @Deprecated
     public String getAddPhone() {
         return addPhone;
     }
@@ -177,6 +180,7 @@ public class Bug {
      *
      * @see #addPhone
      */
+    @Deprecated
     public void setAddPhone(String addPhone) {
         this.addPhone = addPhone;
     }
@@ -526,5 +530,10 @@ public class Bug {
      */
     public void setUploadedFile(MultipartFile uploadedFile) {
         this.uploadedFile = uploadedFile;
+    }
+    
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

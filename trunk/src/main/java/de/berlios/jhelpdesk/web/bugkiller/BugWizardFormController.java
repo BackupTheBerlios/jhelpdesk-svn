@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
@@ -49,7 +48,6 @@ import de.berlios.jhelpdesk.dao.BugStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.AdditionalFile;
 import de.berlios.jhelpdesk.model.Bug;
-import de.berlios.jhelpdesk.model.BugCategory;
 import de.berlios.jhelpdesk.model.BugPriority;
 import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.model.User;
@@ -130,7 +128,7 @@ public class BugWizardFormController extends AbstractWizardFormController {
 			Bug bug = (Bug) command;
 			// najpierw zapisujemy zgłoszenie w bazie danych
 			bug.setCreateDate(new Date(System.currentTimeMillis()));
-			bug.setBugCategory(new BugCategory(10, ""));// TODO
+//			bug.setBugCategory(new BugCategory(10, ""));// TODO
 			bug.setBugPriority(BugPriority.fromInt(1)); // TODO
 			bug.setBugStatus(BugStatus.NOTIFIED);
 			bug.setInputer((User) request.getSession().getAttribute("user"));
@@ -158,7 +156,7 @@ public class BugWizardFormController extends AbstractWizardFormController {
 			}
 		} catch (Exception ex) {
 			// TODO: jakas sensowna obsluga wyjątku?
-			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 		}
 		
 		return new ModelAndView(new RedirectView("/showNewBugs.html", true));
