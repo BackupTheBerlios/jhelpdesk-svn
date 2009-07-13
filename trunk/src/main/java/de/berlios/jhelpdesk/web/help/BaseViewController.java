@@ -15,8 +15,6 @@
  */
 package de.berlios.jhelpdesk.web.help;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -25,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Scope("prototype")
 @Controller("helpBaseViewController")
@@ -32,17 +31,19 @@ public class BaseViewController {
 
     @Autowired
     private KnowledgeDAO knowledgeDAO;
+    
     @Autowired
     private KnowledgeSectionDAO knowledgeSectionDAO;
 
     @RequestMapping
-    public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
-        String key = request.getParameter("key");
-        String id = request.getParameter("id");
+    public ModelAndView handleRequest(
+                        @RequestParam(value = "id", required = false) Long id,
+                        @RequestParam(value ="key", required = false) String key) throws Exception {
+        
         ModelAndView mav = null;
         if ((key != null) && key.equalsIgnoreCase("details")) {
             mav = new ModelAndView("help/base/one");
-            mav.addObject("article", knowledgeDAO.getById(Long.parseLong(id)));
+            mav.addObject("article", knowledgeDAO.getById(id));
         } else {
             mav = new ModelAndView("help/base");
             mav.addObject("sections", knowledgeSectionDAO.getAllSections());
