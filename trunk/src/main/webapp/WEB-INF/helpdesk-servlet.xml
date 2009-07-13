@@ -477,7 +477,24 @@
 		id="pieChartBugsByNotyfier2"
 		class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier2DatasetProducer"/>
 
-    <!-- mapowanie kontrolerów i walidatory -->
+    <!-- mapowanie kontrolerów -->
     <import resource="helpdesk-mapping.xml" />
-    <import resource="helpdesk-validators.xml"/>
+
+    <!-- walidatory -->
+    <bean
+        id="hdUserValidator"
+        class="de.berlios.jhelpdesk.web.tools.UserValidator">
+    </bean>
+    <bean
+        id="hdBugCategoryValidator"
+        class="de.berlios.jhelpdesk.web.tools.BugCategoryValidator">
+    </bean>
+    <bean
+        id="hdInformationValidator"
+        class="de.berlios.jhelpdesk.web.tools.InformationValidator">
+    </bean>
+    <bean
+        id="hdKnowledgeSectionValidator"
+        class="de.berlios.jhelpdesk.web.tools.KnowledgeSectionValidator">
+    </bean>
 </beans>
