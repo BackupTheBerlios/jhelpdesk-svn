@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -52,11 +54,19 @@ public class BugsNewViewController extends SimpleFormController {
 	private SimpleDateFormat dateFormat;
 	private ShowBugsNewFilterForm filterForm;
 
+    @Autowired
 	private BugDAO bugDao;
+
+    @Autowired
 	private BugCategoryDAO bugCategoryDAO;
+
+    @Autowired
 	private BugPriorityDAO bugPriorityDAO;
+
+    @Autowired
 	private UserDAO userDAO;
 
+    @Override
 	protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
 		log.info("initBinder()->start");
 		log.info("w new userId => " + ((User) (req.getSession()).getAttribute("user")).getUserId());
@@ -66,6 +76,7 @@ public class BugsNewViewController extends SimpleFormController {
 	}
 
 	@SuppressWarnings("unchecked")
+    @Override
 	protected Map referenceData(HttpServletRequest request) throws ServletException {
 		if (refData == null) {
 			refData = new HashMap();
@@ -95,6 +106,7 @@ public class BugsNewViewController extends SimpleFormController {
 		return refData;
 	}
 
+    @Override
 	protected void onBind(HttpServletRequest req, Object command) {
 		filterForm = (ShowBugsNewFilterForm) command;
 
@@ -107,6 +119,7 @@ public class BugsNewViewController extends SimpleFormController {
 		filterForm.setNotifyiersFromRequest(req);
 	}
 
+    @Override
 	protected Object formBackingObject(HttpServletRequest req) throws ServletException {
 		if (filterForm == null) {
 			filterForm = new ShowBugsNewFilterForm();
@@ -122,6 +135,7 @@ public class BugsNewViewController extends SimpleFormController {
 	}
 
 	@SuppressWarnings("unchecked")
+    @Override
 	protected ModelAndView onSubmit(HttpServletRequest req, HttpServletResponse res, Object command,
 			BindException errors) throws Exception {
 		ModelAndView mav = new ModelAndView("bugsNewList");
@@ -156,31 +170,4 @@ public class BugsNewViewController extends SimpleFormController {
 		return mav;
 	}
 
-	/**
-	 * @param bugCategoryDAO The bugCategoryDAO to set.
-	 */
-	public void setBugCategoryDAO(BugCategoryDAO bugCategoryDAO) {
-		this.bugCategoryDAO = bugCategoryDAO;
-	}
-
-	/**
-	 * @param bugPriorityDAO The bugPriorityDAO to set.
-	 */
-	public void setBugPriorityDAO(BugPriorityDAO bugPriorityDAO) {
-		this.bugPriorityDAO = bugPriorityDAO;
-	}
-
-	/**
-	 * @param userDAO The userDAO to set.
-	 */
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-
-	/**
-	 * @param bugDao The bugDao to set.
-	 */
-	public void setBugDao(BugDAO bugDao) {
-		this.bugDao = bugDao;
-	}
 }

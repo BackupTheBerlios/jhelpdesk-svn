@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindException;
@@ -35,6 +37,8 @@ import de.berlios.jhelpdesk.model.BugCategory;
 public class EditCategoryController extends SimpleFormController {
 	
 	private static Log log = LogFactory.getLog(EditCategoryController.class);
+
+    @Autowired
 	private BugCategoryDAO categoryDAO;
 
 	@Override
@@ -80,11 +84,5 @@ public class EditCategoryController extends SimpleFormController {
 		}
 		return category;
 	}
-	
-	/** 
-	 * @param categoryDAO the categoryDAO to set 
-	 */
-	public void setCategoryDAO( BugCategoryDAO categoryDAO ) {
-		this.categoryDAO = categoryDAO;
-	}
+
 }

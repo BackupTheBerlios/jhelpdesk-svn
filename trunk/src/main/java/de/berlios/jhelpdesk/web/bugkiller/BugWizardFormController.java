@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.util.FileCopyUtils;
@@ -57,10 +59,19 @@ public class BugWizardFormController extends AbstractWizardFormController {
 	
 	private static Log log = LogFactory.getLog( BugWizardFormController.class );
 
+    @Autowired
 	private BugDAO bugDao;
+
+    @Autowired
 	private BugCategoryDAO bugCategoryDAO;
+
+    @Autowired
 	private BugPriorityDAO bugPriorityDAO;
+
+    @Autowired
 	private BugStatusDAO bugStatusDAO;
+
+    @Autowired
 	private UserDAO userDAO;
 	
 	private String fileRepositoryPath;
@@ -159,6 +170,7 @@ public class BugWizardFormController extends AbstractWizardFormController {
 		return super.processCancel(request, response, command, errors);
 	}
 
+    @Override
 	protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
 		log.debug("initBinder()->start");
 		NumberFormat nf = NumberFormat.getNumberInstance();
@@ -192,31 +204,6 @@ public class BugWizardFormController extends AbstractWizardFormController {
 //		return super.getTargetPage( request, command, errors, page );
 //	}
 	
-	/** @param bugDao The bugDao to set. */
-	public void setBugDao(BugDAO bugDao) {
-		this.bugDao = bugDao;
-	}
-
-	/** @param bugPriorityDAO The bugPriorityDAO to set. */
-	public void setBugPriorityDAO(BugPriorityDAO bugPriorityDAO) {
-		this.bugPriorityDAO = bugPriorityDAO;
-	}
-
-	/** @param bugCategoryDAO The bugCategoryDAO to set. */
-	public void setBugCategoryDAO(BugCategoryDAO bugCategoryDAO) {
-		this.bugCategoryDAO = bugCategoryDAO;
-	}
-
-	/** @param bugStatusDAO The bugStatusDAO to set. */
-	public void setBugStatusDAO(BugStatusDAO bugStatusDAO) {
-		this.bugStatusDAO = bugStatusDAO;
-	}
-
-	/** @param userDAO The userDAO to set. */
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-
 	/** @param fileRepositoryPath the fileRepositoryPath to set */
 	public void setFileRepositoryPath(String fileRepositoryPath) {
 		this.fileRepositoryPath = fileRepositoryPath;

@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -44,11 +46,22 @@ public class BugsViewController extends SimpleFormController {
 
 	private static Log log = LogFactory.getLog(BugsViewController.class);
 	private static int PAGE_SIZE = 25;
+
+    @Autowired
 	private BugDAO bugDao;
+
+    @Autowired
 	private BugCategoryDAO bugCategoryDAO;
+
+    @Autowired
 	private BugPriorityDAO bugPriorityDAO;
+
+    @Autowired
 	private BugStatusDAO bugStatusDAO;
+
+    @Autowired
 	private UserDAO userDAO;
+    @Autowired
 	private SimpleDateFormat dateFormat;
 	private ShowBugsFilterForm filterForm;
 	private Map<String, Object> refData;
@@ -193,40 +206,5 @@ public class BugsViewController extends SimpleFormController {
 		} else {
 			filterForm.setEndDate(null);
 		}
-	}
-
-	/**
-	 * @param bugDao The bugDao to set.
-	 */
-	public void setBugDao(BugDAO bugDao) {
-		this.bugDao = bugDao;
-	}
-
-	/**
-	 * @param bugPriorityDAO The bugPriorityDAO to set.
-	 */
-	public void setBugPriorityDAO(BugPriorityDAO bugPriorityDAO) {
-		this.bugPriorityDAO = bugPriorityDAO;
-	}
-
-	/**
-	 * @param bugCategoryDAO The bugCategoryDAO to set.
-	 */
-	public void setBugCategoryDAO(BugCategoryDAO bugCategoryDAO) {
-		this.bugCategoryDAO = bugCategoryDAO;
-	}
-
-	/**
-	 * @param bugStatusDAO The bugStatusDAO to set.
-	 */
-	public void setBugStatusDAO(BugStatusDAO bugStatusDAO) {
-		this.bugStatusDAO = bugStatusDAO;
-	}
-
-	/**
-	 * @param userDAO The userDAO to set.
-	 */
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
 	}
 }

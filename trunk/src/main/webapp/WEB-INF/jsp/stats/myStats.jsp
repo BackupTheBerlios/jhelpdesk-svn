@@ -1,4 +1,4 @@
-<h2>moje statystyki zglaszanie</h2>
+﻿<h2>moje statystyki zglaszanie</h2>
 <ul>
 	<li>bieżący miesiąc (kategorie, ważność) <- pie _ kolumny
 	<li>poprzednie trzy miesiące - jw....

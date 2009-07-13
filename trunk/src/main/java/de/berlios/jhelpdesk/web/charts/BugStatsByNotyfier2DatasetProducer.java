@@ -24,9 +24,12 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.dao.BugStatusDAO;
@@ -34,6 +37,7 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Bug;
 import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.model.User;
+
 import de.laures.cewolf.DatasetProduceException;
 import de.laures.cewolf.DatasetProducer;
 import de.laures.cewolf.links.PieSectionLinkGenerator;
@@ -46,36 +50,14 @@ public class BugStatsByNotyfier2DatasetProducer implements DatasetProducer, PieT
 	private static final long serialVersionUID = -6385829065111292806L;
 	private static final Log log = LogFactory.getLog(BugStatsByNotyfier2DatasetProducer.class);
 
+    @Autowired
 	private UserDAO userDAO;
+
+    @Autowired
 	private BugStatusDAO statusDAO;
+
+    @Autowired
 	private BugDAO bugDAO;
-
-	/**
-	 * @param statusDAO The statusDAO to set.
-	 */
-	public void setStatusDAO(BugStatusDAO statusDAO) {
-		log.debug("Ustawiam statusDAO w 2...");
-		this.statusDAO = statusDAO;
-		log.debug("...ustawione.");
-	}
-
-	/**
-	 * @param userDAO The userDAO to set.
-	 */
-	public void setUserDAO(UserDAO userDAO) {
-		log.debug("Ustawiam userDAO w 2...");
-		this.userDAO = userDAO;
-		log.debug("...ustawione.");
-	}
-
-	/**
-	 * @param bugDAO The bugDAO to set.
-	 */
-	public void setBugDAO(BugDAO bugDAO) {
-		log.debug("Ustawiam bugDAO w 2...");
-		this.bugDAO = bugDAO;
-		log.debug("...ustawione.");
-	}
 
 	public Object produceDataset(@SuppressWarnings("unchecked") Map arg0) throws DatasetProduceException {
 		DefaultPieDataset dataset = new DefaultPieDataset();

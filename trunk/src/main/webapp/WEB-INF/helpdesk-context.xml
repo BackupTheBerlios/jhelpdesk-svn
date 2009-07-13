@@ -13,25 +13,8 @@
 	<!--  charts -->
 	<bean
 		id="pieChartBugsByNotyfier1"
-		class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier1DatasetProducer">
-		<property name="userDAO">
-			<ref bean="hdUserDAO"/>
-		</property>
-		<property name="bugDAO">
-			<ref bean="hdBugDAO"/>
-		</property>		
-	</bean>
+		class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier1DatasetProducer"/>
 	<bean
 		id="pieChartBugsByNotyfier2"
-		class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier2DatasetProducer">
-		<property name="statusDAO">
-			<ref bean="hdBugStatusDAO"/>
-		</property>
-		<property name="userDAO">
-			<ref bean="hdUserDAO"/>
-		</property>
-		<property name="bugDAO">
-			<ref bean="hdBugDAO"/>
-		</property>		
-	</bean>
+		class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier2DatasetProducer"/>
 </beans>

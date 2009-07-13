@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -52,14 +54,24 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 	private SimpleDateFormat dateFormat;
 	private ShowBugsAssignedToMeFilterForm filterForm;
 
+    @Autowired
 	private BugDAO bugDao;
+
+    @Autowired
 	private BugCategoryDAO bugCategoryDAO;
+
+    @Autowired
 	private BugPriorityDAO bugPriorityDAO;
+
+    @Autowired
 	private UserDAO userDAO;
+
+    @Autowired
 	private BugStatusDAO statusDAO;
 
 	private Map<String, Object> refData;
 
+    @Override
 	protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
 		log.info("initBinder()->start");
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -71,6 +83,7 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
+    @Override
 	protected Map referenceData(HttpServletRequest request) throws ServletException {
 		if (refData == null) {
 			refData = new HashMap();
@@ -114,6 +127,7 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 	}
 
 	@SuppressWarnings("unchecked")
+    @Override
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse res, Object command,
 			BindException errors) throws Exception {
 		ModelAndView mav = new ModelAndView("bugsAssignedToMeList");
@@ -166,6 +180,7 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 	/**
 	 *
 	 */
+    @Override
 	protected void onBind(HttpServletRequest req, Object command) {
 		log.info("onBind()->start ");
 		filterForm = (ShowBugsAssignedToMeFilterForm) command;
@@ -187,46 +202,12 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 	/**
 	 * 
 	 */
+    @Override
 	protected Object formBackingObject(HttpServletRequest req) throws ServletException {
 		if (filterForm == null)
 			filterForm = new ShowBugsAssignedToMeFilterForm();
 		// prepareDate( req );
 		return filterForm;
 	}
-
-	/**
-	 * @param bugCategoryDAO The bugCategoryDAO to set.
-	 */
-	public void setBugCategoryDAO(BugCategoryDAO bugCategoryDAO) {
-		this.bugCategoryDAO = bugCategoryDAO;
-	}
-
-	/**
-	 * @param bugDao The bugDao to set.
-	 */
-	public void setBugDao(BugDAO bugDao) {
-		this.bugDao = bugDao;
-	}
-
-	/**
-	 * @param bugPriorityDAO The bugPriorityDAO to set.
-	 */
-	public void setBugPriorityDAO(BugPriorityDAO bugPriorityDAO) {
-		this.bugPriorityDAO = bugPriorityDAO;
-	}
-
-	/**
-	 * @param userDAO The userDAO to set.
-	 */
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-
-	/**
-	 * @param statusDAO The statusDAO to set.
-	 */
-	public void setStatusDAO(BugStatusDAO statusDAO) {
-		this.statusDAO = statusDAO;
-	}
-
+    
 }

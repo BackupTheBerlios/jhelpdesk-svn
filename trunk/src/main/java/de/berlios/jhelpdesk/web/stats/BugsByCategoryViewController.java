@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -40,11 +42,9 @@ import de.berlios.jhelpdesk.web.charts.category.Vertical3DChartCategoryDatasetPr
 public class BugsByCategoryViewController implements Controller {
 	
 	private static Log log = LogFactory.getLog(BugsByCategoryViewController.class);
-	private StatsCategoryPAO statsPAO;
 
-	public void setStatsPAO(StatsCategoryPAO statsPAO) {
-		this.statsPAO = statsPAO;
-	}
+    @Autowired
+	private StatsCategoryPAO statsPAO;
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		log.debug("handleRequest()");

@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -37,6 +39,8 @@ public class ShowSavioursViewCtrl implements Controller {
 			"Q", "R", "S", "Ś", "T", "U", "V", 
 			"W", "X", "Y", "Z", "Ź", "Ż"
 	};
+
+    @Autowired
 	private UserDAO hdUserDAO;
 	
 	public ModelAndView handleRequest(HttpServletRequest request, 
@@ -68,11 +72,5 @@ public class ShowSavioursViewCtrl implements Controller {
 			sb.append(_letters[i]);
 		return sb.toString();
 	}
-	
-	/**
-	 * @param hdUserDAO The hdUserDAO to set.
-	 */
-	public void setHdUserDAO(UserDAO hdUserDAO) {
-		this.hdUserDAO = hdUserDAO;
-	}
+
 }

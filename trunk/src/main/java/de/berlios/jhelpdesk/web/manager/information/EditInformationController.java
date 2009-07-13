@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -30,6 +32,8 @@ import de.berlios.jhelpdesk.model.Information;
 
 public class EditInformationController extends SimpleFormController {
 	private static Log log = LogFactory.getLog(EditInformationController.class);
+
+    @Autowired
 	private InformationDAO informationDAO;
 
 	@Override
@@ -63,11 +67,4 @@ public class EditInformationController extends SimpleFormController {
 		return mav;
 	}
 
-	/** 
-	 * @param informationDAO the informationDAO to set 
-	 */
-	public void setInformationDAO(InformationDAO informationDAO) {
-		log.debug("setInformationDAO");
-		this.informationDAO = informationDAO;
-	}
 }

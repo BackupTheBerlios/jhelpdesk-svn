@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.web.servlet.ModelAndView;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.web.servlet.ModelAndView;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.dao.BugEventDAO;
@@ -36,42 +38,26 @@ public class DesktopViewController implements Controller {
     private static int NUMBER_OF_NONASSIGNED_BUGS = 5;
     private static int NUMBER_OF_LAST_ADDED_ARTICLES = 5;
     private static int NUMBER_OF_LAST_INFORMATIONS = 10;
+
+    @Autowired
     private BugDAO bugDAO;
+
+    @Autowired
     private BugEventDAO eventDAO;
+
+    @Autowired
     private KnowledgeDAO knowledgeDAO;
+    
+    @Autowired
     private InformationDAO informationDAO;
 
-    public ModelAndView handleRequest(HttpServletRequest request, 
-    		HttpServletResponse response) throws Exception {
+    public ModelAndView handleRequest(HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView("desktop/main");
         mav.addObject("lastBugs", bugDAO.getBugsByStatus(BugStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_BUGS));
         mav.addObject("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
         mav.addObject("lastArticles", knowledgeDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
         mav.addObject("lastInformations", informationDAO.getLastFew(NUMBER_OF_LAST_INFORMATIONS));
         return mav;
-    }
-
-    /** @param bugDAO the bugDAO to set */
-    public void setBugDAO(BugDAO bugDAO) {
-        log.debug("setBugDAO( IHDBugDAO bugDAO )");
-        this.bugDAO = bugDAO;
-    }
-
-    /** @param eventDAO the eventDAO to set */
-    public void setEventDAO(BugEventDAO eventDAO) {
-        log.debug("setEventDAO( IHDBugEventDAO eventDAO )");
-        this.eventDAO = eventDAO;
-    }
-
-    /** @param knowledgeDAO the knowledgeDAO to set */
-    public void setKnowledgeDAO(KnowledgeDAO knowledgeDAO) {
-        log.debug("setKnowledgeDAO( IHDKnowledgeDAO knowledgeDAO )");
-        this.knowledgeDAO = knowledgeDAO;
-    }
-
-    /** @param informationDAO the informationDAO to set */
-    public void setInformationDAO(InformationDAO informationDAO) {
-        log.debug("setInformationDAO( IHDInformationDAO informationDAO )");
-        this.informationDAO = informationDAO;
     }
 }

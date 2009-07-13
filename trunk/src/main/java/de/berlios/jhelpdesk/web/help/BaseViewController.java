@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -30,7 +32,10 @@ public class BaseViewController implements Controller {
 
 	private static Log log = LogFactory.getLog(BaseViewController.class);
 
+    @Autowired
 	private KnowledgeDAO knowledgeDAO;
+
+    @Autowired
 	private KnowledgeSectionDAO knowledgeSectionDAO;
 
 	public ModelAndView handleRequest(HttpServletRequest request, 
@@ -48,19 +53,4 @@ public class BaseViewController implements Controller {
 		return mav;
 	}
 
-	/**
-	 * @param knowledgeDAO The knowledgeDAO to set.
-	 */
-	public void setKnowledgeDAO(KnowledgeDAO knowledgeDAO) {
-		log.debug("setKnowledgeDAO( IHDKnowledgeDAO knowledgeDAO )");
-		this.knowledgeDAO = knowledgeDAO;
-	}
-
-	/**
-	 * @param knowledgeSectionDAO The knowledgeSectionDAO to set.
-	 */
-	public void setKnowledgeSectionDAO(KnowledgeSectionDAO knowledgeSectionDAO) {
-		log.debug("setKnowledgeSectionDAO(KnowledgeSectionDAO)");
-		this.knowledgeSectionDAO = knowledgeSectionDAO;
-	}
 }

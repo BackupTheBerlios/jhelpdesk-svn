@@ -23,6 +23,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -35,6 +37,8 @@ public class LoginController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(LoginController.class);
     private UserLoginForm userForm;
+
+    @Autowired
     private UserDAO userDAO;
 
     @Override
@@ -86,10 +90,4 @@ public class LoginController extends SimpleFormController {
         return mav;
     }
 
-    /**
-     * @param hdUserDAO The userDAO to set.
-     */
-    public void setHdUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
 }

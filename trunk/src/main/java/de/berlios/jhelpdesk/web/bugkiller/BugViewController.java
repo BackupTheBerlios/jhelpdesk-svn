@@ -27,6 +27,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -41,6 +43,8 @@ import javax.activation.MimetypesFileTypeMap;
 public class BugViewController implements Controller {
 	
 	private static Log log = LogFactory.getLog(BugViewController.class);
+
+    @Autowired
 	private BugDAO bugDao;
 	private String fileRepositoryPath;
 
@@ -97,12 +101,6 @@ public class BugViewController implements Controller {
 		return mav;
 	}
 
-	/** @param bugDao The bugDao to set. */
-	public void setBugDao(BugDAO bugDao) {
-		this.bugDao = bugDao;
-	}
-
-	/** @param fileRepositoryPath the fileRepositoryPath to set */
 	public void setFileRepositoryPath(String fileRepositoryPath) {
 		this.fileRepositoryPath = fileRepositoryPath;
 	}

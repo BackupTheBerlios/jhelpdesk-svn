@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -28,6 +30,8 @@ import de.berlios.jhelpdesk.dao.InformationDAO;
 public class ShowInformationController implements Controller {
 	
 	private static Log log = LogFactory.getLog(ShowInformationController.class);
+
+    @Autowired
 	private InformationDAO informationDAO;
 
 	public ModelAndView handleRequest(HttpServletRequest request, 
@@ -43,10 +47,4 @@ public class ShowInformationController implements Controller {
 		return mav;
 	}
 
-	/** 
-	 * @param informationDAO the informationDAO to set 
-	 */
-	public void setInformationDAO(InformationDAO informationDAO) {
-		this.informationDAO = informationDAO;
-	}
 }

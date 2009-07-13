@@ -1,65 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
-	"http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-	<bean id="loginController" class="de.berlios.jhelpdesk.web.LoginController" singleton="false">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+    
+    <context:component-scan base-package="de.berlios.jhelpdesk"/>
+
+    <bean id="loginController" class="de.berlios.jhelpdesk.web.LoginController" scope="prototype">
 		<property name="commandName"><value>loginForm</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.UserLoginForm</value></property>
 		<property name="formView"><value>login</value></property>
 		<property name="successView"><value>/desktop/main.html</value></property>
-		<property name="hdUserDAO"><ref bean="hdUserDAO"/></property>
 	</bean>
 	
-	<bean 
-		id="logoutController" 
-		class="de.berlios.jhelpdesk.web.LogoutController"
-	/>
+	<bean id="logoutController" 
+		class="de.berlios.jhelpdesk.web.LogoutController"/>
 	
-	<bean
-		id="desktopViewCtrl"
-		class="de.berlios.jhelpdesk.web.desktop.DesktopViewController">
-		<property name="bugDAO"><ref bean="hdBugDAOJdbc"/></property>
-		<property name="eventDAO"><ref bean="eventDAO"/></property>
-		<property name="knowledgeDAO"><ref bean="knowledgeDAO"/></property>
-		<property name="informationDAO"><ref bean="informationDAO"/></property>
-	</bean>
+	<bean id="desktopViewCtrl"
+		class="de.berlios.jhelpdesk.web.desktop.DesktopViewController"/>
 	
 	<bean
 		id="bugsNotifiedByMeViewController"
 		class="de.berlios.jhelpdesk.web.bugkiller.BugsNotifiedByMeViewController"
-		singleton="false">
+		scope="prototype">
 		<property name="commandName"><value>filterForm</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.ShowBugsNotifiedByMeFilterForm</value></property>
-		
 		<property name="formView"><value>bugsNotifiedByMeList</value></property>
 		<property name="successView"><value>bugsNotifiedByMeList.html</value></property>
-		
-		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
-		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
-		<property name="bugStatusDAO"><ref bean="hdBugStatusDAO"/></property>
 	</bean>
 	
 	<bean
 		id="bugsAssignedToMeViewController"
 		class="de.berlios.jhelpdesk.web.bugkiller.BugsAssignedToMeViewController"
-		singleton="false">
+		scope="prototype">
 		<property name="commandName"><value>filterForm</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.ShowBugsAssignedToMeFilterForm</value></property>
 		<property name="formView"><value>bugsAssignedToMeList</value></property>
 		<!--<property name="successView"><value>showNewBugs.html</value></property>-->
-		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
-		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
-		<property name="statusDAO"><ref bean="hdBugStatusDAO"/></property>
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
 	</bean>
 	
 	<bean
 		id="bugsNonresolvedAssignedToMeViewController"
 		class="de.berlios.jhelpdesk.web.bugkiller.BugsNonresolvedAssignedToMeViewController"
-		singleton="false">
+		scope="prototype">
 		<property name="formView"><value>bugsNonresolvedAssignedToMeList</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.ShowBugsNonresolvedAssignedToMeFilterForm</value></property>
 	</bean>
@@ -67,55 +53,37 @@
 	<bean
 		id="bugsNonresolvedViewController"
 		class="de.berlios.jhelpdesk.web.bugkiller.BugsNonresolvedViewController"
-		singleton="false">
+		scope="prototype">
 		<property name="formView"><value>bugsNonresolvedList</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.ShowBugsNonresolvedFilterForm</value></property>
-		
-		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
-		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
-		<property name="bugStatusDAO"><ref bean="hdBugStatusDAO"/></property>
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
 	</bean>
 	
 	<bean 
 		id="killerNewBugsViewController" 
 		class="de.berlios.jhelpdesk.web.bugkiller.BugsNewViewController" 
-		singleton="false">
+		scope="prototype">
 		<property name="commandName"><value>filterForm</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.ShowBugsNewFilterForm</value></property>
 		<property name="formView"><value>bugsNewList</value></property>
 		<!--<property name="successView"><value>showNewBugs.html</value></property>-->
-		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
-		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
 	</bean>
 	
 	
 	<bean 
 		id="killerBugsViewController" 
 		class="de.berlios.jhelpdesk.web.bugkiller.BugsViewController" 
-		singleton="false">
+		scope="prototype">
 		<property name="commandName"><value>filterForm</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.ShowBugsFilterForm</value></property>
 		<property name="formView"><value>bugsList</value></property>
 		<!--<property name="successView"><value>showBugs.html</value></property>-->
-		<property name="bugDao"><ref bean="hdBugDAOJdbc"/></property>
-		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
-		<property name="bugStatusDAO"><ref bean="hdBugStatusDAO"/></property>
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
 	</bean>
 
-	<bean id="killerBugViewController" class="de.berlios.jhelpdesk.web.bugkiller.BugViewController" singleton="false">
-		<property name="bugDao">
-			<ref bean="hdBugDAO"/>
-		</property>
+	<bean id="killerBugViewController" class="de.berlios.jhelpdesk.web.bugkiller.BugViewController" scope="prototype">
 		<property name="fileRepositoryPath"><value type="java.lang.String">c:\\helpdesk\\files\\</value></property>
 	</bean>
 	
-	<bean id="killerBugEditController" class="de.berlios.jhelpdesk.web.bugkiller.BugWizardFormController" singleton="false">
+	<bean id="killerBugEditController" class="de.berlios.jhelpdesk.web.bugkiller.BugWizardFormController" scope="prototype">
 		<property name="commandName"><value>hdbug</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.model.Bug</value></property>
 		<property name="pages">
@@ -126,12 +94,7 @@
 				<value>bugWizard/step4</value>
 				<value>bugWizard/summary</value>
 			</list>
-		</property>		
-		<property name="bugDao"><ref bean="hdBugDAO"/></property>
-		<property name="bugCategoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-		<property name="bugPriorityDAO"><ref bean="hdBugPriorityDAO"/></property>
-		<property name="bugStatusDAO"><ref bean="hdBugStatusDAO"/></property>
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
+		</property>
 		<property name="fileRepositoryPath"><value type="java.lang.String">c:\\helpdesk\\files\\</value></property>
 	</bean>
 	
@@ -139,17 +102,16 @@
 	<!-- preferences -->
 	<bean
 		id="preferencesLookAndFeelCtrl"
-		class="de.berlios.jhelpdesk.web.preferences.LookAndFeelEditController" singleton="false">
+		class="de.berlios.jhelpdesk.web.preferences.LookAndFeelEditController" scope="prototype">
 		<property name="commandName"><value>preferences</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.LookAndFeelForm</value></property>
 		<property name="formView"><value>preferences/lookAndFeel</value></property>
 		<property name="successView"><value>preferences/lookAndFeel</value></property>
-		<!-- jakies DAO -->
 	</bean>
 	
 	<bean
 		id="preferencesDisplayListsCtrl"
-		class="de.berlios.jhelpdesk.web.preferences.DisplayListsEditController" singleton="false">
+		class="de.berlios.jhelpdesk.web.preferences.DisplayListsEditController" scope="prototype">
 		<property name="commandName"><value>preferences</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.web.form.DisplayListsForm</value></property>
 		<property name="formView"><value>preferences/displayLists</value></property>
@@ -175,16 +137,13 @@
 	</bean>
 	<!-- end preferences -->
 		
-	<bean id="managerUserShowAllCtrl" class="de.berlios.jhelpdesk.web.manager.users.ShowAllUsersController">
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
-	</bean>
+	<bean id="managerUserShowAllCtrl"
+        class="de.berlios.jhelpdesk.web.manager.users.ShowAllUsersController"/>
 	
-	<bean id="managerUserShowOneCtrl" class="de.berlios.jhelpdesk.web.manager.users.ShowUserController">
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
-	</bean>
+	<bean id="managerUserShowOneCtrl"
+        class="de.berlios.jhelpdesk.web.manager.users.ShowUserController"/>
 	
 	<bean id="managerUserEditCtrl" class="de.berlios.jhelpdesk.web.manager.users.EditUserController">
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
 		<property name="commandName"><value>user</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.model.User</value></property>
 		<property name="formView"><value>manager/users/edit</value></property>
@@ -192,20 +151,16 @@
 		<property name="successView"><value>manager/users/show</value></property>
 	</bean>
 	
-	<bean id="managerUserDelCtrl" class="de.berlios.jhelpdesk.web.manager.users.DeleteUserController">
-		<property name="userDAO"><ref bean="hdUserDAO"/></property>
-	</bean>
+	<bean id="managerUserDelCtrl" 
+        class="de.berlios.jhelpdesk.web.manager.users.DeleteUserController"/>
 	
-	<bean id="managerBugCategoryShowAllCtrl" class="de.berlios.jhelpdesk.web.manager.bugcategory.ShowAllController">
-		<property name="categoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-	</bean>
+	<bean id="managerBugCategoryShowAllCtrl" 
+        class="de.berlios.jhelpdesk.web.manager.bugcategory.ShowAllController"/>
 	
-	<bean id="managerBugCategoryShowOneCtrl" class="de.berlios.jhelpdesk.web.manager.bugcategory.ShowCategoryController">
-		<property name="categoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-	</bean>
+	<bean id="managerBugCategoryShowOneCtrl" 
+        class="de.berlios.jhelpdesk.web.manager.bugcategory.ShowCategoryController"/>
 	
 	<bean id="managerBugCategoryEditCtrl" class="de.berlios.jhelpdesk.web.manager.bugcategory.EditCategoryController">
-		<property name="categoryDAO"><ref bean="hdBugCategoryDAO"/></property>
 		<property name="commandName"><value>category</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.model.BugCategory</value></property>
 		<property name="formView"><value>manager/category/edit</value></property>
@@ -215,15 +170,11 @@
 
 	<bean
 		id="managerBugCategoryDelCtrl"
-		class="de.berlios.jhelpdesk.web.manager.bugcategory.DeleteCategoryController">
-		<property name="categoryDAO"><ref bean="hdBugCategoryDAO"/></property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.bugcategory.DeleteCategoryController"/>
+
 	<bean
 		id="managerBugCategoryUpDownCtrl"
 		class="de.berlios.jhelpdesk.web.manager.bugcategory.MoveUpDownCategoryController">
-		<property name="categoryDAO">
-			<ref bean="hdBugCategoryDAO"/>
-		</property>
 		<property name="methodNameResolver">
 			<ref bean="managerBugCategoryUpDownCtrlResolver"/>
 		</property>
@@ -243,26 +194,19 @@
 	<!-- zarzadzanie informacjami -->
 	<bean
 		id="managerShowAllInformationsCtrl"
-		class="de.berlios.jhelpdesk.web.manager.information.ShowAllInformationsController">
-		<property name="informationDAO"><ref bean="informationDAO"/></property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.information.ShowAllInformationsController"/>
 	
 	<bean
 		id="managerShowInformationCtrl"
-		class="de.berlios.jhelpdesk.web.manager.information.ShowInformationController">
-		<property name="informationDAO"><ref bean="informationDAO"/></property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.information.ShowInformationController"/>
 	
 	<bean
 		id="managerDeleteInformationCtrl"
-		class="de.berlios.jhelpdesk.web.manager.information.DeleteInformationController">
-		<property name="informationDAO"><ref bean="informationDAO"/></property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.information.DeleteInformationController"/>
 	
 	<bean
 		id="managerEditInformationCtrl"
 		class="de.berlios.jhelpdesk.web.manager.information.EditInformationController">
-		<property name="informationDAO"><ref bean="informationDAO"/></property>
 		<property name="commandName"><value>information</value></property>
 		<property name="formView"><value>manager/information/edit</value></property>
 		<property name="validator"><ref bean="hdInformationValidator"/></property>
@@ -271,24 +215,15 @@
 	<!-- zarzadzanie sekcjami w bazie wiedzy -->
 	<bean
 		id="managerKnowledgeSectionShowAllCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.section.ShowAllController">
-		<property name="sectionDAO">
-			<ref bean="knowledgeSectionDAO"/>
-		</property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.knowledge.section.ShowAllController"/>
 	
 	<bean
 		id="managerKnowledgeSectionShowOneCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.section.ShowOneSectionController">
-		<property name="sectionDAO">
-			<ref bean="knowledgeSectionDAO"/>
-		</property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.knowledge.section.ShowOneSectionController"/>
 	
 	<bean
 		id="managerKnowledgeSectionEditCtrl"
 		class="de.berlios.jhelpdesk.web.manager.knowledge.section.EditSectionController">
-		<property name="sectionDAO"><ref bean="knowledgeSectionDAO"/></property>
 		<property name="commandName"><value>section</value></property>
 		<property name="commandClass"><value>de.berlios.jhelpdesk.model.KnowledgeSection</value></property>
 		<property name="formView"><value>manager/knowledge/section/edit</value></property>
@@ -297,20 +232,13 @@
 	
 	<bean
 		id="managerKnowledgeSectionDelCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.section.DelSectionController">
-		<property name="sectionDAO">
-			<ref bean="knowledgeSectionDAO"/>
-		</property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.knowledge.section.DelSectionController"/>
 	
 	<bean
 		id="managerKnowledgeSectionUpDownCtrl"
 		class="de.berlios.jhelpdesk.web.manager.knowledge.section.MoveUpDownSectionController">
 		<property name="methodNameResolver">
 			<ref bean="managerKnowledgeSectionUpDownCtrlResolver"/>
-		</property>
-		<property name="sectionDAO">
-			<ref bean="knowledgeSectionDAO"/>
 		</property>
 	</bean>
 	
@@ -328,94 +256,56 @@
 	<!-- zarzadzanie artykulami w bazie wiedzy -->
 	<bean
 		id="managerKnowledgeArticleShowAll"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.article.ShowAllController">
-		<property name="knowledgeDAO"><ref bean="knowledgeDAO"/></property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.knowledge.article.ShowAllController"/>
 	
 	<bean
 		id="managerKnowledgeArticleEditCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.article.EditKnowledgeController">
-		<property name="knowledgeDAO"><ref bean="knowledgeDAO"/></property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.knowledge.article.EditKnowledgeController"/>
 	
 	<bean
 		id="managerKnowledgeArticleDelCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.article.DelKnowledgeController">
-		<property name="knowledgeDAO"><ref bean="knowledgeDAO"/></property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.manager.knowledge.article.DelKnowledgeController"/>
 		
 	<!-- statystyki -->
-	<bean id="bugsByCategoryStatsViewController" class="de.berlios.jhelpdesk.web.stats.BugsByCategoryViewController">
-		<property name="statsPAO">
-			<ref bean="setStatsCategoryPAO"/>
-		</property>
-	</bean>
+	<bean id="bugsByCategoryStatsViewController" 
+        class="de.berlios.jhelpdesk.web.stats.BugsByCategoryViewController"/>
 	
 	<bean 
 		id="statsMyViewCtrl"
-		class="de.berlios.jhelpdesk.web.stats.StatsForUserViewController">
-		<property name="hdUserDAO">
-			<ref bean="hdUserDAO"/>
-		</property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.stats.StatsForUserViewController"/>
 	
 	<bean
 		id="bugsByPriorityStatsViewController"
-		class="de.berlios.jhelpdesk.web.stats.BugsByPriorityViewController">
-		<property name="statsPAO">
-			<ref bean="statsPriorityPAO"/>
-		</property>
-	</bean>
+		class="de.berlios.jhelpdesk.web.stats.BugsByPriorityViewController"/>
 	
 	<bean
 		id="bugsByNotyfierStatsViewController"
 		class="de.berlios.jhelpdesk.web.stats.BugsByNotyfierViewController"
-		singleton="false">
-		<property name="hdUserDAO">
-			<ref bean="hdUserDAO"/>
-		</property>
-	</bean>
+		scope="prototype"/>
 	
 	<bean
 		id="showSavioursViewCtrl"
 		class="de.berlios.jhelpdesk.web.stats.saviour.ShowSavioursViewCtrl"
-		singleton="false">
-		<property name="hdUserDAO">
-			<ref bean="hdUserDAO"/>
-		</property>
-	</bean>
+		scope="prototype"/>
 	
 	<bean
 		id="statsSaviourViewCtrl"
 		class="de.berlios.jhelpdesk.web.stats.saviour.StatsSaviourViewCtrl"
-		singleton="false">
-		<property name="statsPAO">
-			<ref bean="statsSaviourPAO"/>
-		</property>
-	</bean>
+		scope="prototype"/>
 	
 	<!-- menu pomoc -->
 	<bean
 		id="helpAboutViewController"
-		class="de.berlios.jhelpdesk.web.help.AboutViewController"
-		singleton="true">
+		class="de.berlios.jhelpdesk.web.help.AboutViewController">
 	</bean>
 	<bean
 		id="helpIndexViewController"
-		class="de.berlios.jhelpdesk.web.help.IndexViewController"
-		singleton="true">
+		class="de.berlios.jhelpdesk.web.help.IndexViewController">
 	</bean>
 	<bean
 		id="helpBaseViewController"
 		class="de.berlios.jhelpdesk.web.help.BaseViewController"
-		singleton="false">
-		<property name="knowledgeDAO">
-			<ref bean="knowledgeDAO"/>
-		</property>
-		<property name="knowledgeSectionDAO">
-			<ref bean="knowledgeSectionDAO"/>
-		</property>
-	</bean>
+		scope="prototype"/>
 	
 	<!--  inne beany widoku -->	
 	<bean
@@ -426,19 +316,6 @@
 		</property>
 	</bean>
 
-	<!--
-	<bean
-		id="tilesConfigurator"
-		class="org.springframework.web.servlet.view.tiles.TilesConfigurer">
-		<property name="factoryClass">
-			<value>org.apache.struts.tiles.xmlDefinition.I18nFactorySet</value>
-		</property>
-		<property name="definitions">
-			<value>/WEB-INF/tiles-config.xml</value>
-		</property>
-	</bean>
-    -->
-    
     <bean
 		id="tilesConfigurator"
         class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">

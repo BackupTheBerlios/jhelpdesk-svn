@@ -20,13 +20,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.BugCategoryDAO;
 
 public class ShowCategoryController implements Controller {
+    
 	private static Log log = LogFactory.getLog(ShowCategoryController.class);
+
+    @Autowired
 	private BugCategoryDAO categoryDAO;
 
 	public ModelAndView handleRequest(HttpServletRequest request, 
@@ -37,9 +42,4 @@ public class ShowCategoryController implements Controller {
 		return null;
 	}
 
-	/** @param categoryDAO the categoryDAO to set */
-	public void setCategoryDAO(BugCategoryDAO categoryDAO) {
-		log.debug("setCategoryDAO(BugCategoryDAO categoryDAO)");
-		this.categoryDAO = categoryDAO;
-	}
 }

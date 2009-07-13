@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -28,6 +30,8 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 public class BugsByNotyfierViewController implements Controller {
 
     private static Log log = LogFactory.getLog(BugsByNotyfierViewController.class);
+
+    @Autowired
     private UserDAO hdUserDAO;
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -52,11 +56,5 @@ public class BugsByNotyfierViewController implements Controller {
 
         return mav;
     }
-
-    /**
-     * @param hdUserDAO The hdUserDAO to set.
-     */
-    public void setHdUserDAO(UserDAO hdUserDAO) {
-        this.hdUserDAO = hdUserDAO;
-    }
+    
 }

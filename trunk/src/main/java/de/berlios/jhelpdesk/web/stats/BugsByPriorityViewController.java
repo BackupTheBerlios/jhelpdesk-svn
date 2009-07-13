@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -31,11 +33,9 @@ import de.berlios.jhelpdesk.web.charts.BugStatsByPriorityDatasetProducer;
 public class BugsByPriorityViewController implements Controller {
 	
 	private static Log log = LogFactory.getLog(BugsByPriorityViewController.class);
-	private StatsPriorityPAO statsPAO;
 
-	public void setStatsPAO(StatsPriorityPAO statsPAO) {
-		this.statsPAO = statsPAO;
-	}
+    @Autowired
+	private StatsPriorityPAO statsPAO;
 	
 	@SuppressWarnings("unchecked")
 	public ModelAndView handleRequest(HttpServletRequest request, 

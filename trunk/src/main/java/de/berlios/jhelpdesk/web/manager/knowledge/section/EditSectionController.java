@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -32,6 +33,8 @@ import de.berlios.jhelpdesk.model.KnowledgeSection;
 public class EditSectionController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(EditSectionController.class);
+
+    @Autowired
     private KnowledgeSectionDAO sectionDAO;
 
     @Override
@@ -58,10 +61,4 @@ public class EditSectionController extends SimpleFormController {
         return mav;
     }
 
-    /**
-     * @param sectionDAO the sectionDAO to set
-     */
-    public void setSectionDAO(KnowledgeSectionDAO sectionDAO) {
-        this.sectionDAO = sectionDAO;
-    }
 }

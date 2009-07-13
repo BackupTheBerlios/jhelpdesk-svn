@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -28,6 +30,8 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 public class ShowUserController implements Controller {
 
 	private static Log log = LogFactory.getLog(ShowUserController.class);
+
+    @Autowired
 	private UserDAO userDAO;
 
 	public ModelAndView handleRequest(HttpServletRequest request, 
@@ -38,11 +42,4 @@ public class ShowUserController implements Controller {
 		return mav;
 	}
 
-	/**
-	 * @param userDAO the userDAO to set 
-	 */
-	public void setUserDAO(UserDAO userDAO) {
-		log.debug("setUserDAO( IHDUserDAO userDAO )");
-		this.userDAO = userDAO;
-	}
 }
