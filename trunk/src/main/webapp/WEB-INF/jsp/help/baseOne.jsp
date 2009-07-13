@@ -9,13 +9,13 @@
 
 <h3>Powiązane zgłoszenia</h3>
 <ol>
-<c:forEach items="${article.associatedBugs}" var="bug">
-	<li><c:out value="${bug.subject}"/></li>
-</c:forEach>
+    <c:forEach items="${article.associatedBugs}" var="bug">
+        <li><c:out value="${bug.subject}"/></li>
+    </c:forEach>
 </ol>
 <hr/>
 <h3>Komentarze</h3>
 <c:forEach items="${article.comments}" var="comment">
-	<b><c:out value="${comment.title}"/></b><br/>
-	<c:out value="${comment.body}"/><br/><br/>
+    <b><c:out value="${comment.title}"/></b><br/>
+    <c:out value="${comment.body}"/><br/><br/>
 </c:forEach>
