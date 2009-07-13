@@ -394,21 +394,7 @@
 		id="statsSaviourViewCtrl"
 		class="de.berlios.jhelpdesk.web.stats.saviour.StatsSaviourViewCtrl"
 		scope="prototype"/>
-	
-	<!-- menu pomoc -->
-    <bean
-		id="helpAboutViewController"
-		class="de.berlios.jhelpdesk.web.help.AboutViewController">
-    </bean>
-    <bean
-		id="helpIndexViewController"
-		class="de.berlios.jhelpdesk.web.help.IndexViewController">
-    </bean>
-    <bean
-		id="helpBaseViewController"
-		class="de.berlios.jhelpdesk.web.help.BaseViewController"
-		scope="prototype"/>
-	
+
 	<!--  inne beany widoku -->	
     <bean
 		id="messageSource"

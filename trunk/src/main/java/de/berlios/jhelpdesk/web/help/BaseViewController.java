@@ -16,41 +16,37 @@
 package de.berlios.jhelpdesk.web.help;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 
-public class BaseViewController implements Controller {
-
-	private static Log log = LogFactory.getLog(BaseViewController.class);
-
-    @Autowired
-	private KnowledgeDAO knowledgeDAO;
+@Scope("prototype")
+@Controller("helpBaseViewController")
+public class BaseViewController {
 
     @Autowired
-	private KnowledgeSectionDAO knowledgeSectionDAO;
+    private KnowledgeDAO knowledgeDAO;
+    @Autowired
+    private KnowledgeSectionDAO knowledgeSectionDAO;
 
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
-		String key = request.getParameter("key");
-		String id = request.getParameter("id");
-		ModelAndView mav = null;
-		if ((key != null) && key.equalsIgnoreCase("details")) {
-			mav = new ModelAndView("help/base/one");
-			mav.addObject("article", knowledgeDAO.getById(Long.parseLong(id)));
-		} else {
-			mav = new ModelAndView("help/base");
-			mav.addObject("sections", knowledgeSectionDAO.getAllSections());
-		}
-		return mav;
-	}
-
+    @RequestMapping
+    public ModelAndView handleRequest(HttpServletRequest request) throws Exception {
+        String key = request.getParameter("key");
+        String id = request.getParameter("id");
+        ModelAndView mav = null;
+        if ((key != null) && key.equalsIgnoreCase("details")) {
+            mav = new ModelAndView("help/base/one");
+            mav.addObject("article", knowledgeDAO.getById(Long.parseLong(id)));
+        } else {
+            mav = new ModelAndView("help/base");
+            mav.addObject("sections", knowledgeSectionDAO.getAllSections());
+        }
+        return mav;
+    }
 }
