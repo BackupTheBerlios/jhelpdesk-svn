@@ -24,16 +24,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 import de.berlios.jhelpdesk.model.Knowledge;
 import de.berlios.jhelpdesk.model.KnowledgeSection;
+import org.springframework.stereotype.Repository;
 
-public class KnowledgeSectionDAOJdbc extends JdbcDaoSupport implements KnowledgeSectionDAO {
+@Repository("knowledgeSectionDAO")
+public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport implements KnowledgeSectionDAO {
+
+    @Autowired
+    public KnowledgeSectionDAOJdbc(DataSource dataSource) {
+        super(dataSource);
+    }
 
 	@SuppressWarnings("unchecked")
 	public List<KnowledgeSection> getAllSections() {

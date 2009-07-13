@@ -21,19 +21,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.BugCategoryDAO;
 import de.berlios.jhelpdesk.model.BugCategory;
 
-public class BugCategoryDAOJdbc extends JdbcDaoSupport implements BugCategoryDAO {
+@Repository("bugCategoryDAO")
+public class BugCategoryDAOJdbc extends AbstractJdbcTemplateSupport implements BugCategoryDAO {
 	
-	private static Log log = LogFactory.getLog( BugCategoryDAOJdbc.class );
+    private static Log log = LogFactory.getLog(BugCategoryDAOJdbc.class);
+
+    @Autowired
+    public BugCategoryDAOJdbc(DataSource dataSource) {
+        super(dataSource);
+    }
 
 	@SuppressWarnings("unchecked")
 	public List<BugCategory> getAllCategories() {

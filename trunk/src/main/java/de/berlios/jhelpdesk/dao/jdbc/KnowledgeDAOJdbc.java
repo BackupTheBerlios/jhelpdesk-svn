@@ -23,20 +23,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 import de.berlios.jhelpdesk.model.Knowledge;
 
-
 /**
  * @author jjhop
- *
  */
-public class KnowledgeDAOJdbc extends JdbcDaoSupport implements KnowledgeDAO {
+@Repository("knowledgeDAO")
+public class KnowledgeDAOJdbc extends AbstractJdbcTemplateSupport implements KnowledgeDAO {
+
+    @Autowired
+    public KnowledgeDAOJdbc(DataSource dataSource) {
+        super(dataSource);
+    }
 
 	/* (non-Javadoc)
 	 * @see de.berlios.jhelpdesk.dao.ifc.IHDKnowledgeDAO#getById(java.lang.Long)

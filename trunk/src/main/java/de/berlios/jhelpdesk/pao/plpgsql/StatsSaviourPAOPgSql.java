@@ -26,23 +26,34 @@ import javax.sql.DataSource;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.object.MappingSqlQuery;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.DateUtil;
+import de.berlios.jhelpdesk.dao.jdbc.AbstractJdbcTemplateSupport;
 import de.berlios.jhelpdesk.model.BugCategory;
 import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.pao.StatsSaviourPAO;
 import de.berlios.jhelpdesk.web.view.bean.SaviourStatsFullViewBean;
 
-public class StatsSaviourPAOPgSql extends JdbcDaoSupport implements StatsSaviourPAO {
-	private static Log log = LogFactory.getLog( StatsSaviourPAOPgSql.class );
-	 private String saviourId; 
-	 private String statusId;
-	 
-	 public void setSaviourId( String sav ) {
-		 this.saviourId = sav;
-	 }
+@Repository("statsSaviourPAO")
+public class StatsSaviourPAOPgSql extends AbstractJdbcTemplateSupport implements StatsSaviourPAO {
+
+    private static Log log = LogFactory.getLog(StatsSaviourPAOPgSql.class);
+
+    private String saviourId;
+    private String statusId;
+
+    @Autowired
+    public StatsSaviourPAOPgSql(DataSource dataSource) {
+        super(dataSource);
+    }
+
+    public void setSaviourId(String sav) {
+        this.saviourId = sav;
+    }
 
 	@SuppressWarnings("unchecked")
 	public Map getStatsForCurrentWeek() {
@@ -310,7 +321,6 @@ public class StatsSaviourPAOPgSql extends JdbcDaoSupport implements StatsSaviour
 		return fullStats;
 	}
 }
-
 /*
  * Klasa mapujaca wynik zapytania na wlasciwy ViewBean
  */

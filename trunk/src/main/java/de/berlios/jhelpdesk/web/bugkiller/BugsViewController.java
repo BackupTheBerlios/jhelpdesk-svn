@@ -61,8 +61,9 @@ public class BugsViewController extends SimpleFormController {
 
     @Autowired
 	private UserDAO userDAO;
-    @Autowired
+
 	private SimpleDateFormat dateFormat;
+
 	private ShowBugsFilterForm filterForm;
 	private Map<String, Object> refData;
 

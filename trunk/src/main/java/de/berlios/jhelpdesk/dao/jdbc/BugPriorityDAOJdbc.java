@@ -18,9 +18,12 @@ package de.berlios.jhelpdesk.dao.jdbc;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import de.berlios.jhelpdesk.dao.BugPriorityDAO;
 import de.berlios.jhelpdesk.model.BugPriority;
 
+@Repository("bugPriorityDAO")
 public class BugPriorityDAOJdbc implements BugPriorityDAO {
 
 	public List<BugPriority> getAllPriorities() {

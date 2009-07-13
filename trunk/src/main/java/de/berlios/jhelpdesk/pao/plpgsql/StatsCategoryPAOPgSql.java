@@ -25,17 +25,26 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.object.MappingSqlQuery;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.DateUtil;
+import de.berlios.jhelpdesk.dao.jdbc.AbstractJdbcTemplateSupport;
 import de.berlios.jhelpdesk.pao.StatsCategoryPAO;
 import de.berlios.jhelpdesk.web.view.bean.StatsByCategoryViewBean;
 
-public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements StatsCategoryPAO {
-	
-	private static Log log = LogFactory.getLog( StatsCategoryPAOPgSql.class );
-	
+@Repository("statsCategoryPAO")
+public class StatsCategoryPAOPgSql extends AbstractJdbcTemplateSupport implements StatsCategoryPAO {
+
+    private static Log log = LogFactory.getLog(StatsCategoryPAOPgSql.class);
+
+    @Autowired
+    public StatsCategoryPAOPgSql(DataSource dataSource) {
+        super(dataSource);
+    }
+
 	@SuppressWarnings("unchecked")
     public Map<String, Long> getStatsForCurrentWeek() {
         DateUtil du = new DateUtil();
@@ -126,7 +135,6 @@ public class StatsCategoryPAOPgSql extends JdbcDaoSupport implements StatsCatego
 		return tr;
 	}
 }
-
 class StatsCategoryQueryBuilder {
 	private final static StringBuffer sb = 
 		new StringBuffer("SELECT category_id,t_left,category_name,count(*) as amount ")

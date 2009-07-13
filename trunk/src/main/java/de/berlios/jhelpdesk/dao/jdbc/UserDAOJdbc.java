@@ -23,13 +23,17 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Role;
@@ -39,9 +43,15 @@ import de.berlios.jhelpdesk.model.User;
  * @inheritDoc 
  * @author jjhop
 */
-public class UserDAOJdbc extends JdbcDaoSupport implements UserDAO {
+@Repository("userDAO")
+public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO {
 
-	private static Log log = LogFactory.getLog( UserDAOJdbc.class );
+    private static Log log = LogFactory.getLog(UserDAOJdbc.class);
+
+    @Autowired
+    public UserDAOJdbc(DataSource dataSource) {
+        super(dataSource);
+    }
 			
 	public boolean checkLoginAndPassw( String login, String passw ) {
 		return 

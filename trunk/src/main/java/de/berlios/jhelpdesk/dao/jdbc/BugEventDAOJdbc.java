@@ -20,10 +20,14 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.BugEventDAO;
 import de.berlios.jhelpdesk.model.Bug;
@@ -31,9 +35,15 @@ import de.berlios.jhelpdesk.model.BugEvent;
 import de.berlios.jhelpdesk.model.EventType;
 import de.berlios.jhelpdesk.model.User;
 
-public class BugEventDAOJdbc extends JdbcDaoSupport implements BugEventDAO {
+@Repository("bugEventDAO")
+public class BugEventDAOJdbc extends AbstractJdbcTemplateSupport implements BugEventDAO {
 
-	private static Log log = LogFactory.getLog(  BugEventDAOJdbc.class );
+    @Autowired
+    public BugEventDAOJdbc(DataSource dataSource) {
+        super(dataSource);
+    }
+
+    private static Log log = LogFactory.getLog(  BugEventDAOJdbc.class );
 	
 	public List<BugEvent> getByBug( Bug bug ) {
 		log.debug( "getByBug( HDBug bug ) => " + bug.getBugId() );

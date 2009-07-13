@@ -22,20 +22,30 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.InformationDAO;
 import de.berlios.jhelpdesk.model.Information;
 
-public class InformationDAOJdbc extends JdbcDaoSupport implements InformationDAO {
+@Repository("informationDAO")
+public class InformationDAOJdbc extends AbstractJdbcTemplateSupport implements InformationDAO {
 	
-	private static Log log = LogFactory.getLog( InformationDAOJdbc.class );
-	
+    private static Log log = LogFactory.getLog(InformationDAOJdbc.class);
+
+    @Autowired
+    public InformationDAOJdbc(DataSource dataSource) {
+        super(dataSource);
+    }
+
 	public void delete( Long informationId ) {
 		// usuwamy tylko dane z tabeli hd_infomation,
 		// ewentualne dane z tabeli hd_information_body

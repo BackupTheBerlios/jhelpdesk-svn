@@ -25,12 +25,16 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.model.Bug;
@@ -44,11 +48,17 @@ import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.form.ShowBugsFilterForm;
 
 
-public class BugDAOJdbc extends JdbcDaoSupport implements BugDAO {
+@Repository("bugDAO")
+public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 
-	private static Log log = LogFactory.getLog(  BugDAOJdbc.class );
-	
-	@SuppressWarnings("unchecked")
+    private static Log log = LogFactory.getLog(BugDAOJdbc.class);
+
+    @Autowired
+    public BugDAOJdbc(DataSource dataSource) {
+        super(dataSource);
+    }
+
+    @SuppressWarnings("unchecked")
 	public Bug getBugById( final Long bugId ) {
 		log.debug( "getBugById( final Long bugId ) => " + bugId );		
 		Bug bug = ( Bug ) getJdbcTemplate().queryForObject(

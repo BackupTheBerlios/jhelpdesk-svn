@@ -25,16 +25,25 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.object.MappingSqlQuery;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.DateUtil;
+import de.berlios.jhelpdesk.dao.jdbc.AbstractJdbcTemplateSupport;
 import de.berlios.jhelpdesk.pao.StatsPriorityPAO;
 import de.berlios.jhelpdesk.web.view.bean.StatsByPriorityViewBean;
 
-public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements StatsPriorityPAO {
+@Repository("statsPriorityPAO")
+public class StatsPriorityPAOPgSql extends AbstractJdbcTemplateSupport implements StatsPriorityPAO {
 
 	private static Log log = LogFactory.getLog( StatsPriorityPAOPgSql.class );
+
+    @Autowired
+    public StatsPriorityPAOPgSql(DataSource dataSource) {
+        super(dataSource);
+    }
 	
 	@SuppressWarnings("unchecked")
 	public Map<String, Long> getStatsForCurrentWeek() {
@@ -111,7 +120,6 @@ public class StatsPriorityPAOPgSql extends JdbcDaoSupport implements StatsPriori
 		return tr;
 	}
 }
-
 class StatsPriorityQueryBuilder {
 	private final static StringBuffer sb = 
 		new StringBuffer( "SELECT priority_id,priority_name,count(*) as amount " )

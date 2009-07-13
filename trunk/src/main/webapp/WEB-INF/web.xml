@@ -9,7 +9,6 @@
 		<param-value>
 			/WEB-INF/helpdesk-context.xml
 			/WEB-INF/helpdesk-datasource.xml
-			/WEB-INF/helpdesk-dao-jdbc-postgresql.xml
 			/WEB-INF/helpdesk-servlet.xml
 			/WEB-INF/helpdesk-validators.xml
 			/WEB-INF/helpdesk-mapping.xml
