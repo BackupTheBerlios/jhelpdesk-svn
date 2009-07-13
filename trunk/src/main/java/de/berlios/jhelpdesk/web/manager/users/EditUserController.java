@@ -40,11 +40,11 @@ import de.berlios.jhelpdesk.web.tools.RoleEditor;
 import de.berlios.jhelpdesk.web.tools.UserValidator;
 
 public class EditUserController extends SimpleFormController {
-	
-	private static Log log = LogFactory.getLog(EditUserController.class);
 
+    private static Log log = LogFactory.getLog(EditUserController.class);
+    
     @Autowired
-	private UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Autowired
     public EditUserController(UserValidator validator) {
@@ -52,41 +52,40 @@ public class EditUserController extends SimpleFormController {
     }
 
     @Override
-	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
-			throws Exception {
-		log.info("initBinder()->start");
-		binder.registerCustomEditor(Role.class, new RoleEditor());
-		binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, 
-				NumberFormat.getNumberInstance(), true));
-		binder.registerCustomEditor(Boolean.class, null, new CustomBooleanEditor(true));
-	}
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+        throws Exception {
+        log.info("initBinder()->start");
+        binder.registerCustomEditor(Role.class, new RoleEditor());
+        binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class,
+            NumberFormat.getNumberInstance(), true));
+        binder.registerCustomEditor(Boolean.class, null, new CustomBooleanEditor(true));
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected Map referenceData(HttpServletRequest request) throws Exception {
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("roles", Role.getRoles());
-		return data;
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Map referenceData(HttpServletRequest request) throws Exception {
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("roles", Role.getRoles());
+        return data;
+    }
 
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request, 
-			HttpServletResponse response, Object command, BindException errors) 
-			throws Exception {
-		User user = (User) command;
-		userDAO.saveOrUpdate(user);
-		return super.onSubmit(request, response, command, errors);
-	}
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+        HttpServletResponse response, Object command, BindException errors)
+        throws Exception {
+        User user = (User) command;
+        userDAO.saveOrUpdate(user);
+        return super.onSubmit(request, response, command, errors);
+    }
 
-	@Override
-	protected Object formBackingObject(HttpServletRequest request) throws Exception {
-		User user = new User();
-		try {
-			user = userDAO.getById(Long.parseLong(request.getParameter("userId")));
-		} catch (Exception ex) {
-			log.error("user not found");
-		}
-		return user;
-	}
-
+    @Override
+    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+        User user = new User();
+        try {
+            user = userDAO.getById(Long.parseLong(request.getParameter("userId")));
+        } catch (Exception ex) {
+            log.warn("User not found");
+        }
+        return user;
+    }
 }
