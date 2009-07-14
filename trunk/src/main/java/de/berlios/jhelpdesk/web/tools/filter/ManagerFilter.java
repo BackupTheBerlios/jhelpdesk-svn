@@ -13,7 +13,7 @@
  * 
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
-package de.berlios.jhelpdesk.web.filter;
+package de.berlios.jhelpdesk.web.tools.filter;
 
 import java.io.IOException;
 
@@ -24,37 +24,26 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class AuthFilter implements Filter {
+import de.berlios.jhelpdesk.model.Role;
+import de.berlios.jhelpdesk.model.User;
+import de.berlios.jhelpdesk.web.NotAuthorizedAccessException;
 
-	public void init(FilterConfig filter) throws ServletException {}
+public class ManagerFilter implements Filter {
 
-	public void doFilter(ServletRequest req, ServletResponse res, 
+	public void init( FilterConfig config ) throws ServletException {}
+
+	public void doFilter(ServletRequest request, ServletResponse response, 
 			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest servletRreq = (HttpServletRequest) req;
-		HttpSession sess = servletRreq.getSession();
-
-		String reqUrl = ((HttpServletRequest) servletRreq).getRequestURL()
-				.toString().toLowerCase();
-		if (reqUrl.endsWith("/login.html") 
-				|| reqUrl.endsWith(".ico") 
-				|| reqUrl.endsWith(".gif")
-				|| reqUrl.endsWith(".png") 
-				|| reqUrl.endsWith(".htc")) {
-			chain.doFilter(req, res);
-			return;
-		}
-		Boolean logged = (Boolean) sess.getAttribute("logged");
-
-		if ((logged == null) || (!logged.booleanValue())) {
-			sess.invalidate();
-			((HttpServletResponse) res).sendRedirect(
-					servletRreq.getContextPath() + "/login.html");
-			return;
-		}
-		chain.doFilter(req, res);
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpSession sess = req.getSession();
+		User user = (User) sess.getAttribute("user");
+		if (user == null)
+			throw new NotAuthorizedAccessException("not authorized access!");
+		if (user.getUserRole().toInt() < Role.MANAGER.toInt())
+			throw new NotAuthorizedAccessException("not authorized access!");
+		chain.doFilter(request, response);
 	}
 
 	public void destroy() {}
