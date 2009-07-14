@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
 
 import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.User;
-import de.berlios.jhelpdesk.web.exception.NotAuthorizedAccessException;
+import de.berlios.jhelpdesk.web.NotAuthorizedAccessException;
 
 public class BugkillerFilter implements Filter {
 

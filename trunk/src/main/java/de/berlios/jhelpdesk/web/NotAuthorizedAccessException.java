@@ -13,7 +13,7 @@
  * 
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
-package de.berlios.jhelpdesk.web.exception;
+package de.berlios.jhelpdesk.web;
 
 public class NotAuthorizedAccessException extends RuntimeException {
 	
