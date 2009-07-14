@@ -33,7 +33,7 @@ import org.springframework.stereotype.Repository;
 import de.berlios.jhelpdesk.DateUtil;
 import de.berlios.jhelpdesk.dao.jdbc.AbstractJdbcTemplateSupport;
 import de.berlios.jhelpdesk.pao.StatsCategoryPAO;
-import de.berlios.jhelpdesk.web.view.bean.StatsByCategoryViewBean;
+import de.berlios.jhelpdesk.web.tools.view.StatsByCategoryViewBean;
 
 @Repository("statsCategoryPAO")
 public class StatsCategoryPAOPgSql extends AbstractJdbcTemplateSupport implements StatsCategoryPAO {

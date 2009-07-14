@@ -13,46 +13,67 @@
  * 
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
-package de.berlios.jhelpdesk.web.view.bean;
+package de.berlios.jhelpdesk.web.tools.view;
 
-public class StatsByPriorityViewBean {
-	private Long priorityId;
-	private String priorityName;
+public class StatsByCategoryViewBean {
+	private Long categoryId;
+	private String categoryName;
 	private Long amount;
+	private Long catLeft;
+	
 	/**
 	 * @return Returns the amount.
 	 */
 	public Long getAmount() {
 		return amount;
 	}
+	
 	/**
 	 * @param amount The amount to set.
 	 */
 	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
+	
 	/**
-	 * @return Returns the priorityId.
+	 * @return Returns the categoryId.
 	 */
-	public Long getPriorityId() {
-		return priorityId;
+	public Long getCategoryId() {
+		return categoryId;
 	}
+	
 	/**
-	 * @param priorityId The priorityId to set.
+	 * @param categoryId The categoryId to set.
 	 */
-	public void setPriorityId(Long priorityId) {
-		this.priorityId = priorityId;
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
+	
 	/**
-	 * @return Returns the priorityName.
+	 * @return Returns the categoryName.
 	 */
-	public String getPriorityName() {
-		return priorityName;
+	public String getCategoryName() {
+		return categoryName;
 	}
+	
 	/**
-	 * @param priorityName The priorityName to set.
+	 * @param categoryName The categoryName to set.
 	 */
-	public void setPriorityName(String priorityName) {
-		this.priorityName = priorityName;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	
+	/**
+	 * @return the catLeft
+	 */
+	public Long getCatLeft() {
+		return catLeft;
+	}
+	
+	/**
+	 * @param catLeft the catLeft to set
+	 */
+	public void setCatLeft( Long catLeft ) {
+		this.catLeft = catLeft;
 	}
 }

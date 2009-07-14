@@ -33,7 +33,7 @@ import org.springframework.stereotype.Repository;
 import de.berlios.jhelpdesk.DateUtil;
 import de.berlios.jhelpdesk.dao.jdbc.AbstractJdbcTemplateSupport;
 import de.berlios.jhelpdesk.pao.StatsPriorityPAO;
-import de.berlios.jhelpdesk.web.view.bean.StatsByPriorityViewBean;
+import de.berlios.jhelpdesk.web.tools.view.StatsByPriorityViewBean;
 
 @Repository("statsPriorityPAO")
 public class StatsPriorityPAOPgSql extends AbstractJdbcTemplateSupport implements StatsPriorityPAO {

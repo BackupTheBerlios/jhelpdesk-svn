@@ -36,7 +36,7 @@ import de.berlios.jhelpdesk.dao.jdbc.AbstractJdbcTemplateSupport;
 import de.berlios.jhelpdesk.model.BugCategory;
 import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.pao.StatsSaviourPAO;
-import de.berlios.jhelpdesk.web.view.bean.SaviourStatsFullViewBean;
+import de.berlios.jhelpdesk.web.tools.view.SaviourStatsFullViewBean;
 
 @Repository("statsSaviourPAO")
 public class StatsSaviourPAOPgSql extends AbstractJdbcTemplateSupport implements StatsSaviourPAO {

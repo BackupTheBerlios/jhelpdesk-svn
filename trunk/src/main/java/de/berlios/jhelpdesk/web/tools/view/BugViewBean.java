@@ -13,7 +13,7 @@
  * 
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
-package de.berlios.jhelpdesk.web.view.bean;
+package de.berlios.jhelpdesk.web.tools.view;
 
 import java.util.Date;
 
