@@ -12,6 +12,12 @@
         <system>GForge</system>
         <url>https://developer.berlios.de/bugs/?group_id=6573</url>
     </issueManagement>
+    <licenses>
+        <license>
+            <name>GNU General Public License version 3.0 (GPLv3)</name>
+            <url>http://jhelpdesk.berlios.de/LICENSE.TXT</url>
+        </license>
+    </licenses>
     <mailingLists>
         <mailingList>
             <name>jhelpdesk-dev@lists.berlios.de</name>
