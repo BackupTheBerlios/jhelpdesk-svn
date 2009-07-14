@@ -15,6 +15,7 @@
  */
 package de.berlios.jhelpdesk.web.form;
 
+// odwolanie w jednym kontrolerze do niej jest
 public class EventNotifyForm {
 
 }
