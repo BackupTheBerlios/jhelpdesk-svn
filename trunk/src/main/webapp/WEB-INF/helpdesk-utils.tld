@@ -9,7 +9,7 @@
 	<uri>http://jhelpdesk.berlios.de/taglib/attr-replacing.tld</uri>
 	<tag>
 		<name>rewrite</name>
-		<tag-class>de.berlios.jhelpdesk.web.taglib.util.AttrReplacingTag</tag-class>
+		<tag-class>de.berlios.jhelpdesk.web.taglib.AttrReplacingTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<name>paramGetName</name>
@@ -22,7 +22,7 @@
 	</tag>
 	<tag>
 		<name>pdfurl</name>
-		<tag-class>de.berlios.jhelpdesk.web.taglib.util.PDFLinkTag</tag-class>
+		<tag-class>de.berlios.jhelpdesk.web.taglib.PDFLinkTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<name>url</name>

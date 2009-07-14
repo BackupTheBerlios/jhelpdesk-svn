@@ -9,7 +9,7 @@
 	<uri>http://jhelpdesk.berlios.de/taglib/auth-tag.tld</uri>
 	<tag>
 		<name>check</name>
-		<tag-class>de.berlios.jhelpdesk.web.taglib.auth.AuthorizeTag</tag-class>
+		<tag-class>de.berlios.jhelpdesk.web.taglib.AuthorizeTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<name>requiredRole</name>

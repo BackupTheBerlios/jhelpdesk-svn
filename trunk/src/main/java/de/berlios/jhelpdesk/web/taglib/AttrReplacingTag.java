@@ -13,7 +13,7 @@
  * 
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
-package de.berlios.jhelpdesk.web.taglib.util;
+package de.berlios.jhelpdesk.web.taglib;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
