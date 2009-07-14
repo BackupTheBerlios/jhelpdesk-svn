@@ -15,25 +15,23 @@
  */
 package de.berlios.jhelpdesk.web.manager.users;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 
-public class ShowAllUsersController implements Controller {
+@Controller("managerUserShowAllCtrl")
+public class ShowAllUsersController {
 
     @Autowired
-	private UserDAO userDAO;
+    private UserDAO userDAO;
 
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("manager/users/showAll");
-		mav.addObject("users", userDAO.getAllUser());
-		return mav;
-	}
-
+    @RequestMapping
+    public ModelAndView handleRequest() throws Exception {
+        ModelAndView mav = new ModelAndView("manager/users/showAll");
+        mav.addObject("users", userDAO.getAllUser());
+        return mav;
+    }
 }

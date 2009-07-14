@@ -15,31 +15,26 @@
  */
 package de.berlios.jhelpdesk.web.manager.users;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 
-public class ShowUserController implements Controller {
-
-	private static Log log = LogFactory.getLog(ShowUserController.class);
+@Scope("prototype")
+@Controller("managerUserShowOneCtrl")
+public class ShowUserController {
 
     @Autowired
-	private UserDAO userDAO;
+    private UserDAO userDAO;
 
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("manager/users/show");
-		mav.addObject("user", 
-			userDAO.getById(Long.parseLong(request.getParameter("userId"))));
-		return mav;
-	}
-
+    @RequestMapping
+    public ModelAndView handleRequest(@RequestParam("userId") Long userId) throws Exception {
+        ModelAndView mav = new ModelAndView("manager/users/show");
+        mav.addObject("user", userDAO.getById(userId));
+        return mav;
+    }
 }

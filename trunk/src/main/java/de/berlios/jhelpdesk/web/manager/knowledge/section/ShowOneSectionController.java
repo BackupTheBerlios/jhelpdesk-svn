@@ -15,25 +15,24 @@
  */
 package de.berlios.jhelpdesk.web.manager.knowledge.section;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 
-public class ShowOneSectionController implements Controller {
+@Controller("managerKnowledgeSectionShowOneCtrl")
+public class ShowOneSectionController {
 
     @Autowired
     private KnowledgeSectionDAO sectionDAO;
 
-    public ModelAndView handleRequest(HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
+    @RequestMapping
+    public ModelAndView handleRequest(@RequestParam("sectionId") Long sectionId) throws Exception {
         ModelAndView mav = new ModelAndView("manager/knowledge/section/show");
         try {
-            Long sectionId = Long.parseLong(request.getParameter("sectionId"));
             mav.addObject("section", sectionDAO.getById(sectionId));
         } catch (Exception ex) {
             mav.setViewName("manager/knowledge/section/showAll");

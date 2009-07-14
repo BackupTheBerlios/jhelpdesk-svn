@@ -216,13 +216,7 @@
         </property>
     </bean>
 	<!-- end preferences -->
-		
-    <bean id="managerUserShowAllCtrl"
-        class="de.berlios.jhelpdesk.web.manager.users.ShowAllUsersController"/>
-	
-    <bean id="managerUserShowOneCtrl"
-        class="de.berlios.jhelpdesk.web.manager.users.ShowUserController"/>
-	
+
     <bean id="managerUserEditCtrl" class="de.berlios.jhelpdesk.web.manager.users.EditUserController">
         <property name="commandName">
             <value>user</value>
@@ -237,10 +231,7 @@
             <value>manager/users/show</value>
         </property>
     </bean>
-	
-    <bean id="managerUserDelCtrl"
-        class="de.berlios.jhelpdesk.web.manager.users.DeleteUserController"/>
-	
+
     <bean id="managerBugCategoryShowAllCtrl"
         class="de.berlios.jhelpdesk.web.manager.bugcategory.ShowAllController"/>
 	
@@ -310,14 +301,7 @@
     </bean>
 		
 	<!-- zarzadzanie sekcjami w bazie wiedzy -->
-    <bean
-		id="managerKnowledgeSectionShowAllCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.section.ShowAllController"/>
-	
-    <bean
-		id="managerKnowledgeSectionShowOneCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.section.ShowOneSectionController"/>
-	
+
     <bean
 		id="managerKnowledgeSectionEditCtrl"
 		class="de.berlios.jhelpdesk.web.manager.knowledge.section.EditSectionController">
@@ -331,11 +315,7 @@
             <value>manager/knowledge/section/edit</value>
         </property>
     </bean>
-	
-    <bean
-		id="managerKnowledgeSectionDelCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.section.DelSectionController"/>
-	
+
     <bean
 		id="managerKnowledgeSectionUpDownCtrl"
 		class="de.berlios.jhelpdesk.web.manager.knowledge.section.MoveUpDownSectionController">

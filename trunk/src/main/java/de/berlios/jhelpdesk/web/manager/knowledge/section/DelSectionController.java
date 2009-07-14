@@ -15,35 +15,34 @@
  */
 package de.berlios.jhelpdesk.web.manager.knowledge.section;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.view.RedirectView;
 
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 
-public class DelSectionController implements Controller {
+@Controller("managerKnowledgeSectionDelCtrl")
+public class DelSectionController {
 
-	private static Log log = LogFactory.getLog(DelSectionController.class);
-
+    private static Log log = LogFactory.getLog(DelSectionController.class);
+    
     @Autowired
-	private KnowledgeSectionDAO sectionDAO;
+    private KnowledgeSectionDAO sectionDAO;
 
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
-		try {
-			sectionDAO.delete(Long.parseLong(request.getParameter("sectionId")));
-		} catch (Exception ex) {
-			log.error(ex);
-		}
-		return new ModelAndView(
-			new RedirectView("/manage/knowledge/section/showAll.html", true));
-	}
-
+    @RequestMapping
+    public ModelAndView handleRequest(@RequestParam("sectionId") Long sectionId) throws Exception {
+        try {
+            sectionDAO.delete(sectionId);
+        } catch (Exception ex) {
+            log.error(ex);
+        }
+        return new ModelAndView(
+            new RedirectView("/manage/knowledge/section/showAll.html", true));
+    }
 }
