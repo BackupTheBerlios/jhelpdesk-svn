@@ -20,30 +20,28 @@ import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import de.berlios.jhelpdesk.dao.InformationDAO;
 
 @Controller("managerShowInformationCtrl")
-public class ShowInformationController  {
-	
-	private static Log log = LogFactory.getLog(ShowInformationController.class);
+public class ShowInformationController {
 
+    private static Log log = LogFactory.getLog(ShowInformationController.class);
+    
     @Autowired
-	private InformationDAO informationDAO;
+    private InformationDAO informationDAO;
 
     @RequestMapping
-	public ModelAndView handleRequest(@RequestParam("infoId") Long infoId) throws Exception {
-		ModelAndView mav = new ModelAndView("/manage/information/show.html");
-		try {
-			mav.addObject("information", informationDAO.getById(infoId));
-		} catch (Exception e) {
-			mav.addObject("errorInfo", e.getMessage());
-			log.error(e);
-		}
-		return mav;
-	}
-
+    public String handleRequest(@RequestParam("infoId") Long infoId, ModelMap map) {
+        try {
+            map.addAttribute("information", informationDAO.getById(infoId));
+        } catch (Exception e) {
+            log.error(e);
+            map.addAttribute("errorInfo", e.getMessage());
+        }
+        return "/manage/information/show.html";
+    }
 }

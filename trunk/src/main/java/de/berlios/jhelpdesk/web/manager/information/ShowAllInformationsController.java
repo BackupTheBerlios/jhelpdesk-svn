@@ -17,8 +17,8 @@ package de.berlios.jhelpdesk.web.manager.information;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import de.berlios.jhelpdesk.dao.InformationDAO;
 
@@ -29,10 +29,9 @@ public class ShowAllInformationsController  {
 	private InformationDAO informationDAO;
 
     @RequestMapping
-	public ModelAndView handleRequest() throws Exception {
-		ModelAndView mav = new ModelAndView("manager/information/showAll");
-		mav.addObject("informations", informationDAO.getAll());
-		return mav;
+	public String handleRequest(ModelMap map) {
+		map.addAttribute("informations", informationDAO.getAll());
+		return "manager/information/showAll";
 	}
 
 }
