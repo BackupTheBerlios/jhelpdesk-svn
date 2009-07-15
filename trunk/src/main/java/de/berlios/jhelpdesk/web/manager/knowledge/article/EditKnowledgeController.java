@@ -16,11 +16,12 @@
 package de.berlios.jhelpdesk.web.manager.knowledge.article;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.stereotype.Controller;
 
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 
-public class EditKnowledgeController extends SimpleFormController {
+@Controller("managerKnowledgeArticleEditCtrl")
+public class EditKnowledgeController {
 
     @Autowired
     private KnowledgeDAO knowledgeDAO;

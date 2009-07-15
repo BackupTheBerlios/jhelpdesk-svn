@@ -23,13 +23,7 @@
             <value>/desktop/main.html</value>
         </property>
     </bean>
-	
-    <bean id="logoutController"
-		class="de.berlios.jhelpdesk.web.LogoutController"/>
-	
-    <bean id="desktopViewCtrl"
-		class="de.berlios.jhelpdesk.web.desktop.DesktopViewController"/>
-	
+
     <bean
 		id="bugsNotifiedByMeViewController"
 		class="de.berlios.jhelpdesk.web.bugkiller.BugsNotifiedByMeViewController"
@@ -254,10 +248,6 @@
     </bean>
 
     <bean
-		id="managerBugCategoryDelCtrl"
-		class="de.berlios.jhelpdesk.web.manager.bugcategory.DeleteCategoryController"/>
-
-    <bean
 		id="managerBugCategoryUpDownCtrl"
 		class="de.berlios.jhelpdesk.web.manager.bugcategory.MoveUpDownCategoryController">
         <property name="methodNameResolver">
@@ -310,40 +300,7 @@
         </property>
     </bean>
 		
-	<!-- zarzadzanie artykulami w bazie wiedzy -->
-
-    <bean
-		id="managerKnowledgeArticleEditCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.article.EditKnowledgeController"/>
-
-	<!-- statystyki -->
-    <bean id="bugsByCategoryStatsViewController"
-        class="de.berlios.jhelpdesk.web.stats.BugsByCategoryViewController"/>
-	
-    <bean
-		id="statsMyViewCtrl"
-		class="de.berlios.jhelpdesk.web.stats.StatsForUserViewController"/>
-	
-    <bean
-		id="bugsByPriorityStatsViewController"
-		class="de.berlios.jhelpdesk.web.stats.BugsByPriorityViewController"/>
-	
-    <bean
-		id="bugsByNotyfierStatsViewController"
-		class="de.berlios.jhelpdesk.web.stats.BugsByNotyfierViewController"
-		scope="prototype"/>
-	
-    <bean
-		id="showSavioursViewCtrl"
-		class="de.berlios.jhelpdesk.web.stats.saviour.ShowSavioursViewCtrl"
-		scope="prototype"/>
-	
-    <bean
-		id="statsSaviourViewCtrl"
-		class="de.berlios.jhelpdesk.web.stats.saviour.StatsSaviourViewCtrl"
-		scope="prototype"/>
-
-	<!--  inne beany widoku -->	
+    <!--  inne beany widoku -->
     <bean
 		id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -384,20 +341,6 @@
 		id="multipartResolver"
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
 	/>
-
-    <!-- biny przeniesione z helpdesk-context.xml -->
-   	<!-- themeResolver - do obslugi tematow -->
-    <bean
-		id="themeResolver"
-		class="de.berlios.jhelpdesk.web.commons.HelpdeskThemeResolver">
-    </bean>
-	<!--  charts -->
-    <bean
-		id="pieChartBugsByNotyfier1"
-		class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier1DatasetProducer"/>
-    <bean
-		id="pieChartBugsByNotyfier2"
-		class="de.berlios.jhelpdesk.web.charts.BugStatsByNotyfier2DatasetProducer"/>
 
     <!-- mapowanie kontrolerów -->
     <import resource="helpdesk-mapping.xml" />

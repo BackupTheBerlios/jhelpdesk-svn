@@ -15,20 +15,21 @@
  */
 package de.berlios.jhelpdesk.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.view.RedirectView;
 
-public class LogoutController implements Controller {
+@Controller("logoutController")
+public class LogoutController {
 
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
-		request.getSession().removeAttribute("user");
-		request.getSession().setAttribute("logged", Boolean.FALSE);
-		request.getSession().invalidate();
-		return new ModelAndView(new RedirectView("/login.html", true));
-	}
+    @RequestMapping
+    public ModelAndView handleRequest(HttpSession session) {
+        session.removeAttribute("user");
+        session.setAttribute("logged", Boolean.FALSE);
+        session.invalidate();
+        return new ModelAndView(new RedirectView("/login.html", true));
+    }
 }

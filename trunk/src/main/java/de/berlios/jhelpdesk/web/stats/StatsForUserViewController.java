@@ -15,23 +15,18 @@
  */
 package de.berlios.jhelpdesk.web.stats;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.stereotype.Controller;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 
-public class StatsForUserViewController implements Controller {
+@Controller("statsMyViewCtrl")
+public class StatsForUserViewController {
 
     @Autowired
     private UserDAO hdUserDAO;
 
-    public ModelAndView handleRequest(HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        
-        return new ModelAndView("stats/myStats");
+    public String handleRequest() {
+        return "stats/myStats";
     }
 }

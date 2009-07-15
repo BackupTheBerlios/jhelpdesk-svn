@@ -15,46 +15,37 @@
  */
 package de.berlios.jhelpdesk.web.stats;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 
-public class BugsByNotyfierViewController implements Controller {
-
-    private static Log log = LogFactory.getLog(BugsByNotyfierViewController.class);
+@Scope("prototype")
+@Controller("bugsByNotyfierStatsViewController")
+public class BugsByNotyfierViewController {
 
     @Autowired
     private UserDAO hdUserDAO;
 
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.info("BugsByNotyfierViewController.handleRequest()");
-        ModelAndView mav = new ModelAndView();
-        if (request.getParameter("stats") != null) {
-            // przegladanie statystyk
-            mav.setViewName("stats/bugsByNotyfierStats");
-
-            return mav;
+    @RequestMapping
+    public String handleRequest(
+                  @RequestParam(value = "stats", required = false) String stats,
+                  @RequestParam(value = "letter", required = false) String letter,
+                  ModelMap map) {
+        if (stats != null) {
+            return "stats/bugsByNotyfierStats"; // przegladanie statystyk
         }
-
-        if (request.getParameter("letter") == null) {
-            response.sendRedirect(request.getRequestURI() + "?letter=A");
-            return null;
+        if (letter == null) {
+            return "redirect:notifyier.html?letter=A";
         }
-        log.info("Parametr letter=" + request.getParameter("letter"));
-        mav.setViewName("stats/bugsByNotyfierList"); // lista uzytkownikow
-        mav.addObject(
+        map.addAttribute(
             "users",
-            hdUserDAO.getAllUserWithLastNameStartsWithLetter(request.getParameter("letter")));
-
-        return mav;
+            hdUserDAO.getAllUserWithLastNameStartsWithLetter(letter));
+        return "stats/bugsByNotyfierList";
     }
     
 }

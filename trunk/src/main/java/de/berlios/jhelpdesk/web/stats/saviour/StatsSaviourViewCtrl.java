@@ -15,26 +15,27 @@
  */
 package de.berlios.jhelpdesk.web.stats.saviour;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.pao.StatsSaviourPAO;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-public class StatsSaviourViewCtrl implements Controller {
+@Scope("prototype")
+@Controller("statsSaviourViewCtrl")
+public class StatsSaviourViewCtrl {
 
     @Autowired
-	private StatsSaviourPAO statsPAO;
+    private StatsSaviourPAO statsPAO;
 
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("stats/saviour/saviourStats");
-		statsPAO.setSaviourId(request.getParameter("saviour"));
-		mav.addObject("stats", statsPAO.getFullStats());
-		return mav;
-	}
-
+    @RequestMapping
+    public ModelAndView handleRequest(@RequestParam("saviour") String saviour) {
+        ModelAndView mav = new ModelAndView("stats/saviour/saviourStats");
+        statsPAO.setSaviourId(saviour);
+        mav.addObject("stats", statsPAO.getFullStats());
+        return mav;
+    }
 }

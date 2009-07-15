@@ -29,6 +29,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
@@ -40,6 +41,7 @@ import de.laures.cewolf.links.PieSectionLinkGenerator;
 import de.laures.cewolf.tooltips.PieToolTipGenerator;
 import de.laures.cewolf.tooltips.ToolTipGenerator;
 
+@Component("pieChartBugsByNotyfier1")
 public class BugStatsByNotyfier1DatasetProducer implements DatasetProducer, PieToolTipGenerator,
 		PieSectionLinkGenerator, PieSectionLabelGenerator, ToolTipGenerator, Serializable {
 

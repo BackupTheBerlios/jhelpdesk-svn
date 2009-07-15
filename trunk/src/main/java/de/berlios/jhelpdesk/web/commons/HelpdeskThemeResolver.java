@@ -19,9 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ThemeResolver;
+import org.springframework.stereotype.Component;
 
 import de.berlios.jhelpdesk.model.User;
 
+@Component("themeResolver")
 public class HelpdeskThemeResolver implements ThemeResolver {
 
 	public String resolveThemeName(HttpServletRequest request) {
