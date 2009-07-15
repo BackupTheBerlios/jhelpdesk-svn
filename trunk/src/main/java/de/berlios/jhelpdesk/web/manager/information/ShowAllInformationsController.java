@@ -15,22 +15,21 @@
  */
 package de.berlios.jhelpdesk.web.manager.information;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.InformationDAO;
 
-public class ShowAllInformationsController implements Controller {
+@Controller("managerShowAllInformationsCtrl")
+public class ShowAllInformationsController  {
 
     @Autowired
 	private InformationDAO informationDAO;
 
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
+    @RequestMapping
+	public ModelAndView handleRequest() throws Exception {
 		ModelAndView mav = new ModelAndView("manager/information/showAll");
 		mav.addObject("informations", informationDAO.getAll());
 		return mav;

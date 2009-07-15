@@ -15,27 +15,32 @@
  */
 package de.berlios.jhelpdesk.web.manager.knowledge.article;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 
-public class DelKnowledgeController implements Controller {
+@Controller("managerKnowledgeArticleDelCtrl")
+public class DelKnowledgeController {
 
     private static Log log = LogFactory.getLog(DelKnowledgeController.class);
     
     @Autowired
     private KnowledgeDAO knowledgeDAO;
 
-    public ModelAndView handleRequest(HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        return null;
+    @RequestMapping
+    public ModelAndView handleRequest(@RequestParam("knowledgeId") Long knowledgeId) throws Exception {
+        try {
+            knowledgeDAO.delete(knowledgeId);
+        } catch(Exception ex) {
+            log.error(ex);
+        }
+        return new ModelAndView("/TODO:jakis widok wlasciwy");
     }
 }

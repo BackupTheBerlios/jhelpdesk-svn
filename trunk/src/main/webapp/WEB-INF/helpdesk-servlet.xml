@@ -277,18 +277,7 @@
     </bean>
 	
 	<!-- zarzadzanie informacjami -->
-    <bean
-		id="managerShowAllInformationsCtrl"
-		class="de.berlios.jhelpdesk.web.manager.information.ShowAllInformationsController"/>
-	
-    <bean
-		id="managerShowInformationCtrl"
-		class="de.berlios.jhelpdesk.web.manager.information.ShowInformationController"/>
 
-    <bean
-		id="managerDeleteInformationCtrl"
-		class="de.berlios.jhelpdesk.web.manager.information.DeleteInformationController"/>
-	
     <bean
 		id="managerEditInformationCtrl"
 		class="de.berlios.jhelpdesk.web.manager.information.EditInformationController">
@@ -336,18 +325,11 @@
     </bean>
 		
 	<!-- zarzadzanie artykulami w bazie wiedzy -->
-    <bean
-		id="managerKnowledgeArticleShowAll"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.article.ShowAllController"/>
-	
+
     <bean
 		id="managerKnowledgeArticleEditCtrl"
 		class="de.berlios.jhelpdesk.web.manager.knowledge.article.EditKnowledgeController"/>
-	
-    <bean
-		id="managerKnowledgeArticleDelCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.article.DelKnowledgeController"/>
-		
+
 	<!-- statystyki -->
     <bean id="bugsByCategoryStatsViewController"
         class="de.berlios.jhelpdesk.web.stats.BugsByCategoryViewController"/>
