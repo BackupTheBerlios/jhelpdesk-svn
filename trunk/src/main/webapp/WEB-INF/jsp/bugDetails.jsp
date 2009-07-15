@@ -38,36 +38,71 @@
 					<td colspan="2" style="width: 170px;"><c:out value="${bug.bugCategory}" /></td>
 					<td colspan="2" class="lastcol"><c:out value="${bug.bugPriority}" /></td>
 				</tr>
+				<c:if test="${bug.stepByStep}">
+				<tr>
+                    <th colspan="6" class="lastcol">Krok po kroku</th>
+                </tr>
+                <tr>
+                    <td colspan="6" class="lastcol"><c:out value="${bug.stepByStep}" /></td>
+                </tr>
+                </c:if>
 			</table>
 		</div>
 		<div class="contentbottom"></div>
+		
+		<c:if test="${not empty files}">
+			<div id="pagecontentsubheader"><h3>Pliki</h3></div>
+	        <div class="contenttop"></div>
+	        <div class="contentmiddle">
+		        <table cellspacing="0" class="standardtable">
+		            <tr>
+		                <th>Nazwa</th>
+		                <th class="lastcol">Rozmiar</th>
+		            </tr>
+		            <c:forEach var="file" items="${files}" varStatus="status">
+			            <tr>
+			                <td><c:out value="${file.originalFileName}"/></td>
+			                <td class="lastcol"><c:out value="${file.hashedFileName}"/></td>
+			            </tr>
+		            </c:forEach>
+		        </table>
+	        </div>
+	        <div class="contentbottom"></div>
+        </c:if>
 		
 		<div id="pagecontentsubheader"><h3>Ostatnie zdarzenia</h3></div>
 		<div class="chartcontainer">
 		<div class="chartbox">
 			<div class="TabView" id="currentWeekTabView">
 				<div class="Tabs">
-					<a><span>Krok po kroku</span></a>
+				    <a><span>Lista komentarzy</span></a>
 					<a><span>Historia zgloszenia</span></a>
-					<a><span>Lista komentarzy</span></a>
-					<a><span>Dodaj komentarz</span></a>
 				</div>
 				<div class="contenttop"></div>
 				<div class="Pages">
-					<div class="Page">
-					<table width="100%" cellspacing="12" cellpadding="4"><tr><td>
-						<table cellspacing="0" class="standardtable"> 
-							<tr>
-								<th class="lastcol">Dokładny opis</th>
-							</tr>
-							<c:forEach var="event" items="${bug.events}" varStatus="status">
-							<tr>
-								<td class="lastcol"><c:out value="${bug.stepByStep}" escapeXml="false"/></td>
-							</tr>
-							</c:forEach>
-						</table>
-					</td></tr></table>
-					</div>
+                    <div class="Page">
+                    <table width="100%" cellspacing="12" cellpadding="4"><tr><td>
+                        <table cellspacing="0" class="standardtable"> 
+                            <tr>
+                                <th>Autor</th>
+                                <th>Data</th>
+                                <th class="lastcol">Treść</th>
+                            </tr>
+                            <c:forEach var="comment" items="${bug.comments}" varStatus="status">
+	                            <tr>
+	                                <td class="tit"><c:out value="${comment.commentAuthor}"/></td>
+	                                <td><fmt:formatDate value="${comment.commentDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+	                                <td class="bod"><c:out value="${comment.commentText}" escapeXml="false"/></td>
+	                            </tr>
+                            </c:forEach>
+                        </table>
+                        <form action="<c:url value="/bugDetails.html?bugId=${param.bugId}"/>" method="POST">
+                            <textarea id="addComm" name="addComm" rows="3" class="mceEditor addcomment" style="height: 120px;"></textarea>
+                            <br/>
+                            <input type="submit" value="dodaj komentarz" class="btn" />
+                        </form>
+                    </td></tr></table>
+                    </div>
 					<div class="Page">
 					<table width="100%" cellspacing="12" cellpadding="4"><tr><td>
 						<table cellspacing="0" class="standardtable"> 
@@ -86,47 +121,6 @@
 							</tr>
 							</c:forEach>
 						</table>
-					</td></tr></table>
-					</div>
-					<div class="Page">
-					<table width="100%" cellspacing="12" cellpadding="4"><tr><td>
-						<table cellspacing="0" class="standardtable"> 
-							<tr>
-								<th>Autor</th>
-								<th>Data</th>
-								<th class="lastcol">Treść</th>
-							</tr>
-							<c:forEach var="comment" items="${bug.comments}" varStatus="status">
-							<tr>
-								<td class="tit"><c:out value="${comment.commentAuthor}"/></td>
-								<td><fmt:formatDate value="${comment.commentDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-								<td class="bod"><c:out value="${comment.commentText}" escapeXml="false"/></td>
-							</tr>
-							</c:forEach>
-						</table>
-					</td></tr></table>
-					</div>
-					<div class="Page">
-					<table width="100%" cellspacing="12" cellpadding="4"><tr><td>
-						<form action="<c:url value="/bugDetails.html?bugId=${param.bugId}"/>" method="POST">
-							<textarea id="addComm" name="addComm" rows="3" class="mceEditor addcomment" style="height: 120px;"></textarea>
-							<br/>
-							<input type="submit" value="dodaj komentarz" class="btn" />
-						</form>
-						<br />
-						<table cellspacing="0" class="standardtable">
-							<tr>
-								<th>Nazwa</th>
-								<th class="lastcol">Rozmiar</th>
-							</tr>
-							<c:forEach var="file" items="${files}" varStatus="status">
-							<tr>
-								<td><c:out value="${file.originalFileName}"/></td>
-								<td class="lastcol"><c:out value="${file.hashedFileName}"/></td>
-							</tr>
-							</c:forEach>
-						</table>
-						
 					</td></tr></table>
 					</div>
 				</div>
