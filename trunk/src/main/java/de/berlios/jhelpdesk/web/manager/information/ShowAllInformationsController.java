@@ -23,15 +23,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import de.berlios.jhelpdesk.dao.InformationDAO;
 
 @Controller("managerShowAllInformationsCtrl")
-public class ShowAllInformationsController  {
+public class ShowAllInformationsController {
 
     @Autowired
-	private InformationDAO informationDAO;
+    private InformationDAO informationDAO;
 
     @RequestMapping
-	public String handleRequest(ModelMap map) {
-		map.addAttribute("informations", informationDAO.getAll());
-		return "manager/information/showAll";
-	}
-
+    public String handleRequest(ModelMap map) {
+        map.addAttribute("informations", informationDAO.getAll());
+        return "manager/information/showAll";
+    }
 }
