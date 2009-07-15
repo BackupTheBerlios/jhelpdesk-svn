@@ -294,6 +294,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 					);
 					/* bugCategory */
 					BugCategory category = new BugCategory();
+					category.setBugCategoryId(rs.getLong( "c_id" ) );
 					category.setCategoryName( rs.getString( "c_name" ) );
 					hdBug.setBugCategory( category );
 					/* bugPriority */

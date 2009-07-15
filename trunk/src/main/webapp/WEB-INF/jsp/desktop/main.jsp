@@ -56,14 +56,23 @@
                                     <th>Zgłaszający</th>
                                     <th>Kategoria</th>
                                     <th>Priorytet</th>
-                                    <th >Data</th>
+                                    <th>Data</th>
                                     <th class="lastcol">&nbsp;</th>
                                 </tr>
                                 <c:forEach var="bug" items="${lastBugs}">
                                     <tr>
                                         <td><c:out value="${bug.subject}"/></td>
                                         <td><c:out value="${bug.notifier}"/></td>
-                                        <td>&nbsp;</td>
+                                        <td>
+                                            <c:choose>
+										        <c:when test="${bug.bugCategory.bugCategoryId == 0}">
+										            Brak
+										        </c:when>
+										        <c:otherwise>
+										            <c:out value="${bug.bugCategory}"/>
+										        </c:otherwise>
+										    </c:choose>
+                                        </td>
                                         <td><c:out value="${bug.bugPriority}"/></td>
                                         <td><fmt:formatDate value="${bug.createDate}" pattern="dd/MM/yyyy HH:mm"/></td>
                                         <td class="lastcol"><a href="<c:url value="/bugDetails.html?bugId=${bug.bugId}"/>">wiecej</a></td>

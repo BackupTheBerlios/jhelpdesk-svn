@@ -47,7 +47,7 @@ public class BugCategoryDAOJdbc extends AbstractJdbcTemplateSupport implements B
 	@SuppressWarnings("unchecked")
 	public List<BugCategory> getAllCategories() {
 		return getJdbcTemplate().query(
-			"SELECT * FROM hd_bug_category ORDER BY t_left ASC",
+			"SELECT * FROM hd_bug_category WHERE category_id>0 ORDER BY t_left ASC",
 			new RowMapper() {
 				public Object mapRow( ResultSet rs, int row ) throws SQLException {
 					BugCategory hdBugCategory = new BugCategory();

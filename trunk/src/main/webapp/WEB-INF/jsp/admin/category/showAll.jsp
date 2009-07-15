@@ -13,7 +13,7 @@
 <div class="contenttop"></div>
 <div class="contentmiddle">
 
-<c:if test="${not empty categories}">
+
 <table cellspacing="0">
 	<tr>
 		<td>
@@ -21,6 +21,7 @@
 		</td>
 	</tr>
 </table>
+<c:if test="${not empty categories}">
 <br />
 <table cellspacing="0" class="standardtable">
 	<tr>
@@ -37,7 +38,7 @@
 		<td class="lastcol bugDrop"><a href="<c:url value="/manage/category/remove.html?catId=${category.bugCategoryId}"/>">Drop</a></td>
 	</tr>
 	</c:forEach>
-	</table>
+</table>
 </c:if>
 
 </div>

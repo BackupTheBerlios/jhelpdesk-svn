@@ -189,6 +189,9 @@ CREATE TABLE hd_bug_category (
 ) WITH (OIDS=FALSE)
 ;
 
+INSERT INTO hd_bug_category (category_id, category_name, category_desc, t_left, t_right, t_depth) 
+    VALUES (0, 'uncategorized', 'default category', 1, 2, 0);
+
 --- ### zgłoszenia
 
 CREATE SEQUENCE bug_id_seq
@@ -202,7 +205,7 @@ CREATE SEQUENCE bug_id_seq
 CREATE TABLE hd_bug (
   bug_id integer NOT NULL DEFAULT nextval(('public.bug_id_seq'::text)::regclass),
   add_phone character varying(20),
-  bug_category integer, -- NOT NULL
+  bug_category integer NOT NULL DEFAULT 0, 
   bug_priority smallint NOT NULL,
   bug_status integer NOT NULL,
   saviour integer,
