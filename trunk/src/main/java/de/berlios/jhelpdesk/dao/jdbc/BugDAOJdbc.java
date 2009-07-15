@@ -408,7 +408,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 							"VALUES(nextval('bug_id_seq'),?,?,?,?,?,?,?,?,?,?,?)"
 						);
 					pstmt.setString(1, bugToSave.getAddPhone());
-					pstmt.setNull(2, Types.INTEGER); //(2, bugToSave.getBugCategory().getBugCategoryId());
+					pstmt.setInt(2, 0); //(2, bugToSave.getBugCategory().getBugCategoryId());
 					pstmt.setLong(3, bugToSave.getBugPriority().getPriorityId());
 					pstmt.setLong(4, bugToSave.getBugStatus().getStatusId());
 					
