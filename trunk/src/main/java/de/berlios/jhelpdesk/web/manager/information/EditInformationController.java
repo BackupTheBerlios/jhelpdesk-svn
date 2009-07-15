@@ -15,62 +15,92 @@
  */
 package de.berlios.jhelpdesk.web.manager.information;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 
 import de.berlios.jhelpdesk.dao.InformationDAO;
 import de.berlios.jhelpdesk.model.Information;
 import de.berlios.jhelpdesk.web.tools.InformationValidator;
 
-public class EditInformationController extends SimpleFormController {
-	private static Log log = LogFactory.getLog(EditInformationController.class);
+/**
+ * Kontroler obsługujący dodawanie oraz edycję ogłoszeń z działu wsparcia.
+ *
+ * @author jjhop
+ *
+ * @see Information
+ */
+@Controller("managerEditInformationCtrl")
+public class EditInformationController {
 
     @Autowired
-	private InformationDAO informationDAO;
+    private InformationDAO informationDAO;
 
     @Autowired
-    public EditInformationController(InformationValidator validator) {
-        setValidator(validator);
+    private InformationValidator validator;
+
+    /**
+     * Przygotowuje formularz do dodania (lub edycji) ogłoszenia. Jeśli w żądaniu
+     * znaduje się identyfikator ogłoszenia to zostanie ono przygotowane do edycji,
+     * w przeciwnym wypadku do modelu zostanie dołączony nowy (pusty) obiekt ogłoszenia.
+     * 
+     * @param infoId identyfikator ogłoszenia do edycji
+     *               lub {@code false} jeśli to nowe ogłoszenie
+     * @param map model widoku
+     * @return identyfikato widoku
+     *
+     * @see Information
+     * @see InformationDAO
+     * 
+     * @see ModelMap
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    protected String prepareForm(
+                     @RequestParam(value = "infoId", required = false) Long infoId,
+                     ModelMap map) {
+        
+        if (infoId == null) {
+            map.addAttribute("information", new Information());
+        } else {
+            map.addAttribute("information", informationDAO.getById(infoId));
+        }
+        return "manager/information/edit";
     }
 
-	@Override
-	protected Object formBackingObject(HttpServletRequest request) throws Exception {
-		log.debug("formBackingObject");
-		Information information = null;
-		try {
-			information = informationDAO.getById(
-					Long.parseLong(request.getParameter("infoId")));
-		} catch (Exception ex) {
-			log.warn(ex);
-			information = new Information();
-		}
-		return information;
-	}
+    /**
+     * Obsługuje wysłany formularz i zapisuje podany obiekt. Decyzję o tym czy jest
+     * to update czy dodanie nowego podejmuje stosowny obiekt DAO.
+     * 
+     * @param information obiekt ogłoszenia do zapisania (po poprawnym zwalidowaniu)
+     * @param result
+     * @param status
+     * @return identyfikator widoku do wyświetlenia
+     *
+     * @see Information
+     * @see InformationDAO
+     * @see InformationValidator
+     *
+     * @see BindingResult
+     * @see SessionStatus
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    protected String processSubmit(
+                     @ModelAttribute("information") Information information,
+                     BindingResult result, SessionStatus status) {
 
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request, 
-			HttpServletResponse response, Object command, BindException errors)
-			throws Exception {
-		log.debug("onSubmit()");
-		ModelAndView mav = null;
-		try {
-			informationDAO.save((Information) command);
-			mav = new ModelAndView(
-					new RedirectView("/manage/information/showAll.html", true));
-		} catch (Exception ex) {
-			log.error(ex);
-			mav = new ModelAndView(getFormView());
-		}
-		return mav;
-	}
+        validator.validate(information, result);
 
+        if (result.hasErrors()) {
+            return "manager/information/edit";
+        }
+        informationDAO.save(information);
+        status.setComplete();
+        return "redirect:showAll.html";
+    }
 }

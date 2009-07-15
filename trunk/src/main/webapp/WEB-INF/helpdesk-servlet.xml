@@ -275,22 +275,8 @@
             </props>
         </property>
     </bean>
-	
-	<!-- zarzadzanie informacjami -->
 
-    <bean
-		id="managerEditInformationCtrl"
-		class="de.berlios.jhelpdesk.web.manager.information.EditInformationController">
-        <property name="commandName">
-            <value>information</value>
-        </property>
-        <property name="formView">
-            <value>manager/information/edit</value>
-        </property>
-    </bean>
-		
 	<!-- zarzadzanie sekcjami w bazie wiedzy -->
-
     <bean
 		id="managerKnowledgeSectionEditCtrl"
 		class="de.berlios.jhelpdesk.web.manager.knowledge.section.EditSectionController">
