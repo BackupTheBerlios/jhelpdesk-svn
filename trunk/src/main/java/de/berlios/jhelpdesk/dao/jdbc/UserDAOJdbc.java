@@ -25,7 +25,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -53,16 +52,16 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
         super(dataSource);
     }
 			
-	public boolean checkLoginAndPassw( String login, String passw ) {
-		return 
-			getJdbcTemplate().queryForLong(
-				"SELECT COUNT(*) AS COUNT FROM hd_user WHERE login=? AND passw=?",
-				new Object[] {
-					login,
-					DigestUtils.shaHex( passw )
-				}
-			) == 1 ? true : false;
-	}
+    public boolean authenticate(String login, String passw) {
+        System.out.println("57-login: " + login);
+        System.out.println("58-passw: " + passw);
+        return getJdbcTemplate().queryForLong(
+            "SELECT COUNT(*) AS COUNT FROM hd_user WHERE login=? AND passw=?",
+            new Object[]{
+                login, passw
+            }) == 1 ? true : false
+        ;
+    }
 
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUser() {
@@ -154,10 +153,11 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 		if( user.getUserId() != null ) {
 			// update
 			getJdbcTemplate().update(
-				"UPDATE hd_user SET login=?, first_name=?, last_name=?, " +
+				"UPDATE hd_user SET login=?, passw=?, first_name=?, last_name=?, " +
 				"phone=?, mobile=?, email=?, role=?, is_active=? WHERE user_id=?",
 				new Object[] {
 					user.getLogin(),
+                    user.getPassword(),
 					user.getFirstName(),
 					user.getLastName(),
 					user.getPhone(),
@@ -176,18 +176,19 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 						conn.setAutoCommit( false );
 						PreparedStatement pstmt = 
 							conn.prepareStatement(
-								"INSERT INTO hd_user(user_id,login,first_name,last_name,phone," +
+								"INSERT INTO hd_user(user_id,login,passw,first_name,last_name,phone," +
 								"mobile,email,role,is_active) " +
-								"VALUES(nextval('user_id_seq'),?,?,?,?,?,?,?,?)"
+								"VALUES(nextval('user_id_seq'),?,?,?,?,?,?,?,?,?)"
 							);
 						pstmt.setString( 1, user.getLogin() );
-						pstmt.setString( 2, user.getFirstName() );
-						pstmt.setString( 3, user.getLastName() );
-						pstmt.setString( 4, user.getPhone() );
-						pstmt.setString( 5, user.getMobile() );
-						pstmt.setString( 6, user.getEmail() );
-						pstmt.setLong( 7, user.getUserRole().toInt() );
-						pstmt.setBoolean( 8, user.isActive() );
+                        pstmt.setString( 2, user.getPassword());
+						pstmt.setString( 3, user.getFirstName() );
+						pstmt.setString( 4, user.getLastName() );
+						pstmt.setString( 5, user.getPhone() );
+						pstmt.setString( 6, user.getMobile() );
+						pstmt.setString( 7, user.getEmail() );
+						pstmt.setLong( 8, user.getUserRole().toInt() );
+						pstmt.setBoolean( 9, user.isActive() );
 						pstmt.executeUpdate();
 						
 						Statement stmt = 

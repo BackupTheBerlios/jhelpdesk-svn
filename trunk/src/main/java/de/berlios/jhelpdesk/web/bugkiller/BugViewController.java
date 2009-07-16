@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,8 +30,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.model.AdditionalFile;
@@ -38,16 +41,18 @@ import de.berlios.jhelpdesk.model.Bug;
 import de.berlios.jhelpdesk.model.BugComment;
 import de.berlios.jhelpdesk.model.User;
 
-import javax.activation.MimetypesFileTypeMap;
-
-public class BugViewController implements Controller {
+@Scope("prototype")
+@Controller("killerBugViewController")
+public class BugViewController {
 	
 	private static Log log = LogFactory.getLog(BugViewController.class);
 
     @Autowired
 	private BugDAO bugDao;
-	private String fileRepositoryPath;
 
+	private String fileRepositoryPath = "c:\\helpdesk\\files"; //TODO: wypad z tym stąd
+
+    @RequestMapping
 	public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		log.info("BugViewController.handleRequest()");
 
@@ -99,9 +104,5 @@ public class BugViewController implements Controller {
 		mav.addObject("bug", bug);
 		mav.addObject("files", addFiles);
 		return mav;
-	}
-
-	public void setFileRepositoryPath(String fileRepositoryPath) {
-		this.fileRepositoryPath = fileRepositoryPath;
 	}
 }

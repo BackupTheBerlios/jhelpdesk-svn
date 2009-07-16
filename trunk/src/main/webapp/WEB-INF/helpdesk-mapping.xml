@@ -2,13 +2,10 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
-				<!-- akcje zwiazane z logowaniem -->
-				<prop key="/login.html">loginController</prop>
-				<prop key="/logout.html">logoutController</prop>
-				
 				<prop key="/desktop/main.html">desktopViewCtrl</prop>
 				
 				<!-- akcje zwiazane z bledami -->

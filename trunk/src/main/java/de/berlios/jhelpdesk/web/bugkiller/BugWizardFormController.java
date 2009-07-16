@@ -99,7 +99,9 @@ public class BugWizardFormController extends AbstractWizardFormController {
 			bindErrors.rejectValue("notifier", "hdbug.notifier.notEmpty");
 		}
 		
-		if ((bug.getUploadedFile() != null) && (bug.getUploadedFile().getOriginalFilename().length() > 0)) {
+		if ((bug.getUploadedFile() != null) && (!bug.getUploadedFile().isEmpty())
+            && (bug.getUploadedFile().getOriginalFilename().length() > 0)) {
+
 			MultipartFile file = bug.getUploadedFile();
 			AdditionalFile addFile = new AdditionalFile();
 			addFile.setContentType(file.getContentType());

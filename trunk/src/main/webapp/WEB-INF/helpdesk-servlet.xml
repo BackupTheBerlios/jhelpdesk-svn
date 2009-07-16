@@ -8,22 +8,7 @@
             http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
     
     <context:component-scan base-package="de.berlios.jhelpdesk"/>
-
-    <bean id="loginController" class="de.berlios.jhelpdesk.web.LoginController" scope="prototype">
-        <property name="commandName">
-            <value>loginForm</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.UserLoginForm</value>
-        </property>
-        <property name="formView">
-            <value>login</value>
-        </property>
-        <property name="successView">
-            <value>/desktop/main.html</value>
-        </property>
-    </bean>
-
+    
     <bean
 		id="bugsNotifiedByMeViewController"
 		class="de.berlios.jhelpdesk.web.bugkiller.BugsNotifiedByMeViewController"
@@ -113,13 +98,7 @@
         </property>
 		<!--<property name="successView"><value>showBugs.html</value></property>-->
     </bean>
-
-    <bean id="killerBugViewController" class="de.berlios.jhelpdesk.web.bugkiller.BugViewController" scope="prototype">
-        <property name="fileRepositoryPath">
-            <value type="java.lang.String">c:\\helpdesk\\files\\</value>
-        </property>
-    </bean>
-	
+    
     <bean id="killerBugEditController" class="de.berlios.jhelpdesk.web.bugkiller.BugWizardFormController" scope="prototype">
         <property name="commandName">
             <value>hdbug</value>

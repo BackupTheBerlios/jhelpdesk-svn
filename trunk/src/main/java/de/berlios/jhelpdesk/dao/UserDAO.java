@@ -110,7 +110,7 @@ public interface UserDAO {
      * @return {@code true} jeśli odnajdzie użytkownika z podanym hasłem oraz {@code false}
      *     w każdym innym wypadku
      */
-    boolean checkLoginAndPassw(String login, String passw);
+    boolean authenticate(String login, String passw);
 
     /**
      * Loguje użytkownika w systemie. Zapisuje informacje o czasie logowania.

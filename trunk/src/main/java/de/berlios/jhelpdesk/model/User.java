@@ -15,6 +15,8 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 /**
  * Reprezentacja użytkownika w systemie. Przechowuje wszystkie istotne informacje związane z użytkownikem
  * i udostępnia je aplikacji.
@@ -41,9 +43,9 @@ public class User {
     private String login;
     
     /**
-     * Hasło użytkownika.
+     * Zahaszowane hasło użytkownika.
      */
-    private String password;
+    private String hashedPassword;
 
     /**
      * Imię użytkownika.
@@ -153,7 +155,7 @@ public class User {
      * @return hasło użytkownika w postaci skrótu
      */
     public String getPassword() {
-        return password;
+        return hashedPassword;
     }
 
     /**
@@ -161,8 +163,9 @@ public class User {
      *
      * @param password hasło użytkownika
      */
+    // TODO: dolożyć szczyptę soli do hasła
     public void setPassword(String password) {
-        this.password = password;
+        this.hashedPassword = DigestUtils.shaHex(password);
     }
 
     /**
@@ -328,11 +331,6 @@ public class User {
      */
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    @Deprecated
-    public static boolean authorizeUser(String login, String passw) {
-        return false;
     }
 
     /**
