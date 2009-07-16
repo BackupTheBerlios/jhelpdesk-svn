@@ -94,7 +94,7 @@
 		<put-attribute name="title" value="Pokaż nowe błędy"/>
 		<put-attribute name="displayFilterLink" value="block"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showBugsNewForm.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugsNewList.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/listNew.jsp"/>
 	</definition>
 	
 	<definition
@@ -103,7 +103,7 @@
 		<put-attribute name="title" value="Pokaż zgłoszenia przypisane do mnie"/>
 		<put-attribute name="displayFilterLink" value="block"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showBugsAssignedToMeForm.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugsAssignedToMeList.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/listAssignedToMe.jsp"/>
 	</definition>
 	<definition
 		name="bugsNonresolvedAssignedToMeList"
@@ -111,7 +111,7 @@
 		<put-attribute name="title" value="Pokaż zgłoszenia przypisane do mnie i nierozwiązane"/>
 		<put-attribute name="displayFilterLink" value="block"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugsNonresolvedAssignedToMeList.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/listNonresolvedAssignedToMe.jsp"/>
 	</definition>
 	
 	<definition
@@ -120,7 +120,7 @@
 		<put-attribute name="title" value="Pokaż zgłoszenia nierozwiązane"/>
 		<put-attribute name="displayFilterLink" value="block"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugsNonresolvedList.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/listNonresolved.jsp"/>
 	</definition>
 	
 	<definition
@@ -129,7 +129,7 @@
 		<put-attribute name="title" value="Pokaż moje zgłoszenia"/>
 		<put-attribute name="displayFilterLink" value="block"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showBugsNotifiedByMeForm.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugsNotifiedByMe.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/notifiedByMe.jsp"/>
 	</definition>
 	
 	<definition
@@ -138,7 +138,7 @@
 		<put-attribute name="title" value="Dodawanie/edycja zgłoszenia"/>
 		<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/editBug.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/edit.jsp"/>
 	</definition>
 
 	<definition
