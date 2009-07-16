@@ -13,10 +13,9 @@
  * 
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
-package de.berlios.jhelpdesk.web.help;
+package de.berlios.jhelpdesk.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,21 +24,29 @@ import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Scope("prototype")
-@Controller("helpBaseViewController")
-public class BaseViewController {
+@Controller
+public class HelpViewController {
 
     @Autowired
     private KnowledgeDAO knowledgeDAO;
-    
     @Autowired
     private KnowledgeSectionDAO knowledgeSectionDAO;
 
-    @RequestMapping
-    public ModelAndView handleRequest(
+    @RequestMapping("/help/index.html")
+    public ModelAndView indexView() throws Exception {
+        return new ModelAndView("help/index");
+    }
+
+    @RequestMapping("/help/about.html")
+    public ModelAndView aboutView() throws Exception {
+        return new ModelAndView("help/about");
+    }
+
+    @RequestMapping("/help/base.html")
+    public ModelAndView knowledgeBaseView(
                         @RequestParam(value = "id", required = false) Long id,
-                        @RequestParam(value ="key", required = false) String key) throws Exception {
-        
+                        @RequestParam(value ="key", required = false) String key) {
+
         ModelAndView mav = null;
         if ((key != null) && key.equalsIgnoreCase("details")) {
             mav = new ModelAndView("help/base/one");

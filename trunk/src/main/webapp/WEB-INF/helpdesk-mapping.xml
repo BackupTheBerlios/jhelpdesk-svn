@@ -66,31 +66,6 @@
 				<prop key="/manage/knowledge/section/down.html">managerKnowledgeSectionUpDownCtrl</prop>
 
 				<prop key="/manage/knowledge/article/showAll.html">managerKnowledgeArticleShowAll</prop>
-				<!--
-				<prop key="/manage/knowledge/article/show.html"></prop>
-				<prop key="/manage/knowledge/article/new.html"></prop>
-				<prop key="/manage/knowledge/article/edit.html"></prop>
-				<prop key="/manage/knowledge/article/remove.html"></prop>
-				<prop key="/manage/knowledge/article/up.html"></prop>
-				<prop key="/manage/knowledge/article/down.html"></prop>
-				-->
-				<!-- 
-					TODO: dorzucic zarzadznie powiazanymi z bledem zgloszeniami i plikami
-				-->
-				
-				<!--<prop key="/stats/users/notify.html"></prop>-->
-				<!--<prop key="/stats/users/resolvingTime.html"></prop>-->
-				<!--<prop key="/stats/users/amountOfBugs.html"></prop>-->
-				<!--<prop key="/stats/users/userFullStats.html"></prop>-->
-
-				<!-- TODO: akcje zwiazane z zarzadzaniem waznosciami-->
-				<!--<prop key="/showPriorities.html"></prop>-->  <!-- lista priorytetów1        -->
-				<!--<prop key="/priorityDetails.html"></prop>--> <!-- szczegoly priorytetu      -->
-				<!--<prop key="/editPriority.html"></prop>-->    <!-- dodanie/edycja priorytetu -->
-				<!--<prop key="/removePriority.html"></prop>-->  <!-- usuniecie priorytetu      -->
-				<prop key="/help/about.html">helpAboutViewController</prop>
-				<prop key="/help/base.html">helpBaseViewController</prop>
-				<prop key="/help/index.html">helpIndexViewController</prop>
 				
 			</props>
 		</property>
