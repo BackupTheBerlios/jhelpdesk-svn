@@ -21,17 +21,16 @@ import java.util.Date;
 import java.util.List;
 
 import javax.activation.MimetypesFileTypeMap;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.NullArgumentException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import de.berlios.jhelpdesk.dao.BugCategoryDAO;
 import de.berlios.jhelpdesk.dao.BugDAO;
@@ -41,74 +40,66 @@ import de.berlios.jhelpdesk.model.BugComment;
 import de.berlios.jhelpdesk.model.BugPriority;
 import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.model.User;
+import org.springframework.ui.ModelMap;
 
 @Controller
+@SessionAttributes("user")
 public class BugViewController {
-	
-	private static Log log = LogFactory.getLog(BugViewController.class);
 
     @Autowired
-	private BugDAO bugDao;
+    private BugDAO bugDao;
     
     @Autowired
     private BugCategoryDAO bugCategoryDao;
 
-	private final String fileRepositoryPath = "c:\\helpdesk\\files"; //TODO: wypad z tym stąd
+    private final String repositoryPath = "c:\\helpdesk\\files"; //TODO: wypad z tym stąd
 
-    @RequestMapping("/bugDetails.html")
-	public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		log.info("BugViewController.handleRequest()");
+    @RequestMapping(value = "/bugDetails.html", method = RequestMethod.POST)
+    public String processAddComment(
+        @RequestParam("bugId") Long bugId,
+        @RequestParam("addComm") String addComm,
+        @ModelAttribute("user") User user) {
+        BugComment comm = new BugComment();
+        comm.setBugId(bugId);
+        comm.setCommentDate(new Date(System.currentTimeMillis()));
+        comm.setNotForPlainUser(false);
+        comm.setCommentAuthor(user);
+        comm.setCommentText(addComm);
+        bugDao.addComment(comm);
+        return "redirect:/bugDetails.html?bugId=" + bugId;
+    }
 
-		ModelAndView mav = null;
+    // TODO: zamienis ModelAndView na String
+    // TODO: uzyć ModelMap
+    @RequestMapping(value="/bugDetails.html",method=RequestMethod.GET)
+	public String showTicket(
+                        @RequestParam("bugId") Long bugId,
+                        @RequestParam(value = "format", required = false) String format,
+                        ModelMap mav) throws Exception {
 
-		if (req.getParameter("bugId") == null)
-			throw new NullArgumentException("Argument \"bugId\" nie moze byc null'em.");
+        Bug bug = bugDao.getBugById(bugId);
 
-		if (req.getParameter("format") != null && req.getParameter("format").equalsIgnoreCase("pdf")) {
-			mav = new ModelAndView("one-pdf");
-		} else {
-			mav = new ModelAndView("bugDetails");
-		}
+        List<AdditionalFile> addFiles = new ArrayList<AdditionalFile>();
+        File repDir = new File(new StringBuffer(repositoryPath).append(File.separatorChar).append(bugId).toString());
 
-		if (req.getMethod().equalsIgnoreCase("post")) {
-			// dorzucamy komentarz do błędu
-			BugComment comm = new BugComment();
-			comm.setBugId(Long.parseLong(req.getParameter("bugId")));
-			comm.setCommentDate(new Date(System.currentTimeMillis()));
-			comm.setNotForPlainUser(false);
-			comm.setCommentAuthor((User) req.getSession().getAttribute("user"));
-			comm.setCommentText(req.getParameter("addComm"));
-			bugDao.addComment(comm);
-			res.sendRedirect(req.getContextPath() + "/bugDetails.html?bugId=" + req.getParameter("bugId"));
-			res.flushBuffer();
-		}
+        if (repDir.exists() && repDir.isDirectory()) {
+            for (File f : repDir.listFiles()) {
+                AdditionalFile addFile = new AdditionalFile();
+                addFile.setOriginalFileName(f.getName());
+                String mimeType = new MimetypesFileTypeMap().getContentType(f.getName());
+                addFile.setContentType((mimeType != null) ? mimeType : "application/octet-strem");
+                addFile.setFileSize(f.length());
+                addFile.setHashedFileName(FileUtils.byteCountToDisplaySize(f.length()));
+                addFiles.add(addFile);
+            }
+        }
 
-		Bug bug = bugDao.getBugById(Long.parseLong(req.getParameter("bugId").toString()));
-		// for( Object evt : bug.getEvents() ) {
-		// evt = ( HDBugEvent ) evt;
-		// log.info( evt );
-		// }
-		List<AdditionalFile> addFiles = new ArrayList<AdditionalFile>();
-		File repDir = new File(new StringBuffer(fileRepositoryPath).append(File.separatorChar).append(bug.getBugId())
-				.toString());
+        mav.addAttribute("bug", bug);
+        mav.addAttribute("files", addFiles);
+        mav.addAttribute("bugPriorities", BugPriority.values());
+        mav.addAttribute("bugStatuses", BugStatus.values());
+        mav.addAttribute("bugCategories", bugCategoryDao.getAllCategories());
 
-		if (repDir.exists() && repDir.isDirectory()) {
-			for (File f : repDir.listFiles()) {
-				AdditionalFile addFile = new AdditionalFile();
-				addFile.setOriginalFileName(f.getName());
-				String mimeType = new MimetypesFileTypeMap().getContentType(f.getName());
-				addFile.setContentType((mimeType != null) ? mimeType : "application/octet-strem");
-				addFile.setFileSize(f.length());
-				addFile.setHashedFileName(FileUtils.byteCountToDisplaySize(f.length()));
-				addFiles.add(addFile);
-			}
-		}
-
-		mav.addObject("bug", bug);
-		mav.addObject("files", addFiles);
-		mav.addObject("bugPriorities", BugPriority.values());
-		mav.addObject("bugStatuses", BugStatus.values());
-		mav.addObject("bugCategories", bugCategoryDao.getAllCategories());
-		return mav;
-	}
+        return (format != null && format.equalsIgnoreCase("pdf")) ? "one-pdf" : "bugDetails";
+    }
 }
