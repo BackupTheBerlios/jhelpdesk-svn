@@ -11,6 +11,7 @@
 		<li class="last"><a href="<c:url value="/showBugsAssignedToMe.html"/>"><span>Przypisane do mnie</span></a></li>
 	</ul>
 	</li>
+	<!-- 
 	<li class="submenu"><a href="javascript:none();"><span><fmt:message key="label.stats"/></span></a>
 	<ul class="level2">
 		<li class="submenu first"><a href="javascript:none();"><span>Zgłoszenia...</span></a>
@@ -25,6 +26,7 @@
 		<li class="submenu last"><a href="<c:url value="/stats/myStats.html"/>"><span>Moje statystyki</span></a></li>
 	</ul>
 	</li>
+	 -->
 	<li class="submenu"><a href="javascript:none();"><span><fmt:message key="label.preferences"/></span></a>
 	<ul class="level2">
 		<li><a href="<c:url value="/preferences/lookAndFeel.html"/>"><span>Wygląd, język...</span></a></li>

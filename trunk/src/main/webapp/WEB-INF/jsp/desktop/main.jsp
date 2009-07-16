@@ -10,7 +10,7 @@
                     <a href="<c:url value="/newBug.html"/>"><img src="<c:url value="/i/icons/48/evolution.png"/>" alt="s1" width="48" height="48"/></a>
                     <a href="<c:url value="/showNewBugs.html"/>"><img src="<c:url value="/i/icons/48/gnome-xterm.png"/>" alt="s2" width="48" height="48"/></a>
                     <a href="<c:url value="/showNonresolvedBugsAssignedToMe.html"/>"><img src="<c:url value="/i/icons/48/file-manager.png"/>" alt="s3" width="48" height="48"/></a>
-                    <a href="<c:url value="/stats/my.html"/>"><img src="<c:url value="/i/icons/48/gnome-applications.png"/>" alt="s4" width="48" height="48"/></a>
+                    <!-- <a href="<c:url value="/stats/my.html"/>"><img src="<c:url value="/i/icons/48/gnome-applications.png"/>" alt="s4" width="48" height="48"/></a> -->
                     <a href="<c:url value="/help/base.html"/>"><img src="<c:url value="/i/icons/48/gnome-help.png"/>" alt="s5" width="48" height="48"/></a>
                 </td>
             </tr>
