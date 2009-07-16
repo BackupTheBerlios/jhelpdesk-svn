@@ -17,44 +17,69 @@ package de.berlios.jhelpdesk.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
-import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Obsługa funkcji znajdujących się w menu "Pomoc" programu (w tym obsługa
+ * przeglądania bazy wiedzy dzialu wsparcia).
+ * 
+ * @author jjhop
+ */
 @Controller
 public class HelpViewController {
 
     @Autowired
     private KnowledgeDAO knowledgeDAO;
+    
     @Autowired
     private KnowledgeSectionDAO knowledgeSectionDAO;
 
+    /**
+     * Wyświetla pomoc do programu.
+     * 
+     * @return identyfikator widoku pomocy
+     */
     @RequestMapping("/help/index.html")
-    public ModelAndView indexView() throws Exception {
-        return new ModelAndView("help/index");
+    public String indexView() {
+        return "help/index";
     }
 
+    /**
+     * Wyświetla stronę z informacjami o programie.
+     *
+     * @return identyfikator widoku z informacjami o programie
+     */
     @RequestMapping("/help/about.html")
-    public ModelAndView aboutView() throws Exception {
-        return new ModelAndView("help/about");
+    public String aboutView() {
+        return "help/about";
     }
 
+    /**
+     * Obsługuje przeglądanie bazy wiedzy działu wsparcia.
+     *
+     * @param id identyfikator artykułu z bazy wiedzy, może mieć wartość {@code null}
+     * @param key
+     * @param mav model widoku
+     * @return identyfikator widoku właściwego dla zakresu żądania
+     */
+    // TODO: metoda do przejrzenia, być może trzeba będzie ją rozbić na dwie lub więcej
     @RequestMapping("/help/base.html")
-    public ModelAndView knowledgeBaseView(
-                        @RequestParam(value = "id", required = false) Long id,
-                        @RequestParam(value ="key", required = false) String key) {
+    public String knowledgeBaseView(
+                  @RequestParam(value = "id", required = false) Long id,
+                  @RequestParam(value = "key", required = false) String key,
+                  ModelMap mav) {
 
-        ModelAndView mav = null;
         if ((key != null) && key.equalsIgnoreCase("details")) {
-            mav = new ModelAndView("help/base/one");
-            mav.addObject("article", knowledgeDAO.getById(id));
+            mav.addAttribute("article", knowledgeDAO.getById(id));
+            return "help/base/one";
         } else {
-            mav = new ModelAndView("help/base");
-            mav.addObject("sections", knowledgeSectionDAO.getAllSections());
+            mav.addAttribute("sections", knowledgeSectionDAO.getAllSections());
+            return "help/base";
         }
-        return mav;
     }
 }
