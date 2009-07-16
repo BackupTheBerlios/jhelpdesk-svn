@@ -65,6 +65,12 @@
                         </select>
 					</td>
 				</tr>
+                <tr>
+                    <th colspan="6" class="lastcol">Opis</th>
+                </tr>
+                <tr>
+                    <td colspan="6" class="lastcol"><c:out value="${bug.description}" /></td>
+                </tr>
 				<c:if test="${not empty bug.stepByStep}">
 					<tr>
 	                    <th colspan="6" class="lastcol">Krok po kroku</th>
@@ -109,20 +115,22 @@
 				<div class="Pages">
                     <div class="Page">
                     <table width="100%" cellspacing="12" cellpadding="4"><tr><td>
-                        <table cellspacing="0" class="standardtable" style="margin-bottom: 10px;"> 
-                            <tr>
-                                <th>Autor</th>
-                                <th>Data</th>
-                                <th class="lastcol">Treść</th>
-                            </tr>
-                            <c:forEach var="comment" items="${bug.comments}" varStatus="status">
+                        <c:if test="${not empty bug.comments}">
+	                        <table cellspacing="0" class="standardtable" style="margin-bottom: 10px;"> 
 	                            <tr>
-	                                <td class="tit"><c:out value="${comment.commentAuthor}"/></td>
-	                                <td><fmt:formatDate value="${comment.commentDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-	                                <td class="bod"><c:out value="${comment.commentText}" escapeXml="false"/></td>
+	                                <th>Autor</th>
+	                                <th>Data</th>
+	                                <th class="lastcol">Treść</th>
 	                            </tr>
-                            </c:forEach>
-                        </table>
+	                            <c:forEach var="comment" items="${bug.comments}" varStatus="status">
+		                            <tr>
+		                                <td class="tit"><c:out value="${comment.commentAuthor}"/></td>
+		                                <td><fmt:formatDate value="${comment.commentDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+		                                <td class="bod"><c:out value="${comment.commentText}" escapeXml="false"/></td>
+		                            </tr>
+	                            </c:forEach>
+	                        </table>
+                        </c:if>
                         <form action="<c:url value="/bugDetails.html?bugId=${param.bugId}"/>" method="POST">
                             <textarea id="addComm" name="addComm" rows="3" class="mceEditor addcomment" style="height: 120px;"></textarea>
                             <br/>
