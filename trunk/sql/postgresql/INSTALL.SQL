@@ -216,7 +216,10 @@ CREATE TABLE hd_bug (
   step_by_step text,
   subject character varying(255) NOT NULL,
   department character varying(30),
-  CONSTRAINT hd_bug_pkey PRIMARY KEY (bug_id)
+  CONSTRAINT hd_bug_pkey PRIMARY KEY (bug_id),
+  CONSTRAINT bug_category_id_fk FOREIGN KEY (bug_category)
+    REFERENCES hd_bug_category (category_id) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 ) WITH (OIDS=FALSE);
 
 CREATE TABLE hd_bug_desc (
