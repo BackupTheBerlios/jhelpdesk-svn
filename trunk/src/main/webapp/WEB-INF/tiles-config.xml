@@ -37,7 +37,7 @@
 		<put-attribute name="title" value="Pokaz wszystkie bledy"/>
 		<put-attribute name="displayFilterLink" value="block"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showBugsForm.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugsList.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/list.jsp"/>
 	</definition>
 	
 	<!-- Kreator zgłoszenia -->
@@ -47,7 +47,7 @@
 	 	<put-attribute name="title" value="Dodawanie zgloszenia - krok 1..."/>
 	 	<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/step1.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/wizard/step1.jsp"/>
 	 </definition>
 	 
  	 <definition
@@ -56,7 +56,7 @@
 	 	<put-attribute name="title" value="Dodawanie zgloszenia - krok 2..."/>
 	 	<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/step2.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/wizard/step2.jsp"/>
 	 </definition>
 	 
  	 <definition
@@ -65,7 +65,7 @@
 	 	<put-attribute name="title" value="Dodawanie zgloszenia - krok 3..."/>
 	 	<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/step3.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/wizard/step3.jsp"/>
 	 </definition>
 	 
  	 <definition
@@ -74,7 +74,7 @@
 	 	<put-attribute name="title" value="Dodawanie zgloszenia - krok 4..."/>
 	 	<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/step4.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/wizard/step4.jsp"/>
 	 </definition>
 	 
  	 <definition
@@ -83,7 +83,7 @@
 	 	<put-attribute name="title" value="Dodawanie zgloszenia - podsumowanie"/>
 	 	<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugWizard/summary.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/wizard/summary.jsp"/>
 	 </definition>
 	 
 	<!-- koniec kreatora  -->
@@ -147,7 +147,7 @@
 		<put-attribute name="title" value="Szczegóły zgłoszenia"/>
 		<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/bugDetails.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/bugs/view.jsp"/>
 	</definition>
 	
 	<!-- preferencje -->

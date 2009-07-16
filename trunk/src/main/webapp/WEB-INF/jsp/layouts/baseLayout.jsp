@@ -113,7 +113,7 @@
 		#hintbox{ /*CSS for pop up hint box */
 			position:absolute;
 			top: 0;
-			background-color: lightyellow;
+			background-color: yellow;
 			width: 150px; /*Default width of hint.*/ 
 			padding: 3px;
 			border:1px solid black;
