@@ -25,13 +25,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Scope("prototype")
-@Controller("statsSaviourViewCtrl")
+@Controller
 public class StatsSaviourViewCtrl {
 
     @Autowired
     private StatsSaviourPAO statsPAO;
 
-    @RequestMapping
+    @RequestMapping("/stats/saviour/stats.html")
     public ModelAndView handleRequest(@RequestParam("saviour") String saviour) {
         ModelAndView mav = new ModelAndView("stats/saviour/saviourStats");
         statsPAO.setSaviourId(saviour);

@@ -23,19 +23,21 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.berlios.jhelpdesk.pao.StatsPriorityPAO;
 import de.berlios.jhelpdesk.web.charts.BugStatsByPriorityDatasetProducer;
 
-@Controller("bugsByPriorityStatsViewController")
+@Controller
 public class BugsByPriorityViewController {
 
     private static Log log = LogFactory.getLog(BugsByPriorityViewController.class);
-    
+
     @Autowired
     private StatsPriorityPAO statsPAO;
 
     @SuppressWarnings("unchecked")
+    @RequestMapping("/stats/bugs/priority.html")
     public String handleRequest(ModelMap mav) {
         log.info("handleRequest()");
 
@@ -43,7 +45,7 @@ public class BugsByPriorityViewController {
         TreeMap currentMonthMap = new TreeMap(statsPAO.getStatsForCurrentMonth());
         TreeMap threeMonthsMap = new TreeMap(statsPAO.getStatsForThreePreviousMonths());
         TreeMap allMap = new TreeMap(statsPAO.getStatsForAll());
-        
+
         log.info("currentWeekMap[data] -> ilosc = " + currentWeekMap.size());
 
         mav.addAttribute("currentWeekData", currentWeekMap);

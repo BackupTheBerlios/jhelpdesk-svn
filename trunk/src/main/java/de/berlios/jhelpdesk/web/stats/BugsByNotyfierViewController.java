@@ -25,13 +25,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import de.berlios.jhelpdesk.dao.UserDAO;
 
 @Scope("prototype")
-@Controller("bugsByNotyfierStatsViewController")
+@Controller
 public class BugsByNotyfierViewController {
 
     @Autowired
     private UserDAO hdUserDAO;
 
-    @RequestMapping
+    @RequestMapping("/stats/bugs/notifyier.html")
     public String handleRequest(
                   @RequestParam(value = "stats", required = false) String stats,
                   @RequestParam(value = "letter", required = false) String letter,
@@ -47,5 +47,4 @@ public class BugsByNotyfierViewController {
             hdUserDAO.getAllUserWithLastNameStartsWithLetter(letter));
         return "stats/bugsByNotyfierList";
     }
-    
 }

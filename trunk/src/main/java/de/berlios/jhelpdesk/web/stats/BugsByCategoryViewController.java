@@ -34,13 +34,13 @@ import de.berlios.jhelpdesk.web.charts.BugStatsByCategoryDatasetProducer;
 import de.berlios.jhelpdesk.web.charts.BugsStatsByCategoryFullDatasetProducer;
 import de.berlios.jhelpdesk.web.charts.category.Vertical3DChartCategoryDatasetProducer;
 
-@Controller("bugsByCategoryStatsViewController")
+@Controller
 public class BugsByCategoryViewController {
 
     @Autowired
     private StatsCategoryPAO statsPAO;
 
-    @RequestMapping
+    @RequestMapping("/stats/bugs/category.html")
     public String handleRequest(ModelMap map) {
         TreeMap<String, Long> currentWeekMap = new TreeMap<String, Long>(statsPAO.getStatsForCurrentWeek());
         TreeMap<String, Long> currentMonthMap = new TreeMap<String, Long>(statsPAO.getStatsForCurrentMonth());

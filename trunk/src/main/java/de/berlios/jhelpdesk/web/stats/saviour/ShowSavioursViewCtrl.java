@@ -32,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import de.berlios.jhelpdesk.dao.UserDAO;
 
 @Scope("prototype")
-@Controller("showSavioursViewCtrl")
+@Controller
 public class ShowSavioursViewCtrl {
 
     private static Log log = LogFactory.getLog(ShowSavioursViewCtrl.class);
@@ -49,7 +49,7 @@ public class ShowSavioursViewCtrl {
     @Autowired
     private UserDAO hdUserDAO;
 
-    @RequestMapping
+    @RequestMapping("/stats/saviour/showAll.html")
     public ModelAndView handleRequest(HttpServletRequest request,
         HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView("stats/saviour/savioursList");

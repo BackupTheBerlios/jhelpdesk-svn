@@ -15,16 +15,6 @@
 				<prop key="/showNonresolvedBugs.html">bugsNonresolvedViewController</prop>
 				<prop key="/bugDetails.html">killerBugViewController</prop> <!-- szczegoly bledu          -->
 				<prop key="/newBug.html">killerBugEditController</prop>   <!-- dodanie/edycja bledu      -->
-				<!--<prop key="/removeBug.html"></prop>-->
-				<!--<prop key="/stats/bugs/resolvingTime.html"></prop>-->
-				<prop key="/stats/bugs/category.html">bugsByCategoryStatsViewController</prop>
-				<prop key="/stats/bugs/priority.html">bugsByPriorityStatsViewController</prop>
-				<prop key="/stats/bugs/notifyier.html">bugsByNotyfierStatsViewController</prop>
-				
-				<prop key="/stats/saviour/showAll.html">showSavioursViewCtrl</prop>
-				<prop key="/stats/saviour/stats.html">statsSaviourViewCtrl</prop>
-				
-				<prop key="/stats/myStats.html">statsMyViewCtrl</prop>
 				
 				<prop key="/preferences/lookAndFeel.html">preferencesLookAndFeelCtrl</prop>
 				<prop key="/preferences/displayLists.html">preferencesDisplayListsCtrl</prop>

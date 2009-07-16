@@ -17,6 +17,7 @@ package de.berlios.jhelpdesk.web.stats;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 
@@ -26,6 +27,7 @@ public class StatsForUserViewController {
     @Autowired
     private UserDAO hdUserDAO;
 
+    @RequestMapping("/stats/myStats.html")
     public String handleRequest() {
         return "stats/myStats";
     }
