@@ -13,7 +13,6 @@
 				<prop key="/showBugsAssignedToMe.html">bugsAssignedToMeViewController</prop> <!-- lista bledow przypisanych do mnie -->
 				<prop key="/showNonresolvedBugsAssignedToMe.html">bugsNonresolvedAssignedToMeViewController</prop><!-- nierozwiązane i zgłoszone przez mnie -->
 				<prop key="/showNonresolvedBugs.html">bugsNonresolvedViewController</prop>
-				<prop key="/bugDetails.html">killerBugViewController</prop> <!-- szczegoly bledu          -->
 				<prop key="/newBug.html">killerBugEditController</prop>   <!-- dodanie/edycja bledu      -->
 				
 				<prop key="/preferences/lookAndFeel.html">preferencesLookAndFeelCtrl</prop>

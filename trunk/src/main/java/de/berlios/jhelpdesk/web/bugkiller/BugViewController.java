@@ -29,7 +29,6 @@ import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,8 +42,7 @@ import de.berlios.jhelpdesk.model.BugPriority;
 import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.model.User;
 
-@Scope("prototype")
-@Controller("killerBugViewController")
+@Controller
 public class BugViewController {
 	
 	private static Log log = LogFactory.getLog(BugViewController.class);
@@ -57,7 +55,7 @@ public class BugViewController {
 
 	private final String fileRepositoryPath = "c:\\helpdesk\\files"; //TODO: wypad z tym stąd
 
-    @RequestMapping
+    @RequestMapping("/bugDetails.html")
 	public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		log.info("BugViewController.handleRequest()");
 
