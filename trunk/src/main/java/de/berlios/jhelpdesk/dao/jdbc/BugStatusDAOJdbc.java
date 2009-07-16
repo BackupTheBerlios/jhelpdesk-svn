@@ -29,7 +29,7 @@ public class BugStatusDAOJdbc implements BugStatusDAO {
     public List<BugStatus> getAllStatuses() {
         List<BugStatus> list2Return = new ArrayList<BugStatus>(4);
         list2Return.add(BugStatus.NOTIFIED);
-        list2Return.add(BugStatus.ATTACHED);
+        list2Return.add(BugStatus.ASSIGNED);
         list2Return.add(BugStatus.REJECTED);
         list2Return.add(BugStatus.RESOLVED);
         list2Return.add(BugStatus.CLOSED);
@@ -39,7 +39,7 @@ public class BugStatusDAOJdbc implements BugStatusDAO {
     public List<BugStatus> getNonOpenedStatuses() {
         List<BugStatus> list2Return = new ArrayList<BugStatus>(2);
         list2Return.add(BugStatus.NOTIFIED);
-        list2Return.add(BugStatus.ATTACHED);
+        list2Return.add(BugStatus.ASSIGNED);
         return list2Return;
     }
 

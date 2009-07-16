@@ -139,7 +139,7 @@ public class StatsSaviourPAOPgSql extends AbstractJdbcTemplateSupport implements
 		Map<String, SaviourStatsFullViewBean> fullStats = new HashMap<String, SaviourStatsFullViewBean>();
 
 		// najpierw status ustawiamy na otwarty
-		this.statusId = BugStatus.ATTACHED.getStatusId()+"";
+		this.statusId = BugStatus.ASSIGNED.getStatusId()+"";
 
 		Map statsForCurrWeek = getStatsForCurrentWeek();
 		Map statsForCurrMonth = getStatsForCurrentMonth();

@@ -29,8 +29,8 @@ public class BugPriorityDAOJdbc implements BugPriorityDAO {
 	public List<BugPriority> getAllPriorities() {
 		final List<BugPriority> toReturn = new LinkedList<BugPriority>();
 		toReturn.add( BugPriority.NORMAL );
-		toReturn.add( BugPriority.WAZNY );
-		toReturn.add( BugPriority.BARDZO_WAZNY );
+		toReturn.add( BugPriority.IMPORTANT );
+		toReturn.add( BugPriority.MAJOR );
 		toReturn.add( BugPriority.CRITICAL );
 		return toReturn;
 	}

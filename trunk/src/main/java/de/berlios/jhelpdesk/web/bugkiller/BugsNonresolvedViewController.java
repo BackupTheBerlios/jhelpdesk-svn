@@ -113,7 +113,7 @@ public class BugsNonresolvedViewController extends SimpleFormController {
 
 		prepareDate(req);
 		List<BugStatus> statuses = new ArrayList<BugStatus>();
-		statuses.add(BugStatus.ATTACHED);
+		statuses.add(BugStatus.ASSIGNED);
 		statuses.add(BugStatus.NOTIFIED);
 		filterForm.setStatuses(statuses);
 		filterForm.setPrioritiesFromRequest(req);

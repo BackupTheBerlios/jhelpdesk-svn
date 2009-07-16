@@ -34,17 +34,44 @@
 					<th colspan="2" class="lastcol">Ważność</th>
 				</tr>
 				<tr>
-					<td colspan="2" style="width: 170px;"><c:out value="${bug.bugStatus}" /></td>
-					<td colspan="2" style="width: 170px;"><c:out value="${bug.bugCategory}" /></td>
-					<td colspan="2" class="lastcol"><c:out value="${bug.bugPriority}" /></td>
+					<td colspan="2" style="width: 170px;">
+					    <select size="1">
+					        <c:forEach var="status" items="${bugStatuses}">
+                                <option value="${status.statusId}" <c:if test="${status == bug.bugStatus}">selected="selected"</c:if>>
+                                    <c:out value="${status}" />
+                                </option>
+                            </c:forEach>
+					    </select>
+					</td>
+					<td colspan="2" style="width: 170px;">
+					    <select size="1">
+				            <option value="0" <c:if test="${bug.bugCategory.bugCategoryId == 0}">selected="selected"</c:if>>
+                                Brak
+                            </option>
+                            <c:forEach var="category" items="${bugCategories}">
+                                <option value="${category.bugCategoryId}" <c:if test="${category.bugCategoryId == bug.bugCategory.bugCategoryId}">selected="selected"</c:if>>
+                                    <c:out value="${category}" />
+                                </option>
+                            </c:forEach>
+                        </select>
+					</td>
+					<td colspan="2" class="lastcol">
+                        <select size="1">
+                            <c:forEach var="priority" items="${bugPriorities}">
+                                <option value="${priority.priorityId}" <c:if test="${priority == bug.bugPriority}">selected="selected"</c:if>>
+                                    <c:out value="${priority}" />
+                                </option>
+                            </c:forEach>
+                        </select>
+					</td>
 				</tr>
-				<c:if test="${bug.stepByStep}">
-				<tr>
-                    <th colspan="6" class="lastcol">Krok po kroku</th>
-                </tr>
-                <tr>
-                    <td colspan="6" class="lastcol"><c:out value="${bug.stepByStep}" /></td>
-                </tr>
+				<c:if test="${not empty bug.stepByStep}">
+					<tr>
+	                    <th colspan="6" class="lastcol">Krok po kroku</th>
+	                </tr>
+	                <tr>
+	                    <td colspan="6" class="lastcol"><c:out value="${bug.stepByStep}" /></td>
+	                </tr>
                 </c:if>
 			</table>
 		</div>
@@ -82,7 +109,7 @@
 				<div class="Pages">
                     <div class="Page">
                     <table width="100%" cellspacing="12" cellpadding="4"><tr><td>
-                        <table cellspacing="0" class="standardtable"> 
+                        <table cellspacing="0" class="standardtable" style="margin-bottom: 10px;"> 
                             <tr>
                                 <th>Autor</th>
                                 <th>Data</th>

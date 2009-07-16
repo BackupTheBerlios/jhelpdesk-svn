@@ -28,17 +28,19 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import de.berlios.jhelpdesk.dao.BugCategoryDAO;
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.model.AdditionalFile;
 import de.berlios.jhelpdesk.model.Bug;
 import de.berlios.jhelpdesk.model.BugComment;
+import de.berlios.jhelpdesk.model.BugPriority;
+import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.model.User;
 
 @Scope("prototype")
@@ -49,8 +51,11 @@ public class BugViewController {
 
     @Autowired
 	private BugDAO bugDao;
+    
+    @Autowired
+    private BugCategoryDAO bugCategoryDao;
 
-	private String fileRepositoryPath = "c:\\helpdesk\\files"; //TODO: wypad z tym stąd
+	private final String fileRepositoryPath = "c:\\helpdesk\\files"; //TODO: wypad z tym stąd
 
     @RequestMapping
 	public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -103,6 +108,9 @@ public class BugViewController {
 
 		mav.addObject("bug", bug);
 		mav.addObject("files", addFiles);
+		mav.addObject("bugPriorities", BugPriority.values());
+		mav.addObject("bugStatuses", BugStatus.values());
+		mav.addObject("bugCategories", bugCategoryDao.getAllCategories());
 		return mav;
 	}
 }

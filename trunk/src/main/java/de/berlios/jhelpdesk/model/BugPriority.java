@@ -17,15 +17,15 @@ package de.berlios.jhelpdesk.model;
 
 public enum BugPriority {
 	
-	NORMAL(1,"normalny"),
-	WAZNY(2,"wazny"),
-	BARDZO_WAZNY(3,"bardzo wazny"),
-	CRITICAL(4,"krytyczny");
+	NORMAL(1, "normalny"),
+	IMPORTANT(2, "wazny"),
+	MAJOR(3, "bardzo wazny"),
+	CRITICAL(4, "krytyczny");
 	
 	private final int priorityId;
 	private final String priorityName;
 
-	private BugPriority( int id, String name ) {
+	private BugPriority(int id, String name) {
 		this.priorityId = id;
 		this.priorityName = name;
 	}
@@ -38,9 +38,9 @@ public enum BugPriority {
 		return priorityName;
 	}
 	
-	public static BugPriority fromInt( int id ) {
-		for( BugPriority value : BugPriority.values() ) {
-			if(value.getPriorityId() == id )
+	public static BugPriority fromInt(int id) {
+		for (BugPriority value : BugPriority.values()) {
+			if (value.getPriorityId() == id)
 				return value;
 		}
 		throw new IllegalArgumentException("Wartosc spoza zakresu. Dostepne wartosci to: 1, 2, 3, 4" );

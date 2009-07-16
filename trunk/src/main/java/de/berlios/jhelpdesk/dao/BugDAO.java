@@ -15,7 +15,6 @@
  */
 package de.berlios.jhelpdesk.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import de.berlios.jhelpdesk.model.Bug;
@@ -40,21 +39,6 @@ public interface BugDAO {
      * @return
      */
     public Bug getBugById(Long bugId);
-
-    /**
-     * Zwraca ostatnio dodane zgłoszenie.
-     *
-     * @return
-     */
-    public Bug getLastAddedBug();
-
-    /**
-     * Zwraca wszystkie zgłoszenia z podanego dnia.
-     *
-     * @param date
-     * @return
-     */
-    public List<Bug> getBugsByDate(Date date);
 
     /**
      * Zwraca wszystkie zgłoszenia o podanym statusie.

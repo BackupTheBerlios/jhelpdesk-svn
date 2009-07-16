@@ -21,7 +21,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -58,46 +57,54 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
     }
 
     @SuppressWarnings("unchecked")
-	public Bug getBugById( final Long bugId ) {
-		log.debug( "getBugById( final Long bugId ) => " + bugId );		
-		Bug bug = ( Bug ) getJdbcTemplate().queryForObject(
-			"SELECT hd_bug.*,hd_bug_desc.description " +
-			"FROM hd_bug LEFT OUTER JOIN hd_bug_desc ON hd_bug.bug_id=hd_bug_desc.bug_id WHERE hd_bug.bug_id=?",
+	public Bug getBugById(final Long bugId) {
+		log.debug("getBugById(final Long bugId) => " + bugId);		
+		Bug bug = (Bug) getJdbcTemplate().queryForObject(
+			"SELECT hd_bug.*, hd_bug_category.* " +
+			"FROM hd_bug " +
+			"LEFT OUTER JOIN hd_bug_category ON hd_bug.bug_category=hd_bug_category.category_id " +
+			"WHERE hd_bug.bug_id=?",
 			new Object[] {
 				bugId
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug hdBug = new Bug();
-					hdBug.setBugId( rs.getLong( "bug_id" ) );
-					hdBug.setSubject( rs.getString( "subject" ) );
-					hdBug.setCreateDate( rs.getDate( "create_date" ) );
-					hdBug.setInputer( new User( rs.getLong( "inputer" ), null,null,null ) );
-					hdBug.setNotifier( new User( rs.getLong( "notifyier" ), null,null,null ) );
-					if( rs.getLong( "saviour" ) != 0 ) {
-						hdBug.setSaviour( new User( rs.getLong( "saviour" ), null,null,null ) );
+					hdBug.setBugId(rs.getLong("bug_id"));
+					hdBug.setSubject(rs.getString("subject"));
+					hdBug.setCreateDate(rs.getTimestamp("create_date"));
+					hdBug.setInputer(new User(rs.getLong("inputer"), null,null,null));
+					hdBug.setNotifier(new User(rs.getLong("notifyier"), null,null,null));
+					if (rs.getLong("saviour") != 0) {
+						hdBug.setSaviour(new User(rs.getLong("saviour"), null,null,null));
 					}
-					hdBug.setDescription( rs.getString( "description" ) );
+					hdBug.setDescription(rs.getString("description"));
+					hdBug.setStepByStep(rs.getString("step_by_step"));
+					BugCategory cat = new BugCategory(rs.getInt("category_id"), 
+					        rs.getString("category_name"));
+					hdBug.setBugCategory(cat);
+					hdBug.setBugPriority(BugPriority.fromInt(rs.getInt("bug_priority")));
+					hdBug.setBugStatus(BugStatus.fromInt(rs.getInt("bug_status")));
 					return hdBug;
 				}
 			}
 		);
 		bug.setNotifier(
-			(User)getJdbcTemplate().queryForObject(
+			(User) getJdbcTemplate().queryForObject(
 				"SELECT user_id,first_name,last_name,login,email,mobile,phone FROM hd_user WHERE user_id=?",
 				new Object[] { 
 					bug.getNotifier().getUserId()
 				},
 				new RowMapper() {
-					public Object mapRow( ResultSet rs, int row ) throws SQLException {
+					public Object mapRow(ResultSet rs, int row) throws SQLException {
 						User user = new User();
-						user.setUserId( rs.getLong( "user_id" ) );
-						user.setFirstName( rs.getString("first_name") );
-						user.setLastName( rs.getString("last_name") );
-						user.setLogin( rs.getString("login") );
-						user.setEmail( rs.getString("email") );
-						user.setPhone( rs.getString("phone") );
-						user.setMobile( rs.getString("mobile") );
+                        user.setUserId(rs.getLong("user_id"));
+                        user.setFirstName(rs.getString("first_name"));
+                        user.setLastName(rs.getString("last_name"));
+                        user.setLogin(rs.getString("login"));
+                        user.setEmail(rs.getString("email"));
+                        user.setPhone(rs.getString("phone"));
+                        user.setMobile(rs.getString("mobile"));
 						return user;
 					}
 				}
@@ -105,28 +112,28 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 		);
 		
 		bug.setInputer(
-			(User)getJdbcTemplate().queryForObject(
+			(User) getJdbcTemplate().queryForObject(
 				"SELECT user_id,first_name,last_name,login,email,mobile,phone FROM hd_user WHERE user_id=?",
 				new Object[] { 
 					bug.getInputer().getUserId()
 				},
 				new RowMapper() {
-					public Object mapRow( ResultSet rs, int row ) throws SQLException {
+					public Object mapRow(ResultSet rs, int row) throws SQLException {
 						User user = new User();
-						user.setUserId( rs.getLong( "user_id" ) );
-						user.setFirstName( rs.getString("first_name") );
-						user.setLastName( rs.getString("last_name") );
-						user.setLogin( rs.getString("login") );
-						user.setEmail( rs.getString("email") );
-						user.setPhone( rs.getString("phone") );
-						user.setMobile( rs.getString("mobile") );
+						user.setUserId(rs.getLong("user_id"));
+						user.setFirstName(rs.getString("first_name"));
+						user.setLastName(rs.getString("last_name"));
+						user.setLogin(rs.getString("login"));
+						user.setEmail(rs.getString("email"));
+						user.setPhone(rs.getString("phone"));
+						user.setMobile(rs.getString("mobile"));
 						return user;
 					}
 				}
 			)
 		);
 		
-		if( bug.getSaviour() != null ) {
+		if(bug.getSaviour() != null) {
 			bug.setSaviour(
 				(User)getJdbcTemplate().queryForObject(
 					"SELECT user_id,first_name,last_name,login,email,mobile,phone FROM hd_user WHERE user_id=?",
@@ -134,15 +141,15 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 						bug.getSaviour().getUserId()
 					},
 					new RowMapper() {
-						public Object mapRow( ResultSet rs, int row ) throws SQLException {
+						public Object mapRow(ResultSet rs, int row) throws SQLException {
 							User user = new User();
-							user.setUserId( rs.getLong( "user_id" ) );
-							user.setFirstName( rs.getString("first_name") );
-							user.setLastName( rs.getString("last_name") );
-							user.setLogin( rs.getString("login") );
-							user.setEmail( rs.getString("email") );
-							user.setPhone( rs.getString("phone") );
-							user.setMobile( rs.getString("mobile") );
+							user.setUserId(rs.getLong("user_id"));
+							user.setFirstName(rs.getString("first_name"));
+							user.setLastName(rs.getString("last_name"));
+							user.setLogin(rs.getString("login"));
+							user.setEmail(rs.getString("email"));
+							user.setPhone(rs.getString("phone"));
+							user.setMobile(rs.getString("mobile"));
 							return user;
 						}
 					}
@@ -150,7 +157,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 			);
 		}
 		
-		bug.setEvents( 
+		bug.setEvents(
 			new HashSet(
 				getJdbcTemplate().query(
 					// TODO: dorzucic wyswietlania kmiecia (autora zdarzenia)
@@ -159,13 +166,13 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 						bugId
 					},
 					new RowMapper() {
-						public Object mapRow( ResultSet rs, int row ) throws SQLException {
+						public Object mapRow(ResultSet rs, int row) throws SQLException {
 							BugEvent evt = new BugEvent();
-							evt.setBugEventId( rs.getLong( "event_id" ) );
-							evt.setBugId( bugId );
-							evt.setEvtSubject( rs.getString( "event_subject" ) );
-							evt.setEventType( EventType.fromInt( rs.getInt( "event_type" ) ) );
-							evt.setEvtDate( rs.getDate( "event_date" ) );
+							evt.setBugEventId(rs.getLong("event_id"));
+							evt.setBugId(bugId);
+							evt.setEvtSubject(rs.getString("event_subject"));
+							evt.setEventType(EventType.fromInt(rs.getInt("event_type")));
+							evt.setEvtDate(rs.getDate("event_date"));
 							return evt;
 						}
 					}
@@ -185,17 +192,17 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 						bugId
 					},
 					new RowMapper() {
-						public Object mapRow( ResultSet rs, int row ) throws SQLException {
+						public Object mapRow(ResultSet rs, int row) throws SQLException {
 							BugComment comment = new BugComment();
-							comment.setBugId( bugId );
-							comment.setBugCommentId( rs.getLong( "comment_id" ) );
-							comment.setCommentDate( rs.getDate( "comment_date" ) );
-							comment.setCommentText( rs.getString( "comment_text" ) );
-							comment.setNotForPlainUser( rs.getBoolean( "not_for_plain_user" ) );
-							comment.setCommentAuthor( 
+							comment.setBugId(bugId);
+							comment.setBugCommentId(rs.getLong("comment_id"));
+							comment.setCommentDate(rs.getDate("comment_date"));
+							comment.setCommentText(rs.getString("comment_text"));
+							comment.setNotForPlainUser(rs.getBoolean("not_for_plain_user"));
+							comment.setCommentAuthor(
 								new User(
-									rs.getLong( "user_id" ), rs.getString( "login" ),
-									rs.getString( "first_name" ), rs.getString( "last_name" ) 
+									rs.getLong("user_id"), rs.getString("login"),
+									rs.getString("first_name"), rs.getString("last_name") 
 								)
 							);
 							return comment;
@@ -207,32 +214,8 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 		return bug;
 	}
 
-	public Bug getLastAddedBug() {
-		// TODO: zaimplementowac zeby dzialal powiadamiacz
-		// SELECT * FROM hd_bug ORDER BY bug_id DESC LIMIT 1
-		
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
-	public List<Bug> getBugsByDate( Date date ) {
-		return getJdbcTemplate().query(
-			"SELECT....",
-			new Object[] { date },
-			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
-					Bug bug = new Bug();
-					bug.setBugId( rs.getLong( "bug_id" ) );
-					bug.setSubject( rs.getString( "bug_subject" ) );
-					// itd...
-					return bug;
-				}
-			}
-		);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Bug> getBugsByStatus( BugStatus bugStatus ) {
+	public List<Bug> getBugsByStatus(BugStatus bugStatus) {
 		return getJdbcTemplate().query(
 			"SELECT * FROM hd_bug WHERE bug_status=? " +
 			"ORDER BY create_date DESC",
@@ -240,11 +223,11 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 				bugStatus.toInt()
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug hdBug = new Bug();
-					hdBug.setBugId( rs.getLong( "bug_id" ) );
-					hdBug.setSubject( rs.getString( "subject" ) );
-					hdBug.setCreateDate( rs.getDate( "create_date" ) );
+					hdBug.setBugId(rs.getLong("bug_id"));
+					hdBug.setSubject(rs.getString("subject"));
+					hdBug.setCreateDate(rs.getDate("create_date"));
 					return hdBug;
 				}
 			}
@@ -252,7 +235,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Bug> getBugsByStatus( BugStatus bugStatus, int howMuch ) {
+	public List<Bug> getBugsByStatus(BugStatus bugStatus, int howMuch) {
 		return getJdbcTemplate().query(
 			"SELECT * FROM bug_list_view WHERE b_status=? " +
 			"ORDER BY b_create_date DESC LIMIT ?",
@@ -261,45 +244,45 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 				howMuch
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug hdBug = new Bug();
-					hdBug.setBugId( rs.getLong( "b_id" ) );
-					hdBug.setSubject( rs.getString( "b_subject" ) );
+					hdBug.setBugId(rs.getLong("b_id"));
+					hdBug.setSubject(rs.getString("b_subject"));
 					/* zgłaszający */
 					hdBug.setNotifier(
 						new User(
-							rs.getLong( "n_id" ), 
-							rs.getString( "n_login" ),
-							rs.getString( "n_first_name"), 
-							rs.getString( "n_last_name") 
+							rs.getLong("n_id"), 
+							rs.getString("n_login"),
+							rs.getString("n_first_name"), 
+							rs.getString("n_last_name") 
 						)
 					);
 					/* wprowadzajacy */
 					hdBug.setInputer(
 						new User(
-							rs.getLong( "i_id" ),
-							rs.getString( "i_login" ),
-							rs.getString( "i_first_name" ),
-							rs.getString( "i_last_name" )
+							rs.getLong("i_id"),
+							rs.getString("i_login"),
+							rs.getString("i_first_name"),
+							rs.getString("i_last_name")
 						)
 					);
 					/* rozwiazujacy */
 					hdBug.setSaviour(
 						new User(
-							rs.getLong( "s_id" ),
-							rs.getString( "s_login" ),
-							rs.getString( "s_first_name" ),
-							rs.getString( "s_last_name" )
+							rs.getLong("s_id"),
+							rs.getString("s_login"),
+							rs.getString("s_first_name"),
+							rs.getString("s_last_name")
 						)
 					);
 					/* bugCategory */
 					BugCategory category = new BugCategory();
-					category.setBugCategoryId(rs.getLong( "c_id" ) );
-					category.setCategoryName( rs.getString( "c_name" ) );
-					hdBug.setBugCategory( category );
+					category.setBugCategoryId(rs.getLong("c_id"));
+					category.setCategoryName(rs.getString("c_name"));
+					hdBug.setBugCategory(category);
 					/* bugPriority */
-					hdBug.setBugPriority( BugPriority.fromInt( rs.getInt( "p_id" ) ) );
-					hdBug.setCreateDate( rs.getDate( "b_create_date" ) );
+					hdBug.setBugPriority(BugPriority.fromInt(rs.getInt("p_id")));
+					hdBug.setCreateDate(rs.getDate("b_create_date"));
 					return hdBug;
 				}
 			}
@@ -307,7 +290,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Bug> getBugsByPriority( BugPriority bugPriority ) {
+	public List<Bug> getBugsByPriority(BugPriority bugPriority) {
 		return getJdbcTemplate().query(
 			"SELECT * FROM hd_bug WHERE bug_priority=? " +
 			"ORDER BY create_date DESC",
@@ -315,10 +298,10 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 				bugPriority.getPriorityId()
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug hdBug = new Bug();
-					hdBug.setBugId( rs.getLong( "bug_id" ) );
-					hdBug.setSubject( rs.getString( "subject" ) );
+					hdBug.setBugId(rs.getLong("bug_id"));
+					hdBug.setSubject(rs.getString("subject"));
 					return hdBug;
 				}
 			}
@@ -326,7 +309,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Bug> getBugsByCategory( BugCategory bugCategory ) {
+	public List<Bug> getBugsByCategory(BugCategory bugCategory) {
 		return getJdbcTemplate().query(
 			"SELECT * FROM hd_bug WHERE bug_category=? " +
 			"ORDER BY create_date DESC",
@@ -334,10 +317,10 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 				bugCategory.getBugCategoryId()
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug hdBug = new Bug();
-					hdBug.setBugId( rs.getLong( "bug_id" ) );
-					hdBug.setSubject( rs.getString( "subject" ) );
+					hdBug.setBugId(rs.getLong("bug_id"));
+					hdBug.setSubject(rs.getString("subject"));
 					return hdBug;
 				}
 			}
@@ -345,7 +328,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Bug> getBugsNotifyiedByUser( User user ) {
+	public List<Bug> getBugsNotifyiedByUser(User user) {
 		return getJdbcTemplate().query(
 			"SELECT * FROM hd_bug WHERE notifyier=? " +
 			"ORDER BY create_date DESC",
@@ -353,10 +336,10 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 				user.getUserId()
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug hdBug = new Bug();
-					hdBug.setBugId( rs.getLong( "bug_id" ) );
-					hdBug.setSubject( rs.getString( "subject" ) );
+					hdBug.setBugId(rs.getLong("bug_id"));
+					hdBug.setSubject(rs.getString("subject"));
 					return hdBug;
 				}
 			}
@@ -364,8 +347,8 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Bug> getBugsResolvedByUser( User user ) {
-		log.debug( "getBugsResolvedByUser( HDUser user ) => " + user.getUserId() );
+	public List<Bug> getBugsResolvedByUser(User user) {
+		log.debug("getBugsResolvedByUser(HDUser user) => " + user.getUserId());
 		// TODO: trzeba to zaimplementowac zeby kontroler dzialal
 		return getJdbcTemplate().query(
 			"SELECT * FROM hd_bug WHERE",
@@ -373,21 +356,21 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 				user.getUserId()
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug hdBug = new Bug();
-					hdBug.setBugId( rs.getLong( "bug_id" ) );
-					hdBug.setSubject( rs.getString( "subject" ) );
+					hdBug.setBugId(rs.getLong("bug_id"));
+					hdBug.setSubject(rs.getString("subject"));
 					return hdBug;
 				}	
 			}
 		);
 	}
 
-	public void removeBug( Bug bug2Del ) throws Exception {
-		remove( bug2Del.getBugId() );
+	public void removeBug(Bug bug2Del) throws Exception {
+		remove(bug2Del.getBugId());
 	}
 
-	public void remove( Long bug2DelId ) {
+	public void remove(Long bug2DelId) {
 		getJdbcTemplate().update(
 			"DELETE FROM hd_bug WHERE bug_id=?", 
 			new Object[] { 
@@ -396,11 +379,11 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 		);
 	}
 
-	public void save( final Bug bugToSave ) throws Exception {
+	public void save(final Bug bugToSave) throws Exception {
 		getJdbcTemplate().execute(
 			new ConnectionCallback() {
-				public Object doInConnection( Connection conn ) throws SQLException, DataAccessException {
-					conn.setAutoCommit( false );
+				public Object doInConnection(Connection conn) throws SQLException, DataAccessException {
+					conn.setAutoCommit(false);
 					PreparedStatement pstmt = 
 						conn.prepareStatement(
 							"INSERT INTO hd_bug(bug_id,add_phone,bug_category,bug_priority,bug_status," +
@@ -438,13 +421,13 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
                     pstmt.executeUpdate();
 
 					Statement stmt = 
-						conn.createStatement( 
+						conn.createStatement(
 							ResultSet.TYPE_SCROLL_INSENSITIVE, 
 							ResultSet.CONCUR_READ_ONLY 
 						);
-					ResultSet rs = stmt.executeQuery( "SELECT currval('bug_id_seq')" );
-					if( rs.first() ) {
-						bugToSave.setBugId( rs.getLong( 1 ) );
+					ResultSet rs = stmt.executeQuery("SELECT currval('bug_id_seq')");
+					if(rs.first()) {
+						bugToSave.setBugId(rs.getLong(1));
 					}
 					conn.commit();
 					return null;
@@ -458,27 +441,27 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 		return getJdbcTemplate().query(
 			new QueryBuilder().getAllQuery(),
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug b = new Bug();
-					b.setBugId( rs.getLong( "b_id" ) );
-					b.setSubject( rs.getString( "b_subject" ) );
-					b.setDescription( rs.getString( "b_description") );
-					b.setCreateDate( rs.getDate( "b_create_date" ) );
-					b.setBugStatus( BugStatus.fromInt( rs.getInt( "s_id" ) ) );
-					b.setBugCategory( 
+					b.setBugId(rs.getLong("b_id"));
+					b.setSubject(rs.getString("b_subject"));
+					b.setDescription(rs.getString("b_description"));
+					b.setCreateDate(rs.getDate("b_create_date"));
+					b.setBugStatus(BugStatus.fromInt(rs.getInt("s_id")));
+					b.setBugCategory(
 						new BugCategory(
 							-1,
-							rs.getString( "c_name" )
+							rs.getString("c_name")
 						) 
 					);
-//						b.setPriority( 
+//						b.setPriority(
 //							new BugPriority(
 //								-1,
-//								rs.getString( "p_name" )
+//								rs.getString("p_name")
 //							)
 //						);
-					//b.setNotifierId( new Long( rs.getInt( "n_id" ) ) );
-					//b.setNotifier( rs.getString( "notifier_login" ) );
+					//b.setNotifierId(new Long(rs.getInt("n_id")));
+					//b.setNotifier(rs.getString("notifier_login"));
 					return b;
 				}
 			}
@@ -486,53 +469,53 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Bug> getBugsWithFilter( ShowBugsFilterForm filterForm, int limit, long offset ) {
+	public List<Bug> getBugsWithFilter(ShowBugsFilterForm filterForm, int limit, long offset) {
 		return getJdbcTemplate().query(
-			new QueryBuilder( filterForm ).getFilteredQuery(false),
+			new QueryBuilder(filterForm).getFilteredQuery(false),
 			new Object[] {
 				limit,
 				offset
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Bug hdBug = new Bug();
-					hdBug.setBugId( rs.getLong( "b_id" ) );
-					hdBug.setSubject( rs.getString( "b_subject" ) );
-					hdBug.setDescription( rs.getString( "b_description") );
-					hdBug.setCreateDate( rs.getDate( "b_create_date" ) );
-					hdBug.setBugStatus( BugStatus.fromInt( rs.getInt( "b_status" ) ) );
-					hdBug.setBugCategory( 
+					hdBug.setBugId(rs.getLong("b_id"));
+					hdBug.setSubject(rs.getString("b_subject"));
+					hdBug.setDescription(rs.getString("b_description"));
+					hdBug.setCreateDate(rs.getDate("b_create_date"));
+					hdBug.setBugStatus(BugStatus.fromInt(rs.getInt("b_status")));
+					hdBug.setBugCategory(
 						new BugCategory(
-							rs.getInt( "c_id" ),
-							rs.getString( "c_name" )
+							rs.getInt("c_id"),
+							rs.getString("c_name")
 						) 
 					);
-					hdBug.setBugPriority( BugPriority.fromInt( rs.getInt( "p_id" ) ) );
+					hdBug.setBugPriority(BugPriority.fromInt(rs.getInt("p_id")));
 					/* zgłaszający */
 					hdBug.setNotifier(
 						new User(
-							rs.getLong( "n_id" ), 
-							rs.getString( "n_login" ),
-							rs.getString( "n_first_name"), 
-							rs.getString( "n_last_name") 
+							rs.getLong("n_id"), 
+							rs.getString("n_login"),
+							rs.getString("n_first_name"), 
+							rs.getString("n_last_name") 
 						)
 					);
 					/* wprowadzajacy */
 					hdBug.setInputer(
 						new User(
-							rs.getLong( "i_id" ),
-							rs.getString( "i_login" ),
-							rs.getString( "i_first_name" ),
-							rs.getString( "i_last_name" )
+							rs.getLong("i_id"),
+							rs.getString("i_login"),
+							rs.getString("i_first_name"),
+							rs.getString("i_last_name")
 						)
 					);
 					/* rozwiazujacy */
 					hdBug.setSaviour(
 						new User(
-							rs.getLong( "s_id" ),
-							rs.getString( "s_login" ),
-							rs.getString( "s_first_name" ),
-							rs.getString( "s_last_name" )
+							rs.getLong("s_id"),
+							rs.getString("s_login"),
+							rs.getString("s_first_name"),
+							rs.getString("s_last_name")
 						)
 					);
 					return hdBug;
@@ -541,15 +524,15 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 		);
 	}
 
-	public Integer countBugsWithFilter( ShowBugsFilterForm filterForm ) {
-		return getJdbcTemplate().queryForInt( 
-			new QueryBuilder( filterForm ).getFilteredQuery( true )
+	public Integer countBugsWithFilter(ShowBugsFilterForm filterForm) {
+		return getJdbcTemplate().queryForInt(
+			new QueryBuilder(filterForm).getFilteredQuery(true)
 		);
 	}
 
-	public void addComment( BugComment comm ) {
+	public void addComment(BugComment comm) {
 		getJdbcTemplate().update(
-			"INSERT INTO hd_bug_comment( comment_id, bug_id, comment_author, comment_date, comment_text, not_for_plain_user ) " +
+			"INSERT INTO hd_bug_comment(comment_id, bug_id, comment_author, comment_date, comment_text, not_for_plain_user) " +
 			"VALUES (nextval('bug_comment_id_seq'),?,?,?,?,?)",
 			new Object[] {
 				comm.getBugId(),
@@ -562,86 +545,86 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 	}
 }
 class QueryBuilder {
-	private static Log log = LogFactory.getLog( QueryBuilder.class );
+	private static Log log = LogFactory.getLog(QueryBuilder.class);
 	ShowBugsFilterForm filter;
 	
 	public QueryBuilder() {
 		
 	}
 	
-	public QueryBuilder( ShowBugsFilterForm filterForm ) {
+	public QueryBuilder(ShowBugsFilterForm filterForm) {
 		filter = filterForm;
 	}
 	
-	public String getFilteredQuery( boolean countOnly ) {
+	public String getFilteredQuery(boolean countOnly) {
 		StringBuffer sb = new StringBuffer();
-		if( !countOnly )
-			sb.append( "SELECT * FROM bug_list_view WHERE " );
+		if(!countOnly)
+			sb.append("SELECT * FROM bug_list_view WHERE ");
 		else
-			sb.append( "SELECT COUNT(*) FROM bug_list_view WHERE " );
+			sb.append("SELECT COUNT(*) FROM bug_list_view WHERE ");
 
-		if( ( filter.getStartDate() != null ) && ( filter.getStartDate().length() > 0 ) ) {
-			sb.append( " b_create_date >= '" + filter.getStartDate() + "' AND " );
+		if((filter.getStartDate() != null) && (filter.getStartDate().length() > 0)) {
+			sb.append(" b_create_date >= '" + filter.getStartDate() + "' AND ");
 		}
-		if( ( filter.getEndDate() != null ) && ( filter.getEndDate().length() > 0 ) ) {
-			sb.append( " b_create_date <= '" + filter.getEndDate() + "' AND " );
+		if((filter.getEndDate() != null) && (filter.getEndDate().length() > 0)) {
+			sb.append(" b_create_date <= '" + filter.getEndDate() + "' AND ");
 		}
-		if( ( filter.getCategories() != null ) && ( filter.getCategories().size() > 0 ) ) {
+		if((filter.getCategories() != null) && (filter.getCategories().size() > 0)) {
 			String cat_ = "";
-			for( BugCategory cat : filter.getCategories() ) {
+			for(BugCategory cat : filter.getCategories()) {
 				cat_ += cat.getBugCategoryId().intValue() + ",";
 			}
 			cat_ += "-1";
-			sb.append( " c_id IN(" + cat_ + ") AND " );
+			sb.append(" c_id IN(" + cat_ + ") AND ");
 		}
 		
-		if( ( filter.getNotifyiers() != null) && ( filter.getNotifyiers().size() > 0 ) ) {
+		if((filter.getNotifyiers() != null) && (filter.getNotifyiers().size() > 0)) {
 			String not_ = "";
-			for( User user : filter.getNotifyiers() ) {
+			for(User user : filter.getNotifyiers()) {
 				not_ += user.getUserId().intValue() + ",";
 			}
 			not_ += "-1";
-			sb.append( " n_id IN(" + not_ + ") AND " );
+			sb.append(" n_id IN(" + not_ + ") AND ");
 		}
 		
-		if( ( filter.getSaviours() != null ) && ( filter.getSaviours().size() > 0 ) ) {
+		if((filter.getSaviours() != null) && (filter.getSaviours().size() > 0)) {
 			String sav_ = "";
-			for( User user : filter.getSaviours() ) {
+			for(User user : filter.getSaviours()) {
 				sav_ += user.getUserId().intValue() + ",";
 			}
 			sav_ += "-1";
-			sb.append( " s_id IN(" + sav_ + ") AND " );
+			sb.append(" s_id IN(" + sav_ + ") AND ");
 		}
 		
-		if( ( filter.getPriorities() != null ) && ( filter.getPriorities().size() > 0 ) ) {
+		if((filter.getPriorities() != null) && (filter.getPriorities().size() > 0)) {
 			String priors_ = "";
-			for( BugPriority pr : filter.getPriorities() ) {
+			for(BugPriority pr : filter.getPriorities()) {
 				priors_ += pr.getPriorityId() + ",";
 			}
 			priors_ += "-1";
-			sb.append( " p_id IN(" + priors_ + ") AND " );
+			sb.append(" p_id IN(" + priors_ + ") AND ");
 		}
 		
-		if( ( filter.getStatuses() != null ) && ( filter.getStatuses().size() > 0 ) ) {
+		if((filter.getStatuses() != null) && (filter.getStatuses().size() > 0)) {
 			String stat_ = "";
-			for( BugStatus stat : filter.getStatuses() ) {
+			for(BugStatus stat : filter.getStatuses()) {
 				stat_ += stat.getStatusId() + ","; 
 			}
 			stat_ += "-1";
-			sb.append( " b_status IN(" + stat_ + ") AND " );
+			sb.append(" b_status IN(" + stat_ + ") AND ");
 		}
 		
-		sb.append( " true " );
-		if( !countOnly )
-			sb.append( "ORDER BY b_create_date DESC LIMIT ? OFFSET ?" );
+		sb.append(" true ");
+		if(!countOnly)
+			sb.append("ORDER BY b_create_date DESC LIMIT ? OFFSET ?");
 		
-		log.debug( sb.toString() );
+		log.debug(sb.toString());
 		return sb.toString();
 	}
 	
 	public String getAllQuery() {
 		StringBuffer sb = new StringBuffer();
-		sb.append( "SELECT * FROM bug_list_view ORDER BY b_create_date DESC" );
+		sb.append("SELECT * FROM bug_list_view ORDER BY b_create_date DESC");
 		return sb.toString();
 	}
 }

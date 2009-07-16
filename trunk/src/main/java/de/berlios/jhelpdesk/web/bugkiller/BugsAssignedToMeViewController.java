@@ -91,7 +91,7 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 			refData.put("priorities", bugPriorityDAO.getAllPriorities());
 
 			List<BugStatus> listS = new ArrayList<BugStatus>(4);
-			listS.add(BugStatus.ATTACHED);
+			listS.add(BugStatus.ASSIGNED);
 			listS.add(BugStatus.REJECTED);
 			listS.add(BugStatus.RESOLVED);
 
@@ -102,7 +102,7 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 			if (filterForm != null) {
 				List<BugStatus> statuses = new ArrayList<BugStatus>();
 				statuses.add(BugStatus.REJECTED);
-				statuses.add(BugStatus.ATTACHED);
+				statuses.add(BugStatus.ASSIGNED);
 				statuses.add(BugStatus.RESOLVED);
 				ShowBugsFilterForm ff = new ShowBugsFilterForm();
 				ff.setCategories(filterForm.getCategories());
@@ -140,7 +140,7 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 			refData.put("users", userDAO.getAllUser());
 
 			List<BugStatus> listS = new ArrayList<BugStatus>(4);
-			listS.add(BugStatus.ATTACHED);
+			listS.add(BugStatus.ASSIGNED);
 			listS.add(BugStatus.REJECTED);
 			listS.add(BugStatus.RESOLVED);
 
@@ -155,7 +155,7 @@ public class BugsAssignedToMeViewController extends SimpleFormController {
 				ff.setPriorities(filterForm.getPriorities());
 				ff.setNotifyiers(filterForm.getNotifyiers());
 				List<BugStatus> st = new ArrayList<BugStatus>();
-				st.add(BugStatus.ATTACHED);
+				st.add(BugStatus.ASSIGNED);
 				st.add(BugStatus.REJECTED);
 				st.add(BugStatus.RESOLVED);
 				ff.setStatuses(st);
