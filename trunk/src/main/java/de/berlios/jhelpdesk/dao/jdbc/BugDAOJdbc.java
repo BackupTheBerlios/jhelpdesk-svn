@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.HashSet;
 import java.util.List;
@@ -172,7 +173,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 							evt.setBugId(bugId);
 							evt.setEvtSubject(rs.getString("event_subject"));
 							evt.setEventType(EventType.fromInt(rs.getInt("event_type")));
-							evt.setEvtDate(rs.getDate("event_date"));
+							evt.setEvtDate(rs.getTimestamp("event_date"));
 							return evt;
 						}
 					}
@@ -196,7 +197,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 							BugComment comment = new BugComment();
 							comment.setBugId(bugId);
 							comment.setBugCommentId(rs.getLong("comment_id"));
-							comment.setCommentDate(rs.getDate("comment_date"));
+							comment.setCommentDate(rs.getTimestamp("comment_date"));
 							comment.setCommentText(rs.getString("comment_text"));
 							comment.setNotForPlainUser(rs.getBoolean("not_for_plain_user"));
 							comment.setCommentAuthor(
@@ -227,7 +228,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 					Bug hdBug = new Bug();
 					hdBug.setBugId(rs.getLong("bug_id"));
 					hdBug.setSubject(rs.getString("subject"));
-					hdBug.setCreateDate(rs.getDate("create_date"));
+					hdBug.setCreateDate(rs.getTimestamp("create_date"));
 					return hdBug;
 				}
 			}
@@ -282,7 +283,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 					hdBug.setBugCategory(category);
 					/* bugPriority */
 					hdBug.setBugPriority(BugPriority.fromInt(rs.getInt("p_id")));
-					hdBug.setCreateDate(rs.getDate("b_create_date"));
+					hdBug.setCreateDate(rs.getTimestamp("b_create_date"));
 					return hdBug;
 				}
 			}
@@ -403,7 +404,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
                     pstmt.setLong(6, bugToSave.getNotifier().getUserId());
                     pstmt.setLong(7, bugToSave.getInputer().getUserId());
     
-                    pstmt.setDate(8, new java.sql.Date(bugToSave.getCreateDate()
+                    pstmt.setTimestamp(8, new Timestamp(bugToSave.getCreateDate()
                             .getTime()));
                     if (bugToSave.getDescription() != null)
                         pstmt.setString(9, bugToSave.getDescription());
@@ -446,7 +447,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 					b.setBugId(rs.getLong("b_id"));
 					b.setSubject(rs.getString("b_subject"));
 					b.setDescription(rs.getString("b_description"));
-					b.setCreateDate(rs.getDate("b_create_date"));
+					b.setCreateDate(rs.getTimestamp("b_create_date"));
 					b.setBugStatus(BugStatus.fromInt(rs.getInt("s_id")));
 					b.setBugCategory(
 						new BugCategory(
@@ -482,7 +483,7 @@ public class BugDAOJdbc extends AbstractJdbcTemplateSupport implements BugDAO {
 					hdBug.setBugId(rs.getLong("b_id"));
 					hdBug.setSubject(rs.getString("b_subject"));
 					hdBug.setDescription(rs.getString("b_description"));
-					hdBug.setCreateDate(rs.getDate("b_create_date"));
+					hdBug.setCreateDate(rs.getTimestamp("b_create_date"));
 					hdBug.setBugStatus(BugStatus.fromInt(rs.getInt("b_status")));
 					hdBug.setBugCategory(
 						new BugCategory(
