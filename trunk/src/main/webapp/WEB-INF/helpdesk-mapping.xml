@@ -6,8 +6,6 @@
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
-				<prop key="/desktop/main.html">desktopViewCtrl</prop>
-				
 				<!-- akcje zwiazane z bledami -->
 				<prop key="/showBugs.html">killerBugsViewController</prop> <!-- lista bledow              -->
 				<prop key="/showNewBugs.html">killerNewBugsViewController</prop> <!-- lista nowych bledow -->

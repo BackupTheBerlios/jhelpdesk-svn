@@ -17,8 +17,8 @@ package de.berlios.jhelpdesk.web.desktop;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.dao.BugEventDAO;
@@ -26,8 +26,7 @@ import de.berlios.jhelpdesk.dao.InformationDAO;
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
 import de.berlios.jhelpdesk.model.BugStatus;
 
-
-@Controller("desktopViewCtrl")
+@Controller
 public class DesktopViewController  {
 
     private static int NUMBER_OF_EVENTS_IN_DESKTOP = 5;
@@ -47,13 +46,12 @@ public class DesktopViewController  {
     @Autowired
     private InformationDAO informationDAO;
 
-    @RequestMapping
-    public ModelAndView handleRequest() {
-        ModelAndView mav = new ModelAndView("desktop/main");
-        mav.addObject("lastBugs", bugDAO.getBugsByStatus(BugStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_BUGS));
-        mav.addObject("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
-        mav.addObject("lastArticles", knowledgeDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
-        mav.addObject("lastInformations", informationDAO.getLastFew(NUMBER_OF_LAST_INFORMATIONS));
-        return mav;
+    @RequestMapping("/desktop/main.html")
+    public String showDesktop(ModelMap map) {
+        map.addAttribute("lastBugs", bugDAO.getBugsByStatus(BugStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_BUGS));
+        map.addAttribute("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
+        map.addAttribute("lastArticles", knowledgeDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
+        map.addAttribute("lastInformations", informationDAO.getLastFew(NUMBER_OF_LAST_INFORMATIONS));
+        return "desktop/main";
     }
 }
