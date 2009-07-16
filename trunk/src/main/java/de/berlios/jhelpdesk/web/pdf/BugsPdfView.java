@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
 import com.lowagie.text.Document;
@@ -33,6 +34,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import de.berlios.jhelpdesk.model.Bug;
 import de.berlios.jhelpdesk.model.User;
 
+@Component("full-list-pdf")
 public class BugsPdfView extends AbstractPdfView {
 
     @Override

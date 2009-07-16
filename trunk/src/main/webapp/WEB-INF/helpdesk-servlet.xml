@@ -313,7 +313,6 @@
         <property name="order">
             <value>1</value>
         </property>
-        <property name="location" value="/WEB-INF/views.xml"/>
     </bean>
 	
     <bean
