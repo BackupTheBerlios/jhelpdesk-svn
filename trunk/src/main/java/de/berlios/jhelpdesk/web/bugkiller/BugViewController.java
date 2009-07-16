@@ -69,13 +69,11 @@ public class BugViewController {
         return "redirect:/bugDetails.html?bugId=" + bugId;
     }
 
-    // TODO: zamienis ModelAndView na String
-    // TODO: uzyć ModelMap
-    @RequestMapping(value="/bugDetails.html",method=RequestMethod.GET)
-	public String showTicket(
-                        @RequestParam("bugId") Long bugId,
-                        @RequestParam(value = "format", required = false) String format,
-                        ModelMap mav) throws Exception {
+    @RequestMapping(value = "/bugDetails.html", method = RequestMethod.GET)
+    public String showTicket(
+                  @RequestParam("bugId") Long bugId,
+                  @RequestParam(value = "format", required = false) String format,
+                  ModelMap mav) throws Exception {
 
         Bug bug = bugDao.getBugById(bugId);
 
