@@ -37,13 +37,6 @@
 				<prop key="/manage/category/down.html">managerBugCategoryUpDownCtrl</prop>
 				
 				<!-- zarzadzanie baza wiedzy -->
-				<prop key="/manage/knowledge/section/showAll.html">managerKnowledgeSectionShowAllCtrl</prop>
-				<prop key="/manage/knowledge/section/show.html">managerKnowledgeSectionShowOneCtrl</prop>
-				<prop key="/manage/knowledge/section/new.html">managerKnowledgeSectionEditCtrl</prop>
-				<prop key="/manage/knowledge/section/edit.html">managerKnowledgeSectionEditCtrl</prop>
-				<prop key="/manage/knowledge/section/remove.html">managerKnowledgeSectionDelCtrl</prop>
-				<prop key="/manage/knowledge/section/up.html">managerKnowledgeSectionUpDownCtrl</prop>
-				<prop key="/manage/knowledge/section/down.html">managerKnowledgeSectionUpDownCtrl</prop>
 
 				<prop key="/manage/knowledge/article/showAll.html">managerKnowledgeArticleShowAll</prop>
 				

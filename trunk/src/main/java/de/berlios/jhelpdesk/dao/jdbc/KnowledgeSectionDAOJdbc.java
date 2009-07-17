@@ -152,8 +152,11 @@ public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport impleme
 					public Object doInConnection( Connection conn ) throws SQLException, DataAccessException {
 						conn.setAutoCommit( false );
 						PreparedStatement pstmt = conn.prepareStatement(
-							"INSERT INTO hd_knowledge_section( knowledge_section_id, section_name,section_position,articles_count) " +
-							"VALUES(nextval('knowledge_section_id_seq'),?,max(hd_knowledge_section.section_position)+1,0)"
+                            "INSERT INTO hd_knowledge_section(" +
+                            "knowledge_section_id, section_name,section_position,articles_count) " +
+                            "VALUES(" +
+                            "nextval('knowledge_section_id_seq'),?," +
+                            "COALESCE((SELECT max(section_position) FROM hd_knowledge_section),0)+1,0)"
 						);
 						
 						pstmt.setString( 1, section.getSectionName() );

@@ -42,6 +42,10 @@ import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.model.User;
 import org.springframework.ui.ModelMap;
 
+/**
+ *
+ * @author jjhop
+ */
 @Controller
 @SessionAttributes("user")
 public class BugViewController {
@@ -54,21 +58,39 @@ public class BugViewController {
 
     private final String repositoryPath = "c:\\helpdesk\\files"; //TODO: wypad z tym stąd
 
+    /**
+     *
+     *
+     * @param bugId
+     * @param addComm
+     * @param user
+     * @return
+     */
     @RequestMapping(value = "/bugDetails.html", method = RequestMethod.POST)
     public String processAddComment(
         @RequestParam("bugId") Long bugId,
         @RequestParam("addComm") String addComm,
         @ModelAttribute("user") User user) {
+
         BugComment comm = new BugComment();
         comm.setBugId(bugId);
         comm.setCommentDate(new Date(System.currentTimeMillis()));
-        comm.setNotForPlainUser(false);
+        comm.setNotForPlainUser(false); // TODO: to musi pochodzi z formularza
         comm.setCommentAuthor(user);
         comm.setCommentText(addComm);
         bugDao.addComment(comm);
         return "redirect:/bugDetails.html?bugId=" + bugId;
     }
 
+    /**
+     *
+     * 
+     * @param bugId
+     * @param format
+     * @param mav
+     * @return
+     * @throws java.lang.Exception
+     */
     @RequestMapping(value = "/bugDetails.html", method = RequestMethod.GET)
     public String showTicket(
                   @RequestParam("bugId") Long bugId,

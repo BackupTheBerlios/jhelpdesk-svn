@@ -244,41 +244,7 @@
             </props>
         </property>
     </bean>
-
-	<!-- zarzadzanie sekcjami w bazie wiedzy -->
-    <bean
-		id="managerKnowledgeSectionEditCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.section.EditSectionController">
-        <property name="commandName">
-            <value>section</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.model.KnowledgeSection</value>
-        </property>
-        <property name="formView">
-            <value>manager/knowledge/section/edit</value>
-        </property>
-    </bean>
-
-    <bean
-		id="managerKnowledgeSectionUpDownCtrl"
-		class="de.berlios.jhelpdesk.web.manager.knowledge.section.MoveUpDownSectionController">
-        <property name="methodNameResolver">
-            <ref bean="managerKnowledgeSectionUpDownCtrlResolver"/>
-        </property>
-    </bean>
-	
-    <bean
-		id="managerKnowledgeSectionUpDownCtrlResolver" 
-		class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
-        <property name="mappings">
-            <props>
-                <prop key="/manage/knowledge/section/up.html">moveUp</prop>
-                <prop key="/manage/knowledge/section/down.html">moveDown</prop>
-            </props>
-        </property>
-    </bean>
-		
+    
     <!--  inne beany widoku -->
     <bean
 		id="messageSource"
