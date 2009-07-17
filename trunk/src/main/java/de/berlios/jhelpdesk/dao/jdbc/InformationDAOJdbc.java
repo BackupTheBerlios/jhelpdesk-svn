@@ -104,42 +104,39 @@ public class InformationDAOJdbc extends AbstractJdbcTemplateSupport implements I
 	}
 
 	public void save( final Information information ) {
-		if( information.getInformationId() != null ) {
-			getJdbcTemplate().execute(
-				new ConnectionCallback() {
-					public Object doInConnection( Connection conn ) throws SQLException, DataAccessException {
-						conn.setAutoCommit( false );
-						try {
-							PreparedStatement pstmt =
-								conn.prepareStatement(
-									"UPDATE hd_information SET title=?, lead=? WHERE information_id=?"
-								);
-							pstmt.setString( 1, information.getTitle() );
-							pstmt.setString( 2, information.getLead() );
-							pstmt.setLong(   3, information.getInformationId() );
-							pstmt.executeUpdate();
-							
-							PreparedStatement pstmt2 = null;
-							if(( information.getBody() != null ) && ( information.getBody().length() > 0 ) ) {
-								pstmt2 =
-									conn.prepareStatement( "UPDATE hd_information_body SET body=? WHERE information_id=?" );
-								pstmt2.setString( 1, information.getBody() );
-								pstmt2.setLong( 2, information.getInformationId() );
-							} else {
-								pstmt2 =
-									conn.prepareStatement( "DELETE FROM hd_information_body WHERE information_id=?" );
-								pstmt2.setLong( 1, information.getInformationId() );
-							}
-							pstmt2.executeUpdate();
-							conn.commit();
-						} catch( Exception ex ) {
-							log.error( ex );
-							conn.rollback();
-						}
-						return null;
-					}
-				}
-			);
+        System.out.println(information.getBody());
+        if (information.getInformationId() != null) {
+            getJdbcTemplate().execute(
+                new ConnectionCallback() {
+                    public Object doInConnection(Connection conn) throws SQLException, DataAccessException {
+                        conn.setAutoCommit(false);
+                        try {
+                            PreparedStatement pstmt =
+                                conn.prepareStatement(
+                                "UPDATE hd_information SET title=?, lead=? WHERE information_id=?");
+                            pstmt.setString(1, information.getTitle());
+                            pstmt.setString(2, information.getLead());
+                            pstmt.setLong(3, information.getInformationId());
+                            pstmt.executeUpdate();
+                            if (information.getBody() != null) {
+                                pstmt =
+                                    conn.prepareStatement("DELETE FROM hd_information_body WHERE information_id=?");
+                                pstmt.setLong(1, information.getInformationId());
+                                pstmt.executeUpdate();
+                                pstmt =
+                                    conn.prepareStatement("INSERT INTO hd_information_body(information_id,body) VALUES(?,?)");
+                                pstmt.setLong(1, information.getInformationId());
+                                pstmt.setString(2, information.getBody());
+                                pstmt.executeUpdate();
+                            }
+                            conn.commit();
+                        } catch (Exception ex) {
+                            log.error(ex);
+                            conn.rollback();
+                        }
+                        return null;
+                    }
+                });
 		} else {
 			getJdbcTemplate().execute(
 				new ConnectionCallback() {
@@ -167,7 +164,7 @@ public class InformationDAOJdbc extends AbstractJdbcTemplateSupport implements I
 							
 							if(( information.getBody() != null ) && ( information.getBody().length() > 0 ) ) {
 								PreparedStatement pstmt3 = 
-									conn.prepareStatement( "INSERT INTO hd_information_body(information_id,body) VALUES(?,?)" );
+                                    conn.prepareStatement("INSERT INTO hd_information_body(information_id,body) VALUES(?,?)");
 								pstmt3.setLong( 1, information.getInformationId() );
 								pstmt3.setString( 2, information.getBody() );
 								pstmt3.executeUpdate();

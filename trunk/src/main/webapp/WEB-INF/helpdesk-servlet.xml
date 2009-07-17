@@ -306,15 +306,19 @@
             <value>rc</value>
         </property>
     </bean>
-	
+
+	<!--
+    // widoki  formacie PDF chwilowo nieczynne
     <bean
 		id="pdfViewResolver" 
 		class="org.springframework.web.servlet.view.XmlViewResolver">
         <property name="order">
             <value>1</value>
         </property>
+        <property name="location" value="/WEB-INF/views.xml"/>
     </bean>
-	
+	-->
+
     <bean
 		id="multipartResolver"
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
