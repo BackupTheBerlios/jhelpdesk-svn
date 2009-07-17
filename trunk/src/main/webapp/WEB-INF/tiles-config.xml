@@ -295,6 +295,15 @@
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
 		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/article/showAll.jsp"/>
 	</definition>
+
+    <definition
+        name="manage/knowledge/article/edit"
+        extends="baseLayout">
+        <put-attribute name="title" value="Dodawanie/edycja artykulu"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/article/edit.jsp"/>
+    </definition>
 	
 	<definition
 		name="stats/bugsByCategory"

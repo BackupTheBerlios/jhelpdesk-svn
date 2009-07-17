@@ -36,10 +36,6 @@
 				<prop key="/manage/category/up.html">managerBugCategoryUpDownCtrl</prop>
 				<prop key="/manage/category/down.html">managerBugCategoryUpDownCtrl</prop>
 				
-				<!-- zarzadzanie baza wiedzy -->
-
-				<prop key="/manage/knowledge/article/showAll.html">managerKnowledgeArticleShowAll</prop>
-				
 			</props>
 		</property>
 	</bean>
