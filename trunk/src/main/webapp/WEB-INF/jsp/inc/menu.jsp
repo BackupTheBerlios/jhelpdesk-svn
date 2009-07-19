@@ -4,11 +4,11 @@
 	<li class="submenu first"><a href="<c:url value="/desktop/main.html"/>"><span><fmt:message key="label.desktop"/></span></a>
 	<li class="submenu first"><a href="javascript:none()"><span><fmt:message key="label.zgloszenia"/></span></a>
 	<ul class="level2">
-		<li class="first"><a href="<c:url value="/newBug.html"/>"><span>Zgłoś problem</span></a></li>
-		<li><a href="<c:url value="/showNewBugs.html"/>"><span>Nieprzypisane</span></a></li>
-		<li><a href="<c:url value="/showBugs.html"/>"><span>Wszystkie</span></a></li>
-		<li><a href="<c:url value="/showBugsNotifiedByMe.html"/>"><span>Zgłoszene przez mnie</span></a></li>
-		<li class="last"><a href="<c:url value="/showBugsAssignedToMe.html"/>"><span>Przypisane do mnie</span></a></li>
+		<li class="first"><a href="<c:url value="/newTicket.html"/>"><span>Zgłoś problem</span></a></li>
+		<li><a href="<c:url value="/showNewTickets.html"/>"><span>Nieprzypisane</span></a></li>
+		<li><a href="<c:url value="/showTickets.html"/>"><span>Wszystkie</span></a></li>
+		<li><a href="<c:url value="/showTicketsNotifiedByMe.html"/>"><span>Zgłoszene przez mnie</span></a></li>
+		<li class="last"><a href="<c:url value="/showTicketsAssignedToMe.html"/>"><span>Przypisane do mnie</span></a></li>
 	</ul>
 	</li>
 	<!-- 
@@ -16,9 +16,9 @@
 	<ul class="level2">
 		<li class="submenu first"><a href="javascript:none();"><span>Zgłoszenia...</span></a>
 		<ul class="level3">
-			<li class="first"><a href="<c:url value="/stats/bugs/category.html"/>"><span>w/g kategorii</span></a></li>
-			<li><a href="<c:url value="/stats/bugs/priority.html"/>"><span>w/g ważności</span></a></li>
-			<li class="last"><a href="<c:url value="/stats/bugs/notifyier.html"/>"><span>w/g zgłaszającego</span></a></li>
+			<li class="first"><a href="<c:url value="/stats/tickets/category.html"/>"><span>w/g kategorii</span></a></li>
+			<li><a href="<c:url value="/stats/tickets/priority.html"/>"><span>w/g ważności</span></a></li>
+			<li class="last"><a href="<c:url value="/stats/tickets/notifyier.html"/>"><span>w/g zgłaszającego</span></a></li>
 		</ul>
 		</li>
 		<li><a href="<c:url value="/stats/saviour/showAll.html"/>"><span>Rozwiązujący...</span></a></li>

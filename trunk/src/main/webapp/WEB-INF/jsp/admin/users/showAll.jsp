@@ -20,13 +20,13 @@
 </display:column>
 <display:column title="Nazwisko" property="lastName" style="width: 200px;" />
 <display:column title="Imię" property="firstName" />
-<display:column title="" media="html" class="bugView" headerClass="bugView">
+<display:column title="" media="html" class="ticketView" headerClass="ticketView">
 	<a href="<c:url value="show.html?userId=${user.userId}"/>">View</a>
 </display:column>
-<display:column title="" media="html" class="bugEdit" headerClass="bugEdit">
+<display:column title="" media="html" class="ticketEdit" headerClass="ticketEdit">
 	<a href="<c:url value="edit.html?userId=${user.userId}"/>">Edit</a>
 </display:column>
-<display:column title="" media="html" class="lastcol bugDrop" headerClass="lastcol bugDrop">
+<display:column title="" media="html" class="lastcol ticketDrop" headerClass="lastcol ticketDrop">
 	<a href="<c:url value="remove.html?userId=${user.userId}"/>">Drop</a>
 </display:column>
 

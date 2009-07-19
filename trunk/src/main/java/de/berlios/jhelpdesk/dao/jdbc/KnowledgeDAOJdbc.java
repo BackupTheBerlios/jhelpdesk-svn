@@ -48,23 +48,23 @@ public class KnowledgeDAOJdbc extends AbstractJdbcTemplateSupport implements Kno
 	/* (non-Javadoc)
 	 * @see de.berlios.jhelpdesk.dao.ifc.IHDKnowledgeDAO#getById(java.lang.Long)
 	*/
-	public Knowledge getById( Long pk ) {
-		return ( Knowledge )getJdbcTemplate().queryForObject(
-			"SELECT * FROM hd_knowledge WHERE knowledge_id=?",
+	public Knowledge getById(Long pk) {
+		return (Knowledge)getJdbcTemplate().queryForObject(
+			"SELECT * FROM knowledge WHERE knowledge_id=?",
 			new Object[] { pk },
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Knowledge knowledge = new Knowledge();
-					knowledge.setKnowledgeId( rs.getLong( "knowledge_id" ) );
-					knowledge.setTitle( rs.getString( "title" ) );
-					knowledge.setCreateDate( rs.getDate( "create_date" ) );
-					knowledge.setLead( rs.getString( "lead" ) );
-					knowledge.setBody( rs.getString( "body" ) );
-					knowledge.setAssociatedBugs( null );
-					// user, associatet bugs and comments not yet implemented
-					knowledge.setAuthor( null );
-					knowledge.setComments( null );
-					knowledge.setAssociatedBugs( null );
+					knowledge.setKnowledgeId(rs.getLong("knowledge_id"));
+					knowledge.setTitle(rs.getString("title"));
+					knowledge.setCreateDate(rs.getDate("create_date"));
+					knowledge.setLead(rs.getString("lead"));
+					knowledge.setBody(rs.getString("body"));
+					knowledge.setAssociatedTickets(null);
+					// user, associated tickets and comments not yet implemented
+					knowledge.setAuthor(null);
+					knowledge.setComments(null);
+					knowledge.setAssociatedTickets(null);
 					return knowledge;
 				}
 			}
@@ -74,16 +74,16 @@ public class KnowledgeDAOJdbc extends AbstractJdbcTemplateSupport implements Kno
 	/* (non-Javadoc)
 	 * @see de.berlios.jhelpdesk.dao.ifc.IHDKnowledgeDAO#delete(de.berlios.jhelpdesk.model.Knowledge)
 	*/
-	public void delete( Knowledge knowledge ) {
-		delete( knowledge.getKnowledgeId() );
+	public void delete(Knowledge knowledge) {
+		delete(knowledge.getKnowledgeId());
 	}
 	
 	/* (non-Javadoc)
 	 * @see de.berlios.jhelpdesk.dao.ifc.IHDKnowledgeDAO#delete(java.lang.Long)
 	*/
-	public void delete( Long knowledgeId ) {
+	public void delete(Long knowledgeId) {
 		getJdbcTemplate().update(
-			"DELETE FROM hd_knowledge WHERE knowledge_id=?",
+			"DELETE FROM knowledge WHERE knowledge_id=?",
 			new Object[] { knowledgeId }
 		);
 	}
@@ -92,13 +92,13 @@ public class KnowledgeDAOJdbc extends AbstractJdbcTemplateSupport implements Kno
 	 * @see de.berlios.jhelpdesk.dao.ifc.IHDKnowledgeDAO#save(de.berlios.jhelpdesk.model.Knowledge)
 	*/
 	public void saveOrUpdate(final Knowledge knowledge) {
-		if( knowledge.getKnowledgeId() != null ) {
+		if(knowledge.getKnowledgeId() != null) {
 			// if knowledgeId is set to null we have a new object
 			// and we have to save it as new one (and return with 
 			// knowledgeId set to database id)
 			getJdbcTemplate().update(
-				"UPDATE hd_knowledge SET title=?,hd_knowledge_section_id=?," +
-				"create_date=?,lead=?,body=?,hd_user_id=? WHERE knowledge_id=?",
+				"UPDATE knowledge SET title=?,knowledge_section_id=?," +
+				"create_date=?,lead=?,body=?,user_id=? WHERE knowledge_id=?",
 				new Object[] {
 					knowledge.getTitle(), knowledge.getKnowledgeSectionId(),
 					knowledge.getCreateDate(), knowledge.getLead(), knowledge.getBody(),
@@ -110,29 +110,29 @@ public class KnowledgeDAOJdbc extends AbstractJdbcTemplateSupport implements Kno
 			// object and we have to update it
 			getJdbcTemplate().execute(
 				new ConnectionCallback() {
-					public Object doInConnection( Connection conn ) throws SQLException, DataAccessException {
-						conn.setAutoCommit( false );
+					public Object doInConnection(Connection conn) throws SQLException, DataAccessException {
+						conn.setAutoCommit(false);
 						PreparedStatement pstmt = 
 							conn.prepareStatement(
-								"INSERT INTO hd_knowledge(knowledge_id,title,hd_knowledge_section_id," +
-								"create_date,lead,body,hd_user_id) VALUES(nextval('knowledge_id_seq'),?,?,?,?,?,?)"
+								"INSERT INTO knowledge(knowledge_id,title,knowledge_section_id," +
+								"create_date,lead,body,user_id) VALUES(nextval('knowledge_id_seq'),?,?,?,?,?,?)"
 							);
-						pstmt.setString( 1, knowledge.getTitle() );
-						pstmt.setLong( 2, knowledge.getKnowledgeSectionId() );
-						pstmt.setDate( 3, new Date( knowledge.getCreateDate().getTime() ) );
-						pstmt.setString( 4, knowledge.getLead() );
-						pstmt.setString( 5, knowledge.getBody() );
-						pstmt.setLong( 6, knowledge.getAuthor().getUserId() );
+						pstmt.setString(1, knowledge.getTitle());
+						pstmt.setLong(2, knowledge.getKnowledgeSectionId());
+						pstmt.setDate(3, new Date(knowledge.getCreateDate().getTime()));
+						pstmt.setString(4, knowledge.getLead());
+						pstmt.setString(5, knowledge.getBody());
+						pstmt.setLong(6, knowledge.getAuthor().getUserId());
 						pstmt.executeUpdate();
 						
 						Statement stmt = 
-							conn.createStatement( 
+							conn.createStatement(
 								ResultSet.TYPE_SCROLL_INSENSITIVE, 
 								ResultSet.CONCUR_READ_ONLY 
 							);
-						ResultSet rs = stmt.executeQuery( "SELECT currval('knowledge_id_seq')" );
-						if( rs.first() ) {
-							knowledge.setKnowledgeId( rs.getLong( 1 ) );
+						ResultSet rs = stmt.executeQuery("SELECT currval('knowledge_id_seq')");
+						if(rs.first()) {
+							knowledge.setKnowledgeId(rs.getLong(1));
 						}
 						conn.commit();
 						return null;
@@ -143,17 +143,17 @@ public class KnowledgeDAOJdbc extends AbstractJdbcTemplateSupport implements Kno
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Knowledge> getForSection( Long sectionId ) {
+	public List<Knowledge> getForSection(Long sectionId) {
 		return getJdbcTemplate().query(
-			"SELECT * FROM hd_knowledge WHERE hd_knowledge_section_id=?",
+			"SELECT * FROM knowledge WHERE knowledge_section_id=?",
 			new Object[] {
 				sectionId
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Knowledge article = new Knowledge();
-					article.setKnowledgeId( rs.getLong( "hd_knowledge_section_id" ) );
-					article.setTitle( rs.getString( "title" ) );
+					article.setKnowledgeId(rs.getLong("knowledge_section_id"));
+					article.setTitle(rs.getString("title"));
 					/// itd...
 					return article;
 				}
@@ -162,18 +162,18 @@ public class KnowledgeDAOJdbc extends AbstractJdbcTemplateSupport implements Kno
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Knowledge> getLastAddedArticles( int howMuch ) {
+	public List<Knowledge> getLastAddedArticles(int howMuch) {
 		return getJdbcTemplate().query(
-			"SELECT * FROM hd_knowledge ORDER BY create_date DESC LIMIT ?",
+			"SELECT * FROM knowledge ORDER BY create_date DESC LIMIT ?",
 			new Object[] {
 				howMuch
 			},
 			new RowMapper() {
-				public Object mapRow( ResultSet rs, int row ) throws SQLException {
+				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Knowledge article = new Knowledge();
-					article.setKnowledgeId( rs.getLong( "knowledge_id" ) );
-					article.setTitle( rs.getString( "title" ) );
-					article.setCreateDate( rs.getDate( "create_date" ) );
+					article.setKnowledgeId(rs.getLong("knowledge_id"));
+					article.setTitle(rs.getString("title"));
+					article.setCreateDate(rs.getDate("create_date"));
 					/// itd...
 					return article;
 				}

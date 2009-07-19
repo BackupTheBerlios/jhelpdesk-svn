@@ -7,13 +7,13 @@
 		<property name="mappings">
 			<props>
 				<!-- akcje zwiazane z bledami -->
-				<prop key="/showBugs.html">killerBugsViewController</prop> <!-- lista bledow              -->
-				<prop key="/showNewBugs.html">killerNewBugsViewController</prop> <!-- lista nowych bledow -->
-				<prop key="/showBugsNotifiedByMe.html">bugsNotifiedByMeViewController</prop> <!-- lista bledow zgłoszonych przeze mnie -->
-				<prop key="/showBugsAssignedToMe.html">bugsAssignedToMeViewController</prop> <!-- lista bledow przypisanych do mnie -->
-				<prop key="/showNonresolvedBugsAssignedToMe.html">bugsNonresolvedAssignedToMeViewController</prop><!-- nierozwiązane i zgłoszone przez mnie -->
-				<prop key="/showNonresolvedBugs.html">bugsNonresolvedViewController</prop>
-				<prop key="/newBug.html">killerBugEditController</prop>   <!-- dodanie/edycja bledu      -->
+				<prop key="/showTickets.html">killerTicketsViewController</prop> <!-- lista bledow              -->
+				<prop key="/showNewTickets.html">killerNewTicketsViewController</prop> <!-- lista nowych bledow -->
+				<prop key="/showTicketsNotifiedByMe.html">ticketsNotifiedByMeViewController</prop> <!-- lista bledow zgłoszonych przeze mnie -->
+				<prop key="/showTicketsAssignedToMe.html">ticketsAssignedToMeViewController</prop> <!-- lista bledow przypisanych do mnie -->
+				<prop key="/showNonresolvedTicketsAssignedToMe.html">ticketsNonresolvedAssignedToMeViewController</prop><!-- nierozwiązane i zgłoszone przez mnie -->
+				<prop key="/showNonresolvedTickets.html">ticketsNonresolvedViewController</prop>
+				<prop key="/newTicket.html">killerTicketEditController</prop>   <!-- dodanie/edycja bledu      -->
 				
 				<prop key="/preferences/lookAndFeel.html">preferencesLookAndFeelCtrl</prop>
 				<prop key="/preferences/displayLists.html">preferencesDisplayListsCtrl</prop>
@@ -22,10 +22,10 @@
 
                 <!-- zarzadzanie kategoriami zgloszen -->
                 <!--
-				<prop key="/manager/category/edit.html">managerBugCategoryEditCtrl</prop>
-				<prop key="/manager/category/new.html">managerBugCategoryEditCtrl</prop>
-				<prop key="/manager/category/up.html">managerBugCategoryUpDownCtrl</prop>
-				<prop key="/manager/category/down.html">managerBugCategoryUpDownCtrl</prop>
+				<prop key="/manager/category/edit.html">managerTicketCategoryEditCtrl</prop>
+				<prop key="/manager/category/new.html">managerTicketCategoryEditCtrl</prop>
+				<prop key="/manager/category/up.html">managerTicketCategoryUpDownCtrl</prop>
+				<prop key="/manager/category/down.html">managerTicketCategoryUpDownCtrl</prop>
                 -->
 			</props>
 		</property>

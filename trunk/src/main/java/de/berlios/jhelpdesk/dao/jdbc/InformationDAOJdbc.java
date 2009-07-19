@@ -26,7 +26,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
@@ -47,13 +46,13 @@ public class InformationDAOJdbc extends AbstractJdbcTemplateSupport implements I
     }
 
 	public void delete( Long informationId ) {
-		// usuwamy tylko dane z tabeli hd_infomation,
-		// ewentualne dane z tabeli hd_information_body
+		// usuwamy tylko dane z tabeli infomation,
+		// ewentualne dane z tabeli information_body
 		// usuwane sa za pomoca odpowiedniego triggera
 		// funkcja SQL -> drop_information_body()
 		// trigger     -> drop_information_body_trg
 		getJdbcTemplate().update(
-			"DELETE FROM hd_information WHERE information_id=?",
+			"DELETE FROM information WHERE information_id=?",
 			new Object[] {
 				informationId
 			}
@@ -61,13 +60,13 @@ public class InformationDAOJdbc extends AbstractJdbcTemplateSupport implements I
 	}
 
 	public void delete( Information information ) {
-		// usuwamy tylko dane z tabeli hd_infomation,
-		// ewentualne dane z tabeli hd_information_body
+		// usuwamy tylko dane z tabeli infomation,
+		// ewentualne dane z tabeli information_body
 		// usuwane sa za pomoca odpowiedniego triggera
 		// funkcja SQL -> drop_information_body()
 		// trigger     -> drop_information_body_trg
 		getJdbcTemplate().update(
-			"DELETE FROM hd_information WHERE information_id=?",
+			"DELETE FROM information WHERE information_id=?",
 			new Object[] {
 				information.getInformationId()
 			}
@@ -113,18 +112,18 @@ public class InformationDAOJdbc extends AbstractJdbcTemplateSupport implements I
                         try {
                             PreparedStatement pstmt =
                                 conn.prepareStatement(
-                                "UPDATE hd_information SET title=?, lead=? WHERE information_id=?");
+                                "UPDATE information SET title=?, lead=? WHERE information_id=?");
                             pstmt.setString(1, information.getTitle());
                             pstmt.setString(2, information.getLead());
                             pstmt.setLong(3, information.getInformationId());
                             pstmt.executeUpdate();
                             if (information.getBody() != null) {
                                 pstmt =
-                                    conn.prepareStatement("DELETE FROM hd_information_body WHERE information_id=?");
+                                    conn.prepareStatement("DELETE FROM information_body WHERE information_id=?");
                                 pstmt.setLong(1, information.getInformationId());
                                 pstmt.executeUpdate();
                                 pstmt =
-                                    conn.prepareStatement("INSERT INTO hd_information_body(information_id,body) VALUES(?,?)");
+                                    conn.prepareStatement("INSERT INTO information_body(information_id,body) VALUES(?,?)");
                                 pstmt.setLong(1, information.getInformationId());
                                 pstmt.setString(2, information.getBody());
                                 pstmt.executeUpdate();
@@ -145,7 +144,7 @@ public class InformationDAOJdbc extends AbstractJdbcTemplateSupport implements I
 						try {
 							PreparedStatement pstmt =
 								conn.prepareStatement(
-									"INSERT INTO hd_information(information_id,create_date,title,lead) " +
+									"INSERT INTO information(information_id,create_date,title,lead) " +
 									"VALUES(nextval('information_id_seq'),now(),?,?)"
 								);
 							pstmt.setString( 1, information.getTitle() );
@@ -164,7 +163,7 @@ public class InformationDAOJdbc extends AbstractJdbcTemplateSupport implements I
 							
 							if(( information.getBody() != null ) && ( information.getBody().length() > 0 ) ) {
 								PreparedStatement pstmt3 = 
-                                    conn.prepareStatement("INSERT INTO hd_information_body(information_id,body) VALUES(?,?)");
+                                    conn.prepareStatement("INSERT INTO information_body(information_id,body) VALUES(?,?)");
 								pstmt3.setLong( 1, information.getInformationId() );
 								pstmt3.setString( 2, information.getBody() );
 								pstmt3.executeUpdate();

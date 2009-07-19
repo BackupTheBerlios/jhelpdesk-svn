@@ -28,7 +28,7 @@ public class Knowledge {
 	private String lead;
 	private String body;
 	private Set<KnowledgeComment> comments;
-	private Set<Bug> associatedBugs;
+	private Set<Ticket> associatedTickets;
 
 	/**
 	 * @return Returns the createDate.
@@ -143,16 +143,16 @@ public class Knowledge {
 	}
 
 	/**
-	 * @return Returns the associatedBugs.
+	 * @return Returns the associatedTickets.
 	 */
-	public Set<Bug> getAssociatedBugs() {
-		return associatedBugs;
+	public Set<Ticket> getAssociatedTickets() {
+		return associatedTickets;
 	}
 
 	/**
-	 * @param associatedBugs The associatedBugs to set.
+	 * @param associatedTickets The associatedTickets to set.
 	 */
-	public void setAssociatedBugs(Set<Bug> associatedBugs) {
-		this.associatedBugs = associatedBugs;
+	public void setAssociatedTickets(Set<Ticket> associatedTickets) {
+		this.associatedTickets = associatedTickets;
 	}
 }

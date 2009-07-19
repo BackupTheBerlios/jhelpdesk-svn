@@ -5,12 +5,12 @@
 
 <form-validation>
     <formset>
-        <form name="hdbug">
+        <form name="hdticket">
             <field property="description" depends="required">
-                <arg0 key="hdbug.desc1"/>
+                <arg0 key="hdticket.desc1"/>
             </field>
             <field property="addPhone" depends="required">
-	            <arg0 key="hdbug.desc2"/>
+	            <arg0 key="hdticket.desc2"/>
             </field>
         </form>
     </formset>

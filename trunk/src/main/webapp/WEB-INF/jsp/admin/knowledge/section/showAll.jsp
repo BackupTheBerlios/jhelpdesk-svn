@@ -31,19 +31,19 @@
                                         <td class="rowNumber">.</td>
                                         <td><c:out value="${section.sectionName}"/></td>
                                         <td class="artnumber"><c:out value="${section.articlesCount}"/></td>
-                                        <td class="bugEdit">
+                                        <td class="ticketEdit">
                                             <a href="<c:url value="/manage/knowledge/article/showAll.html?sectionId=${section.knowledgeSectionId}"/>">Art</a>
                                         </td>
-                                        <td class="bugEdit">
+                                        <td class="ticketEdit">
                                             <a href="<c:url value="/manage/knowledge/section/edit.html?sectionId=${section.knowledgeSectionId}"/>">Edit</a>
                                         </td>
-                                        <td class="bugEdit">
+                                        <td class="ticketEdit">
                                             <a href="<c:url value="/manage/knowledge/section/remove.html?sectionId=${section.knowledgeSectionId}"/>">Del</a>
                                         </td>
-                                        <td class="bugEdit">
+                                        <td class="ticketEdit">
                                             <a href="<c:url value="/manage/knowledge/section/up.html?sectionId=${section.knowledgeSectionId}"/>">Up</a>
                                         </td>
-                                        <td class="lastcol bugEdit">
+                                        <td class="lastcol ticketEdit">
                                             <a href="<c:url value="/manage/knowledge/section/down.html?sectionId=${section.knowledgeSectionId}"/>">Down</a>
                                         </td>
                                     </tr>

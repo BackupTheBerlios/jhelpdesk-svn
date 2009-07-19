@@ -33,9 +33,9 @@
 	<tr>
 		<td style="padding-left: <c:out value="${category.depth}"/>0px"><span style="padding-left: 10px"><c:out value="${category.categoryName}"/></span></td>
 		<td><c:out value="${category.active}"/></td>
-		<td class="bugEdit"><a href="<c:url value="/manage/category/edit.html?catId=${category.bugCategoryId}"/>">Edit</a></td>
-		<td class="bugView"><a href="<c:url value="/manage/category/new.html?parentId=${category.bugCategoryId}"/>">Add</a></td>
-		<td class="lastcol bugDrop"><a href="<c:url value="/manage/category/remove.html?catId=${category.bugCategoryId}"/>">Drop</a></td>
+		<td class="ticketEdit"><a href="<c:url value="/manage/category/edit.html?catId=${category.ticketCategoryId}"/>">Edit</a></td>
+		<td class="ticketView"><a href="<c:url value="/manage/category/new.html?parentId=${category.ticketCategoryId}"/>">Add</a></td>
+		<td class="lastcol ticketDrop"><a href="<c:url value="/manage/category/remove.html?catId=${category.ticketCategoryId}"/>">Drop</a></td>
 	</tr>
 	</c:forEach>
 </table>

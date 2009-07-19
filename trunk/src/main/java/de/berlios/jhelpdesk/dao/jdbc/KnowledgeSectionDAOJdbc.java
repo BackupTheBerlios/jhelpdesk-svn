@@ -30,11 +30,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 import de.berlios.jhelpdesk.model.Knowledge;
 import de.berlios.jhelpdesk.model.KnowledgeSection;
-import org.springframework.stereotype.Repository;
 
 @Repository("knowledgeSectionDAO")
 public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport implements KnowledgeSectionDAO {
@@ -47,7 +47,7 @@ public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport impleme
 	@SuppressWarnings("unchecked")
 	public List<KnowledgeSection> getAllSections() {
 		return  getJdbcTemplate().query( 
-			"SELECT * FROM hd_knowledge_section ORDER BY section_position DESC", 
+			"SELECT * FROM knowledge_section ORDER BY section_position DESC", 
 			new RowMapper() {
 				public Object mapRow( ResultSet rs, int rowNum ) throws SQLException {
 					KnowledgeSection section = new KnowledgeSection();
@@ -67,7 +67,7 @@ public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport impleme
 	@SuppressWarnings("unchecked")
 	public List<KnowledgeSection> getAllShortSections() {
 		return  getJdbcTemplate().query( 
-			"SELECT * FROM hd_knowledge_section ORDER BY section_position DESC", 
+			"SELECT * FROM knowledge_section ORDER BY section_position DESC", 
 			new RowMapper() {
 				public Object mapRow( ResultSet rs, int rowNum ) throws SQLException {
 					KnowledgeSection section = new KnowledgeSection();
@@ -83,7 +83,7 @@ public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport impleme
 	@SuppressWarnings("unchecked")
 	private Set<Knowledge> getSectionArticles( final Long sectionId ) {
 		return new HashSet<Knowledge>(getJdbcTemplate().query(
-			"SELECT * FROM hd_knowledge WHERE hd_knowledge_section_id=?",
+			"SELECT * FROM knowledge WHERE knowledge_section_id=?",
 			new Object[] {
 				sectionId
 			},
@@ -101,7 +101,7 @@ public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport impleme
 
 	public KnowledgeSection getById( Long sectionId ) {
 		return ( KnowledgeSection ) getJdbcTemplate().queryForObject(
-			"SELECT * FROM hd_knowledge_section WHERE knowledge_section_id=?",
+			"SELECT * FROM knowledge_section WHERE knowledge_section_id=?",
 			new Object[] {
 				sectionId
 			},
@@ -140,7 +140,7 @@ public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport impleme
 	public void saveOrUpdate( final KnowledgeSection section ) {
 		if( section.getKnowledgeSectionId() != null ) {
 			getJdbcTemplate().update(
-				"UPDATE hd_knowledge_section SET section_name=? WHERE knowledge_section_id=?",
+				"UPDATE knowledge_section SET section_name=? WHERE knowledge_section_id=?",
 				new Object[] {
 					section.getSectionName(),
 					section.getKnowledgeSectionId()
@@ -152,11 +152,11 @@ public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport impleme
 					public Object doInConnection( Connection conn ) throws SQLException, DataAccessException {
 						conn.setAutoCommit( false );
 						PreparedStatement pstmt = conn.prepareStatement(
-                            "INSERT INTO hd_knowledge_section(" +
+                            "INSERT INTO knowledge_section(" +
                             "knowledge_section_id, section_name,section_position,articles_count) " +
                             "VALUES(" +
                             "nextval('knowledge_section_id_seq'),?," +
-                            "COALESCE((SELECT max(section_position) FROM hd_knowledge_section),0)+1,0)"
+                            "COALESCE((SELECT max(section_position) FROM knowledge_section),0)+1,0)"
 						);
 						
 						pstmt.setString( 1, section.getSectionName() );
@@ -182,7 +182,7 @@ public class KnowledgeSectionDAOJdbc extends AbstractJdbcTemplateSupport impleme
 		// tutaj nalezaloby jeszcze zmienic section_position dla wszystkich
 		// rekordow powyzej section_position - odjac 1 dla kazdemu
 		getJdbcTemplate().update(
-			"DELETE FROM hd_knowledge_section WHERE knowledge_section_id=?",
+			"DELETE FROM knowledge_section WHERE knowledge_section_id=?",
 			new Object[] {
 				sectionId
 			}

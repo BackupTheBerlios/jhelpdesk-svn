@@ -56,7 +56,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
         System.out.println("57-login: " + login);
         System.out.println("58-passw: " + passw);
         return getJdbcTemplate().queryForLong(
-            "SELECT COUNT(*) AS COUNT FROM hd_user WHERE login=? AND passw=?",
+            "SELECT COUNT(*) AS COUNT FROM users WHERE login=? AND passw=?",
             new Object[]{
                 login, passw
             }) == 1 ? true : false
@@ -66,7 +66,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUser() {
 		return getJdbcTemplate().query(
-			"SELECT * FROM hd_user",
+			"SELECT * FROM users",
 			new HDUserRowMapper()
 		);
 	}
@@ -74,7 +74,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUserWithLastNameStartsWithLetter( String letter ) {
 		return getJdbcTemplate().query(
-			"SELECT * FROM hd_user WHERE last_name ~* '^?'",
+			"SELECT * FROM users WHERE last_name ~* '^?'",
 			new Object[] { letter },
 			new HDUserRowMapper()
 		);
@@ -82,7 +82,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 
 	public User getById( Long id ) {
 		return ( User )getJdbcTemplate().queryForObject(
-			"SELECT * FROM hd_user WHERE user_id=?",
+			"SELECT * FROM users WHERE user_id=?",
 			new Object[] { id },
 			new HDUserRowMapper()
 		);
@@ -94,10 +94,10 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 
 	public User getByLogin( String login ) {
 		if( getJdbcTemplate().queryForLong( 
-				"SELECT COUNT(*) FROM hd_user WHERE login=?", 
+				"SELECT COUNT(*) FROM users WHERE login=?", 
 				new Object[] { login } ) > 0 ) {
 			return ( User )getJdbcTemplate().queryForObject(
-				"SELECT * FROM hd_user WHERE login=?",
+				"SELECT * FROM users WHERE login=?",
 				new Object[] { login },
 				new HDUserRowMapper()
 			);
@@ -108,7 +108,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 	@SuppressWarnings("unchecked")
 	public List<User> getByRole( Role role ) {
 		return getJdbcTemplate().query(
-			"SELECT * FROM hd_user WHERE role=?",
+			"SELECT * FROM users WHERE role=?",
 			new Object[] {
 				role.toInt()
 			},
@@ -119,9 +119,9 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 	@SuppressWarnings("unchecked")
 	public List<User> getSaviours() {
 		return getJdbcTemplate().query(
-			"SELECT * FROM hd_user WHERE role=?",
+			"SELECT * FROM users WHERE role=?",
 			new Object[] {
-				Role.BUGKILLER.toInt()
+				Role.TICKETKILLER.toInt()
 			},
 			new HDUserRowMapper()
 		);
@@ -131,9 +131,9 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 	public List<User> getSavioursWithLastNameStartsWithLetter( String letter ) {
 		log.info( letter );
 		return getJdbcTemplate().query(
-			"SELECT * FROM hd_user WHERE role=? AND last_name ~* '^[" + letter + "]'",
+			"SELECT * FROM users WHERE role=? AND last_name ~* '^[" + letter + "]'",
 			new Object[] {
-				Role.BUGKILLER.toInt()//,
+				Role.TICKETKILLER.toInt()//,
 			},
 			new HDUserRowMapper()
 		);
@@ -141,7 +141,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 
 	public void loginUser( String login, Date date ) {
 		getJdbcTemplate().update(
-			"UPDATE hd_user SET last_login=? WHERE login=?",
+			"UPDATE users SET last_login=? WHERE login=?",
 			new Object[] {
 				date,
 				login
@@ -153,7 +153,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 		if( user.getUserId() != null ) {
 			// update
 			getJdbcTemplate().update(
-				"UPDATE hd_user SET login=?, passw=?, first_name=?, last_name=?, " +
+				"UPDATE users SET login=?, passw=?, first_name=?, last_name=?, " +
 				"phone=?, mobile=?, email=?, role=?, is_active=? WHERE user_id=?",
 				new Object[] {
 					user.getLogin(),
@@ -176,7 +176,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 						conn.setAutoCommit( false );
 						PreparedStatement pstmt = 
 							conn.prepareStatement(
-								"INSERT INTO hd_user(user_id,login,passw,first_name,last_name,phone," +
+								"INSERT INTO users(user_id,login,passw,first_name,last_name,phone," +
 								"mobile,email,role,is_active) " +
 								"VALUES(nextval('user_id_seq'),?,?,?,?,?,?,?,?,?)"
 							);

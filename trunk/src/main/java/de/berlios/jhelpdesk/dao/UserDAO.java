@@ -42,7 +42,7 @@ public interface UserDAO {
     List<User> getAllUserWithLastNameStartsWithLetter(String letter);
 
     /**
-     * Zwraca listę użytkowników w roli {@link Role#BUGKILLER}, których nazwisko
+     * Zwraca listę użytkowników w roli {@link Role#TICKETKILLER}, których nazwisko
      * zaczyna się na podaną literę.
      * 
      * @param letter pierwsza litera nazwiska szukanych użytkowników

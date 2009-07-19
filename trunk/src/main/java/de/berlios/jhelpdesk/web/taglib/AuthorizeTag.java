@@ -50,7 +50,7 @@ public class AuthorizeTag extends TagSupport {
 	public void setRequiredRole(String role) {
 		try {
 			roleAsInt = Integer.parseInt(role);
-			if ((roleAsInt != Role.BUGKILLER.toInt()) 
+			if ((roleAsInt != Role.TICKETKILLER.toInt()) 
 					&& (roleAsInt != Role.CLIENT.toInt())
 					&& (roleAsInt != Role.MANAGER.toInt())) {
 				throw new RuntimeException("Dopuszczalne wartosci atrybutu requiredRole to: 1, 10, 100.");

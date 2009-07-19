@@ -25,7 +25,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.object.MappingSqlQuery;
 import org.springframework.stereotype.Repository;
@@ -138,9 +137,9 @@ public class StatsCategoryPAOPgSql extends AbstractJdbcTemplateSupport implement
 class StatsCategoryQueryBuilder {
 	private final static StringBuffer sb = 
 		new StringBuffer("SELECT category_id,t_left,category_name,count(*) as amount ")
-			.append("FROM hd_bug ")
-			.append("LEFT OUTER JOIN hd_bug_category ")
-			.append("ON hd_bug.bug_category = hd_bug_category.category_id ");
+			.append("FROM ticket ")
+			.append("LEFT OUTER JOIN ticket_category ")
+			.append("ON ticket.ticket_category = ticket_category.category_id ");
 
 	public String getQueryForAll() {
         StringBuffer s = new StringBuffer(sb.toString())

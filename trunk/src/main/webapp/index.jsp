@@ -1,4 +1,4 @@
 <%
-	String url = request.getContextPath() + "/showBugs.html";
+	String url = request.getContextPath() + "/showTickets.html";
 	response.sendRedirect( url );
 %>

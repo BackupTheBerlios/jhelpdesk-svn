@@ -20,25 +20,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import de.berlios.jhelpdesk.dao.BugDAO;
-import de.berlios.jhelpdesk.dao.BugEventDAO;
 import de.berlios.jhelpdesk.dao.InformationDAO;
 import de.berlios.jhelpdesk.dao.KnowledgeDAO;
-import de.berlios.jhelpdesk.model.BugStatus;
+import de.berlios.jhelpdesk.dao.TicketDAO;
+import de.berlios.jhelpdesk.dao.TicketEventDAO;
+import de.berlios.jhelpdesk.model.TicketStatus;
 
 @Controller
 public class DesktopViewController  {
 
     private static int NUMBER_OF_EVENTS_IN_DESKTOP = 5;
-    private static int NUMBER_OF_NONASSIGNED_BUGS = 5;
+    private static int NUMBER_OF_NONASSIGNED_TICKETS = 5;
     private static int NUMBER_OF_LAST_ADDED_ARTICLES = 5;
     private static int NUMBER_OF_LAST_INFORMATIONS = 10;
 
     @Autowired
-    private BugDAO bugDAO;
+    private TicketDAO ticketDAO;
 
     @Autowired
-    private BugEventDAO eventDAO;
+    private TicketEventDAO eventDAO;
 
     @Autowired
     private KnowledgeDAO knowledgeDAO;
@@ -48,7 +48,7 @@ public class DesktopViewController  {
 
     @RequestMapping("/desktop/main.html")
     public String showDesktop(ModelMap map) throws Exception {
-        map.addAttribute("lastBugs", bugDAO.getBugsByStatus(BugStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_BUGS));
+        map.addAttribute("lastTickets", ticketDAO.getTicketsByStatus(TicketStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_TICKETS));
         map.addAttribute("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
         map.addAttribute("lastArticles", knowledgeDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
         map.addAttribute("lastInformations", informationDAO.getLastFew(NUMBER_OF_LAST_INFORMATIONS));

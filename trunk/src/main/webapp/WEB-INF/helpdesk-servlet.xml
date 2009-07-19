@@ -10,109 +10,109 @@
     <context:component-scan base-package="de.berlios.jhelpdesk"/>
     
     <bean
-		id="bugsNotifiedByMeViewController"
-		class="de.berlios.jhelpdesk.web.bugkiller.BugsNotifiedByMeViewController"
+		id="ticketsNotifiedByMeViewController"
+		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsNotifiedByMeViewController"
 		scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
         </property>
         <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.ShowBugsNotifiedByMeFilterForm</value>
+            <value>de.berlios.jhelpdesk.web.form.ShowTicketsNotifiedByMeFilterForm</value>
         </property>
         <property name="formView">
-            <value>bugsNotifiedByMeList</value>
+            <value>ticketsNotifiedByMeList</value>
         </property>
         <property name="successView">
-            <value>bugsNotifiedByMeList.html</value>
+            <value>ticketsNotifiedByMeList.html</value>
         </property>
     </bean>
 	
     <bean
-		id="bugsAssignedToMeViewController"
-		class="de.berlios.jhelpdesk.web.bugkiller.BugsAssignedToMeViewController"
+		id="ticketsAssignedToMeViewController"
+		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsAssignedToMeViewController"
 		scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
         </property>
         <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.ShowBugsAssignedToMeFilterForm</value>
+            <value>de.berlios.jhelpdesk.web.form.ShowTicketsAssignedToMeFilterForm</value>
         </property>
         <property name="formView">
-            <value>bugsAssignedToMeList</value>
+            <value>ticketsAssignedToMeList</value>
         </property>
-		<!--<property name="successView"><value>showNewBugs.html</value></property>-->
+		<!--<property name="successView"><value>showNewTickets.html</value></property>-->
     </bean>
 	
     <bean
-		id="bugsNonresolvedAssignedToMeViewController"
-		class="de.berlios.jhelpdesk.web.bugkiller.BugsNonresolvedAssignedToMeViewController"
+		id="ticketsNonresolvedAssignedToMeViewController"
+		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsNonresolvedAssignedToMeViewController"
 		scope="prototype">
         <property name="formView">
-            <value>bugsNonresolvedAssignedToMeList</value>
+            <value>ticketsNonresolvedAssignedToMeList</value>
         </property>
         <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.ShowBugsNonresolvedAssignedToMeFilterForm</value>
+            <value>de.berlios.jhelpdesk.web.form.ShowTicketsNonresolvedAssignedToMeFilterForm</value>
         </property>
     </bean>
 	
     <bean
-		id="bugsNonresolvedViewController"
-		class="de.berlios.jhelpdesk.web.bugkiller.BugsNonresolvedViewController"
+		id="ticketsNonresolvedViewController"
+		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsNonresolvedViewController"
 		scope="prototype">
         <property name="formView">
-            <value>bugsNonresolvedList</value>
+            <value>ticketsNonresolvedList</value>
         </property>
         <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.ShowBugsNonresolvedFilterForm</value>
+            <value>de.berlios.jhelpdesk.web.form.ShowTicketsNonresolvedFilterForm</value>
         </property>
     </bean>
 	
     <bean
-		id="killerNewBugsViewController" 
-		class="de.berlios.jhelpdesk.web.bugkiller.BugsNewViewController" 
-		scope="prototype">
-        <property name="commandName">
-            <value>filterForm</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.ShowBugsNewFilterForm</value>
-        </property>
-        <property name="formView">
-            <value>bugsNewList</value>
-        </property>
-		<!--<property name="successView"><value>showNewBugs.html</value></property>-->
-    </bean>
-	
-    <bean
-		id="killerBugsViewController" 
-		class="de.berlios.jhelpdesk.web.bugkiller.BugsViewController" 
+		id="killerNewTicketsViewController" 
+		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsNewViewController" 
 		scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
         </property>
         <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.ShowBugsFilterForm</value>
+            <value>de.berlios.jhelpdesk.web.form.ShowTicketsNewFilterForm</value>
         </property>
         <property name="formView">
-            <value>bugsList</value>
+            <value>ticketsNewList</value>
         </property>
-		<!--<property name="successView"><value>showBugs.html</value></property>-->
+		<!--<property name="successView"><value>showNewTickets.html</value></property>-->
+    </bean>
+	
+    <bean
+		id="killerTicketsViewController" 
+		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsViewController" 
+		scope="prototype">
+        <property name="commandName">
+            <value>filterForm</value>
+        </property>
+        <property name="commandClass">
+            <value>de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm</value>
+        </property>
+        <property name="formView">
+            <value>ticketsList</value>
+        </property>
+		<!--<property name="successView"><value>showTickets.html</value></property>-->
     </bean>
     
-    <bean id="killerBugEditController" class="de.berlios.jhelpdesk.web.bugkiller.BugWizardFormController" scope="prototype">
+    <bean id="killerTicketEditController" class="de.berlios.jhelpdesk.web.ticketkiller.TicketWizardFormController" scope="prototype">
         <property name="commandName">
-            <value>hdbug</value>
+            <value>hdticket</value>
         </property>
         <property name="commandClass">
-            <value>de.berlios.jhelpdesk.model.Bug</value>
+            <value>de.berlios.jhelpdesk.model.Ticket</value>
         </property>
         <property name="pages">
             <list>
-                <value>bugWizard/step1</value>
-                <value>bugWizard/step2</value>
-                <value>bugWizard/step3</value>
-                <value>bugWizard/step4</value>
-                <value>bugWizard/summary</value>
+                <value>ticketWizard/step1</value>
+                <value>ticketWizard/step2</value>
+                <value>ticketWizard/step3</value>
+                <value>ticketWizard/step4</value>
+                <value>ticketWizard/summary</value>
             </list>
         </property>
         <property name="fileRepositoryPath">
@@ -190,18 +190,18 @@
     </bean>
 	<!-- end preferences -->
 
-    <bean id="managerBugCategoryShowAllCtrl"
-        class="de.berlios.jhelpdesk.web.manager.bugcategory.ShowAllController"/>
+    <bean id="managerTicketCategoryShowAllCtrl"
+        class="de.berlios.jhelpdesk.web.manager.ticketcategory.ShowAllController"/>
 	
-    <bean id="managerBugCategoryShowOneCtrl"
-        class="de.berlios.jhelpdesk.web.manager.bugcategory.ShowCategoryController"/>
+    <bean id="managerTicketCategoryShowOneCtrl"
+        class="de.berlios.jhelpdesk.web.manager.ticketcategory.ShowCategoryController"/>
 	
-    <bean id="managerBugCategoryEditCtrl" class="de.berlios.jhelpdesk.web.manager.bugcategory.EditCategoryController">
+    <bean id="managerTicketCategoryEditCtrl" class="de.berlios.jhelpdesk.web.manager.ticketcategory.EditCategoryController">
         <property name="commandName">
             <value>category</value>
         </property>
         <property name="commandClass">
-            <value>de.berlios.jhelpdesk.model.BugCategory</value>
+            <value>de.berlios.jhelpdesk.model.TicketCategory</value>
         </property>
         <property name="formView">
             <value>manager/category/edit</value>
@@ -212,15 +212,15 @@
     </bean>
 
     <bean
-		id="managerBugCategoryUpDownCtrl"
-		class="de.berlios.jhelpdesk.web.manager.bugcategory.MoveUpDownCategoryController">
+		id="managerTicketCategoryUpDownCtrl"
+		class="de.berlios.jhelpdesk.web.manager.ticketcategory.MoveUpDownCategoryController">
         <property name="methodNameResolver">
-            <ref bean="managerBugCategoryUpDownCtrlResolver"/>
+            <ref bean="managerTicketCategoryUpDownCtrlResolver"/>
         </property>
     </bean>
 	
     <bean
-		id="managerBugCategoryUpDownCtrlResolver"
+		id="managerTicketCategoryUpDownCtrlResolver"
 		class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
         <property name="mappings">
             <props>

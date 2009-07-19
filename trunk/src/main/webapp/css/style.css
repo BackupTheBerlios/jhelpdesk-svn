@@ -126,10 +126,10 @@ div.infobox2 h2 {
 	width: 440px;
 	margin-left: 20px;
 }
-#mydesk #lastBugs {
+#mydesk #lastTickets {
 	margin-bottom: 20px;
 }
-#mydesk #lastBugs div.infobox2 h2 {
+#mydesk #lastTickets div.infobox2 h2 {
 	background: #D0DBFB url(../i/icons/gnome-help.png) no-repeat 0 50%;
 }
 #mydesk #lastEvents {
@@ -327,22 +327,22 @@ style="width: 70px; height: 15px; font-size: 11px; text-align: center; padding-t
 	background: transparent;
 }
 
-#formBugEdit {
+#formTicketEdit {
 	width: 100%;
 	font-size: 11px;
 }
-#formBugEdit input {
+#formTicketEdit input {
 	width: 80px;
 }
 #formPersonData {
 	background: #9cc;
 }
-#formBugEdit #aboutnotyfier {
+#formTicketEdit #aboutnotyfier {
 	width: 490px;
 	float: left;
 	background: #9cc;
 }
-#formBugEdit #aboutinputer {
+#formTicketEdit #aboutinputer {
 	width: 490px;
 	float: left;
 	background: #d36;
@@ -352,12 +352,12 @@ style="width: 70px; height: 15px; font-size: 11px; text-align: center; padding-t
 }
 
 
-#bugsIterator {
+#ticketsIterator {
 	width: 100%;
 	margin-top: 5px;
 	font-size: 11px;
 }
-#bugsIterator th {
+#ticketsIterator th {
 	padding: 8px 5px 9px;
 	border-right: 1px solid #afafaf;
 	background: #D0DBFB url(../i/boxTop.jpg) repeat-x 0 0;
@@ -365,95 +365,95 @@ style="width: 70px; height: 15px; font-size: 11px; text-align: center; padding-t
 	color: #000;
 	text-align: left;
 }
-#bugsIterator th.sortable a {
+#ticketsIterator th.sortable a {
 	display: block;
 	width: 100%;
 	color: #000;
 	text-decoration: underline;
 /*	background: transparent url(../i/thArrowUpDown.gif) no-repeat 100% 60%;*/
 }
-#bugsIterator th.sorted {
+#ticketsIterator th.sorted {
 	background: #8BA2DF;
 }
-#bugsIterator th.sorted a {
+#ticketsIterator th.sorted a {
 	color: #fff;
 }
-#bugsIterator th.order1 a {
+#ticketsIterator th.order1 a {
 	background: transparent url(../i/thArrowDown.gif) no-repeat 100% 60%;
 }
-#bugsIterator th.order2 a {
+#ticketsIterator th.order2 a {
 	background: transparent url(../i/thArrowUp.gif) no-repeat 100% 60%;
 }
-#bugsIterator th.rowNumber {
+#ticketsIterator th.rowNumber {
 	border-left: 0px solid #5D83EE;
 /*	background: #D0DBFB url(../i/thCornerLeft.jpg) no-repeat 0 0;*/
 	background: #D0DBFB url(../i/boxTop.jpg) no-repeat 0 0;
 	padding-left: 10px;
 }
-#bugsIterator th.bugView {
+#ticketsIterator th.ticketView {
 	border-right: none;
 }
-#bugsIterator th.bugEdit {
+#ticketsIterator th.ticketEdit {
 	border-right: none;
 	border-right: 0px solid #5D83EE;
 	background: #D0DBFB url(../i/boxTop.jpg) no-repeat 100% 0;
 }
-#bugsIterator th.bugDrop {
+#ticketsIterator th.ticketDrop {
 	border-right: 0px solid #5D83EE;
 /*	background: #D0DBFB url(../i/thCornerRight.jpg) no-repeat 100% 0;*/
 	background: #D0DBFB url(../i/boxTop.jpg) no-repeat 100% 0;
 }
-#bugsIterator td {
+#ticketsIterator td {
 	padding: 6px 5px 7px;
 	background: #fff;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 }
-#bugsIterator .rowNumber {
+#ticketsIterator .rowNumber {
 	width: 25px;
 	border-left: 1px solid #ddd;
 }
-#bugsIterator td.rowNumber {
+#ticketsIterator td.rowNumber {
 	text-align: right;
 }
-#bugsIterator .bugsDetail {
+#ticketsIterator .ticketsDetail {
 	font-weight: bold;
 }
-#bugsIterator .category {
+#ticketsIterator .category {
 	width: 120px;
 }
-#bugsIterator td.category {
+#ticketsIterator td.category {
 }
-#bugsIterator .createDate {
+#ticketsIterator .createDate {
 	width: 75px;
 }
-#bugsIterator td.createDate {
+#ticketsIterator td.createDate {
 }
-#bugsIterator .status {
+#ticketsIterator .status {
 	width: 85px;
 }
-#bugsIterator .priority {
+#ticketsIterator .priority {
 	width: 85px;
 }
-#bugsIterator .notifier {
+#ticketsIterator .notifier {
 	width: 100px;
 }
-#bugsIterator .bugView {
+#ticketsIterator .ticketView {
 	width: 30px;
 }
-#bugsIterator td.bugView {
+#ticketsIterator td.ticketView {
 	text-align: center;
 }
-#bugsIterator .bugEdit {
+#ticketsIterator .ticketEdit {
 	width: 30px;
 }
-#bugsIterator td.bugEdit {
+#ticketsIterator td.ticketEdit {
 	text-align: center;
 }
-#bugsIterator .bugDrop {
+#ticketsIterator .ticketDrop {
 	width: 30px;
 }
-#bugsIterator td.bugDrop {
+#ticketsIterator td.ticketDrop {
 	text-align: center;
 }
 #tableboxfooter {

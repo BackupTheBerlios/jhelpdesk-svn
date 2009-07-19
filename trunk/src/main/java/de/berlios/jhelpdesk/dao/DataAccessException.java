@@ -16,10 +16,11 @@
 package de.berlios.jhelpdesk.dao;
 
 /**
- *
  * @author jjhop
  */
 public class DataAccessException extends Exception {
+
+    private static final long serialVersionUID = -5416685626680189420L;
 
     public DataAccessException() {
     }

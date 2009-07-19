@@ -57,17 +57,17 @@ public class Role {
     public static final Role CLIENT = new Role(1, "Użytkownik");
 
     /**
-     * Rola BUGKILLER. Uzytkownik w tej roli może zgłaszać problemy w swoim imieniu, oraz
+     * Rola TICKETKILLER. Uzytkownik w tej roli może zgłaszać problemy w swoim imieniu, oraz
      * w imieniu innych użytkowników. Może także w pewnym zakresie edytować zgłoszenia
      * (np. przypisywać je do rozwiązania przez siebie ale nie przez innych użytkowników).
      * Może także edytować wiele innych elementów systemu.
      */
-    public static final Role BUGKILLER = new Role(10, "Pracownik helpdesku");
+    public static final Role TICKETKILLER = new Role(10, "Pracownik helpdesku");
 
     /**
      * Rola MANAGER. Użytkownik z nieograniczonymi uprawnieniami w systemie. Może zmieniać role
      * innych użytkowników, przypisywać zgłoszenia do rozwiązania przez dowolnego użytkownika
-     * z rolą BUGKILLER. W pełni może edytować wszystkie obiekty w systemie.
+     * z rolą TICKETKILLER. W pełni może edytować wszystkie obiekty w systemie.
      */
     public static final Role MANAGER = new Role(100, "Helpdesk manager");
 
@@ -76,7 +76,7 @@ public class Role {
         // początkowa inicjalizacja listy wszystkich ról w systemie
         roles = new ArrayList<Role>();
         roles.add(CLIENT);
-        roles.add(BUGKILLER);
+        roles.add(TICKETKILLER);
         roles.add(MANAGER);
     }
 
@@ -115,7 +115,7 @@ public class Role {
             case 1:
                 return CLIENT;
             case 10:
-                return BUGKILLER;
+                return TICKETKILLER;
             case 100:
                 return MANAGER;
             default:

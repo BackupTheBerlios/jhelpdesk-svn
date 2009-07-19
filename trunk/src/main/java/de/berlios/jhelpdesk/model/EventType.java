@@ -25,58 +25,59 @@ package de.berlios.jhelpdesk.model;
  * </p>
  * @author jjhop
  *
- * @see Bug
- * @see BugEvent
+ * @see Ticket
+ * @see TicketEvent
  */
-public class EventType {
+public enum EventType {
 
     /**
      * 
      */
-    public static final EventType CREATEEVENT = new EventType(1, "Zgłoszenie problemu.");
+    CREATEEVENT(1, "Zgłoszenie problemu."),
 
     /**
      *
      */
-    public static final EventType ASSIGNEVENT = new EventType(2, "Przypisanie problemu.");
+    ASSIGNEVENT(2, "Przypisanie problemu."),
 
     /**
      *
      */
-    public static final EventType REASSIGNEVENT = new EventType(3, "Zmiana przypisania problemu.");
+    REASSIGNEVENT(3, "Zmiana przypisania problemu."),
 
     /**
      *
      */
-    public static final EventType CLOSEEVENT = new EventType(4, "Zamknięcie/rozwiązanie problemu.");
+    CLOSEEVENT(4, "Zamknięcie/rozwiązanie problemu."),
 
     /**
      *
      */
-    public static final EventType REJECTEVENT = new EventType(5, "Odrzucenie problemu.");
+    REJECTEVENT(5, "Odrzucenie problemu."),
 
     /**
      * 
      */
-    public static final EventType CATEGORYCHANGEEVENT = new EventType(6, "Zmiana kategorii.");
+    CATEGORYCHANGEEVENT(6, "Zmiana kategorii."),
 
     /**
      *
      */
-    public static final EventType PRIORITYCHANGEEVENT = new EventType(7, "Zmiana ważności.");
+    PRIORITYCHANGEEVENT(7, "Zmiana ważności."),
 
     /**
      *
      */
-    public static final EventType STATUSCHANGEEVENT = new EventType(8, "Zmiana statusu.");
+    STATUSCHANGEEVENT(8, "Zmiana statusu."),
 
     /**
      *
      */
-    public static final EventType COMMENTADDEVENT = new EventType(9, "Dodanie komentarza.");
-    
+    COMMENTADDEVENT(9, "Dodanie komentarza.");
+
     /**
-     * Liczbowy identyfikator zdarzenia. Za jego pomocą można zapisywać je w bazie danych.
+     * Liczbowy identyfikator zdarzenia. Za jego pomocą można zapisywać je w
+     * bazie danych.
      */
     private final int code;
 
@@ -86,11 +87,12 @@ public class EventType {
     private final String typeName;
 
     /**
-     * Konstruktor tworzący zdarzenie za pomocą podanego kodu liczbowego oraz nazwy.
-     *
+     * Konstruktor tworzący zdarzenie za pomocą podanego kodu liczbowego oraz
+     * nazwy.
+     * 
      * @param code kod liczbowy, identyfikator zdarzenia
      * @param typeName nazwa zdarzenia
-     *
+     * 
      * @see #code
      * @see #typeName
      */
@@ -100,11 +102,11 @@ public class EventType {
     }
 
     /**
-     * Zwraca liczbową reprezentację typu zdarzenia. Na jej podstawie można bezpiecznie
-     * odtworzyć type za pomocą {@link #fromInt(int)}.
-     *
+     * Zwraca liczbową reprezentację typu zdarzenia. Na jej podstawie można
+     * bezpiecznie odtworzyć type za pomocą {@link #fromInt(int)}.
+     * 
      * @return liczbowa reprezentacja zdarzenia
-     *
+     * 
      * @see #code
      */
     public int toInt() {
@@ -124,21 +126,24 @@ public class EventType {
 
     /**
      * <p>
-     * Odtwarza typ zdarzenia z podanego identyfikatora. Identyfikator musi mieć wartość
-     * ze z góry ustalonego zbioru. Dla każdej inne wartości zgłasza wyjątek RuntimeException.
+     * Odtwarza typ zdarzenia z podanego identyfikatora. Identyfikator musi mieć
+     * wartość ze z góry ustalonego zbioru. Dla każdej inne wartości zgłasza
+     * wyjątek RuntimeException.
      * </p>
      * <p>
-     * W bazie danych spójność powinna być zachowana poprzez zdefiniowanie domeny z odpowiednimi
-     * wartościami lub zastosowanie mechanizmu sprawdzanai wartości przed zapisaniem zdarzenia
-     * za pomocą CHECK lub TRIGGERa.
+     * W bazie danych spójność powinna być zachowana poprzez zdefiniowanie
+     * domeny z odpowiednimi wartościami lub zastosowanie mechanizmu sprawdzanai
+     * wartości przed zapisaniem zdarzenia za pomocą CHECK lub TRIGGERa.
      * </p>
+     * 
      * @param code identyfikator zdarzenia
      * @return prawidłowy obiekt zdarzenia
-     * @throws RuntimeExceptionjesli podana liczba jest spoza spodziewanego zbioru
-     *
+     * @throws RuntimeExceptionjesli podana liczba jest spoza spodziewanego
+     * zbioru
+     * 
      * @see #code
      * @see #toInt()
-     * @see BugEvent
+     * @see TicketEvent
      */
     public static EventType fromInt(int code) {
         switch (code) {

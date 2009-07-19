@@ -72,7 +72,7 @@ a.btn:hover {
 	color: #FFFFFF;
 	text-decoration: none;
 }
-.bugslist a.btn {
+.ticketslist a.btn {
 	width: 50px;
 	background: #DEABBE url(../i/buttonBgPurple.jpg) no-repeat 50% 0;
 	text-align: center;
@@ -242,7 +242,7 @@ td.rightcells {
 .rightcells #pagecontentsubheader {
 	background: #D0DBFB url(../i/hd-pagecontentsubheaderdr.jpg) no-repeat 0 0;
 }
-.lastBugs h3 {
+.lastTickets h3 {
 	background: transparent url(../i/icons/gnome-help.png) no-repeat 10px 50%;
 }
 .lastInfo h3 {
@@ -275,7 +275,7 @@ td.rightcells {
 
 /* LISTA ZGŁOSZEŃ*/
 
-.bugslist #pagecontentsubheader h3 {
+.ticketslist #pagecontentsubheader h3 {
 	background: transparent url(../i/icons/gnome-help.png) no-repeat 10px 50%;
 }
 #paginationinfo {
@@ -290,13 +290,13 @@ td.rightcells {
 #paginationlinks strong {
 	padding-left: 5px;
 }
-#bugsIterator {
+#ticketsIterator {
 	width: 100%;
 	margin-top: 5px;
 	font-size: 11px;
 	border: 1px solid #677498;
 }
-#bugsIterator th {
+#ticketsIterator th {
 	padding: 6px 5px 7px;
 	/*padding: 3px 5px 4px;*/
 	border-right: 1px solid #CCCCCC;
@@ -304,90 +304,90 @@ td.rightcells {
 	color: #F3F3F3;
 	text-align: left;
 }
-#bugsIterator th.sortable a {
+#ticketsIterator th.sortable a {
 	display: block;
 	width: 100%;
 	color: #F3F3F3;
 	text-decoration: underline;
 }
-#bugsIterator th.sorted {
+#ticketsIterator th.sorted {
 	background: #677498;
 }
-#bugsIterator th.sorted a {
+#ticketsIterator th.sorted a {
 	color: #FFFFFF;
 }
-#bugsIterator th.order1 a {
+#ticketsIterator th.order1 a {
 	background: transparent url(../i/thArrowDown.gif) no-repeat 100% 60%;
 }
-#bugsIterator th.order2 a {
+#ticketsIterator th.order2 a {
 	background: transparent url(../i/thArrowUp.gif) no-repeat 100% 60%;
 }
-#bugsIterator th.rowNumber {
+#ticketsIterator th.rowNumber {
 	border-left: 0px solid #5D83EE;
 }
-#bugsIterator th.bugView {
+#ticketsIterator th.ticketView {
 	border-right: none;
 }
-#bugsIterator th.bugEdit {
+#ticketsIterator th.ticketEdit {
 	border-right: none;
 	border-right: 0px solid #5D83EE;
 }
-#bugsIterator th.bugDrop {
+#ticketsIterator th.ticketDrop {
 	border-right: 0px solid #5D83EE;
 }
-#bugsIterator td {
+#ticketsIterator td {
 	padding: 6px 5px 7px;
 	/*padding: 3px 5px 4px;*/
 	background: #F3F3F3;
 	border-right: 1px solid #CCCCCC;
 	border-bottom: 1px solid #CCCCCC;
 }
-#bugsIterator .rowNumber {
+#ticketsIterator .rowNumber {
 	width: 25px;
 }
-#bugsIterator td.rowNumber {
+#ticketsIterator td.rowNumber {
 	text-align: right;
 }
-#bugsIterator .bugsDetail {
+#ticketsIterator .ticketsDetail {
 	font-weight: bold;
 }
-#bugsIterator .category {
+#ticketsIterator .category {
 	width: 120px;
 }
-#bugsIterator td.category {
+#ticketsIterator td.category {
 }
-#bugsIterator .createDate {
+#ticketsIterator .createDate {
 	width: 75px;
 }
-#bugsIterator td.createDate {
+#ticketsIterator td.createDate {
 }
-#bugsIterator .status {
+#ticketsIterator .status {
 	width: 85px;
 }
-#bugsIterator .priority {
+#ticketsIterator .priority {
 	width: 85px;
 }
-#bugsIterator .notifier {
+#ticketsIterator .notifier {
 	width: 100px;
 }
-#bugsIterator .bugView {
+#ticketsIterator .ticketView {
 	width: 30px;
 }
-#bugsIterator td.bugView {
+#ticketsIterator td.ticketView {
 	text-align: center;
 }
-#bugsIterator .bugEdit {
+#ticketsIterator .ticketEdit {
 	width: 30px;
 	border-right: none;
 	border-right: 0px solid #5D83EE;
 }
-#bugsIterator td.bugEdit {
+#ticketsIterator td.ticketEdit {
 	text-align: center;
 }
-#bugsIterator .bugDrop {
+#ticketsIterator .ticketDrop {
 	width: 30px;
 }
-#bugsIterator td.bugDrop {
+#ticketsIterator td.ticketDrop {
 	text-align: center;
 }
 
@@ -528,75 +528,75 @@ div.buttons {
 
 /* PODGLĄD ZGŁOSZENIA */
 
-#bugdetails table {
+#ticketdetails table {
 	width: 100%;
 }
-#bugdetails .rightcells {
+#ticketdetails .rightcells {
 	padding-bottom: 30px;
 	background: #F3F3F3 url(../i/hd-contentbottomdesktoprh.jpg) no-repeat 0 100%;
 }
-#bugdetails .rightcells .contentbottom {
+#ticketdetails .rightcells .contentbottom {
 	height: 30px;
 	background: #F3F3F3 url(../i/hd-contentbottomdesktopr.jpg) no-repeat 0 0;
 	font-size: 1%;
 }
-#bugdetails .leftcells {
+#ticketdetails .leftcells {
 	padding-bottom: 30px;
 	border-left: 20px solid #F3F3F3;
 	border-right: none;
 	background: #F3F3F3 url(../i/hd-contentbottomdesktop.jpg) no-repeat 0 100%;
 }
-#bugdetails .contentmiddle {
+#ticketdetails .contentmiddle {
 	position: relative;
 	min-height: 180px;
 	padding: 0 10px;
 	background: #D0DBFB;
 }
-* html #bugdetails .contentmiddle {
+* html #ticketdetails .contentmiddle {
 	height: 200px;
 }
-#bugdetails .leftcells .contentmiddle {
+#ticketdetails .leftcells .contentmiddle {
 	min-height: 110px;
 }
-* html #bugdetails .leftcells .contentmiddle {
+* html #ticketdetails .leftcells .contentmiddle {
 	height: 110px;
 }
-#bugdetails .leftcells .contentbottom {
+#ticketdetails .leftcells .contentbottom {
 	height: 30px;
 	background: #F3F3F3 url(../i/hd-contentbottomdesktop.jpg) no-repeat 0 0;
 	font-size: 1%;
 }
-#bugdetails td.scount {
+#ticketdetails td.scount {
 	width: 30px;
 	text-align: right;
 }
-#bugdetails .chartcontainer .chartbox {
+#ticketdetails .chartcontainer .chartbox {
 	margin-bottom: 0;
 }
-#bugdetails .TabView {
+#ticketdetails .TabView {
 	margin-top: 0;
 }
-#bugdetails .TabView .Pages {
+#ticketdetails .TabView .Pages {
 	height: 200px;
 }
-* html #bugdetails .rightcells .TabView .Page {
+* html #ticketdetails .rightcells .TabView .Page {
 	width: 560px;
 }
 #tabcell {
 	background: red url(../i/hd-contentbottomdesktopr.jpg) no-repeat 0 100%;
 }
-#bugdetails textarea.addcomment {
+#ticketdetails textarea.addcomment {
 	width: 100%;
 	height: 135px;
 }
-* html #bugdetails textarea.addcomment {
+* html #ticketdetails textarea.addcomment {
 	width: 560px;
 	height: 120px;
 }
-#bugdetails .tabtitle {
+#ticketdetails .tabtitle {
 	width: 50px;
 }
-#bugdetails table.mceEditor td {
+#ticketdetails table.mceEditor td {
 	padding: 5px;
 }
 
@@ -867,13 +867,13 @@ div.buttons {
 td.rowNumber {
 	text-align: right;
 }
-.bugView, .bugEdit, .bugDrop {
+.ticketView, .ticketEdit, .ticketDrop {
 	width: 30px;
 }
-th.bugView, th.bugEdit, th.bugDrop {
+th.ticketView, th.ticketEdit, th.ticketDrop {
 	border-right: none;
 }
-td.bugView, td.bugEdit, td.bugDrop {
+td.ticketView, td.ticketEdit, td.ticketDrop {
 	text-align: center;
 }
 .artnumber {
@@ -907,9 +907,9 @@ td.artnumber {
 }
 
 
-#bugsIterator td a {
+#ticketsIterator td a {
 }
-#bugsIterator td .linker {
+#ticketsIterator td .linker {
 	display: none;
 	position: absolute;
 	

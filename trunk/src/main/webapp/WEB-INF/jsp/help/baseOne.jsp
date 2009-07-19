@@ -9,8 +9,8 @@
 
 <h3>Powiązane zgłoszenia</h3>
 <ol>
-    <c:forEach items="${article.associatedBugs}" var="bug">
-        <li><c:out value="${bug.subject}"/></li>
+    <c:forEach items="${article.associatedTickets}" var="ticket">
+        <li><c:out value="${ticket.subject}"/></li>
     </c:forEach>
 </ol>
 <hr/>

@@ -108,7 +108,7 @@ div#ptit {
 	font-size: 12px;
 	padding: 3px;
 }
-div.bugtitle {
+div.tickettitle {
 	padding: 3px;
 	font-size: 14px;
 	font-weight: bold;
@@ -116,7 +116,7 @@ div.bugtitle {
 	border: 1px solid gray;
 	background: #EDEBEB;
 }
-div.bugdesc {
+div.ticketdesc {
 	padding: 3px;
 	padding-top: 10px;
 	margin-bottom: 8px;

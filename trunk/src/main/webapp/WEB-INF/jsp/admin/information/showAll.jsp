@@ -29,8 +29,8 @@
                                     <tr>
                                         <td><c:out value="${information.title}"/></td>
                                         <td><c:out value="${information.createDate}"/></td>
-                                        <td class="bugEdit"><a href="<c:url value="/manage/information/edit.html?infoId=${information.informationId}"/>">Edit</a></td>
-                                        <td class="lastcol bugDrop"><a href="<c:url value="/manage/information/remove.html?infoId=${information.informationId}"/>">Del</a></td>
+                                        <td class="ticketEdit"><a href="<c:url value="/manage/information/edit.html?infoId=${information.informationId}"/>">Edit</a></td>
+                                        <td class="lastcol ticketDrop"><a href="<c:url value="/manage/information/remove.html?infoId=${information.informationId}"/>">Del</a></td>
                                     </tr>
                                 </c:forEach>
                             </table>

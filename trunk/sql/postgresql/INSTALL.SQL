@@ -16,39 +16,6 @@
 --- W tym pliku znajdują się wszystkie definicje obiektów bazy danych
 --- potrzebnych do uruchomienia systemu jHelpdesk.
 
---- DOMENY
-
-CREATE DOMAIN hd_bool
-  AS smallint
-   CONSTRAINT hd_bool_check CHECK ((VALUE = ANY (ARRAY[0, 1])));
-;
-
-CREATE DOMAIN hd_bug_priority
-  AS smallint
-  DEFAULT 1
-  NOT NULL
-   CONSTRAINT hd_bug_priority_check CHECK ((VALUE = ANY (ARRAY[1, 2, 3, 4, 5])))
-;
-
-CREATE DOMAIN hd_event_type
-  AS smallint
-  NOT NULL
-   CONSTRAINT hd_event_type_check CHECK ((VALUE = ANY (ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9])))
-;
-
-CREATE DOMAIN hd_role
-  AS smallint
-  DEFAULT 1
-   CONSTRAINT hd_role_check CHECK ((VALUE = ANY (ARRAY[1, 10, 100])))
-;
-
-CREATE DOMAIN hd_status
-  AS smallint
-  DEFAULT 1
-  NOT NULL
-   CONSTRAINT hd_status_check CHECK ((VALUE = ANY (ARRAY[1, 2, 3, 4, 5])))
-;
-
 --- PROCEDURY
 
 CREATE OR REPLACE FUNCTION section_move_down(bigint)
@@ -59,24 +26,24 @@ DECLARE
 	CURR_REC RECORD;
 	DOWN_REC RECORD;
 BEGIN
-	LOCK TABLE hd_knowledge_section IN EXCLUSIVE MODE;
+	LOCK TABLE knowledge_section IN EXCLUSIVE MODE;
 
 	SELECT INTO CURR_REC section_position,knowledge_section_id
-		FROM hd_knowledge_section
+		FROM knowledge_section
 		WHERE knowledge_section_id = SECTION_ID
 		LIMIT 1;
 
 	SELECT INTO DOWN_REC  section_position,knowledge_section_id
-		FROM hd_knowledge_section
+		FROM knowledge_section
 		WHERE section_position < CURR_REC.section_position
 		ORDER BY section_position DESC
 		LIMIT 1;
 
 	IF DOWN_REC.knowledge_section_id IS NOT NULL THEN
-		UPDATE hd_knowledge_section
+		UPDATE knowledge_section
 			SET section_position = DOWN_REC.section_position
 			WHERE knowledge_section_id = CURR_REC.knowledge_section_id;
-		UPDATE hd_knowledge_section
+		UPDATE knowledge_section
 			SET section_position = CURR_REC.section_position
 			WHERE knowledge_section_id = DOWN_REC.knowledge_section_id;
 	END IF;
@@ -95,24 +62,24 @@ DECLARE
 	CURR_REC RECORD;
 	UP_REC RECORD;
 BEGIN
-	LOCK TABLE hd_knowledge_section IN EXCLUSIVE MODE;
+	LOCK TABLE knowledge_section IN EXCLUSIVE MODE;
 
 	SELECT INTO CURR_REC section_position,knowledge_section_id
-		FROM hd_knowledge_section
+		FROM knowledge_section
 		WHERE knowledge_section_id = SECTION_ID
 		LIMIT 1;
 
 	SELECT INTO UP_REC  section_position,knowledge_section_id
-		FROM hd_knowledge_section
+		FROM knowledge_section
 		WHERE section_position > CURR_REC.section_position
 		ORDER BY section_position ASC
 		LIMIT 1;
 
 	IF UP_REC.knowledge_section_id IS NOT NULL THEN
-		UPDATE hd_knowledge_section
+		UPDATE knowledge_section
 			SET section_position = UP_REC.section_position
 			WHERE knowledge_section_id = CURR_REC.knowledge_section_id;
-		UPDATE hd_knowledge_section
+		UPDATE knowledge_section
 			SET section_position = CURR_REC.section_position
 			WHERE knowledge_section_id = UP_REC.knowledge_section_id;
 	END IF;
@@ -129,7 +96,7 @@ CREATE OR REPLACE FUNCTION drop_information_body()
   RETURNS trigger AS
 $BODY$
   BEGIN
-    DELETE FROM hd_information_body WHERE information_id=OLD.information_id;
+    DELETE FROM information_body WHERE information_id=OLD.information_id;
     RETURN OLD;
   END;
 $BODY$
@@ -148,7 +115,7 @@ CREATE SEQUENCE user_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_user (
+CREATE TABLE users (
   user_id integer NOT NULL DEFAULT nextval(('public.user_id_seq'::text)::regclass),
   "login" character varying(96) NOT NULL,
   passw character varying(40) NOT NULL,
@@ -159,13 +126,13 @@ CREATE TABLE hd_user (
   mobile character varying(20),
   "role" smallint NOT NULL DEFAULT 0,
   is_active boolean,
-  CONSTRAINT hd_plain_user_pkey PRIMARY KEY (user_id)
+  CONSTRAINT plain_user_pkey PRIMARY KEY (user_id)
 ) WITH (OIDS=FALSE)
 ;
 
 --- ### kategorie zgłoszeń
 
-CREATE SEQUENCE bug_category_id_seq
+CREATE SEQUENCE ticket_category_id_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -173,8 +140,8 @@ CREATE SEQUENCE bug_category_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_bug_category (
-  category_id integer NOT NULL DEFAULT nextval(('public.bug_category_id_seq'::text)::regclass),
+CREATE TABLE ticket_category (
+  category_id integer NOT NULL DEFAULT nextval(('public.ticket_category_id_seq'::text)::regclass),
   parent_category integer,
   category_name character varying(64) NOT NULL,
   category_desc character varying(255),
@@ -182,19 +149,19 @@ CREATE TABLE hd_bug_category (
   t_left bigint,
   t_right bigint,
   t_depth integer,
-  CONSTRAINT hd_bug_category_pkey PRIMARY KEY (category_id),
-  CONSTRAINT hd_bug_category_parent_category_fkey FOREIGN KEY (parent_category)
-      REFERENCES hd_bug_category (category_id) MATCH SIMPLE
+  CONSTRAINT ticket_category_pkey PRIMARY KEY (category_id),
+  CONSTRAINT ticket_category_parent_category_fkey FOREIGN KEY (parent_category)
+      REFERENCES ticket_category (category_id) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT
 ) WITH (OIDS=FALSE)
 ;
 
-INSERT INTO hd_bug_category (category_id, category_name, category_desc, t_left, t_right, t_depth) 
+INSERT INTO ticket_category (category_id, category_name, category_desc, t_left, t_right, t_depth) 
     VALUES (0, 'uncategorized', 'default category', 1, 2, 0);
 
 --- ### zgłoszenia
 
-CREATE SEQUENCE bug_id_seq
+CREATE SEQUENCE ticket_id_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -202,12 +169,12 @@ CREATE SEQUENCE bug_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_bug (
-  bug_id integer NOT NULL DEFAULT nextval(('public.bug_id_seq'::text)::regclass),
+CREATE TABLE ticket (
+  ticket_id integer NOT NULL DEFAULT nextval(('public.ticket_id_seq'::text)::regclass),
   add_phone character varying(20),
-  bug_category integer NOT NULL DEFAULT 0, 
-  bug_priority smallint NOT NULL,
-  bug_status integer NOT NULL,
+  ticket_category integer NOT NULL DEFAULT 0, 
+  ticket_priority smallint NOT NULL,
+  ticket_status integer NOT NULL,
   saviour integer,
   notifyier integer,
   inputer integer,
@@ -216,21 +183,21 @@ CREATE TABLE hd_bug (
   step_by_step text,
   subject character varying(255) NOT NULL,
   department character varying(30),
-  CONSTRAINT hd_bug_pkey PRIMARY KEY (bug_id),
-  CONSTRAINT bug_category_id_fk FOREIGN KEY (bug_category)
-    REFERENCES hd_bug_category (category_id) MATCH SIMPLE
+  CONSTRAINT ticket_pkey PRIMARY KEY (ticket_id),
+  CONSTRAINT ticket_category_id_fk FOREIGN KEY (ticket_category)
+    REFERENCES ticket_category (category_id) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION
 ) WITH (OIDS=FALSE);
 
-CREATE TABLE hd_bug_desc (
-  bug_id bigint NOT NULL,
+CREATE TABLE ticket_desc (
+  ticket_id bigint NOT NULL,
   description text NOT NULL,
-  CONSTRAINT hd_bug_desc_pkey PRIMARY KEY (bug_id)
+  CONSTRAINT ticket_desc_pkey PRIMARY KEY (ticket_id)
 ) WITH (OIDS=FALSE);
 
 --- ### zdarzenia zgłoszeń
 
-CREATE SEQUENCE bug_event_id_seq
+CREATE SEQUENCE ticket_event_id_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -238,19 +205,19 @@ CREATE SEQUENCE bug_event_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_bug_event (
-  event_id integer NOT NULL DEFAULT nextval(('public.bug_event_id_seq'::text)::regclass),
-  bug_id integer NOT NULL,
+CREATE TABLE ticket_event (
+  event_id integer NOT NULL DEFAULT nextval(('public.ticket_event_id_seq'::text)::regclass),
+  ticket_id integer NOT NULL,
   event_subject character varying(255) NOT NULL,
   event_date timestamp with time zone NOT NULL,
   user_id integer NOT NULL,
   event_type smallint NOT NULL DEFAULT 0,
-  CONSTRAINT hd_bug_event_pkey PRIMARY KEY (event_id)
+  CONSTRAINT ticket_event_pkey PRIMARY KEY (event_id)
 ) WITH (OIDS=FALSE)
 ;
 
 --- ### komentarze do zgłoszeń
-CREATE SEQUENCE bug_comment_id_seq
+CREATE SEQUENCE ticket_comment_id_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -258,16 +225,16 @@ CREATE SEQUENCE bug_comment_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_bug_comment (
-  comment_id integer NOT NULL DEFAULT nextval(('public.bug_comment_id_seq'::text)::regclass),
+CREATE TABLE ticket_comment (
+  comment_id integer NOT NULL DEFAULT nextval(('public.ticket_comment_id_seq'::text)::regclass),
   comment_author integer NOT NULL,
   comment_date timestamp with time zone NOT NULL,
   comment_text text,
   not_for_plain_user boolean NOT NULL DEFAULT false,
-  bug_id integer NOT NULL,
-  CONSTRAINT hd_bug_comment_pkey PRIMARY KEY (comment_id),
-  CONSTRAINT hd_bug_comment_comment_author_fkey FOREIGN KEY (comment_author)
-      REFERENCES hd_user (user_id) MATCH SIMPLE
+  ticket_id integer NOT NULL,
+  CONSTRAINT ticket_comment_pkey PRIMARY KEY (comment_id),
+  CONSTRAINT ticket_comment_comment_author_fkey FOREIGN KEY (comment_author)
+      REFERENCES users (user_id) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT
 ) WITH (OIDS=FALSE)
 ;
@@ -284,7 +251,7 @@ CREATE SEQUENCE knowledge_section_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_knowledge_section (
+CREATE TABLE knowledge_section (
   section_name character varying(255) NOT NULL,
   section_position integer NOT NULL,
   knowledge_section_id integer NOT NULL DEFAULT nextval(('public.knowledge_section_id_seq'::text)::regclass),
@@ -302,15 +269,15 @@ CREATE SEQUENCE knownledge_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_knowledge (
+CREATE TABLE knowledge (
   knowledge_id integer NOT NULL DEFAULT nextval(('public.knowledge_id_seq'::text)::regclass),
   title character varying(255) NOT NULL,
-  hd_knowledge_section_id integer NOT NULL,
+  knowledge_section_id integer NOT NULL,
   create_date date,
   lead text,
   body text,
   user_id integer,
-  CONSTRAINT hd_knownledge_pkey PRIMARY KEY (knowledge_id)
+  CONSTRAINT knownledge_pkey PRIMARY KEY (knowledge_id)
 ) WITH (OIDS=FALSE)
 ;
 
@@ -324,21 +291,21 @@ CREATE SEQUENCE knowledge_comment_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_knowledge_comment (
+CREATE TABLE knowledge_comment (
   knowledge_comment_id integer NOT NULL DEFAULT nextval(('public.knowledge_comment_id_seq'::text)::regclass),
   knowledge_id integer NOT NULL,
   author integer NOT NULL,
   create_date date NOT NULL,
   title character varying(255) NOT NULL,
   body text NOT NULL,
-  CONSTRAINT hd_knowledge_comment_pkey PRIMARY KEY (knowledge_comment_id)
+  CONSTRAINT knowledge_comment_pkey PRIMARY KEY (knowledge_comment_id)
 ) WITH (OIDS=FALSE)
 ;
 
---- ### wiążanie zgłoszeń z artykułami w bazie wiedzy
+--- ### wiązanie zgłoszeń z artykułami w bazie wiedzy
 
-CREATE TABLE hd_bug_knowledge (
-  bug_id integer NOT NULL,
+CREATE TABLE ticket_knowledge (
+  ticket_id integer NOT NULL,
   knowledge_id integer NOT NULL
 ) WITH (OIDS=FALSE)
 ;
@@ -353,29 +320,29 @@ CREATE SEQUENCE information_id_seq
   CACHE 1
 ;
 
-CREATE TABLE hd_information (
+CREATE TABLE information (
   information_id integer NOT NULL DEFAULT nextval(('public.information_id_seq'::text)::regclass),
   create_date date NOT NULL,
   title character varying(255) NOT NULL,
   lead text NOT NULL,
-  CONSTRAINT hd_information_pkey PRIMARY KEY (information_id)
+  CONSTRAINT information_pkey PRIMARY KEY (information_id)
 ) WITH (OIDS=FALSE)
 ;
 
-CREATE TABLE hd_information_body (
+CREATE TABLE information_body (
   information_id integer NOT NULL,
   body text NOT NULL,
-  CONSTRAINT hd_information_body_information_id_fkey FOREIGN KEY (information_id)
-      REFERENCES hd_information (information_id) MATCH SIMPLE
+  CONSTRAINT information_body_information_id_fkey FOREIGN KEY (information_id)
+      REFERENCES information (information_id) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT,
-  CONSTRAINT hd_information_body_information_id_key UNIQUE (information_id)
+  CONSTRAINT information_body_information_id_key UNIQUE (information_id)
 ) WITH (OIDS=FALSE)
 ;
 
 --- TRIGGERY DO TABEL
 CREATE TRIGGER drop_information_body_trg
   BEFORE DELETE
-  ON hd_information
+  ON information
   FOR EACH ROW
   EXECUTE PROCEDURE drop_information_body()
 ;
@@ -383,41 +350,38 @@ CREATE TRIGGER drop_information_body_trg
 
 --- ### WIDOKI
 
-CREATE OR REPLACE VIEW bug_full_view AS
+CREATE OR REPLACE VIEW ticket_full_view AS
 	SELECT
-		bug.bug_id AS b_id,
-		bug.subject AS b_subject,
-		bug.add_phone AS b_add_hone,
-		bug.create_date AS b_create_date,
-		bug.step_by_step AS b_step_by_step,
+		ticket.ticket_id AS b_id,
+		ticket.subject AS b_subject,
+		ticket.add_phone AS b_add_hone,
+		ticket.create_date AS b_create_date,
+		ticket.step_by_step AS b_step_by_step,
 		category.category_name AS c_name,
-		bug.bug_priority AS p_id,
-		descr.description AS b_description,
+		ticket.ticket_priority AS p_id,
 		notifier.first_name AS n_first_name,
 		notifier.last_name AS n_last_name,
 		inputer.first_name AS i_first_name,
 		inputer.last_name AS i_last_name,
 		saviour.first_name AS s_first_name,
 		saviour.last_name AS s_last_name
-	FROM hd_bug bug
-	LEFT JOIN hd_user notifier ON bug.notifyier = notifier.user_id
-	LEFT JOIN hd_user inputer ON bug.inputer = inputer.user_id
-	LEFT JOIN hd_user saviour ON bug.saviour = saviour.user_id
-	LEFT JOIN hd_bug_category category ON bug.bug_category = category.category_id
-	LEFT JOIN hd_bug_priority priority ON bug.bug_priority = priority.priority_id
-	LEFT JOIN hd_bug_desc descr ON bug.bug_id = descr.bug_id
+	FROM ticket ticket
+	LEFT JOIN users notifier ON ticket.notifyier = notifier.user_id
+	LEFT JOIN users inputer ON ticket.inputer = inputer.user_id
+	LEFT JOIN users saviour ON ticket.saviour = saviour.user_id
+	LEFT JOIN ticket_category category ON ticket.ticket_category = category.category_id
 ;
 
-CREATE OR REPLACE VIEW bug_list_view AS
+CREATE OR REPLACE VIEW ticket_list_view AS
 	SELECT
-		bug.bug_id AS b_id,
-		bug.subject AS b_subject,
-		bug.description AS b_description,
-		bug.create_date AS b_create_date,
-		bug.bug_status AS b_status,
+		ticket.ticket_id AS b_id,
+		ticket.subject AS b_subject,
+		ticket.description AS b_description,
+		ticket.create_date AS b_create_date,
+		ticket.ticket_status AS b_status,
 		category.category_id AS c_id,
 		category.category_name AS c_name,
-		bug.bug_priority AS p_id,
+		ticket.ticket_priority AS p_id,
 		notifier.login AS n_login,
 		notifier.first_name AS n_first_name,
 		notifier.last_name AS n_last_name,
@@ -430,20 +394,20 @@ CREATE OR REPLACE VIEW bug_list_view AS
 		saviour.first_name AS s_first_name,
 		saviour.last_name AS s_last_name,
 		saviour.user_id AS s_id
-	FROM hd_bug bug
-	LEFT JOIN hd_user notifier ON bug.notifyier = notifier.user_id
-	LEFT JOIN hd_user inputer ON bug.inputer = inputer.user_id
-	LEFT JOIN hd_user saviour ON bug.saviour = saviour.user_id
-	LEFT JOIN hd_bug_category category ON bug.bug_category = category.category_id
+	FROM ticket ticket
+	LEFT JOIN users notifier ON ticket.notifyier = notifier.user_id
+	LEFT JOIN users inputer ON ticket.inputer = inputer.user_id
+	LEFT JOIN users saviour ON ticket.saviour = saviour.user_id
+	LEFT JOIN ticket_category category ON ticket.ticket_category = category.category_id
 ;
 
 CREATE OR REPLACE VIEW information_view AS
 	SELECT
-		hd_information.information_id,
-		hd_information.create_date,
-		hd_information.title,
-		hd_information.lead,
-		hd_information_body.body
-	FROM hd_information
-	LEFT JOIN hd_information_body ON hd_information.information_id = hd_information_body.information_id
+		information.information_id,
+		information.create_date,
+		information.title,
+		information.lead,
+		information_body.body
+	FROM information
+	LEFT JOIN information_body ON information.information_id = information_body.information_id
 ;
