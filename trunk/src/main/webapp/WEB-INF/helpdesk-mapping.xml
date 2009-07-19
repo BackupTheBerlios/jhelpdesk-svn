@@ -19,15 +19,8 @@
 				<prop key="/preferences/displayLists.html">preferencesDisplayListsCtrl</prop>
 				<prop key="/preferences/eventNotify.html">preferencesEventNotifyCtrl</prop>
 				<prop key="/preferences/personalData.html">preferencesPersonalDataCtrl</prop>
-				
-				<!-- akcje zwiazane z zarzadzaniem uzytkownikami i uprawnieniami -->
-				<prop key="/manage/users/showAll.html">managerUserShowAllCtrl</prop>   <!-- lista uzytkownikow         -->
-				<prop key="/manage/users/show.html">managerUserShowOneCtrl</prop> <!-- szczegoly uzytkownika      -->
-				<prop key="/manage/users/edit.html">managerUserEditCtrl</prop>    <!-- dodanie/edycja uzytkownika -->
-				<prop key="/manage/users/new.html">managerUserEditCtrl</prop>    <!-- dodanie/edycja uzytkownika -->
-				<prop key="/manage/users/remove.html">managerUserDelCtrl</prop>  <!-- usuniecie uzytkownika      -->
 
-				<!-- zarzadzanie kategoriami zgloszen -->
+                <!-- zarzadzanie kategoriami zgloszen -->
 				<prop key="/manage/category/showAll.html">managerBugCategoryShowAllCtrl</prop>
 				<prop key="/manage/category/show.html">managerBugCategoryShowOneCtrl</prop>
 				<prop key="/manage/category/edit.html">managerBugCategoryEditCtrl</prop>

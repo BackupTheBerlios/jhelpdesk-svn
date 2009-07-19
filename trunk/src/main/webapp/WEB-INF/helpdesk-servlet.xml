@@ -190,21 +190,6 @@
     </bean>
 	<!-- end preferences -->
 
-    <bean id="managerUserEditCtrl" class="de.berlios.jhelpdesk.web.manager.users.EditUserController">
-        <property name="commandName">
-            <value>user</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.model.User</value>
-        </property>
-        <property name="formView">
-            <value>manager/users/edit</value>
-        </property>
-        <property name="successView">
-            <value>manager/users/show</value>
-        </property>
-    </bean>
-
     <bean id="managerBugCategoryShowAllCtrl"
         class="de.berlios.jhelpdesk.web.manager.bugcategory.ShowAllController"/>
 	
