@@ -47,7 +47,7 @@ public class DesktopViewController  {
     private InformationDAO informationDAO;
 
     @RequestMapping("/desktop/main.html")
-    public String showDesktop(ModelMap map) {
+    public String showDesktop(ModelMap map) throws Exception {
         map.addAttribute("lastBugs", bugDAO.getBugsByStatus(BugStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_BUGS));
         map.addAttribute("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
         map.addAttribute("lastArticles", knowledgeDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));

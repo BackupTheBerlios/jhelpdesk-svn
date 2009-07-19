@@ -34,19 +34,20 @@ public interface BugDAO {
 
     /**
      * Zwraca zgłoszenie o podanym identyfikatorze.
-     *
-     * @param bugId
+     * @param bugId identyfikator zgłoszenia
      * @return
+     * @throws de.berlios.jhelpdesk.dao.DataAccessException
      */
-    public Bug getBugById(Long bugId);
+    public Bug getBugById(Long bugId) throws DataAccessException;
 
     /**
      * Zwraca wszystkie zgłoszenia o podanym statusie.
      *
      * @param bugStatus
      * @return
+     * @throws de.berlios.jhelpdesk.dao.DataAccessException
      */
-    public List<Bug> getBugsByStatus(BugStatus bugStatus);
+    public List<Bug> getBugsByStatus(BugStatus bugStatus) throws DataAccessException;
 
     /**
      *
@@ -54,7 +55,7 @@ public interface BugDAO {
      * @param howMuch
      * @return
      */
-    public List<Bug> getBugsByStatus(BugStatus bugStatus, int howMuch);
+    public List<Bug> getBugsByStatus(BugStatus bugStatus, int howMuch) throws DataAccessException;
 
     /**
      * Zwraca wszystkie zgłoszenia o podanej ważności.
@@ -62,7 +63,7 @@ public interface BugDAO {
      * @param bugPriority
      * @return
      */
-    public List<Bug> getBugsByPriority(BugPriority bugPriority);
+    public List<Bug> getBugsByPriority(BugPriority bugPriority) throws DataAccessException;
 
     /**
      * Zwraca wszystkie zgłoszenia wybranej kategorii.
@@ -70,21 +71,21 @@ public interface BugDAO {
      * @param bugCategory
      * @return
      */
-    public List<Bug> getBugsByCategory(BugCategory bugCategory);
+    public List<Bug> getBugsByCategory(BugCategory bugCategory) throws DataAccessException;
 
     /**
      *
      * @param user
      * @return
      */
-    public List<Bug> getBugsNotifyiedByUser(User user);
+    public List<Bug> getBugsNotifyiedByUser(User user) throws DataAccessException;
 
     /**
      *
      * @param user
      * @return
      */
-    public List<Bug> getBugsResolvedByUser(User user);
+    public List<Bug> getBugsResolvedByUser(User user) throws DataAccessException;
 
     /**
      * Usuwa wybrane zgłoszenie.
@@ -92,44 +93,44 @@ public interface BugDAO {
      * @param bug2Del
      * @throws Exception
      */
-    public void removeBug(Bug bug2Del) throws Exception;
+    public void removeBug(Bug bug2Del) throws DataAccessException;
 
     /**
      * Usuwa zgłoszenie o podanym identyfikatorze.
      *
      * @param bug2DelIId
      */
-    public void remove(Long bug2DelIId);
+    public void remove(Long bug2DelIId) throws DataAccessException;
 
     /**
      * Zapisuje podane zgłoszenie. Jesli jest to zgłoszenie istniejący uaktualnie związane z nim dane.
      *
      * @param bug2Save
      */
-    public void save(Bug bug2Save) throws Exception;
+    public void save(Bug bug2Save) throws DataAccessException;
 
     /**
      * Zwraca wszystkie błędy z bazy.
      *
      * @param bug2Save
      */
-    public List<Bug> getAllBugs();
+    public List<Bug> getAllBugs() throws DataAccessException;
 
     /**
      * @param filterForm
      */
-    public List<Bug> getBugsWithFilter(ShowBugsFilterForm filterForm, int limit, long offset);
+    public List<Bug> getBugsWithFilter(ShowBugsFilterForm filterForm, int limit, long offset) throws DataAccessException;
 
     /**
      *
      * @param filterForm
      * @return
      */
-    public Integer countBugsWithFilter(ShowBugsFilterForm filterForm);
+    public Integer countBugsWithFilter(ShowBugsFilterForm filterForm) throws DataAccessException;
 
     /**
      *
      * @param comm
      */
-    public void addComment(BugComment comm);
+    public void addComment(BugComment comm) throws DataAccessException;
 }

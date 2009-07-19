@@ -15,31 +15,27 @@
  */
 package de.berlios.jhelpdesk.web.manager.bugcategory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import de.berlios.jhelpdesk.dao.BugCategoryDAO;
 
-public class ShowCategoryController implements Controller {
-    
-	private static Log log = LogFactory.getLog(ShowCategoryController.class);
+@Controller
+public class ShowCategoryController {
 
     @Autowired
-	private BugCategoryDAO categoryDAO;
+    private BugCategoryDAO categoryDAO;
 
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
-		if (categoryDAO != null) {
+//    @RequestMapping("/manager/category/show.html")
+    public ModelAndView handleRequest(
+                        @RequestParam("categoryId") Long categoryId,
+                        ModelMap map) {
 
-		}
-		return null;
-	}
-
+        map.addAttribute("category", categoryDAO.getById(categoryId));
+        return null;
+    }
 }

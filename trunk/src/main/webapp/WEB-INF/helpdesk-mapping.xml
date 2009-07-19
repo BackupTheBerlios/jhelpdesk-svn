@@ -21,14 +21,12 @@
 				<prop key="/preferences/personalData.html">preferencesPersonalDataCtrl</prop>
 
                 <!-- zarzadzanie kategoriami zgloszen -->
-				<prop key="/manage/category/showAll.html">managerBugCategoryShowAllCtrl</prop>
-				<prop key="/manage/category/show.html">managerBugCategoryShowOneCtrl</prop>
-				<prop key="/manage/category/edit.html">managerBugCategoryEditCtrl</prop>
-				<prop key="/manage/category/new.html">managerBugCategoryEditCtrl</prop>
-				<prop key="/manage/category/remove.html">managerBugCategoryDelCtrl</prop>
-				<prop key="/manage/category/up.html">managerBugCategoryUpDownCtrl</prop>
-				<prop key="/manage/category/down.html">managerBugCategoryUpDownCtrl</prop>
-				
+                <!--
+				<prop key="/manager/category/edit.html">managerBugCategoryEditCtrl</prop>
+				<prop key="/manager/category/new.html">managerBugCategoryEditCtrl</prop>
+				<prop key="/manager/category/up.html">managerBugCategoryUpDownCtrl</prop>
+				<prop key="/manager/category/down.html">managerBugCategoryUpDownCtrl</prop>
+                -->
 			</props>
 		</property>
 	</bean>

@@ -95,24 +95,28 @@ public class BugsViewController extends SimpleFormController {
 	@SuppressWarnings("unchecked")
 	protected Map referenceData(HttpServletRequest request) throws ServletException {
 		log.info("referenceData()->start");
-		if (refData == null) {
-			refData = new HashMap();
-			refData.put("categories", bugCategoryDAO.getAllCategoriesForView());
-			refData.put("priorities", bugPriorityDAO.getAllPriorities());
-			refData.put("statuses", bugStatusDAO.getAllStatuses());
-			refData.put("users", userDAO.getAllUser());
-			refData.put("saviours", userDAO.getSaviours());
-			if (filterForm != null) {
-				PagingParamsEncoder enc = new PagingParamsEncoder("bugsIterator", "b_status", request, PAGE_SIZE);
-				refData.put("bugsListSize", bugDao.countBugsWithFilter(filterForm));
-				refData.put("bugs", bugDao.getBugsWithFilter(filterForm, PAGE_SIZE, enc.getOffset()));
-				log.debug("getBugsWithFilter()");
-			} else {
-				refData.put("bugs", bugDao.getAllBugs());
-				log.debug("getAllBugsAsBean()");
-			}
-		}
-		return refData;
+        try {
+            if (refData == null) {
+                refData = new HashMap();
+                refData.put("categories", bugCategoryDAO.getAllCategoriesForView());
+                refData.put("priorities", bugPriorityDAO.getAllPriorities());
+                refData.put("statuses", bugStatusDAO.getAllStatuses());
+                refData.put("users", userDAO.getAllUser());
+                refData.put("saviours", userDAO.getSaviours());
+                if (filterForm != null) {
+                    PagingParamsEncoder enc = new PagingParamsEncoder("bugsIterator", "b_status", request, PAGE_SIZE);
+                    refData.put("bugsListSize", bugDao.countBugsWithFilter(filterForm));
+                    refData.put("bugs", bugDao.getBugsWithFilter(filterForm, PAGE_SIZE, enc.getOffset()));
+                    log.debug("getBugsWithFilter()");
+                } else {
+                    refData.put("bugs", bugDao.getAllBugs());
+                    log.debug("getAllBugsAsBean()");
+                }
+            }
+            return refData;
+        } catch(Exception ex) {
+            throw new ServletException(ex);
+        }
 	}
 
 	/**

@@ -23,31 +23,29 @@ import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import de.berlios.jhelpdesk.dao.BugCategoryDAO;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller("managerBugCategoryDelCtrl")
+@Controller
 public class DeleteCategoryController {
-	
-	private static Log log = LogFactory.getLog( DeleteCategoryController.class );
 
+    private static Log log = LogFactory.getLog(DeleteCategoryController.class);
     @Autowired
-	private BugCategoryDAO categoryDAO;
+    private BugCategoryDAO categoryDAO;
 
-    @RequestMapping
-	public ModelAndView handleRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
-		try {
-			categoryDAO.deleteCategory(categoryDAO.getById(
-					Long.parseLong(request.getParameter("catId"))));
-		} catch (Exception ex) {
-			log.error(ex);
-		}
-		return new ModelAndView(new RedirectView(
-			request.getContextPath().concat("/manage/category/showAll.html")));
-	}
-
+//    @RequestMapping("/manager/category/remove.html")
+    public ModelAndView handleRequest(HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
+        try {
+            categoryDAO.deleteCategory(categoryDAO.getById(
+                Long.parseLong(request.getParameter("catId"))));
+        } catch (Exception ex) {
+            log.error(ex);
+        }
+        return new ModelAndView(new RedirectView(
+            request.getContextPath().concat("/manage/category/showAll.html")));
+    }
 }

@@ -26,6 +26,7 @@ import org.apache.commons.io.FileUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +41,6 @@ import de.berlios.jhelpdesk.model.BugComment;
 import de.berlios.jhelpdesk.model.BugPriority;
 import de.berlios.jhelpdesk.model.BugStatus;
 import de.berlios.jhelpdesk.model.User;
-import org.springframework.ui.ModelMap;
 
 /**
  *
@@ -70,7 +70,7 @@ public class BugViewController {
     public String processAddComment(
         @RequestParam("bugId") Long bugId,
         @RequestParam("addComm") String addComm,
-        @ModelAttribute("user") User user) {
+        @ModelAttribute("user") User user) throws Exception {
 
         BugComment comm = new BugComment();
         comm.setBugId(bugId);

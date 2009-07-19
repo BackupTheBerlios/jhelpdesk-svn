@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
+import de.berlios.jhelpdesk.dao.DataAccessException;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.User;
 
@@ -58,14 +59,17 @@ public class BugStatsByNotyfier1DatasetProducer implements DatasetProducer, PieT
 		DefaultPieDataset dataset = new DefaultPieDataset();
 
 		List<User> listOfUsers = userDAO.getAllUser();
-
-		for (User user : listOfUsers) {
-			int numOfBugs = bugDAO.getBugsNotifyiedByUser(user).size();
-			log.info("Ilosc bledow [" + user.getFullName() + "] => " + bugDAO.getBugsNotifyiedByUser(user).size());
-			if (numOfBugs > 0) {
-				dataset.setValue(user.getFullName(), (double) numOfBugs);
-			}
-		}
+        try {
+            for (User user : listOfUsers) {
+                int numOfBugs = bugDAO.getBugsNotifyiedByUser(user).size();
+                log.info("Ilosc bledow [" + user.getFullName() + "] => " + bugDAO.getBugsNotifyiedByUser(user).size());
+                if (numOfBugs > 0) {
+                    dataset.setValue(user.getFullName(), (double) numOfBugs);
+                }
+            }
+        } catch(DataAccessException ex) {
+            throw new DatasetProduceException(ex.getMessage());
+        }
 		return dataset;
 	}
 

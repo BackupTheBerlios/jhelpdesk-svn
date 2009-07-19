@@ -40,6 +40,7 @@ import de.berlios.jhelpdesk.dao.BugCategoryDAO;
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.dao.BugPriorityDAO;
 import de.berlios.jhelpdesk.dao.BugStatusDAO;
+import de.berlios.jhelpdesk.dao.DataAccessException;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.commons.PagingParamsEncoder;
@@ -109,35 +110,39 @@ public class BugsNotifiedByMeViewController extends SimpleFormController {
 	@SuppressWarnings("unchecked")
     @Override
 	protected Map referenceData(HttpServletRequest request) throws ServletException {
-		if (refData == null) {
-			refData = new HashMap();
-			refData.put("categories", bugCategoryDAO.getAllCategoriesForView());
-			refData.put("priorities", bugPriorityDAO.getAllPriorities());
-			refData.put("statuses", bugStatusDAO.getAllStatuses());
-			refData.put("users", userDAO.getAllUser());
-			refData.put("saviours", userDAO.getSaviours());
+        try {
+            if (refData == null) {
+                refData = new HashMap();
+                refData.put("categories", bugCategoryDAO.getAllCategoriesForView());
+                refData.put("priorities", bugPriorityDAO.getAllPriorities());
+                refData.put("statuses", bugStatusDAO.getAllStatuses());
+                refData.put("users", userDAO.getAllUser());
+                refData.put("saviours", userDAO.getSaviours());
 
-			if (filterForm != null) {
-				ShowBugsFilterForm ff = new ShowBugsFilterForm();
-				ff.setCategories(filterForm.getCategories());
-				if (filterForm.getStartDate() != null)
-					ff.setStartDate(dateFormat.format(filterForm.getStartDate()));
-				if (filterForm.getEndDate() != null)
-					ff.setEndDate(dateFormat.format(filterForm.getEndDate()));
-				List<User> n = new ArrayList<User>();
-				n.add((User) request.getSession().getAttribute("user"));
-				ff.setNotifyiers(n);
-				ff.setPriorities(filterForm.getPriorities());
-				ff.setSaviours(filterForm.getSaviours());
-				ff.setStatuses(filterForm.getStatuses());
-				PagingParamsEncoder enc = new PagingParamsEncoder("bugsIterator", "p_id", request, PAGE_SIZE);
-				refData.put("bugsListSize", bugDao.countBugsWithFilter(ff));
-				refData.put("bugs", bugDao.getBugsWithFilter(ff, PAGE_SIZE, enc.getOffset()));
-			} else {
-				refData.put("bugs", bugDao.getAllBugs());
-			}
-		}
-		return refData;
+                if (filterForm != null) {
+                    ShowBugsFilterForm ff = new ShowBugsFilterForm();
+                    ff.setCategories(filterForm.getCategories());
+                    if (filterForm.getStartDate() != null)
+                        ff.setStartDate(dateFormat.format(filterForm.getStartDate()));
+                    if (filterForm.getEndDate() != null)
+                        ff.setEndDate(dateFormat.format(filterForm.getEndDate()));
+                    List<User> n = new ArrayList<User>();
+                    n.add((User) request.getSession().getAttribute("user"));
+                    ff.setNotifyiers(n);
+                    ff.setPriorities(filterForm.getPriorities());
+                    ff.setSaviours(filterForm.getSaviours());
+                    ff.setStatuses(filterForm.getStatuses());
+                    PagingParamsEncoder enc = new PagingParamsEncoder("bugsIterator", "p_id", request, PAGE_SIZE);
+                    refData.put("bugsListSize", bugDao.countBugsWithFilter(ff));
+                    refData.put("bugs", bugDao.getBugsWithFilter(ff, PAGE_SIZE, enc.getOffset()));
+                } else {
+                    refData.put("bugs", bugDao.getAllBugs());
+                }
+            }
+            return refData;
+        } catch(DataAccessException ex) {
+            throw new ServletException(ex);
+        }
 	}
 
 	/**

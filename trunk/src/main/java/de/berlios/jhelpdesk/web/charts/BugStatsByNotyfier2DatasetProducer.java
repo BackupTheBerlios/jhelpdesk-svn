@@ -34,6 +34,7 @@ import org.springframework.stereotype.Component;
 
 import de.berlios.jhelpdesk.dao.BugDAO;
 import de.berlios.jhelpdesk.dao.BugStatusDAO;
+import de.berlios.jhelpdesk.dao.DataAccessException;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Bug;
 import de.berlios.jhelpdesk.model.BugStatus;
@@ -66,11 +67,16 @@ public class BugStatsByNotyfier2DatasetProducer implements DatasetProducer, PieT
 
 		List<BugStatus> listOfStatuses = statusDAO.getNonOpenedStatuses();
 		List<Bug> listOfBugs = new ArrayList<Bug>();
-		for (BugStatus status : listOfStatuses) {
-			listOfBugs.addAll(bugDAO.getBugsByStatus(status));
-			log.debug("Nowy rozmiar listy => " + listOfBugs.size());
-		}
-
+        try {
+            for (BugStatus status : listOfStatuses) {
+                listOfBugs.addAll(bugDAO.getBugsByStatus(status));
+                log.debug("Nowy rozmiar listy => " + listOfBugs.size());
+            }
+        } catch(DataAccessException ex) {
+            // TODO: moze cos z tym lepszego zrobic?
+            throw new DatasetProduceException(ex.getMessage());
+        }
+        
 		List<User> listOfUsers = userDAO.getAllUser();
 		log.debug("Ilosc uzytkownikow w liscie -> " + listOfUsers.size());
 
