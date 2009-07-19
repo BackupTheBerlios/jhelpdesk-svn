@@ -37,25 +37,25 @@ import de.berlios.jhelpdesk.web.tools.TicketCategoryValidator;
 
 @Controller
 public class TicketCategoryEditController {
-	
-    @Autowired
-	private TicketCategoryDAO categoryDAO;
 
+    @Autowired
+    private TicketCategoryDAO categoryDAO;
+    
     @Autowired
     private TicketCategoryValidator validator;
 
-	@InitBinder
+    @InitBinder
     public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Long.class, null, 
-				new CustomNumberEditor(Long.class, NumberFormat.getNumberInstance(), true));
-		binder.registerCustomEditor(Boolean.class, null, new CustomBooleanEditor(true));
-	}
+        binder.registerCustomEditor(Long.class, null,
+            new CustomNumberEditor(Long.class, NumberFormat.getNumberInstance(), true));
+        binder.registerCustomEditor(Boolean.class, null, new CustomBooleanEditor(true));
+    }
 
     @RequestMapping(value = "/manage/category/edit.html", method = RequestMethod.POST)
-	protected String onSubmit(
-                     @ModelAttribute("category") TicketCategory category,
-                     BindingResult result, SessionStatus status,
-                     ModelMap map) {
+    public String processSubmit(
+                  @ModelAttribute("category") TicketCategory category,
+                  BindingResult result, SessionStatus status,
+                  ModelMap map) {
 
         validator.validate(category, result);
         if (result.hasErrors()) {
@@ -79,15 +79,14 @@ public class TicketCategoryEditController {
     }
 
     @RequestMapping(value = "/manage/category/edit.html", method = RequestMethod.GET)
-	protected String formBackingObject(
-                     @RequestParam(value = "catId", required = false) Long catId,
-                     ModelMap map) {
+    public String prepareForm(
+                  @RequestParam(value = "catId", required = false) Long catId,
+                  ModelMap map) {
         if (catId == null) {
             map.addAttribute("category", new TicketCategory());
         } else {
             map.addAttribute("category", categoryDAO.getById(catId));
         }
         return "manager/category/edit";
-	}
-
+    }
 }
