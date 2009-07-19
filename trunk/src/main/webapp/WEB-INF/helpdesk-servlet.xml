@@ -120,116 +120,6 @@
         </property>
     </bean>
 	
-	<!-- preferences -->
-    <bean
-		id="preferencesLookAndFeelCtrl"
-		class="de.berlios.jhelpdesk.web.preferences.LookAndFeelEditController" scope="prototype">
-        <property name="commandName">
-            <value>preferences</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.LookAndFeelForm</value>
-        </property>
-        <property name="formView">
-            <value>preferences/lookAndFeel</value>
-        </property>
-        <property name="successView">
-            <value>preferences/lookAndFeel</value>
-        </property>
-    </bean>
-	
-    <bean
-		id="preferencesDisplayListsCtrl"
-		class="de.berlios.jhelpdesk.web.preferences.DisplayListsEditController" scope="prototype">
-        <property name="commandName">
-            <value>preferences</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.DisplayListsForm</value>
-        </property>
-        <property name="formView">
-            <value>preferences/displayLists</value>
-        </property>
-        <property name="successView">
-            <value>preferences/displayLists</value>
-        </property>
-    </bean>
-	
-    <bean
-		id="preferencesEventNotifyCtrl"
-		class="de.berlios.jhelpdesk.web.preferences.NotifyEditController">
-        <property name="commandName">
-            <value>preferences</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.EventNotifyForm</value>
-        </property>
-        <property name="formView">
-            <value>preferences/eventNotify</value>
-        </property>
-        <property name="successView">
-            <value>preferences/eventNotify</value>
-        </property>
-    </bean>
-	
-    <bean
-		id="preferencesPersonalDataCtrl"
-		class="de.berlios.jhelpdesk.web.preferences.PersonalDataEditController">
-        <property name="commandName">
-            <value>preferences</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.PersonalDataForm</value>
-        </property>
-        <property name="formView">
-            <value>preferences/personalData</value>
-        </property>
-        <property name="successView">
-            <value>preferences/personalData</value>
-        </property>
-    </bean>
-	<!-- end preferences -->
-
-    <bean id="managerTicketCategoryShowAllCtrl"
-        class="de.berlios.jhelpdesk.web.manager.ticketcategory.ShowAllController"/>
-	
-    <bean id="managerTicketCategoryShowOneCtrl"
-        class="de.berlios.jhelpdesk.web.manager.ticketcategory.ShowCategoryController"/>
-	
-    <bean id="managerTicketCategoryEditCtrl" class="de.berlios.jhelpdesk.web.manager.ticketcategory.EditCategoryController">
-        <property name="commandName">
-            <value>category</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.model.TicketCategory</value>
-        </property>
-        <property name="formView">
-            <value>manager/category/edit</value>
-        </property>
-        <property name="successView">
-            <value>manager/category/showAll</value>
-        </property>
-    </bean>
-
-    <bean
-		id="managerTicketCategoryUpDownCtrl"
-		class="de.berlios.jhelpdesk.web.manager.ticketcategory.MoveUpDownCategoryController">
-        <property name="methodNameResolver">
-            <ref bean="managerTicketCategoryUpDownCtrlResolver"/>
-        </property>
-    </bean>
-	
-    <bean
-		id="managerTicketCategoryUpDownCtrlResolver"
-		class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
-        <property name="mappings">
-            <props>
-                <prop key="/manage/category/up.html">moveUp</prop>
-                <prop key="/manage/category/down.html">moveDown</prop>
-            </props>
-        </property>
-    </bean>
-    
     <!--  inne beany widoku -->
     <bean
 		id="messageSource"
@@ -276,6 +166,20 @@
 	/>
 
     <!-- mapowanie kontrolerów -->
-    <import resource="helpdesk-mapping.xml" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+				<!-- akcje zwiazane z bledami -->
+                <prop key="/showTickets.html">killerTicketsViewController</prop>
+                <prop key="/showNewTickets.html">killerNewTicketsViewController</prop>
+                <prop key="/showTicketsNotifiedByMe.html">ticketsNotifiedByMeViewController</prop>
+                <prop key="/showTicketsAssignedToMe.html">ticketsAssignedToMeViewController</prop>
+                <prop key="/showNonresolvedTicketsAssignedToMe.html">ticketsNonresolvedAssignedToMeViewController</prop>
+                <prop key="/showNonresolvedTickets.html">ticketsNonresolvedViewController</prop>
+                <prop key="/newTicket.html">killerTicketEditController</prop>
+            </props>
+        </property>
+    </bean>
 
 </beans>

@@ -15,8 +15,22 @@
  */
 package de.berlios.jhelpdesk.web.preferences;
 
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-public class LookAndFeelEditController extends SimpleFormController {
+import de.berlios.jhelpdesk.web.form.LookAndFeelForm;
 
+/**
+ * 
+ * @author jjhop
+ */
+@Controller
+public class LookAndFeelEditController {
+
+    @RequestMapping(value = "/preferences/lookAndFeel.html", method = RequestMethod.GET)
+    public String prepareForm(@ModelAttribute("preferences") LookAndFeelForm preferences) {
+        return "preferences/lookAndFeel";
+    }
 }
