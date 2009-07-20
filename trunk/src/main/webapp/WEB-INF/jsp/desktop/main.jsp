@@ -123,7 +123,9 @@
                                 <c:forEach var="announcement" items="${lastAnnouncements}">
                                     <tr>
                                         <td><c:out value="${announcement.createDate}"/></td>
-                                        <td class="lastcol"><c:out value="${announcement.title}"/></td>
+                                        <td class="lastcol">
+                                            <a href="<c:url value="/announcement/show.html?infoId=${announcement.announcementId}"/>"><c:out value="${announcement.title}"/></a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="lastcol"><c:out value="${announcement.lead}"/></td>

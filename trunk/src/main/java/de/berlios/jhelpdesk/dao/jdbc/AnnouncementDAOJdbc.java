@@ -36,9 +36,8 @@ import de.berlios.jhelpdesk.dao.AnnouncementDAO;
 import de.berlios.jhelpdesk.model.Announcement;
 
 @Repository("announcementDAO")
-public class AnnouncementDAOJdbc extends AbstractJdbcTemplateSupport 
-        implements AnnouncementDAO {
-    
+public class AnnouncementDAOJdbc extends AbstractJdbcTemplateSupport implements AnnouncementDAO {
+
     private static Log log = LogFactory.getLog(AnnouncementDAOJdbc.class);
     
     private static final RowMapper ANNOUNCEMENT_ROW_MAPPER = new RowMapper() {

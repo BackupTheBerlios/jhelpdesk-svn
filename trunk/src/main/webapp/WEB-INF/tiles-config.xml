@@ -234,7 +234,7 @@
 	</definition>
 	
 	<definition
-		name="manager/announcement/showAll"
+		name="announcement/showAll"
 		extends="baseLayout">
 		<put-attribute name="title" value="pokaz info wszystki"/>
 		<put-attribute name="displayFilterLink" value="none"/>
@@ -243,7 +243,7 @@
 	</definition>
 	
 	<definition
-		name="manager/announcement/show"
+		name="announcement/show"
 		extends="baseLayout">
 		<put-attribute name="title" value="pokaz info"/>
 		<put-attribute name="displayFilterLink" value="none"/>
@@ -252,7 +252,7 @@
 	</definition>
 	
 	<definition
-		name="manager/announcement/edit"
+		name="announcement/edit"
 		extends="baseLayout">
 		<put-attribute name="title" value="edytuj/dodaj info"/>
 		<put-attribute name="displayFilterLink" value="none"/>
