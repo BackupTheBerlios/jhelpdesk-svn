@@ -15,8 +15,11 @@
  */
 package de.berlios.jhelpdesk.web.manager;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,10 +28,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import de.berlios.jhelpdesk.dao.ArticleDAO;
 import de.berlios.jhelpdesk.model.Article;
@@ -42,7 +42,6 @@ import de.berlios.jhelpdesk.model.User;
  * @author jjhop
  */
 @Controller
-@SessionAttributes("user")
 public class ArticleController {
 
     private static Log log = LogFactory.getLog(ArticleController.class);
@@ -58,19 +57,24 @@ public class ArticleController {
      * @throws java.lang.Exception
      */
     @RequestMapping("/manage/knowledge/article/showAll.html")
-    public ModelAndView showAllArticles(@RequestParam(value = "categoryId", required = false) Long categoryId) {
-        ModelAndView mav = new ModelAndView("manage/knowledge/article/showAll");
+    public String showAllArticles(
+                  @RequestParam(value = "categoryId", required = false) Long categoryId,
+                  ModelMap map) {
+
         try {
-            mav.addObject("articles", articleDAO.getForSection(categoryId));
+            map.addAttribute("articles", articleDAO.getForSection(categoryId));
+            map.addAttribute("categoryId", categoryId);
         } catch (Exception ex) {
             log.error(ex);
-            mav.setView(new RedirectView("/manage/knowledge/category/showAll.html", true));
+            return "redirect:/manage/knowledge/category/showAll.html";
         }
-        return mav;
+        return "manage/knowledge/article/showAll";
     }
 
     @RequestMapping("/manage/knowledge/article/show.html")
-    public String showArticle(@RequestParam(value = "articleId") Long articleId, ModelMap map) {
+    public String showArticle(
+                  @RequestParam(value = "articleId") Long articleId,
+                  ModelMap map) {
 
         try {
             map.addAttribute("article", articleDAO.getById(articleId));
@@ -92,28 +96,29 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/manage/knowledge/article/edit.html", method = RequestMethod.GET)  
-    protected String prepareForm(
+    public String prepareForm(
                      @RequestParam(value = "articleId", required = false) Long articleId,
                      @RequestParam(value = "categoryId", required = false) Long categoryId,
-                     @ModelAttribute("user") User user,
                      ModelMap map) {
 
         Article article = (articleId == null) 
             ? new Article()
             : articleDAO.getById(articleId);
         article.setArticleSectionId(categoryId);
-        article.setAuthor(user);
         map.addAttribute("article", article);
         return "manage/knowledge/article/edit";
     }
 
     @RequestMapping(value = "/manage/knowledge/article/edit.html", method = RequestMethod.POST)
-    protected String processSubmit(@ModelAttribute("article") Article article,
-                     BindingResult result, SessionStatus status) {
+    public String processSubmit(@ModelAttribute("article") Article article,
+                  BindingResult result, SessionStatus status, HttpSession session) {
 
-//        validator.validate(article, result);
+        //validator.validate(article, result);
         if (result.hasErrors()) {
             return "manage/knowledge/article/edit";
+        }
+        if (article.getArticleId() == null) {
+            article.setAuthor((User) session.getAttribute("user"));
         }
         articleDAO.saveOrUpdate(article);
         status.setComplete();

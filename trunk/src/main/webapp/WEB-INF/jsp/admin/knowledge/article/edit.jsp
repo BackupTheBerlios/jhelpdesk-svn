@@ -16,6 +16,9 @@
                                     <input type="hidden" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
                                 </spring:bind>
                             </c:if>
+                            <spring:bind path="article.articleSectionId">
+                                <input type="hidden" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+                            </spring:bind>
                             <table cellspacing="0" class="standardtable">
                                 <tr>
                                     <td>Tytuł</td>

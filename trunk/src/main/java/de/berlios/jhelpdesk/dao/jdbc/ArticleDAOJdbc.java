@@ -33,6 +33,7 @@ import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.ArticleDAO;
 import de.berlios.jhelpdesk.model.Article;
+import de.berlios.jhelpdesk.model.User;
 
 /**
  * @author jjhop
@@ -108,7 +109,7 @@ public class ArticleDAOJdbc extends AbstractJdbcTemplateSupport
 							);
 						pstmt.setString(1, article.getTitle());
 						pstmt.setLong(2, article.getArticleSectionId());
-						pstmt.setDate(3, new Date(article.getCreateDate().getTime()));
+						pstmt.setDate(3, new Date(System.currentTimeMillis()));
 						pstmt.setString(4, article.getLead());
 						pstmt.setString(5, article.getBody());
 						pstmt.setLong(6, article.getAuthor().getUserId());
@@ -134,15 +135,26 @@ public class ArticleDAOJdbc extends AbstractJdbcTemplateSupport
 	@SuppressWarnings("unchecked")
 	public List<Article> getForSection(Long categoryId) {
 		return getJdbcTemplate().query(
-			"SELECT * FROM article WHERE article_category_id=?",
+			"SELECT article.*, users.login,users.first_name, users.last_name " +
+            "FROM article, users " +
+            "WHERE article_category_id=? AND article.user_id=users.user_id",
 			new Object[] {
 				categoryId
 			},
 			new RowMapper() {
 				public Object mapRow(ResultSet rs, int row) throws SQLException {
 					Article article = new Article();
-					article.setArticleId(rs.getLong("article_category_id"));
+					article.setArticleId(rs.getLong("article_id"));
+                    article.setArticleSectionId(rs.getLong("article_category_id"));
 					article.setTitle(rs.getString("title"));
+                    article.setCreateDate(rs.getTimestamp("create_date"));
+                    article.setAuthor(
+                        new User(
+                        rs.getLong("user_id"),
+                        rs.getString("login"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"))
+                    );
 					/// itd...
 					return article;
 				}

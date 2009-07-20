@@ -13,7 +13,7 @@
                         <table cellspacing="0">
                             <tr>
                                 <td>
-                                    <a class="btn" href="<c:url value="/manage/knowledge/article/edit.html"/>">Dodaj nowy artykuł</a>
+                                    <a class="btn" href="<c:url value="/manage/knowledge/article/edit.html?categoryId=${categoryId}"/>">Dodaj nowy artykuł</a>
                                 </td>
                             </tr>
                         </table>
@@ -21,7 +21,7 @@
                             <table cellspacing="0" class="standardtable">
                                 <tr>
                                     <th>Lp.</th>
-                                    <th>Tytul</th>
+                                    <th>Tytuł</th>
                                     <th>Autor</th>
                                     <th>Data</th>
                                     <th colspan="4" class="lastcol">Akcje</th>
@@ -30,8 +30,8 @@
                                     <tr>
                                         <td>.</td>
                                         <td><c:out value="${article.title}"/></td>
-                                        <td>jasio:)</td>
-                                        <td>2005/12/23</td>
+                                        <td><c:out value="${article.author}"/></td>
+                                        <td><c:out value="${article.createDate}"/></td>
                                         <td class="ticketEdit">
                                             <a href="<c:url value="/manage/knowledge/article/edit.html?articleId=${article.articleId}"/>">Edit</a>
                                         </td>

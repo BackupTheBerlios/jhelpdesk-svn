@@ -6,7 +6,7 @@
 <c:out value="${article.lead}"/>
 <br/><br/>
 <c:out value="${article.body}"/>
-
+<hr/>
 <h3>Powiązane zgłoszenia</h3>
 <ol>
     <c:forEach items="${article.associatedTickets}" var="ticket">
