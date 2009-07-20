@@ -39,6 +39,7 @@ import de.berlios.jhelpdesk.dao.DataAccessException;
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
+import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
@@ -108,7 +109,7 @@ public class TicketsNotifiedByMeViewController extends SimpleFormController {
                 refData.put("priorities", TicketPriority.values());
                 refData.put("statuses", TicketStatus.getAllStatuses());
                 refData.put("users", userDAO.getAllUser());
-                refData.put("saviours", userDAO.getSaviours());
+                refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
 
                 if (filterForm != null) {
                     ShowTicketsFilterForm ff = new ShowTicketsFilterForm();
@@ -152,7 +153,7 @@ public class TicketsNotifiedByMeViewController extends SimpleFormController {
 			refData.put("priorities", TicketPriority.values());
 			refData.put("statuses", TicketStatus.getAllStatuses());
 			refData.put("users", userDAO.getAllUser());
-			refData.put("saviours", userDAO.getSaviours());
+			refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
 			if (filterForm != null) {
 				// refData.put( "tickets", ticketDao.getTicketsWithFilter( filterForm ) );
 				ff.setCategories(filterForm.getCategories());

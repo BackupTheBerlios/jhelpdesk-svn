@@ -36,6 +36,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
+import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.web.commons.PagingParamsEncoder;
@@ -95,7 +96,7 @@ public class TicketsViewController extends SimpleFormController {
                 refData.put("priorities", TicketPriority.values());
                 refData.put("statuses", TicketStatus.getAllStatuses());
                 refData.put("users", userDAO.getAllUser());
-                refData.put("saviours", userDAO.getSaviours());
+                refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
                 if (filterForm != null) {
                     PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "b_status", request, PAGE_SIZE);
                     refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(filterForm));
@@ -169,7 +170,7 @@ public class TicketsViewController extends SimpleFormController {
 			refData.put("priorities", TicketPriority.values());
 			refData.put("statuses", TicketStatus.getAllStatuses());
 			refData.put("users", userDAO.getAllUser());
-			refData.put("saviours", userDAO.getSaviours());
+			refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
 			if (filterForm != null) {
 				PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "b_status", request, PAGE_SIZE);
 				refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(filterForm));

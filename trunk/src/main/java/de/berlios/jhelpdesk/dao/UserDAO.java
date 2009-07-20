@@ -76,11 +76,6 @@ public interface UserDAO {
     List<User> getByRole(Role role);
 
     /**
-     * @deprecated należy używać {@link #getByRole(Role role)}
-     */
-     List<User> getSaviours();
-
-    /**
      * Zwraca użytkownika o podanym identyfikatorze lub {@code null} jeśli
      * nie zostanie odnaleziony.
      *

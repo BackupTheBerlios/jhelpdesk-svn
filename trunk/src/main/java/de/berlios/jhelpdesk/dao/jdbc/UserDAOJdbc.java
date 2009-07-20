@@ -27,7 +27,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
@@ -67,7 +66,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 	public List<User> getAllUser() {
 		return getJdbcTemplate().query(
 			"SELECT * FROM users",
-			new HDUserRowMapper()
+			new UserRowMapper()
 		);
 	}
 
@@ -76,7 +75,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 		return getJdbcTemplate().query(
 			"SELECT * FROM users WHERE last_name ~* '^?'",
 			new Object[] { letter },
-			new HDUserRowMapper()
+			new UserRowMapper()
 		);
 	}
 
@@ -84,7 +83,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 		return ( User )getJdbcTemplate().queryForObject(
 			"SELECT * FROM users WHERE user_id=?",
 			new Object[] { id },
-			new HDUserRowMapper()
+			new UserRowMapper()
 		);
 	}
 
@@ -99,7 +98,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 			return ( User )getJdbcTemplate().queryForObject(
 				"SELECT * FROM users WHERE login=?",
 				new Object[] { login },
-				new HDUserRowMapper()
+				new UserRowMapper()
 			);
 		}
 		return null;
@@ -112,18 +111,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 			new Object[] {
 				role.toInt()
 			},
-			new HDUserRowMapper()
-		);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<User> getSaviours() {
-		return getJdbcTemplate().query(
-			"SELECT * FROM users WHERE role=?",
-			new Object[] {
-				Role.TICKETKILLER.toInt()
-			},
-			new HDUserRowMapper()
+			new UserRowMapper()
 		);
 	}
 
@@ -135,7 +123,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 			new Object[] {
 				Role.TICKETKILLER.toInt()//,
 			},
-			new HDUserRowMapper()
+			new UserRowMapper()
 		);
 	}
 
@@ -208,7 +196,7 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
 		}
 	}
 	
-	class HDUserRowMapper implements RowMapper {
+	class UserRowMapper implements RowMapper {
 		public Object mapRow( ResultSet rs, int row ) throws SQLException {
 			User user = new User();
 			user.setUserId( rs.getLong( "user_id" ) );

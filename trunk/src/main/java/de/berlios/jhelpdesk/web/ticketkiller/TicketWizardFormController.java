@@ -45,6 +45,7 @@ import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.AdditionalFile;
+import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
@@ -181,7 +182,7 @@ public class TicketWizardFormController extends AbstractWizardFormController {
 		refData.put("priorities", TicketPriority.values());
 		refData.put("statuses", TicketStatus.getAllStatuses());
 		refData.put("users", userDAO.getAllUser());
-		refData.put("saviours", userDAO.getSaviours());
+		refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
 		return refData;
 	}
 
