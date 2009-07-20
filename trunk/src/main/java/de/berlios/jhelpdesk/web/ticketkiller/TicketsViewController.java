@@ -35,9 +35,9 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
-import de.berlios.jhelpdesk.dao.TicketStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.TicketPriority;
+import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.web.commons.PagingParamsEncoder;
 import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 
@@ -51,9 +51,6 @@ public class TicketsViewController extends SimpleFormController {
 
     @Autowired
 	private TicketCategoryDAO ticketCategoryDAO;
-
-    @Autowired
-	private TicketStatusDAO ticketStatusDAO;
 
     @Autowired
 	private UserDAO userDAO;
@@ -96,7 +93,7 @@ public class TicketsViewController extends SimpleFormController {
                 refData = new HashMap();
                 refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
                 refData.put("priorities", TicketPriority.values());
-                refData.put("statuses", ticketStatusDAO.getAllStatuses());
+                refData.put("statuses", TicketStatus.getAllStatuses());
                 refData.put("users", userDAO.getAllUser());
                 refData.put("saviours", userDAO.getSaviours());
                 if (filterForm != null) {
@@ -124,7 +121,6 @@ public class TicketsViewController extends SimpleFormController {
 		filterForm = (ShowTicketsFilterForm) command;
 
 		filterForm.setTicketCategoryDAO(ticketCategoryDAO);
-		filterForm.setTicketStatusDAO(ticketStatusDAO);
 		filterForm.setUserDAO(userDAO);
 
 		prepareDate(req);
@@ -145,7 +141,6 @@ public class TicketsViewController extends SimpleFormController {
 		if (filterForm == null) {
 			filterForm = new ShowTicketsFilterForm();
 			filterForm.setTicketCategoryDAO(ticketCategoryDAO);
-			filterForm.setTicketStatusDAO(ticketStatusDAO);
 			filterForm.setUserDAO(userDAO);
 		}
 		prepareDate(req);
@@ -172,7 +167,7 @@ public class TicketsViewController extends SimpleFormController {
 			refData = new HashMap();
 			refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
 			refData.put("priorities", TicketPriority.values());
-			refData.put("statuses", ticketStatusDAO.getAllStatuses());
+			refData.put("statuses", TicketStatus.getAllStatuses());
 			refData.put("users", userDAO.getAllUser());
 			refData.put("saviours", userDAO.getSaviours());
 			if (filterForm != null) {

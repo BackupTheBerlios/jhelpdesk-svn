@@ -114,19 +114,19 @@
                 <td class="rightcells lastInfo">
                     <div class="contenttop"></div>
                     <div class="contentmiddle">
-                        <c:if test="${not empty lastInformations}">
+                        <c:if test="${not empty lastAnnouncements}">
                             <table cellspacing="0" class="standardtable">
                                 <tr>
                                     <th>Data</th>
                                     <th class="lastcol">Tytuł</th>
                                 </tr>
-                                <c:forEach var="information" items="${lastInformations}">
+                                <c:forEach var="announcement" items="${lastAnnouncements}">
                                     <tr>
-                                        <td><c:out value="${information.createDate}"/></td>
-                                        <td class="lastcol"><c:out value="${information.title}"/></td>
+                                        <td><c:out value="${announcement.createDate}"/></td>
+                                        <td class="lastcol"><c:out value="${announcement.title}"/></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" class="lastcol"><c:out value="${information.lead}"/></td>
+                                        <td colspan="2" class="lastcol"><c:out value="${announcement.lead}"/></td>
                                     </tr>
                                 </c:forEach>
                             </table>

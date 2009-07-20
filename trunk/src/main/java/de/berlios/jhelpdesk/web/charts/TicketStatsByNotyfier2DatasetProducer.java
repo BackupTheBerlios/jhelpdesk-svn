@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
 
 import de.berlios.jhelpdesk.dao.DataAccessException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
-import de.berlios.jhelpdesk.dao.TicketStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketStatus;
@@ -54,15 +53,12 @@ public class TicketStatsByNotyfier2DatasetProducer implements DatasetProducer, P
 	private UserDAO userDAO;
 
     @Autowired
-	private TicketStatusDAO statusDAO;
-
-    @Autowired
 	private TicketDAO ticketDAO;
 
 	public Object produceDataset(@SuppressWarnings("unchecked") Map arg0) throws DatasetProduceException {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 
-		List<TicketStatus> listOfStatuses = statusDAO.getNonOpenedStatuses();
+		TicketStatus[] listOfStatuses = TicketStatus.getNonOpenedStatuses();
 		List<Ticket> listOfTickets = new ArrayList<Ticket>();
         try {
             for (TicketStatus status : listOfStatuses) {

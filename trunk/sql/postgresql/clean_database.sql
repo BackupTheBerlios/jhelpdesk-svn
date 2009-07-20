@@ -1,8 +1,8 @@
-DROP FUNCTION drop_information_body;
+DROP FUNCTION drop_announcement_body;
 
 DROP VIEW bug_full_view;
 DROP VIEW bug_list_view;
-DROP VIEW information_view;
+DROP VIEW announcement_view;
 
 DROP TABLE bug;
 DROP TABLE bug_category;
@@ -11,8 +11,8 @@ DROP TABLE bug_desc;
 DROP TABLE bug_event;
 DROP TABLE bug_knowledge;
 DROP TABLE bug_priority;
-DROP TABLE information;
-DROP TABLE information_body;
+DROP TABLE announcement;
+DROP TABLE announcement_body;
 DROP TABLE knowledge;
 DROP TABLE knowledge_body;
 DROP TABLE knowledge_comment;
@@ -25,7 +25,7 @@ DROP SEQUENCE bug_comment_id_seq;
 DROP SEQUENCE bug_event_id_seq;
 DROP SEQUENCE bug_id_seq;
 DROP SEQUENCE bug_priority_id_seq;
-DROP SEQUENCE information_id_seq;
+DROP SEQUENCE announcement_id_seq;
 DROP SEQUENCE knowledge_comment_id_seq;
 DROP SEQUENCE knowledge_section_id_seq;
 DROP SEQUENCE knownledge_id_seq;

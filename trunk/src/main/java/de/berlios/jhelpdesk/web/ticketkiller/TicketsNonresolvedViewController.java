@@ -35,7 +35,6 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import de.berlios.jhelpdesk.dao.DataAccessException;
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
-import de.berlios.jhelpdesk.dao.TicketStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
@@ -52,9 +51,6 @@ public class TicketsNonresolvedViewController extends SimpleFormController {
 
     @Autowired
 	private TicketCategoryDAO ticketCategoryDAO;
-
-    @Autowired
-	private TicketStatusDAO ticketStatusDAO;
 
     @Autowired
 	private UserDAO userDAO;
@@ -80,7 +76,7 @@ public class TicketsNonresolvedViewController extends SimpleFormController {
                 refData = new HashMap();
                 refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
                 refData.put("priorities", TicketPriority.values());
-                refData.put("statuses", ticketStatusDAO.getAllStatuses());
+                refData.put("statuses", TicketStatus.getAllStatuses());
                 refData.put("users", userDAO.getAllUser());
                 refData.put("saviours", userDAO.getSaviours());
                 if (filterForm != null) {
@@ -108,7 +104,6 @@ public class TicketsNonresolvedViewController extends SimpleFormController {
 		filterForm = (ShowTicketsFilterForm) command;
 
 		filterForm.setTicketCategoryDAO(ticketCategoryDAO);
-		filterForm.setTicketStatusDAO(ticketStatusDAO);
 		filterForm.setUserDAO(userDAO);
 
 		prepareDate(req);

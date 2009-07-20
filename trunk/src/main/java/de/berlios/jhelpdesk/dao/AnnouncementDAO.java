@@ -17,16 +17,19 @@ package de.berlios.jhelpdesk.dao;
 
 import java.util.List;
 
-import de.berlios.jhelpdesk.model.TicketStatus;
+import de.berlios.jhelpdesk.model.Announcement;
 
-public interface TicketStatusDAO { // TODO: status jest teraz enumem, wywalić to
+public interface AnnouncementDAO {
     
-    List<TicketStatus> getAllStatuses();
+    Announcement getById(Long announcementId);
 
-    List<TicketStatus> getNonOpenedStatuses();
+    List<Announcement> getAll();
 
-    TicketStatus getById(Long id);
+    List<Announcement> getLastFew(int howMuch);
 
-    TicketStatus getById(int id);
-    
+    void save(Announcement announcement);
+
+    void delete(Long announcementId);
+
+    void delete(Announcement announcement);
 }

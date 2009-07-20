@@ -147,10 +147,10 @@ div.infobox2 h2 {
 #shortcutbox a {
 	margin-left: 20px;
 }
-#mydesk #lastInformations {
+#mydesk #lastAnnouncements {
 	margin-bottom: 20px;
 }
-#mydesk #lastInformations div.infobox2 h2 {
+#mydesk #lastAnnouncements div.infobox2 h2 {
 	background: #D0DBFB url(../i/icons/gnome-applications.png) no-repeat 0 50%;
 }
 #mydesk #lastArticles {

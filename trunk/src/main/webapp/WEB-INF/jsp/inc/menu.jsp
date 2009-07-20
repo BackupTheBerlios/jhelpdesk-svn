@@ -38,7 +38,7 @@
 	<auth:check requiredRole="10">
 	<li class="submenu"><a href="javascript:none();"><span><fmt:message key="label.management"/></span></a>
 	<ul class="level2">
-		<li class="first"><a href="<c:url value="/manage/information/showAll.html"/>"><span>Wiadomości</span></a></li>
+		<li class="first"><a href="<c:url value="/manage/announcement/showAll.html"/>"><span>Wiadomości</span></a></li>
 		<li class="last"><a href="<c:url value="/manage/users/showAll.html"/>"><span>Użytkownicy</span></a></li>
 		<li><a href="<c:url value="/manage/category/showAll.html"/>"><span>Kategorie zgłoszeń</span></a></li>
 		<li class="last"><a href="<c:url value="/manage/knowledge/section/showAll.html"/>"><span>Baza wiedzy - sekcje</span></a></li>

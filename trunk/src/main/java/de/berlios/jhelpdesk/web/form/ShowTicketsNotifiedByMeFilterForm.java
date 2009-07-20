@@ -22,7 +22,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
-import de.berlios.jhelpdesk.dao.TicketStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketPriority;
@@ -37,8 +36,6 @@ public class ShowTicketsNotifiedByMeFilterForm {
 	private List<TicketCategory> categories;
 	private List<TicketStatus> statuses;
 	
-	
-	private TicketStatusDAO ticketStatusDAO;
 	private TicketCategoryDAO ticketCategoryDAO;
 	private UserDAO userDAO;
 	
@@ -47,13 +44,6 @@ public class ShowTicketsNotifiedByMeFilterForm {
 	 */
 	public void setTicketCategoryDAO(TicketCategoryDAO ticketCategoryDAO) {
 		this.ticketCategoryDAO = ticketCategoryDAO;
-	}
-
-	/**
-	 * @param ticketStatusDAO The ticketStatusDAO to set.
-	 */
-	public void setTicketStatusDAO(TicketStatusDAO ticketStatusDAO) {
-		this.ticketStatusDAO = ticketStatusDAO;
 	}
 
 	/**
@@ -72,7 +62,7 @@ public class ShowTicketsNotifiedByMeFilterForm {
 		String[] _statuses = req.getParameterValues("statuses");
 		if ((_statuses != null) && (_statuses.length > 0)) {
 			for (String value : _statuses) {
-				statuses.add(ticketStatusDAO.getById(Long.parseLong(value)));
+				statuses.add(TicketStatus.fromInt( Integer.parseInt(value)));
 			}
 		}
 	}

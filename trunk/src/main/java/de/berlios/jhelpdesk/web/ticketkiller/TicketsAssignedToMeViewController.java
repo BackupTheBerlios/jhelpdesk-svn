@@ -38,7 +38,6 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import de.berlios.jhelpdesk.dao.DataAccessException;
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
-import de.berlios.jhelpdesk.dao.TicketStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
@@ -62,9 +61,6 @@ public class TicketsAssignedToMeViewController extends SimpleFormController {
 
     @Autowired
 	private UserDAO userDAO;
-
-    @Autowired
-	private TicketStatusDAO statusDAO;
 
 	private Map<String, Object> refData;
 
@@ -188,7 +184,6 @@ public class TicketsAssignedToMeViewController extends SimpleFormController {
 
 		filterForm.setTicketCategoryDAO(ticketCategoryDAO);
 		filterForm.setUserDAO(userDAO);
-		filterForm.setTicketStatusDAO(statusDAO);
 
 		filterForm.setPrioritiesFromRequest(req);
 		filterForm.setCategoriesFromRequest(req);

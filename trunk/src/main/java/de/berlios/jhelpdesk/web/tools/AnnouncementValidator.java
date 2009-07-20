@@ -16,26 +16,26 @@
 package de.berlios.jhelpdesk.web.tools;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import org.springframework.stereotype.Component;
 
-import de.berlios.jhelpdesk.model.Information;
+import de.berlios.jhelpdesk.model.Announcement;
 
-@Component("informationValidator")
+@Component("announcementValidator")
 @Scope("prototype")
-public class InformationValidator implements Validator {
+public class AnnouncementValidator implements Validator {
 
 	// implementujemy Validator.supports(Class), dlatego SuppressWarnings
 	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { 
-		return Information.class.equals(clazz);
+		return Announcement.class.equals(clazz);
 	}
 
-	public void validate(Object information, Errors errors) {
+	public void validate(Object announcement, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "title", "errors.information.title");
+				errors, "title", "errors.announcement.title");
 		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "lead", "errors.information.lead");
+				errors, "lead", "errors.announcement.lead");
 	}
 }

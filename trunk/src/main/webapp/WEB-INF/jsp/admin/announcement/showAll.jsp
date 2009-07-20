@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
 
-<div id="showinformations" class="management">
+<div id="showannouncements" class="management">
     <div id="pagecontentheader"><h2>Zarządzanie</h2></div>
     <table cellspacing="0">
         <tr>
@@ -13,24 +13,24 @@
                         <table cellspacing="0">
                             <tr>
                                 <td>
-                                    <a class="btn" href="<c:url value="/manage/information/edit.html"/>">Dodaj wiadomość</a>
+                                    <a class="btn" href="<c:url value="/manage/announcement/edit.html"/>">Dodaj wiadomość</a>
                                 </td>
                             </tr>
                         </table>
                         <br />
-                        <c:if test="${not empty informations}">
+                        <c:if test="${not empty announcements}">
                             <table cellspacing="0" class="standardtable">
                                 <tr>
                                     <th>Tytuł</th>
                                     <th>Data utworzenia</th>
                                     <th colspan="2" class="lastcol">&nbsp;</th>
                                 </tr>
-                                <c:forEach var="information" items="${informations}">
+                                <c:forEach var="announcement" items="${announcements}">
                                     <tr>
-                                        <td><c:out value="${information.title}"/></td>
-                                        <td><c:out value="${information.createDate}"/></td>
-                                        <td class="ticketEdit"><a href="<c:url value="/manage/information/edit.html?infoId=${information.informationId}"/>">Edit</a></td>
-                                        <td class="lastcol ticketDrop"><a href="<c:url value="/manage/information/remove.html?infoId=${information.informationId}"/>">Del</a></td>
+                                        <td><c:out value="${announcement.title}"/></td>
+                                        <td><c:out value="${announcement.createDate}"/></td>
+                                        <td class="ticketEdit"><a href="<c:url value="/manage/announcement/edit.html?infoId=${announcement.announcementId}"/>">Edit</a></td>
+                                        <td class="lastcol ticketDrop"><a href="<c:url value="/manage/announcement/remove.html?infoId=${announcement.announcementId}"/>">Del</a></td>
                                     </tr>
                                 </c:forEach>
                             </table>

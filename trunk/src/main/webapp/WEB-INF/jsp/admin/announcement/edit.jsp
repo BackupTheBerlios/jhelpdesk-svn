@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
 
-<div id="editinformation" class="management">
+<div id="editannouncement" class="management">
 <div id="pagecontentheader"><h2>Zarządzanie</h2></div>
 
 <table cellspacing="0">
@@ -14,8 +14,8 @@
 <div class="contentmiddle">
 
 <form action="" method="post">
-	<c:if test="${information.informationId != null}">
-		<spring:bind path="information.informationId">
+	<c:if test="${announcement.announcementId != null}">
+		<spring:bind path="announcement.announcementId">
 		<input type="hidden" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
 		</spring:bind>
 	</c:if>
@@ -23,7 +23,7 @@
 	<tr>
 		<td>Tytul</td>
 		<td class="lastcol">
-			<spring:bind path="information.title">
+			<spring:bind path="announcement.title">
 			<input type="text" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>" 
 				<c:if test="${not empty status.errorMessage}">class="hintanchor" 
 				onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
@@ -34,7 +34,7 @@
 	<tr>
 		<td>Skrót</td>
 		<td class="lastcol">
-			<spring:bind path="information.lead">
+			<spring:bind path="announcement.lead">
 			<input type="text" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>" 
 				<c:if test="${not empty status.errorMessage}">class="hintanchor" 
 				onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
@@ -45,7 +45,7 @@
 	<tr>
 		<td>Treść główna</td>
 		<td class="lastcol">
-			<spring:bind path="information.body">
+			<spring:bind path="announcement.body">
 			<textarea 
 				name="<c:out value="${status.expression}"/>" rows="4" cols="30"
 				<c:if test="${not empty status.errorMessage}">class="hintanchor" 

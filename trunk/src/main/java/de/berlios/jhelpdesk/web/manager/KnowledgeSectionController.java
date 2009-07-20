@@ -17,20 +17,19 @@ package de.berlios.jhelpdesk.web.manager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 
 import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 import de.berlios.jhelpdesk.model.KnowledgeSection;
 import de.berlios.jhelpdesk.web.tools.KnowledgeSectionValidator;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 public class KnowledgeSectionController {
@@ -108,7 +107,7 @@ public class KnowledgeSectionController {
 
         validator.validate(section, result);
         if (result.hasErrors()) {
-            return "manager/information/edit";
+            return "manager/knowledge/section/edit";
         }
         sectionDAO.saveOrUpdate(section);
         status.setComplete();

@@ -21,7 +21,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
-import de.berlios.jhelpdesk.dao.TicketStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketPriority;
@@ -37,7 +36,6 @@ public class ShowTicketsFilterForm {
 	private List<TicketCategory> categories;
 	private List<TicketStatus> statuses;
 	
-	private TicketStatusDAO ticketStatusDAO;
 	private TicketCategoryDAO ticketCategoryDAO;
 	private UserDAO userDAO;
 	
@@ -49,84 +47,77 @@ public class ShowTicketsFilterForm {
 	}
 
 	/**
-	 * @param ticketStatusDAO The ticketStatusDAO to set.
-	 */
-	public void setTicketStatusDAO(TicketStatusDAO ticketStatusDAO) {
-		this.ticketStatusDAO = ticketStatusDAO;
-	}
-
-	/**
 	 * @param userDAO The userDAO to set.
 	 */
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
 
-	public void setStatusesFromRequest( HttpServletRequest req ) {
-		if( statuses != null )
+	public void setStatusesFromRequest(HttpServletRequest req) {
+		if (statuses != null)
 			statuses.clear();
 		else
 			statuses = new ArrayList<TicketStatus>();
 		
-		String[] _statuses = req.getParameterValues( "statuses" );
-		if( ( _statuses != null ) && ( _statuses.length > 0 ) ) {
-			for( String value : _statuses ) {
-				statuses.add( ticketStatusDAO.getById( Long.parseLong( value ) ) );
+		String[] _statuses = req.getParameterValues("statuses");
+		if ((_statuses != null) && (_statuses.length > 0)) {
+			for (String value : _statuses) {
+				statuses.add(TicketStatus.fromInt(Integer.parseInt(value)));
 			}
 		}
 	}
 	
-	public void setPrioritiesFromRequest( HttpServletRequest req ) {
-		if( priorities != null )
+	public void setPrioritiesFromRequest(HttpServletRequest req) {
+		if (priorities != null)
 			priorities.clear();
 		priorities = new ArrayList<TicketPriority>();
 		
-		String[] _priorities = req.getParameterValues( "priorities" );
-		if( ( _priorities != null ) && ( _priorities.length > 0 ) ) {
-			for( String value : _priorities ) {
+		String[] _priorities = req.getParameterValues("priorities");
+		if ((_priorities != null) && (_priorities.length > 0)) {
+			for (String value : _priorities) {
 				priorities.add(TicketPriority.fromInt(Integer.parseInt(value)));
 			}
 		}
 	}
 	
-	public void setCategoriesFromRequest( HttpServletRequest req ) {
-		if( categories != null )
+	public void setCategoriesFromRequest(HttpServletRequest req) {
+		if (categories != null)
 			categories.clear();
 		else
 			categories = new ArrayList<TicketCategory>();
 		
-		String[] _categories = req.getParameterValues( "categories" );
-		if( ( _categories != null ) && ( _categories.length > 0 ) ) {
-			for( String value : _categories ) {
-				categories.add( ticketCategoryDAO.getById( Long.parseLong( value ) ) );
+		String[] _categories = req.getParameterValues("categories");
+		if ((_categories != null) && (_categories.length > 0)) {
+			for (String value : _categories) {
+				categories.add(ticketCategoryDAO.getById(Long.parseLong(value)));
 			}
 		}
 	}
 	
-	public void setSavioursFromRequest( HttpServletRequest req ) {
-		if( saviours != null )
+	public void setSavioursFromRequest(HttpServletRequest req) {
+		if (saviours != null)
 			saviours.clear();
 		else 
 			saviours = new ArrayList<User>();
 		
-		String[] _saviours = req.getParameterValues( "saviours" );
-		if( ( _saviours != null ) && ( _saviours.length > 0 ) ) {
-			for( String value : _saviours ) {
-				saviours.add( userDAO.getById( Long.parseLong( value ) ) );
+		String[] _saviours = req.getParameterValues("saviours");
+		if ((_saviours != null) && (_saviours.length > 0)) {
+			for (String value : _saviours) {
+				saviours.add(userDAO.getById(Long.parseLong(value)));
 			}
 		}
 	}
 	
-	public void setNotifyiersFromRequest( HttpServletRequest req ) {
-		if( notifyiers != null )
+	public void setNotifyiersFromRequest(HttpServletRequest req) {
+		if (notifyiers != null)
 			notifyiers.clear();
 		else
 			notifyiers = new ArrayList<User>();
 		
-		String[] _notifyiers = req.getParameterValues( "notifyiers" );
-		if( ( _notifyiers != null ) && ( _notifyiers.length > 0 ) ) {
-			for( String value : _notifyiers ) {
-				notifyiers.add( userDAO.getById( Long.parseLong( value ) ) );
+		String[] _notifyiers = req.getParameterValues("notifyiers");
+		if ((_notifyiers != null) && (_notifyiers.length > 0)) {
+			for (String value : _notifyiers) {
+				notifyiers.add(userDAO.getById(Long.parseLong(value)));
 			}
 		}
 	}
@@ -153,7 +144,7 @@ public class ShowTicketsFilterForm {
 	/**
 	 * @param endDate The endDate to set.
 	 */
-	public void setEndDate( String endDate ) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	/**
@@ -201,7 +192,7 @@ public class ShowTicketsFilterForm {
 	/**
 	 * @param startDate The startDate to set.
 	 */
-	public void setStartDate( String startDate ) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 	/**

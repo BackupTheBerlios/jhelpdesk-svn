@@ -43,7 +43,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
-import de.berlios.jhelpdesk.dao.TicketStatusDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.AdditionalFile;
 import de.berlios.jhelpdesk.model.Ticket;
@@ -61,9 +60,6 @@ public class TicketWizardFormController extends AbstractWizardFormController {
 
     @Autowired
 	private TicketCategoryDAO ticketCategoryDAO;
-
-    @Autowired
-	private TicketStatusDAO ticketStatusDAO;
 
     @Autowired
 	private UserDAO userDAO;
@@ -183,7 +179,7 @@ public class TicketWizardFormController extends AbstractWizardFormController {
 		Map refData = new HashMap();
 		refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
 		refData.put("priorities", TicketPriority.values());
-		refData.put("statuses", ticketStatusDAO.getAllStatuses());
+		refData.put("statuses", TicketStatus.getAllStatuses());
 		refData.put("users", userDAO.getAllUser());
 		refData.put("saviours", userDAO.getSaviours());
 		return refData;

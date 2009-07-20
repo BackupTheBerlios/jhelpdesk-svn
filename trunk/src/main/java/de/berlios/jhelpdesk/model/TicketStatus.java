@@ -15,6 +15,8 @@
  */
 package de.berlios.jhelpdesk.model;
 
+
+
 public enum TicketStatus {
 	
 	NOTIFIED(1, "ZGŁOSZONY", "desc", "FF4040", true),
@@ -31,7 +33,20 @@ public enum TicketStatus {
     private final String bgColor;
     private final boolean isActive;
 	
-	private TicketStatus(int id, String name, String desc, String bgColor, boolean active) {
+    private static TicketStatus[] ALL_STATUSES = { 
+        NOTIFIED, 
+        ASSIGNED, 
+        REJECTED, 
+        RESOLVED, 
+        CLOSED
+    };
+    
+    private static TicketStatus[] NONOPEN_STATUSES = { 
+        NOTIFIED,
+        ASSIGNED 
+    };
+	
+    private TicketStatus(int id, String name, String desc, String bgColor, boolean active) {
 		this.isActive = active;
 		this.statusDesc = desc;
 		this.statusId = id;
@@ -54,6 +69,14 @@ public enum TicketStatus {
 			default: return UNKNOWN;
 		}
 	}
+	
+    public static TicketStatus[] getAllStatuses() {
+        return ALL_STATUSES;
+    }
+	
+    public static TicketStatus[] getNonOpenedStatuses() {
+        return NONOPEN_STATUSES;
+    }
 	
 	public boolean getActive() {
 		return isActive;

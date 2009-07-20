@@ -17,7 +17,6 @@ package de.berlios.jhelpdesk.web.manager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 
-import de.berlios.jhelpdesk.dao.InformationDAO;
-import de.berlios.jhelpdesk.model.Information;
-import de.berlios.jhelpdesk.web.tools.InformationValidator;
+import de.berlios.jhelpdesk.dao.AnnouncementDAO;
+import de.berlios.jhelpdesk.model.Announcement;
+import de.berlios.jhelpdesk.web.tools.AnnouncementValidator;
 
 /**
  * Kontroler obsługujący zarządzanie ogłoszeniami z działu wsparcia.
@@ -38,32 +37,32 @@ import de.berlios.jhelpdesk.web.tools.InformationValidator;
  * @author jjhop
  */
 @Controller
-public class InformationController {
+public class AnnouncementController {
 
-    private static Log log = LogFactory.getLog(InformationController.class);
-
-    @Autowired
-    private InformationValidator validator;
+    private static Log log = LogFactory.getLog(AnnouncementController.class);
 
     @Autowired
-    private InformationDAO informationDAO;
+    private AnnouncementValidator validator;
+
+    @Autowired
+    private AnnouncementDAO announcementDAO;
 
     /**
      * Wyświetla ogłoszenie na podstawie dostarczonego identyfikatora.
      *
-     * @param infoId identyfikator ogłoszenia
+     * @param annId identyfikator ogłoszenia
      * @param map modelu widoku
      * @return identyfikator widoku prezentującego ogłoszenia
      */
-    @RequestMapping("/manage/information/show.html")
-    public String showInformation(@RequestParam("infoId") Long infoId, ModelMap map) {
+    @RequestMapping("/manage/announcement/show.html")
+    public String showAnnouncement(@RequestParam("infoId") Long annId, ModelMap map) {
         try {
-            map.addAttribute("information", informationDAO.getById(infoId));
+            map.addAttribute("announcement", announcementDAO.getById(annId));
         } catch (Exception e) {
             log.error(e);
             map.addAttribute("errorInfo", e.getMessage());
         }
-        return "manager/information/show";
+        return "manager/announcement/show";
     }
 
     /**
@@ -73,82 +72,83 @@ public class InformationController {
      * @param map model widoku
      * @return identyfikator widoku prezentującego listę ogłoszeń
      */
-    @RequestMapping("/manage/information/showAll.html")
-    public String showAllInformations(ModelMap map) {
-        map.addAttribute("informations", informationDAO.getAll());
-        return "manager/information/showAll";
+    @RequestMapping("/manage/announcement/showAll.html")
+    public String showAllAnnouncements(ModelMap map) {
+        map.addAttribute("announcements", announcementDAO.getAll());
+        return "manager/announcement/showAll";
     }
 
     /**
      * Usuwa ogłoszenie na podstawie dostarczonego identyfikatora.
      *
-     * @param infoId identyfikator ogłoszenia do usunięcia
+     * @param annId identyfikator ogłoszenia do usunięcia
      * @return widok do wyświetlania po usunięciu ogłoszenia
      */
-    @RequestMapping("/manage/information/remove.html")
-    public String removeInformation(@RequestParam("infoId") Long infoId) {
+    @RequestMapping("/manage/announcement/remove.html")
+    public String removeAnnouncement(@RequestParam("infoId") Long annId) {
         try {
-            informationDAO.delete(infoId);
+            announcementDAO.delete(annId);
         } catch (Exception e) {
             log.error(e);
         }
-        return "redirect:/manage/information/showAll.html";
+        return "redirect:/manage/announcement/showAll.html";
     }
 
-
     /**
-     * Przygotowuje formularz do dodania (lub edycji) ogłoszenia. Jeśli w żądaniu
-     * znaduje się identyfikator ogłoszenia to zostanie ono przygotowane do edycji,
-     * w przeciwnym wypadku do modelu zostanie dołączony nowy (pusty) obiekt ogłoszenia.
-     *
-     * @param infoId identyfikator ogłoszenia do edycji
-     *               lub {@code false} jeśli to nowe ogłoszenie
+     * Przygotowuje formularz do dodania (lub edycji) ogłoszenia. Jeśli w
+     * żądaniu znaduje się identyfikator ogłoszenia to zostanie ono przygotowane
+     * do edycji, w przeciwnym wypadku do modelu zostanie dołączony nowy (pusty)
+     * obiekt ogłoszenia.
+     * 
+     * @param annId identyfikator ogłoszenia do edycji lub {@code false} jeśli
+     * to nowe ogłoszenie
      * @param map model widoku
      * @return identyfikato widoku
-     *
-     * @see Information
-     * @see InformationDAO
-     *
+     * 
+     * @see Announcement
+     * @see AnnouncementDAO
+     * 
      * @see ModelMap
      */
-    @RequestMapping(value = "/manage/information/edit.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/manage/announcement/edit.html", method = RequestMethod.GET)
     protected String prepareForm(
-                     @RequestParam(value = "infoId", required = false) Long infoId,
+                     @RequestParam(value = "infoId", required = false) Long annId,
                      ModelMap map) {
 
-        if (infoId == null) {
-            map.addAttribute("information", new Information());
+        if (annId == null) {
+            map.addAttribute("announcement", new Announcement());
         } else {
-            map.addAttribute("information", informationDAO.getById(infoId));
+            map.addAttribute("announcement", announcementDAO.getById(annId));
         }
-        return "manager/information/edit";
+        return "manager/announcement/edit";
     }
 
     /**
-     * Obsługuje wysłany formularz i zapisuje podany obiekt. Decyzję o tym czy jest
-     * to update czy dodanie nowego podejmuje stosowny obiekt DAO.
-     *
-     * @param information obiekt ogłoszenia do zapisania (po poprawnym zwalidowaniu)
+     * Obsługuje wysłany formularz i zapisuje podany obiekt. Decyzję o tym czy
+     * jest to update czy dodanie nowego podejmuje stosowny obiekt DAO.
+     * 
+     * @param announcement obiekt ogłoszenia do zapisania (po poprawnym
+     * zwalidowaniu)
      * @param result
      * @param status
      * @return identyfikator widoku do wyświetlenia
-     *
-     * @see Information
-     * @see InformationDAO
-     * @see InformationValidator
-     *
+     * 
+     * @see Announcement
+     * @see AnnouncementDAO
+     * @see AnnouncementValidator
+     * 
      * @see BindingResult
      * @see SessionStatus
      */
-    @RequestMapping(value = "/manage/information/edit.html", method = RequestMethod.POST)
-    protected String processSubmit(@ModelAttribute("information") Information information,
+    @RequestMapping(value = "/manage/announcement/edit.html", method = RequestMethod.POST)
+    protected String processSubmit(@ModelAttribute("announcement") Announcement announcement,
                      BindingResult result, SessionStatus status) {
 
-        validator.validate(information, result);
+        validator.validate(announcement, result);
         if (result.hasErrors()) {
-            return "manager/information/edit";
+            return "manager/announcement/edit";
         }
-        informationDAO.save(information);
+        announcementDAO.save(announcement);
         status.setComplete();
         return "redirect:showAll.html";
     }

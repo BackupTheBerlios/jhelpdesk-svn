@@ -17,8 +17,8 @@ package de.berlios.jhelpdesk.model;
 
 import java.util.Date;
 
-public class Information {
-	private Long informationId;
+public class Announcement {
+	private Long announcementId;
 	private Date createDate;
 	private String title;
 	private String lead;
@@ -53,17 +53,17 @@ public class Information {
 	}
 	
 	/**
-	 * @return the informationId
+	 * @return the announcementId
 	 */
-	public Long getInformationId() {
-		return informationId;
+	public Long getAnnouncementId() {
+		return announcementId;
 	}
 	
 	/**
-	 * @param informationId the informationId to set
+	 * @param announcementId the announcementId to set
 	 */
-	public void setInformationId( Long informationId ) {
-		this.informationId = informationId;
+	public void setAnnouncementId( Long announcementId ) {
+		this.announcementId = announcementId;
 	}
 	
 	/**

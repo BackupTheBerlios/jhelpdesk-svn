@@ -234,30 +234,30 @@
 	</definition>
 	
 	<definition
-		name="manager/information/showAll"
+		name="manager/announcement/showAll"
 		extends="baseLayout">
 		<put-attribute name="title" value="pokaz info wszystki"/>
 		<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/admin/information/showAll.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/announcement/showAll.jsp"/>
 	</definition>
 	
 	<definition
-		name="manager/information/show"
+		name="manager/announcement/show"
 		extends="baseLayout">
 		<put-attribute name="title" value="pokaz info"/>
 		<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/admin/information/show.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/announcement/show.jsp"/>
 	</definition>
 	
 	<definition
-		name="manager/information/edit"
+		name="manager/announcement/edit"
 		extends="baseLayout">
 		<put-attribute name="title" value="edytuj/dodaj info"/>
 		<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/admin/information/edit.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/announcement/edit.jsp"/>
 	</definition>
 		
 	<definition

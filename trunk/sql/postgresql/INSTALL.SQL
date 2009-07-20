@@ -92,11 +92,11 @@ $BODY$
 
 --- PROCEDURY DO TRIGGERÓW
 
-CREATE OR REPLACE FUNCTION drop_information_body()
+CREATE OR REPLACE FUNCTION drop_announcement_body()
   RETURNS trigger AS
 $BODY$
   BEGIN
-    DELETE FROM information_body WHERE information_id=OLD.information_id;
+    DELETE FROM announcement_body WHERE announcement_id=OLD.announcement_id;
     RETURN OLD;
   END;
 $BODY$
@@ -312,7 +312,7 @@ CREATE TABLE ticket_knowledge (
 
 --- ### informacje od działu helpdesk
 
-CREATE SEQUENCE information_id_seq
+CREATE SEQUENCE announcement_id_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -320,31 +320,31 @@ CREATE SEQUENCE information_id_seq
   CACHE 1
 ;
 
-CREATE TABLE information (
-  information_id integer NOT NULL DEFAULT nextval(('public.information_id_seq'::text)::regclass),
+CREATE TABLE announcement (
+  announcement_id integer NOT NULL DEFAULT nextval(('public.announcement_id_seq'::text)::regclass),
   create_date date NOT NULL,
   title character varying(255) NOT NULL,
   lead text NOT NULL,
-  CONSTRAINT information_pkey PRIMARY KEY (information_id)
+  CONSTRAINT announcement_pkey PRIMARY KEY (announcement_id)
 ) WITH (OIDS=FALSE)
 ;
 
-CREATE TABLE information_body (
-  information_id integer NOT NULL,
+CREATE TABLE announcement_body (
+  announcement_id integer NOT NULL,
   body text NOT NULL,
-  CONSTRAINT information_body_information_id_fkey FOREIGN KEY (information_id)
-      REFERENCES information (information_id) MATCH SIMPLE
+  CONSTRAINT announcement_body_announcement_id_fkey FOREIGN KEY (announcement_id)
+      REFERENCES announcement (announcement_id) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT,
-  CONSTRAINT information_body_information_id_key UNIQUE (information_id)
+  CONSTRAINT announcement_body_announcement_id_key UNIQUE (announcement_id)
 ) WITH (OIDS=FALSE)
 ;
 
 --- TRIGGERY DO TABEL
-CREATE TRIGGER drop_information_body_trg
+CREATE TRIGGER drop_announcement_body_trg
   BEFORE DELETE
-  ON information
+  ON announcement
   FOR EACH ROW
-  EXECUTE PROCEDURE drop_information_body()
+  EXECUTE PROCEDURE drop_announcement_body()
 ;
 
 
@@ -401,13 +401,13 @@ CREATE OR REPLACE VIEW ticket_list_view AS
 	LEFT JOIN ticket_category category ON ticket.ticket_category = category.category_id
 ;
 
-CREATE OR REPLACE VIEW information_view AS
+CREATE OR REPLACE VIEW announcement_view AS
 	SELECT
-		information.information_id,
-		information.create_date,
-		information.title,
-		information.lead,
-		information_body.body
-	FROM information
-	LEFT JOIN information_body ON information.information_id = information_body.information_id
+		announcement.announcement_id,
+		announcement.create_date,
+		announcement.title,
+		announcement.lead,
+		announcement_body.body
+	FROM announcement
+	LEFT JOIN announcement_body ON announcement.announcement_id = announcement_body.announcement_id
 ;
