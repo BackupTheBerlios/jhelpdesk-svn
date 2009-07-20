@@ -45,12 +45,12 @@
                             <tr>
                                 <td class="lastcol">
                                     <ol>
-                                        <c:forEach items="${sections}" var="itemSection">
-                                            <li><c:out value="${itemSection.sectionName}"/>
+                                        <c:forEach items="${categories}" var="itemSection">
+                                            <li><c:out value="${itemSection.categoryName}"/>
                                                 <ul>
                                                     <c:forEach items="${itemSection.articles}" var="art">
                                                         <li>
-                                                            <a href="<c:url value="/help/base.html?key=details&id=${art.knowledgeId}"/>">
+                                                            <a href="<c:url value="/help/base.html?key=details&id=${art.articleId}"/>">
                                                                 <c:out value="${art.title}"/>
                                                             </a>
                                                         </li>

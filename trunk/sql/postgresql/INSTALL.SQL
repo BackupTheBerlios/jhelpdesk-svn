@@ -18,7 +18,7 @@
 
 --- PROCEDURY
 
-CREATE OR REPLACE FUNCTION section_move_down(bigint)
+CREATE OR REPLACE FUNCTION category_move_down(bigint)
   RETURNS integer AS
 $BODY$
 DECLARE
@@ -26,26 +26,26 @@ DECLARE
 	CURR_REC RECORD;
 	DOWN_REC RECORD;
 BEGIN
-	LOCK TABLE knowledge_section IN EXCLUSIVE MODE;
+	LOCK TABLE article_category IN EXCLUSIVE MODE;
 
-	SELECT INTO CURR_REC section_position,knowledge_section_id
-		FROM knowledge_section
-		WHERE knowledge_section_id = SECTION_ID
+	SELECT INTO CURR_REC category_position,article_category_id
+		FROM article_category
+		WHERE article_category_id = SECTION_ID
 		LIMIT 1;
 
-	SELECT INTO DOWN_REC  section_position,knowledge_section_id
-		FROM knowledge_section
-		WHERE section_position < CURR_REC.section_position
-		ORDER BY section_position DESC
+	SELECT INTO DOWN_REC  category_position,article_category_id
+		FROM article_category
+		WHERE category_position < CURR_REC.category_position
+		ORDER BY category_position DESC
 		LIMIT 1;
 
-	IF DOWN_REC.knowledge_section_id IS NOT NULL THEN
-		UPDATE knowledge_section
-			SET section_position = DOWN_REC.section_position
-			WHERE knowledge_section_id = CURR_REC.knowledge_section_id;
-		UPDATE knowledge_section
-			SET section_position = CURR_REC.section_position
-			WHERE knowledge_section_id = DOWN_REC.knowledge_section_id;
+	IF DOWN_REC.article_category_id IS NOT NULL THEN
+		UPDATE article_category
+			SET category_position = DOWN_REC.category_position
+			WHERE article_category_id = CURR_REC.article_category_id;
+		UPDATE article_category
+			SET category_position = CURR_REC.category_position
+			WHERE article_category_id = DOWN_REC.article_category_id;
 	END IF;
 
 	RETURN 1;
@@ -54,7 +54,7 @@ $BODY$
   LANGUAGE 'plpgsql'
 ;
 
-CREATE OR REPLACE FUNCTION section_move_up(bigint)
+CREATE OR REPLACE FUNCTION category_move_up(bigint)
   RETURNS integer AS
 $BODY$
 DECLARE
@@ -62,26 +62,26 @@ DECLARE
 	CURR_REC RECORD;
 	UP_REC RECORD;
 BEGIN
-	LOCK TABLE knowledge_section IN EXCLUSIVE MODE;
+	LOCK TABLE article_category IN EXCLUSIVE MODE;
 
-	SELECT INTO CURR_REC section_position,knowledge_section_id
-		FROM knowledge_section
-		WHERE knowledge_section_id = SECTION_ID
+	SELECT INTO CURR_REC category_position,article_category_id
+		FROM article_category
+		WHERE article_category_id = SECTION_ID
 		LIMIT 1;
 
-	SELECT INTO UP_REC  section_position,knowledge_section_id
-		FROM knowledge_section
-		WHERE section_position > CURR_REC.section_position
-		ORDER BY section_position ASC
+	SELECT INTO UP_REC category_position,article_category_id
+		FROM article_category
+		WHERE category_position > CURR_REC.category_position
+		ORDER BY category_position ASC
 		LIMIT 1;
 
-	IF UP_REC.knowledge_section_id IS NOT NULL THEN
-		UPDATE knowledge_section
-			SET section_position = UP_REC.section_position
-			WHERE knowledge_section_id = CURR_REC.knowledge_section_id;
-		UPDATE knowledge_section
-			SET section_position = CURR_REC.section_position
-			WHERE knowledge_section_id = UP_REC.knowledge_section_id;
+	IF UP_REC.article_category_id IS NOT NULL THEN
+		UPDATE article_category
+			SET category_position = UP_REC.category_position
+			WHERE article_category_id = CURR_REC.article_category_id;
+		UPDATE article_category
+			SET category_position = CURR_REC.category_position
+			WHERE article_category_id = UP_REC.article_category_id;
 	END IF;
 
 	RETURN 1;
@@ -241,9 +241,9 @@ CREATE TABLE ticket_comment (
 
 --- ### BAZA WIEDZY
 
---- ### sekcje w bazie wiedzy
+--- ### kategorie w bazie wiedzy
 
-CREATE SEQUENCE knowledge_section_id_seq
+CREATE SEQUENCE article_category_id_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -251,17 +251,18 @@ CREATE SEQUENCE knowledge_section_id_seq
   CACHE 1
 ;
 
-CREATE TABLE knowledge_section (
-  section_name character varying(255) NOT NULL,
-  section_position integer NOT NULL,
-  knowledge_section_id integer NOT NULL DEFAULT nextval(('public.knowledge_section_id_seq'::text)::regclass),
-  articles_count integer NOT NULL DEFAULT 0
+CREATE TABLE article_category (
+  category_name character varying(255) NOT NULL,
+  category_position integer NOT NULL,
+  article_category_id integer NOT NULL DEFAULT nextval(('public.article_category_id_seq'::text)::regclass),
+  articles_count integer NOT NULL DEFAULT 0,
+  CONSTRAINT article_category_pk PRIMARY KEY (article_category_id)
 ) WITH (OIDS=FALSE)
 ;
 
 --- ### artukuły w bazie wiedzy
 
-CREATE SEQUENCE knownledge_id_seq
+CREATE SEQUENCE article_id_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -269,21 +270,21 @@ CREATE SEQUENCE knownledge_id_seq
   CACHE 1
 ;
 
-CREATE TABLE knowledge (
-  knowledge_id integer NOT NULL DEFAULT nextval(('public.knowledge_id_seq'::text)::regclass),
+CREATE TABLE article (
+  article_id integer NOT NULL DEFAULT nextval(('public.article_id_seq'::text)::regclass),
   title character varying(255) NOT NULL,
-  knowledge_section_id integer NOT NULL,
+  article_category_id integer NOT NULL,
   create_date date,
   lead text,
   body text,
   user_id integer,
-  CONSTRAINT knownledge_pkey PRIMARY KEY (knowledge_id)
+  CONSTRAINT knownledge_pkey PRIMARY KEY (article_id)
 ) WITH (OIDS=FALSE)
 ;
 
 --- ### komentarze do artykułów
 
-CREATE SEQUENCE knowledge_comment_id_seq
+CREATE SEQUENCE article_comment_id_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -291,22 +292,22 @@ CREATE SEQUENCE knowledge_comment_id_seq
   CACHE 1
 ;
 
-CREATE TABLE knowledge_comment (
-  knowledge_comment_id integer NOT NULL DEFAULT nextval(('public.knowledge_comment_id_seq'::text)::regclass),
-  knowledge_id integer NOT NULL,
+CREATE TABLE article_comment (
+  article_comment_id integer NOT NULL DEFAULT nextval(('public.article_comment_id_seq'::text)::regclass),
+  article_id integer NOT NULL,
   author integer NOT NULL,
   create_date date NOT NULL,
   title character varying(255) NOT NULL,
   body text NOT NULL,
-  CONSTRAINT knowledge_comment_pkey PRIMARY KEY (knowledge_comment_id)
+  CONSTRAINT article_comment_pkey PRIMARY KEY (article_comment_id)
 ) WITH (OIDS=FALSE)
 ;
 
 --- ### wiązanie zgłoszeń z artykułami w bazie wiedzy
 
-CREATE TABLE ticket_knowledge (
+CREATE TABLE ticket_article (
   ticket_id integer NOT NULL,
-  knowledge_id integer NOT NULL
+  article_id integer NOT NULL
 ) WITH (OIDS=FALSE)
 ;
 

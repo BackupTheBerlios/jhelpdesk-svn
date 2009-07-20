@@ -18,16 +18,16 @@ package de.berlios.jhelpdesk.model;
 import java.util.Date;
 import java.util.Set;
 
-public class Knowledge {
+public class Article {
 
-	private Long knowledgeId;
-	private Long knowledgeSectionId;
+	private Long articleId;
+	private Long articleSectionId;
 	private User author;
 	private Date createDate;
 	private String title;
 	private String lead;
 	private String body;
-	private Set<KnowledgeComment> comments;
+	private Set<ArticleComment> comments;
 	private Set<Ticket> associatedTickets;
 
 	/**
@@ -45,17 +45,17 @@ public class Knowledge {
 	}
 
 	/**
-	 * @return Returns the knowledgeId.
+	 * @return Returns the articleId.
 	 */
-	public Long getKnowledgeId() {
-		return knowledgeId;
+	public Long getArticleId() {
+		return articleId;
 	}
 
 	/**
-	 * @param knowledgeId The knowledgeId to set.
+	 * @param articleId The articleId to set.
 	 */
-	public void setKnowledgeId(Long knowledgeId) {
-		this.knowledgeId = knowledgeId;
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
 	}
 
 	/**
@@ -73,17 +73,17 @@ public class Knowledge {
 	}
 
 	/**
-	 * @return Returns the knowledgeSectionId.
+	 * @return Returns the articleSectionId.
 	 */
-	public Long getKnowledgeSectionId() {
-		return knowledgeSectionId;
+	public Long getArticleSectionId() {
+		return articleSectionId;
 	}
 
 	/**
-	 * @param knowledgeSectionId The knowledgeSectionId to set.
+	 * @param articleSectionId The articleSectionId to set.
 	 */
-	public void setKnowledgeSectionId(Long knowledgeSectionId) {
-		this.knowledgeSectionId = knowledgeSectionId;
+	public void setArticleSectionId(Long articleSectionId) {
+		this.articleSectionId = articleSectionId;
 	}
 
 	/**
@@ -131,14 +131,14 @@ public class Knowledge {
 	/**
 	 * @return Returns the comments.
 	 */
-	public Set<KnowledgeComment> getComments() {
+	public Set<ArticleComment> getComments() {
 		return comments;
 	}
 
 	/**
 	 * @param comments The comments to set.
 	 */
-	public void setComments(Set<KnowledgeComment> comments) {
+	public void setComments(Set<ArticleComment> comments) {
 		this.comments = comments;
 	}
 

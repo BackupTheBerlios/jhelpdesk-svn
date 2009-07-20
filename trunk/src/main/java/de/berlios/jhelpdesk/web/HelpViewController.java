@@ -21,8 +21,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import de.berlios.jhelpdesk.dao.KnowledgeDAO;
-import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
+import de.berlios.jhelpdesk.dao.ArticleCategoryDAO;
+import de.berlios.jhelpdesk.dao.ArticleDAO;
 
 /**
  * Obsługa funkcji znajdujących się w menu "Pomoc" programu (w tym obsługa
@@ -34,10 +34,10 @@ import de.berlios.jhelpdesk.dao.KnowledgeSectionDAO;
 public class HelpViewController {
 
     @Autowired
-    private KnowledgeDAO knowledgeDAO;
+    private ArticleDAO articleDAO;
     
     @Autowired
-    private KnowledgeSectionDAO knowledgeSectionDAO;
+    private ArticleCategoryDAO articleCategoryDAO;
 
     /**
      * Wyświetla pomoc do programu.
@@ -75,10 +75,10 @@ public class HelpViewController {
                   ModelMap mav) {
 
         if ((key != null) && key.equalsIgnoreCase("details")) {
-            mav.addAttribute("article", knowledgeDAO.getById(id));
+            mav.addAttribute("article", articleDAO.getById(id));
             return "help/base/one";
         } else {
-            mav.addAttribute("sections", knowledgeSectionDAO.getAllSections());
+            mav.addAttribute("categories", articleCategoryDAO.getAllCategories());
             return "help/base";
         }
     }

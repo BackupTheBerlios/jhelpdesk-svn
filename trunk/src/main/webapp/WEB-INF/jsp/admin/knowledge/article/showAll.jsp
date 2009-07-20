@@ -33,16 +33,16 @@
                                         <td>jasio:)</td>
                                         <td>2005/12/23</td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/edit.html?articleId=${article.knowledgeId}"/>">Edit</a>
+                                            <a href="<c:url value="/manage/knowledge/article/edit.html?articleId=${article.articleId}"/>">Edit</a>
                                         </td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/remove.html?articleId=${article.knowledgeId}"/>">Del</a>
+                                            <a href="<c:url value="/manage/knowledge/article/remove.html?articleId=${article.articleId}"/>">Del</a>
                                         </td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/up.html?articleId=${article.knowledgeId}"/>">Up</a>
+                                            <a href="<c:url value="/manage/knowledge/article/up.html?articleId=${article.articleId}"/>">Up</a>
                                         </td>
                                         <td class="lastcol ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/down.html?articleId=${article.knowledgeId}"/>">Down</a>
+                                            <a href="<c:url value="/manage/knowledge/article/down.html?articleId=${article.articleId}"/>">Down</a>
                                         </td>
                                     </tr>
                                 </c:forEach>

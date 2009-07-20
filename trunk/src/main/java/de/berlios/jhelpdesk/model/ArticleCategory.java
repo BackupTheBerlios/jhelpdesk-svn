@@ -21,22 +21,22 @@ import java.util.Set;
  *
  * @author jjhop
  */
-public class KnowledgeSection {
+public class ArticleCategory {
 
     /**
      *
      */
-	private Long knowledgeSectionId;
+	private Long articleCateogryId;
 
     /**
      *
      */
-	private Long sectionPosition;
+	private Long cateogryPosition;
 
     /**
      *
      */
-	private String sectionName;
+	private String cateogryName;
 
     /**
      *
@@ -46,48 +46,48 @@ public class KnowledgeSection {
     /**
      * 
      */
-	private Set<Knowledge> articles;
+	private Set<Article> articles;
 
 	/**
-	 * @return Returns the hdKnowledgeSectionId.
+	 * @return Returns the articleCateogryId.
 	 */
-	public Long getKnowledgeSectionId() {
-		return knowledgeSectionId;
+	public Long getArticleCategoryId() {
+		return articleCateogryId;
 	}
 
 	/**
-	 * @param hdKnowledgeSectionId The hdKnowledgeSectionId to set.
+	 * @param articleCateogryId The articleCateogryId to set.
 	 */
-	public void setKnowledgeSectionId(Long hdKnowledgeSectionId) {
-		this.knowledgeSectionId = hdKnowledgeSectionId;
+	public void setArticleCategoryId(Long articleCategoryId) {
+		this.articleCateogryId = articleCategoryId;
 	}
 
 	/**
-	 * @return Returns the sectionName.
+	 * @return Returns the cateogryName.
 	 */
-	public String getSectionName() {
-		return sectionName;
+	public String getCategoryName() {
+		return cateogryName;
 	}
 
 	/**
-	 * @param sectionName The sectionName to set.
+	 * @param cateogryName The cateogryName to set.
 	 */
-	public void setSectionName(String sectionName) {
-		this.sectionName = sectionName;
+	public void setCategoryName(String cateogryName) {
+		this.cateogryName = cateogryName;
 	}
 
 	/**
-	 * @return Returns the sectionPosition.
+	 * @return Returns the cateogryPosition.
 	 */
-	public Long getSectionPosition() {
-		return sectionPosition;
+	public Long getCategoryPosition() {
+		return cateogryPosition;
 	}
 
 	/**
-	 * @param sectionPosition The sectionPosition to set.
+	 * @param cateogryPosition The cateogryPosition to set.
 	 */
-	public void setSectionPosition(Long sectionPosition) {
-		this.sectionPosition = sectionPosition;
+	public void setCategoryPosition(Long categoryPosition) {
+		this.cateogryPosition = categoryPosition;
 	}
 
 	/**
@@ -109,14 +109,14 @@ public class KnowledgeSection {
 	/**
 	 * @return Returns the articles.
 	 */
-	public Set<Knowledge> getArticles() {
+	public Set<Article> getArticles() {
 		return articles;
 	}
 
 	/**
 	 * @param articles The articles to set.
 	 */
-	public void setArticles(Set<Knowledge> articles) {
+	public void setArticles(Set<Article> articles) {
 		this.articles = articles;
 	}
 

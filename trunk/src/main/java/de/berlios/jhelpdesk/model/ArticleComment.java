@@ -17,41 +17,41 @@ package de.berlios.jhelpdesk.model;
 
 import java.util.Date;
 
-public class KnowledgeComment {
+public class ArticleComment {
 	
-	private Long knowledgeCommentId;
-	private Long knowledgeId;
+	private Long articleCommentId;
+	private Long articleId;
 	private User authorId;
 	private Date createDate;
 	private String title;
 	private String body;
 
 	/**
-	 * @return Returns the knowledgeCommentId.
+	 * @return Returns the articleCommentId.
 	 */
-	public Long getKnowledgeCommentId() {
-		return knowledgeCommentId;
+	public Long getArticleCommentId() {
+		return articleCommentId;
 	}
 
 	/**
-	 * @param knowledgeCommentId The knowledgeCommentId to set.
+	 * @param articleCommentId The articleCommentId to set.
 	 */
-	public void setKnowledgeCommentId(Long knowledgeCommentId) {
-		this.knowledgeCommentId = knowledgeCommentId;
+	public void setArticleCommentId(Long articleCommentId) {
+		this.articleCommentId = articleCommentId;
 	}
 
 	/**
-	 * @return Returns the knowledgeId.
+	 * @return Returns the articleId.
 	 */
-	public Long getKnowledgeId() {
-		return knowledgeId;
+	public Long getArticleId() {
+		return articleId;
 	}
 
 	/**
-	 * @param knowledgeId The knowledgeId to set.
+	 * @param articleId The articleId to set.
 	 */
-	public void setKnowledgeId(Long knowledgeId) {
-		this.knowledgeId = knowledgeId;
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
 	}
 
 	/**

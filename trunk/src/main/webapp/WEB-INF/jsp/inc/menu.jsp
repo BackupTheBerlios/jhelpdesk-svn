@@ -41,7 +41,7 @@
 		<li class="first"><a href="<c:url value="/manage/announcement/showAll.html"/>"><span>Wiadomości</span></a></li>
 		<li class="last"><a href="<c:url value="/manage/users/showAll.html"/>"><span>Użytkownicy</span></a></li>
 		<li><a href="<c:url value="/manage/category/showAll.html"/>"><span>Kategorie zgłoszeń</span></a></li>
-		<li class="last"><a href="<c:url value="/manage/knowledge/section/showAll.html"/>"><span>Baza wiedzy - sekcje</span></a></li>
+		<li class="last"><a href="<c:url value="/manage/knowledge/category/showAll.html"/>"><span>Baza wiedzy - sekcje</span></a></li>
 		<li class="last"><a href="<c:url value="/manage/knowledge/article/showAll.html"/>"><span>Baza wiedzy - artykuły</span></a></li>
 	</ul>
 	</li>

@@ -15,23 +15,23 @@
  */
 package de.berlios.jhelpdesk.web.tools;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import org.springframework.stereotype.Component;
 
-import de.berlios.jhelpdesk.model.KnowledgeSection;
+import de.berlios.jhelpdesk.model.ArticleCategory;
 
-@Component("hdKnowledgeSectionValidator")
-public class KnowledgeSectionValidator implements Validator {
+@Component("articleCategoryValidator")
+public class ArticleCategoryValidator implements Validator {
 	
 	// implementujemy Validator.supports(Class), dlatego SuppressWarnings
 	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { 
-		return KnowledgeSection.class.equals(clazz);
+		return ArticleCategory.class.equals(clazz);
 	}
 
 	public void validate(Object command, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "sectionName", "errors.kbase.sectionName");
+				errors, "categoryName", "errors.kbase.categoryName");
 	}
 }

@@ -261,30 +261,30 @@
 	</definition>
 		
 	<definition
-		name="manager/knowledge/section/showAll"
+		name="manager/knowledge/category/showAll"
 		extends="baseLayout">
 		<put-attribute name="title" value="List sekcji"/>
 		<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/section/showAll.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/category/showAll.jsp"/>
 	</definition>
 	
 	<definition
-		name="manager/knowledge/section/show"
+		name="manager/knowledge/category/show"
 		extends="baseLayout">
 		<put-attribute name="title" value="Pojedyncza sekcja"/>
 		<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/section/show.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/category/show.jsp"/>
 	</definition>
 	
 	<definition
-		name="manager/knowledge/section/edit"
+		name="manager/knowledge/category/edit"
 		extends="baseLayout">
 		<put-attribute name="title" value="Pojedyncza sekcja"/>
 		<put-attribute name="displayFilterLink" value="none"/>
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/section/edit.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/admin/knowledge/category/edit.jsp"/>
 	</definition>
 	
 	<definition

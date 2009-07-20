@@ -21,7 +21,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.berlios.jhelpdesk.dao.AnnouncementDAO;
-import de.berlios.jhelpdesk.dao.KnowledgeDAO;
+import de.berlios.jhelpdesk.dao.ArticleDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.dao.TicketEventDAO;
 import de.berlios.jhelpdesk.model.TicketStatus;
@@ -41,7 +41,7 @@ public class DesktopViewController  {
     private TicketEventDAO eventDAO;
 
     @Autowired
-    private KnowledgeDAO knowledgeDAO;
+    private ArticleDAO articleDAO;
     
     @Autowired
     private AnnouncementDAO announcementDAO;
@@ -50,7 +50,7 @@ public class DesktopViewController  {
     public String showDesktop(ModelMap map) throws Exception {
         map.addAttribute("lastTickets", ticketDAO.getTicketsByStatus(TicketStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_TICKETS));
         map.addAttribute("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
-        map.addAttribute("lastArticles", knowledgeDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
+        map.addAttribute("lastArticles", articleDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
         map.addAttribute("lastAnnouncements", announcementDAO.getLastFew(NUMBER_OF_LAST_ANNOUNCEMENTS));
         return "desktop/main";
     }

@@ -11,8 +11,8 @@
                     <div class="contenttop"></div>
                     <div class="contentmiddle">
                         <form action="" method="post">
-                            <c:if test="${section.knowledgeSectionId != null}">
-                                <spring:bind path="section.knowledgeSectionId">
+                            <c:if test="${category.articleCategoryId != null}">
+                                <spring:bind path="category.articleCategoryId">
                                     <input type="hidden" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
                                 </spring:bind>
                             </c:if>
@@ -20,7 +20,7 @@
                                 <tr>
                                     <td>Nazwa sekcji</td>
                                     <td class="lastcol">
-                                        <spring:bind path="section.sectionName">
+                                        <spring:bind path="category.categoryName">
                                             <input type="text" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"
                                                    <c:if test="${not empty status.errorMessage}">class="hintanchor"
                                                        onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
