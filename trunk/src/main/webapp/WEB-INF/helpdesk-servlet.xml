@@ -8,10 +8,54 @@
             http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
     
     <context:component-scan base-package="de.berlios.jhelpdesk"/>
+
+    <!-- mapowanie kontrolerów -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     
+    <!--  inne beany widoku -->
+    <bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename">
+            <value>message</value>
+        </property>
+    </bean>
+
+    <bean id="tilesConfigurator"
+        class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="preparerFactoryClass"
+			value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
+        <property name="definitions">
+            <value>/WEB-INF/tiles-config.xml</value>
+        </property>
+    </bean>
+
+    <bean id="jspViewResolver"
+        class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.tiles2.TilesView</value>
+        </property>
+        <property name="requestContextAttribute">
+            <value>rc</value>
+        </property>
+    </bean>
+
+    <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+	<!--
+    // widoki  formacie PDF chwilowo nieczynne
     <bean
-		id="ticketsNotifiedByMeViewController"
-		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsNotifiedByMeViewController"
+		id="pdfViewResolver"
+		class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="order">
+            <value>1</value>
+        </property>
+        <property name="location" value="/WEB-INF/views.xml"/>
+    </bean>
+	-->
+
+    <bean id="ticketsNotifiedByMeViewController"
+		class="de.berlios.jhelpdesk.web.ticket.TicketsNotifiedByMeViewController"
 		scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
@@ -27,9 +71,8 @@
         </property>
     </bean>
 	
-    <bean
-		id="ticketsAssignedToMeViewController"
-		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsAssignedToMeViewController"
+    <bean id="ticketsAssignedToMeViewController"
+		class="de.berlios.jhelpdesk.web.ticket.TicketsAssignedToMeViewController"
 		scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
@@ -43,9 +86,8 @@
 		<!--<property name="successView"><value>showNewTickets.html</value></property>-->
     </bean>
 	
-    <bean
-		id="ticketsNonresolvedAssignedToMeViewController"
-		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsNonresolvedAssignedToMeViewController"
+    <bean id="ticketsNonresolvedAssignedToMeViewController"
+		class="de.berlios.jhelpdesk.web.ticket.TicketsNonresolvedAssignedToMeViewController"
 		scope="prototype">
         <property name="formView">
             <value>ticketsNonresolvedAssignedToMeList</value>
@@ -55,9 +97,8 @@
         </property>
     </bean>
 	
-    <bean
-		id="ticketsNonresolvedViewController"
-		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsNonresolvedViewController"
+    <bean id="ticketsNonresolvedViewController"
+		class="de.berlios.jhelpdesk.web.ticket.TicketsNonresolvedViewController"
 		scope="prototype">
         <property name="formView">
             <value>ticketsNonresolvedList</value>
@@ -67,9 +108,8 @@
         </property>
     </bean>
 	
-    <bean
-		id="killerNewTicketsViewController" 
-		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsNewViewController" 
+    <bean id="killerNewTicketsViewController"
+		class="de.berlios.jhelpdesk.web.ticket.TicketsNewViewController" 
 		scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
@@ -83,9 +123,8 @@
 		<!--<property name="successView"><value>showNewTickets.html</value></property>-->
     </bean>
 	
-    <bean
-		id="killerTicketsViewController" 
-		class="de.berlios.jhelpdesk.web.ticketkiller.TicketsViewController" 
+    <bean id="killerTicketsViewController"
+		class="de.berlios.jhelpdesk.web.ticket.TicketsViewController" 
 		scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
@@ -99,7 +138,9 @@
 		<!--<property name="successView"><value>showTickets.html</value></property>-->
     </bean>
     
-    <bean id="killerTicketEditController" class="de.berlios.jhelpdesk.web.ticketkiller.TicketWizardFormController" scope="prototype">
+    <bean id="killerTicketEditController"
+        class="de.berlios.jhelpdesk.web.ticket.TicketWizardFormController"
+        scope="prototype">
         <property name="commandName">
             <value>hdticket</value>
         </property>
@@ -119,55 +160,9 @@
             <value type="java.lang.String">c:\\helpdesk\\files\\</value>
         </property>
     </bean>
-	
-    <!--  inne beany widoku -->
-    <bean
-		id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename">
-            <value>message</value>
-        </property>
-    </bean>
 
-    <bean
-		id="tilesConfigurator"
-        class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
-        <property name="preparerFactoryClass"
-			value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
-        <property name="definitions">
-            <value>/WEB-INF/tiles-config.xml</value>
-        </property>
-    </bean>
-	
-    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-        <property name="viewClass">
-            <value>org.springframework.web.servlet.view.tiles2.TilesView</value>
-        </property>
-        <property name="requestContextAttribute">
-            <value>rc</value>
-        </property>
-    </bean>
-
-	<!--
-    // widoki  formacie PDF chwilowo nieczynne
-    <bean
-		id="pdfViewResolver" 
-		class="org.springframework.web.servlet.view.XmlViewResolver">
-        <property name="order">
-            <value>1</value>
-        </property>
-        <property name="location" value="/WEB-INF/views.xml"/>
-    </bean>
-	-->
-
-    <bean
-		id="multipartResolver"
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-	/>
-
-    <!-- mapowanie kontrolerów -->
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <bean id="urlMapping"
+        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
 				<!-- akcje zwiazane z bledami -->
@@ -181,5 +176,4 @@
             </props>
         </property>
     </bean>
-
 </beans>
