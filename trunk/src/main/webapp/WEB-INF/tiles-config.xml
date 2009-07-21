@@ -113,16 +113,7 @@
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
 		<put-attribute name="content" value="/WEB-INF/jsp/tickets/listNonresolvedAssignedToMe.jsp"/>
 	</definition>
-	
-	<definition
-		name="ticketsNonresolvedList"
-		extends="baseLayout">
-		<put-attribute name="title" value="Pokaż zgłoszenia nierozwiązane"/>
-		<put-attribute name="displayFilterLink" value="block"/>
-		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/tickets/listNonresolved.jsp"/>
-	</definition>
-	
+
 	<definition
 		name="ticketsNotifiedByMeList"
 		extends="baseLayout">

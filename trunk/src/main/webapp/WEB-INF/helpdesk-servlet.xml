@@ -85,29 +85,7 @@
         </property>
 		<!--<property name="successView"><value>showNewTickets.html</value></property>-->
     </bean>
-	
-    <bean id="ticketsNonresolvedAssignedToMeViewController"
-		class="de.berlios.jhelpdesk.web.ticket.TicketsNonresolvedAssignedToMeViewController"
-		scope="prototype">
-        <property name="formView">
-            <value>ticketsNonresolvedAssignedToMeList</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.ShowTicketsNonresolvedAssignedToMeFilterForm</value>
-        </property>
-    </bean>
-	
-    <bean id="ticketsNonresolvedViewController"
-		class="de.berlios.jhelpdesk.web.ticket.TicketsNonresolvedViewController"
-		scope="prototype">
-        <property name="formView">
-            <value>ticketsNonresolvedList</value>
-        </property>
-        <property name="commandClass">
-            <value>de.berlios.jhelpdesk.web.form.ShowTicketsNonresolvedFilterForm</value>
-        </property>
-    </bean>
-	
+
     <bean id="killerNewTicketsViewController"
 		class="de.berlios.jhelpdesk.web.ticket.TicketsNewViewController" 
 		scope="prototype">
@@ -170,8 +148,6 @@
                 <prop key="/showNewTickets.html">killerNewTicketsViewController</prop>
                 <prop key="/showTicketsNotifiedByMe.html">ticketsNotifiedByMeViewController</prop>
                 <prop key="/showTicketsAssignedToMe.html">ticketsAssignedToMeViewController</prop>
-                <prop key="/showNonresolvedTicketsAssignedToMe.html">ticketsNonresolvedAssignedToMeViewController</prop>
-                <prop key="/showNonresolvedTickets.html">ticketsNonresolvedViewController</prop>
                 <prop key="/newTicket.html">killerTicketEditController</prop>
             </props>
         </property>
