@@ -47,12 +47,8 @@ public class AnnouncementController {
     private AnnouncementValidator validator;
 
     @Autowired
-    @Qualifier("jdbc")
-    private AnnouncementDAO announcementDAO;
-
-    @Autowired
     @Qualifier("jpa")
-    private AnnouncementDAO announcementDAOJpa;
+    private AnnouncementDAO announcementDAO;
 
     /**
      * Wyświetla ogłoszenie na podstawie dostarczonego identyfikatora.
@@ -64,7 +60,7 @@ public class AnnouncementController {
     @RequestMapping("/announcement/show.html")
     public String showAnnouncement(@RequestParam("infoId") Long annId, ModelMap map) {
         try {
-            map.addAttribute("announcement", announcementDAOJpa.getById(annId));
+            map.addAttribute("announcement", announcementDAO.getById(annId));
         } catch (Exception e) {
             log.error(e);
             map.addAttribute("errorInfo", e.getMessage());
@@ -81,7 +77,7 @@ public class AnnouncementController {
      */
     @RequestMapping("/announcement/showAll.html")
     public String showAllAnnouncements(ModelMap map) {
-        map.addAttribute("announcements", announcementDAOJpa.getAll());
+        map.addAttribute("announcements", announcementDAO.getAll());
         return "announcement/showAll";
     }
 
@@ -94,7 +90,7 @@ public class AnnouncementController {
     @RequestMapping("/announcement/remove.html")
     public String removeAnnouncement(@RequestParam("infoId") Long annId) {
         try {
-            announcementDAOJpa.delete(annId);
+            announcementDAO.delete(annId);
         } catch (Exception e) {
             log.error(e);
         }
@@ -125,7 +121,7 @@ public class AnnouncementController {
         if (annId == null) {
             map.addAttribute("announcement", new Announcement());
         } else {
-            map.addAttribute("announcement", announcementDAOJpa.getById(annId));
+            map.addAttribute("announcement", announcementDAO.getById(annId));
         }
         return "announcement/edit";
     }
@@ -156,7 +152,7 @@ public class AnnouncementController {
         if (result.hasErrors()) {
             return "announcement/edit";
         }
-        announcementDAOJpa.save(announcement);
+        announcementDAO.save(announcement);
         status.setComplete();
         return "redirect:showAll.html";
     }

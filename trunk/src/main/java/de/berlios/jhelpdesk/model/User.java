@@ -16,6 +16,8 @@
 package de.berlios.jhelpdesk.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -25,6 +27,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -132,10 +135,14 @@ public class User implements Serializable {
     @Column(name = "is_active")
     private boolean isActive;
 
+    @OneToMany(mappedBy = "author")
+    private Set<Article> articles;
+
     /**
      * Pusty konstuktor. Umieszczony dlatego, że w klasie jest także inny konstruktor.
      */
     public User() {
+        this.articles = new HashSet<Article>();
     }
 
     /**
@@ -381,6 +388,22 @@ public class User implements Serializable {
      */
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Set<Article> getArticles() {
+        return articles;
+    }
+
+    /**
+     * 
+     * @param articles
+     */
+    public void setArticles(Set<Article> articles) {
+        this.articles = articles;
     }
 
     /**

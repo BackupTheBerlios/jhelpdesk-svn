@@ -21,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -47,6 +48,7 @@ public class ArticleController {
     private static Log log = LogFactory.getLog(ArticleController.class);
     
     @Autowired
+    @Qualifier("jdbc")
     private ArticleDAO articleDAO;
 
     /**

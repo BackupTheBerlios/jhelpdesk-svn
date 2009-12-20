@@ -64,11 +64,12 @@ public class DesktopViewController  {
     private TicketEventDAO eventDAO;
 
     @Autowired
+    @Qualifier("jpa")
     private ArticleDAO articleDAO;
 
     @Autowired
     @Qualifier("jpa")
-    private AnnouncementDAO announcementDAOJpa;
+    private AnnouncementDAO announcementDAO;
 
     /**
      *
@@ -81,7 +82,7 @@ public class DesktopViewController  {
         map.addAttribute("lastTickets", ticketDAO.getTicketsByStatus(TicketStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_TICKETS));
         map.addAttribute("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
         map.addAttribute("lastArticles", articleDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
-        map.addAttribute("lastAnnouncements", announcementDAOJpa.getLastFew(NUMBER_OF_LAST_ANNOUNCEMENTS));
+        map.addAttribute("lastAnnouncements", announcementDAO.getLastFew(NUMBER_OF_LAST_ANNOUNCEMENTS));
         return "desktop/main";
     }
 }

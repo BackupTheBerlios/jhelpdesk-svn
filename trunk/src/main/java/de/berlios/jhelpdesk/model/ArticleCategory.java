@@ -16,6 +16,7 @@
 package de.berlios.jhelpdesk.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -23,6 +24,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -31,13 +36,17 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "article_category")
+@SequenceGenerator(name="article_category_sequence", sequenceName="article_category_id_seq")
+@NamedQueries({
+    @NamedQuery(name = "ArticleCategory.getAllOrderByPositionASC", query = "FROM ArticleCategory a ORDER BY a.cateogryPosition ASC")
+})
 public class ArticleCategory implements Serializable {
 
     /**
      *
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="article_category_sequence")
     @Column(name = "article_category_id")
     private Long articleCateogryId; // TODO: refaktoryzacja na articleCategoryId
 
@@ -62,7 +71,12 @@ public class ArticleCategory implements Serializable {
     /**
      * 
      */
+    @OneToMany(mappedBy = "category")
     private Set<Article> articles;
+
+    public ArticleCategory() {
+        this.articles = new HashSet<Article>();
+    }
 
     /**
      * @return Returns the articleCateogryId.

@@ -16,6 +16,7 @@
 package de.berlios.jhelpdesk.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +35,11 @@ import de.berlios.jhelpdesk.dao.ArticleDAO;
 public class HelpViewController {
 
     @Autowired
+    @Qualifier("jdbc")
     private ArticleDAO articleDAO;
     
     @Autowired
+    @Qualifier("jpa")
     private ArticleCategoryDAO articleCategoryDAO;
 
     /**

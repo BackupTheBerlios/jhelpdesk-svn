@@ -4,6 +4,8 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>de.berlios.jhelpdesk.model.User</class>
     <class>de.berlios.jhelpdesk.model.Announcement</class>
+    <class>de.berlios.jhelpdesk.model.ArticleCategory</class>
+    <class>de.berlios.jhelpdesk.model.Article</class>
     <exclude-unlisted-classes/>
     <properties>
       <property name="hibernate.connection.pool_size" value="5"/>

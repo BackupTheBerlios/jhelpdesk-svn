@@ -26,9 +26,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -36,6 +39,9 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "article")
+@NamedQueries({
+    @NamedQuery(name = "Article.lastAdded", query = "FROM Article a ORDER BY a.createDate DESC")
+})
 public class Article implements Serializable {
 
     /**
@@ -49,13 +55,19 @@ public class Article implements Serializable {
     /**
      * // TODO: przemigrować do ArticleCategory
      */
+    @Transient
     private Long articleSectionId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "article_category_id")
+    private ArticleCategory category;
+
 
     /**
      *
      */
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id")
     private User author;
 
     /**
@@ -86,11 +98,13 @@ public class Article implements Serializable {
     /**
      *
      */
+    @Transient
     private Set<ArticleComment> comments;
 
     /**
      *
      */
+    @Transient
     private Set<Ticket> associatedTickets;
 
     /**
@@ -119,6 +133,22 @@ public class Article implements Serializable {
      */
     public void setArticleId(Long articleId) {
         this.articleId = articleId;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public ArticleCategory getCategory() {
+        return category;
+    }
+
+    /**
+     * 
+     * @param category
+     */
+    public void setCategory(ArticleCategory category) {
+        this.category = category;
     }
 
     /**

@@ -8,33 +8,32 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
-    
-    <context:component-scan base-package="de.berlios.jhelpdesk"/>
 
+    <context:component-scan base-package="de.berlios.jhelpdesk"/>
     <tx:annotation-driven />
-    
+
     <!-- mapowanie kontrolerów -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-    
+
     <!--  inne beany widoku -->
     <bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
+          class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename">
             <value>message</value>
         </property>
     </bean>
 
     <bean id="tilesConfigurator"
-        class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+          class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <property name="preparerFactoryClass"
-			value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
+                  value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
         <property name="definitions">
             <value>/WEB-INF/tiles-config.xml</value>
         </property>
     </bean>
 
     <bean id="jspViewResolver"
-        class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass">
             <value>org.springframework.web.servlet.view.tiles2.TilesView</value>
         </property>
@@ -44,24 +43,12 @@
     </bean>
 
     <bean id="multipartResolver"
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-
-	<!--
-    // widoki  formacie PDF chwilowo nieczynne
-    <bean
-		id="pdfViewResolver"
-		class="org.springframework.web.servlet.view.XmlViewResolver">
-        <property name="order">
-            <value>1</value>
-        </property>
-        <property name="location" value="/WEB-INF/views.xml"/>
-    </bean>
-	-->
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
     <!-- @Deprecated -->
     <bean id="ticketsNotifiedByMeViewController"
-		class="de.berlios.jhelpdesk.web.ticket.TicketsNotifiedByMeViewController"
-		scope="prototype">
+          class="de.berlios.jhelpdesk.web.ticket.TicketsNotifiedByMeViewController"
+          scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
         </property>
@@ -78,8 +65,8 @@
 
     <!-- @Deprecated -->
     <bean id="ticketsAssignedToMeViewController"
-		class="de.berlios.jhelpdesk.web.ticket.TicketsAssignedToMeViewController"
-		scope="prototype">
+          class="de.berlios.jhelpdesk.web.ticket.TicketsAssignedToMeViewController"
+          scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
         </property>
@@ -89,13 +76,13 @@
         <property name="formView">
             <value>ticketsAssignedToMeList</value>
         </property>
-		<!--<property name="successView"><value>showNewTickets.html</value></property>-->
+        <!--<property name="successView"><value>showNewTickets.html</value></property>-->
     </bean>
 
     <!-- @Deprecated -->
     <bean id="killerNewTicketsViewController"
-		class="de.berlios.jhelpdesk.web.ticket.TicketsNewViewController" 
-		scope="prototype">
+          class="de.berlios.jhelpdesk.web.ticket.TicketsNewViewController"
+          scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
         </property>
@@ -105,12 +92,12 @@
         <property name="formView">
             <value>ticketsNewList</value>
         </property>
-		<!--<property name="successView"><value>showNewTickets.html</value></property>-->
+        <!--<property name="successView"><value>showNewTickets.html</value></property>-->
     </bean>
-	
+
     <bean id="killerTicketsViewController"
-		class="de.berlios.jhelpdesk.web.ticket.TicketsViewController" 
-		scope="prototype">
+          class="de.berlios.jhelpdesk.web.ticket.TicketsViewController"
+          scope="prototype">
         <property name="commandName">
             <value>filterForm</value>
         </property>
@@ -120,11 +107,11 @@
         <property name="formView">
             <value>ticketsList</value>
         </property>
-		<!--<property name="successView"><value>showTickets.html</value></property>-->
+        <!--<property name="successView"><value>showTickets.html</value></property>-->
     </bean>
-    
+
     <bean id="killerTicketEditController"
-        class="de.berlios.jhelpdesk.web.ticket.TicketWizardFormController">
+          class="de.berlios.jhelpdesk.web.ticket.TicketWizardFormController">
         <property name="commandName">
             <value>hdticket</value>
         </property>
@@ -146,10 +133,10 @@
     </bean>
 
     <bean id="urlMapping"
-        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-				<!-- akcje zwiazane z bledami -->
+                <!-- akcje zwiazane z bledami -->
                 <prop key="/showTickets.html">killerTicketsViewController</prop>
                 <prop key="/showNewTickets.html">killerNewTicketsViewController</prop>
                 <prop key="/showTicketsNotifiedByMe.html">ticketsNotifiedByMeViewController</prop>

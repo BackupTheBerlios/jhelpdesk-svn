@@ -18,6 +18,7 @@ package de.berlios.jhelpdesk.web.manager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -40,11 +41,17 @@ public class ArticleCategoryController {
     private ArticleCategoryValidator validator;
 
     @Autowired
+    @Qualifier("jdbc")
     private ArticleCategoryDAO categoryDAO;
+
+    @Autowired
+    @Qualifier("jpa")
+    private ArticleCategoryDAO categoryDAOJpa;
 
     @RequestMapping("/manage/knowledge/category/showAll.html")
     public String showAll(ModelMap map) throws Exception {
-        map.addAttribute("categories", categoryDAO.getAllShortSections());
+//        map.addAttribute("categories", categoryDAO.getAllShortSections());
+        map.addAttribute("categories", categoryDAOJpa.getAllCategories());
         return "manager/knowledge/category/showAll";
     }
 

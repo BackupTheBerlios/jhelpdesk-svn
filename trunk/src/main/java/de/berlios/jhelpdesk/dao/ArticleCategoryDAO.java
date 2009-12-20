@@ -50,6 +50,8 @@ public interface ArticleCategoryDAO {
      * @return lista obiektów ArticleCategory
      * 
      * @see java.util.Collections#EMPTY_LIST
+     *
+     * //TODO: do usunięcia po migracji do JPA (będzie LAZY)
      */
     public List<ArticleCategory> getAllShortSections();
 
