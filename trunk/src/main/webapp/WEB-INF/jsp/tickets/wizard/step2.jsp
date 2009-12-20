@@ -25,7 +25,7 @@
 			</div>
 		</td>
 		<td id="middlecenter">
-			<form action="<c:url value="/newTicket.html"/>" method="post" enctype="multipart/form-data">
+			<form action="<c:url value="${formURL}"/>" method="post" enctype="multipart/form-data">
 				<table id="table2" cellspacing="0">
 					<tr>
 						<td>Przyczyna zgłoszenia (max. 255 znaków):</td>

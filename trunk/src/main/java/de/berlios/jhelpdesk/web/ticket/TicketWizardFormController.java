@@ -28,7 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.util.FileCopyUtils;
@@ -53,138 +55,132 @@ import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.tools.UserEditor;
 
 public class TicketWizardFormController extends AbstractWizardFormController {
-	
-	private static Log log = LogFactory.getLog( TicketWizardFormController.class );
+
+    private static Log log = LogFactory.getLog(TicketWizardFormController.class);
 
     @Autowired
-	private TicketDAO ticketDao;
+    private TicketDAO ticketDao;
 
     @Autowired
-	private TicketCategoryDAO ticketCategoryDAO;
-
+    private TicketCategoryDAO ticketCategoryDAO;
+    
     @Autowired
-	private UserDAO userDAO;
-	
-	private String fileRepositoryPath;
-	
-	@Override
-	protected void validatePage(Object command, Errors errors, int page, boolean finish) {
-		log.debug("validatePage()->" + page);
-		Ticket ticket = (Ticket) command;
-		setAllowDirtyBack(true);
-		if (page > 0) {
-			if (ticket.getSubject() == null || ticket.getSubject().trim().length() < 1)
-				errors.rejectValue("subject", "hdticket.subject.empty");
-			if (ticket.getDescription() == null || ticket.getDescription().trim().length() < 1)
-				errors.rejectValue("description", "hdticket.description.empty");
-		}
-	}
-	
-	@Override
-	protected void onBindAndValidate( HttpServletRequest request, Object command, 
-				BindException bindErrors, int page ) throws Exception {
-		log.debug( "onBindAndValidate" );
-		Ticket ticket = (Ticket) command;
-		if ((request.getParameter("checkLogin") != null) && (ticket.getNotifier() == null)) {
-			bindErrors.rejectValue("notifier", "hdticket.notifier.notExists", 
-					new Object[] { request.getParameter("notifier") }, "defaultMessage");
-		} else if (ticket.getNotifier() == null) {
-			bindErrors.rejectValue("notifier", "hdticket.notifier.notEmpty");
-		}
-		
-		if ((ticket.getUploadedFile() != null) && (!ticket.getUploadedFile().isEmpty())
-            && (ticket.getUploadedFile().getOriginalFilename().length() > 0)) {
+    @Qualifier("jdbc")
+    private UserDAO userDAO;
 
-			MultipartFile file = ticket.getUploadedFile();
-			AdditionalFile addFile = new AdditionalFile();
-			addFile.setContentType(file.getContentType());
-			addFile.setFileDate(file.getBytes());
-			addFile.setFileSize(file.getSize());
-			addFile.setOriginalFileName(file.getOriginalFilename());
-			
-			ticket.getAddFilesList().add(addFile);
-			if (log.isDebugEnabled()) {
-				log.debug("Filename => " + file.getName() +
-						   "OriginalFilename => " + file.getOriginalFilename() +
-				           "ContentType => " + file.getContentType() +
-				           "Size => " + file.getSize());
-				log.debug("Files num => " + ticket.getAddFilesList().size());
-			}
-		}
-	}
-
-	@Override
-	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
-			Object command, BindException errors) throws Exception {
-		
-		File repository = new File(fileRepositoryPath);
-
-		try {
-			Ticket ticket = (Ticket) command;
-			// najpierw zapisujemy zgłoszenie w bazie danych
-			ticket.setCreateDate(new Date(System.currentTimeMillis()));
-			ticket.setTicketPriority(TicketPriority.fromInt(1));
-			ticket.setTicketStatus(TicketStatus.NOTIFIED);
-			ticket.setInputer((User) request.getSession().getAttribute("user"));
-			
-			ticketDao.save(ticket);
-			File thisTicketRepository = 
-				new File(
-					new StringBuffer( repository.getAbsolutePath() )
-						.append( File.separatorChar )
-						.append( ticket.getTicketId() )
-						.toString()
-			);
-			if (thisTicketRepository.mkdir()) {
-				for (AdditionalFile addFile : ticket.getAddFilesList()) {
-					FileCopyUtils.copy( 
-						addFile.getFileData(), 
-						new File(
-							new StringBuffer( thisTicketRepository.getAbsolutePath() )
-								.append( File.separatorChar )
-								.append( addFile.getOriginalFileName() )
-								.toString()
-						) 
-					);
-				}
-			}
-		} catch (Exception ex) {
-			// TODO: jakas sensowna obsluga wyjątku?
-			ex.printStackTrace();
-		}
-		
-		return new ModelAndView(new RedirectView("/showNewTickets.html", true));
-	}
-	
-	@Override
-	protected ModelAndView processCancel(HttpServletRequest request, HttpServletResponse response, 
-			Object command,	BindException errors) throws Exception {
-		return super.processCancel(request, response, command, errors);
-	}
+    private String fileRepositoryPath;
 
     @Override
-	protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
-		log.debug("initBinder()->start");
-		NumberFormat nf = NumberFormat.getNumberInstance();
-		binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, nf, true));
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-		UserEditor userEditor = new UserEditor();
-		userEditor.setUserDAO(userDAO);
-		binder.registerCustomEditor(User.class, userEditor);
-	}
-	
-	@SuppressWarnings("unchecked")
-	protected Map referenceData(HttpServletRequest request) throws ServletException {
-		Map refData = new HashMap();
-		refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
-		refData.put("priorities", TicketPriority.values());
-		refData.put("statuses", TicketStatus.getAllStatuses());
-		refData.put("users", userDAO.getAllUser());
-		refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
-		return refData;
-	}
+    protected void validatePage(Object command, Errors errors, int page, boolean finish) {
+        log.debug("validatePage()->" + page);
+        Ticket ticket = (Ticket) command;
+        setAllowDirtyBack(true);
+        if (page > 0) {
+            if (ticket.getSubject() == null || ticket.getSubject().trim().length() < 1) {
+                errors.rejectValue("subject", "hdticket.subject.empty");
+            }
+            if (ticket.getDescription() == null || ticket.getDescription().trim().length() < 1) {
+                errors.rejectValue("description", "hdticket.description.empty");
+            }
+        }
+    }
+
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request, Object command,
+            BindException bindErrors, int page) throws Exception {
+        log.debug("onBindAndValidate");
+        Ticket ticket = (Ticket) command;
+        if ((request.getParameter("checkLogin") != null) && (ticket.getNotifier() == null)) {
+            bindErrors.rejectValue("notifier", "hdticket.notifier.notExists",
+                    new Object[]{request.getParameter("notifier")}, "defaultMessage");
+        } else if (ticket.getNotifier() == null) {
+            bindErrors.rejectValue("notifier", "hdticket.notifier.notEmpty");
+        }
+
+        if ((ticket.getUploadedFile() != null) && (!ticket.getUploadedFile().isEmpty())
+                && (ticket.getUploadedFile().getOriginalFilename().length() > 0)) {
+
+            MultipartFile file = ticket.getUploadedFile();
+            AdditionalFile addFile = new AdditionalFile();
+            addFile.setContentType(file.getContentType());
+            addFile.setFileDate(file.getBytes());
+            addFile.setFileSize(file.getSize());
+            addFile.setOriginalFileName(file.getOriginalFilename());
+
+            ticket.getAddFilesList().add(addFile);
+            if (log.isDebugEnabled()) {
+                log.debug("Filename => " + file.getName()
+                        + "OriginalFilename => " + file.getOriginalFilename()
+                        + "ContentType => " + file.getContentType()
+                        + "Size => " + file.getSize());
+                log.debug("Files num => " + ticket.getAddFilesList().size());
+            }
+        }
+    }
+
+    @Override
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
+            Object command, BindException errors) throws Exception {
+
+        File repository = new File(fileRepositoryPath);
+
+        try {
+            Ticket ticket = (Ticket) command;
+            // najpierw zapisujemy zgłoszenie w bazie danych
+            ticket.setCreateDate(new Date(System.currentTimeMillis()));
+            ticket.setTicketPriority(TicketPriority.fromInt(1));
+            ticket.setTicketStatus(TicketStatus.NOTIFIED);
+            ticket.setInputer((User) request.getSession().getAttribute("user"));
+
+            ticketDao.save(ticket);
+            File thisTicketRepository =
+                    new File(
+                    new StringBuffer(repository.getAbsolutePath()).append(File.separatorChar).append(ticket.getTicketId()).toString());
+            if (thisTicketRepository.mkdir()) {
+                for (AdditionalFile addFile : ticket.getAddFilesList()) {
+                    FileCopyUtils.copy(
+                            addFile.getFileData(),
+                            new File(
+                            new StringBuffer(thisTicketRepository.getAbsolutePath()).append(File.separatorChar).append(addFile.getOriginalFileName()).toString()));
+                }
+            }
+        } catch (Exception ex) {
+            // TODO: jakas sensowna obsluga wyjątku?
+            ex.printStackTrace();
+        }
+
+        return new ModelAndView(new RedirectView("/showNewTickets.html", true));
+    }
+
+    @Override
+    protected ModelAndView processCancel(HttpServletRequest request, HttpServletResponse response,
+            Object command, BindException errors) throws Exception {
+        return super.processCancel(request, response, command, errors);
+    }
+
+    @Override
+    protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
+        log.debug("initBinder()->start");
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, nf, true));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+        UserEditor userEditor = new UserEditor();
+        userEditor.setUserDAO(userDAO);
+        binder.registerCustomEditor(User.class, userEditor);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Map referenceData(HttpServletRequest request) throws ServletException {
+        Map refData = new HashMap();
+        refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
+        refData.put("priorities", TicketPriority.values());
+        refData.put("statuses", TicketStatus.getAllStatuses());
+        refData.put("users", userDAO.getAllUser());
+        refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
+        return refData;
+    }
 
 //	@Override
 //	protected int getTargetPage( HttpServletRequest request, Object command, Errors errors, int page ) {
@@ -195,9 +191,8 @@ public class TicketWizardFormController extends AbstractWizardFormController {
 //		//return ( request.getParameter( "back" ) != null ) ? ( page - 1 ) : ( page + 1 );
 //		return super.getTargetPage( request, command, errors, page );
 //	}
-	
-	/** @param fileRepositoryPath the fileRepositoryPath to set */
-	public void setFileRepositoryPath(String fileRepositoryPath) {
-		this.fileRepositoryPath = fileRepositoryPath;
-	}
+    /** @param fileRepositoryPath the fileRepositoryPath to set */
+    public void setFileRepositoryPath(String fileRepositoryPath) {
+        this.fileRepositoryPath = fileRepositoryPath;
+    }
 }

@@ -2,13 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-            http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
     
     <context:component-scan base-package="de.berlios.jhelpdesk"/>
 
+    <tx:annotation-driven />
+    
     <!-- mapowanie kontrolerów -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     
@@ -54,6 +58,7 @@
     </bean>
 	-->
 
+    <!-- @Deprecated -->
     <bean id="ticketsNotifiedByMeViewController"
 		class="de.berlios.jhelpdesk.web.ticket.TicketsNotifiedByMeViewController"
 		scope="prototype">
@@ -70,7 +75,8 @@
             <value>ticketsNotifiedByMeList.html</value>
         </property>
     </bean>
-	
+
+    <!-- @Deprecated -->
     <bean id="ticketsAssignedToMeViewController"
 		class="de.berlios.jhelpdesk.web.ticket.TicketsAssignedToMeViewController"
 		scope="prototype">
@@ -86,6 +92,7 @@
 		<!--<property name="successView"><value>showNewTickets.html</value></property>-->
     </bean>
 
+    <!-- @Deprecated -->
     <bean id="killerNewTicketsViewController"
 		class="de.berlios.jhelpdesk.web.ticket.TicketsNewViewController" 
 		scope="prototype">
@@ -117,8 +124,7 @@
     </bean>
     
     <bean id="killerTicketEditController"
-        class="de.berlios.jhelpdesk.web.ticket.TicketWizardFormController"
-        scope="prototype">
+        class="de.berlios.jhelpdesk.web.ticket.TicketWizardFormController">
         <property name="commandName">
             <value>hdticket</value>
         </property>

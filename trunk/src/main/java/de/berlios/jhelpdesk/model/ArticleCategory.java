@@ -15,109 +15,125 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.io.Serializable;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author jjhop
  */
-public class ArticleCategory {
+@Entity
+@Table(name = "article_category")
+public class ArticleCategory implements Serializable {
 
     /**
      *
      */
-	private Long articleCateogryId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "article_category_id")
+    private Long articleCateogryId; // TODO: refaktoryzacja na articleCategoryId
 
     /**
      *
      */
-	private Long cateogryPosition;
+    @Column(name = "category_position")
+    private Long cateogryPosition; // TODO: refaktoryzacja na categoryPosition
 
     /**
      *
      */
-	private String cateogryName;
+    @Column(name = "category_name")
+    private String cateogryName; // TODO: refaktoryzacja na categoryName
 
     /**
      *
      */
-	private int articlesCount;
+    @Column(name = "articles_count")
+    private int articlesCount;
 
     /**
      * 
      */
-	private Set<Article> articles;
+    private Set<Article> articles;
 
-	/**
-	 * @return Returns the articleCateogryId.
-	 */
-	public Long getArticleCategoryId() {
-		return articleCateogryId;
-	}
+    /**
+     * @return Returns the articleCateogryId.
+     */
+    public Long getArticleCategoryId() {
+        return articleCateogryId;
+    }
 
-	/**
-	 * @param articleCateogryId The articleCateogryId to set.
-	 */
-	public void setArticleCategoryId(Long articleCategoryId) {
-		this.articleCateogryId = articleCategoryId;
-	}
+    /**
+     * @param articleCateogryId The articleCateogryId to set.
+     */
+    public void setArticleCategoryId(Long articleCategoryId) {
+        this.articleCateogryId = articleCategoryId;
+    }
 
-	/**
-	 * @return Returns the cateogryName.
-	 */
-	public String getCategoryName() {
-		return cateogryName;
-	}
+    /**
+     * @return Returns the cateogryName.
+     */
+    public String getCategoryName() {
+        return cateogryName;
+    }
 
-	/**
-	 * @param cateogryName The cateogryName to set.
-	 */
-	public void setCategoryName(String cateogryName) {
-		this.cateogryName = cateogryName;
-	}
+    /**
+     * @param cateogryName The cateogryName to set.
+     */
+    public void setCategoryName(String cateogryName) {
+        this.cateogryName = cateogryName;
+    }
 
-	/**
-	 * @return Returns the cateogryPosition.
-	 */
-	public Long getCategoryPosition() {
-		return cateogryPosition;
-	}
+    /**
+     * @return Returns the cateogryPosition.
+     */
+    public Long getCategoryPosition() {
+        return cateogryPosition;
+    }
 
-	/**
-	 * @param cateogryPosition The cateogryPosition to set.
-	 */
-	public void setCategoryPosition(Long categoryPosition) {
-		this.cateogryPosition = categoryPosition;
-	}
+    /**
+     * @param cateogryPosition The cateogryPosition to set.
+     */
+    public void setCategoryPosition(Long categoryPosition) {
+        this.cateogryPosition = categoryPosition;
+    }
 
-	/**
-	 * @return the articlesCount
-	 */
-	public int getArticlesCount() {
-		if (articles != null)
-			articlesCount = articles.size();
-		return articlesCount;
-	}
+    /**
+     * @return the articlesCount
+     */
+    public int getArticlesCount() {
+        if (articles != null) {
+            articlesCount = articles.size();
+        }
+        return articlesCount;
+    }
 
-	/**
-	 * @param articlesCount the articlesCount to set
-	 */
-	public void setArticlesCount(int articlesCount) {
-		this.articlesCount = articlesCount;
-	}
+    /**
+     * @param articlesCount the articlesCount to set
+     */
+    public void setArticlesCount(int articlesCount) {
+        this.articlesCount = articlesCount;
+    }
 
-	/**
-	 * @return Returns the articles.
-	 */
-	public Set<Article> getArticles() {
-		return articles;
-	}
+    /**
+     * @return Returns the articles.
+     */
+    public Set<Article> getArticles() {
+        return articles;
+    }
 
-	/**
-	 * @param articles The articles to set.
-	 */
-	public void setArticles(Set<Article> articles) {
-		this.articles = articles;
-	}
-
+    /**
+     * @param articles The articles to set.
+     */
+    public void setArticles(Set<Article> articles) {
+        this.articles = articles;
+    }
 }

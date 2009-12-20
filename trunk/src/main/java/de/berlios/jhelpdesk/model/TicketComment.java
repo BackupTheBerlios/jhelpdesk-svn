@@ -21,101 +21,99 @@ import java.util.Date;
  * @author jjhop
  */
 public class TicketComment {
-	private Long ticketCommentId;
-	private Long ticketId;
-	private User commentAuthor;
-	private Date commentDate;
-	private String commentText;
-	private boolean notForPlainUser;
-	
-	public TicketComment() {
-		this.notForPlainUser = true;
-	}
 
-	/**
-	 * @return Returns the ticketCommentId.
-	 */
-	public Long getTicketCommentId() {
-		return ticketCommentId;
-	}
+    private Long ticketCommentId;
+    private Long ticketId;
+    private User commentAuthor;
+    private Date commentDate;
+    private String commentText;
+    private boolean notForPlainUser;
 
-	/**
-	 * @param ticketCommentId The ticketCommentId to set.
-	 */
-	public void setTicketCommentId(Long ticketCommentId) {
-		this.ticketCommentId = ticketCommentId;
-	}
-	
+    public TicketComment() {
+        this.notForPlainUser = true;
+    }
 
-	/**
-	 * @return Returns the ticketId.
-	 */
-	public Long getTicketId() {
-		return ticketId;
-	}
+    /**
+     * @return Returns the ticketCommentId.
+     */
+    public Long getTicketCommentId() {
+        return ticketCommentId;
+    }
 
-	/**
-	 * @param ticketId The ticketId to set.
-	 */
-	public void setTicketId(Long ticketId) {
-		this.ticketId = ticketId;
-	}
+    /**
+     * @param ticketCommentId The ticketCommentId to set.
+     */
+    public void setTicketCommentId(Long ticketCommentId) {
+        this.ticketCommentId = ticketCommentId;
+    }
 
-	/**
-	 * @return Returns the commentAuthor.
-	 */
-	public User getCommentAuthor() {
-		return commentAuthor;
-	}
+    /**
+     * @return Returns the ticketId.
+     */
+    public Long getTicketId() {
+        return ticketId;
+    }
 
-	/**
-	 * @param commentAuthor The commentAuthor to set.
-	 */
-	public void setCommentAuthor(User commentAuthor) {
-		this.commentAuthor = commentAuthor;
-	}
+    /**
+     * @param ticketId The ticketId to set.
+     */
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
 
-	/**
-	 * @return Returns the commentDate.
-	 */
-	public Date getCommentDate() {
-		return commentDate;
-	}
+    /**
+     * @return Returns the commentAuthor.
+     */
+    public User getCommentAuthor() {
+        return commentAuthor;
+    }
 
-	/**
-	 * @param commentDate The commentDate to set.
-	 */
-	public void setCommentDate(Date commentDate) {
-		this.commentDate = commentDate;
-	}
+    /**
+     * @param commentAuthor The commentAuthor to set.
+     */
+    public void setCommentAuthor(User commentAuthor) {
+        this.commentAuthor = commentAuthor;
+    }
 
+    /**
+     * @return Returns the commentDate.
+     */
+    public Date getCommentDate() {
+        return commentDate;
+    }
 
-	/**
-	 * @return Returns the commentText.
-	 */
-	public String getCommentText() {
-		return commentText;
-	}
+    /**
+     * @param commentDate The commentDate to set.
+     */
+    public void setCommentDate(Date commentDate) {
+        this.commentDate = commentDate;
+    }
 
-	/**
-	 * @param commentText The commentText to set.
-	 */
-	public void setCommentText(String commentText) {
-		this.commentText = commentText;
-	}
+    /**
+     * @return Returns the commentText.
+     */
+    public String getCommentText() {
+        return commentText;
+    }
 
-	/**
-	 * @param notForPlainUser The notForPlainUser to set.
-	 */
-	public void setNotForPlainUser(boolean notForPlainUser) {
-		this.notForPlainUser = notForPlainUser;
-	}
+    /**
+     * @param commentText The commentText to set.
+     */
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
+    }
 
-	/**
-	 * @return Returns the notForPlainUser.
-	 */
-	public boolean isNotForPlainUser() {
-		return notForPlainUser;
-	}
+    /**
+     * @param notForPlainUser The notForPlainUser to set.
+     */
+    public void setNotForPlainUser(boolean notForPlainUser) {
+        this.notForPlainUser = notForPlainUser;
+    }
 
+    /**
+     * @return Returns the notForPlainUser.
+     */
+    public boolean isNotForPlainUser() {
+        return notForPlainUser;
+    }
 }

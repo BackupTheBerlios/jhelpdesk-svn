@@ -90,8 +90,8 @@ public class ArticleCategoryController {
 
     @RequestMapping(value = "/manage/knowledge/category/edit.html", method = RequestMethod.GET)
     public String prepareForm(
-                     @RequestParam(value = "categoryId", required = false) Long categoryId,
-                     ModelMap map) throws Exception {
+                  @RequestParam(value = "categoryId", required = false) Long categoryId,
+                  ModelMap map) throws Exception {
         
         if (categoryId == null) {
             map.addAttribute("category", new ArticleCategory());

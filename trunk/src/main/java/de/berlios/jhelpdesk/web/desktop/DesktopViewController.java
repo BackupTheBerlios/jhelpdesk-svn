@@ -16,6 +16,7 @@
 package de.berlios.jhelpdesk.web.desktop;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +27,34 @@ import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.dao.TicketEventDAO;
 import de.berlios.jhelpdesk.model.TicketStatus;
 
+/**
+ *
+ * @author jjhop
+ */
 @Controller
 public class DesktopViewController  {
 
+    /**
+     * Stała określająca liczbę wyświetlanych na biurku zdarzeń.
+     */
     private static int NUMBER_OF_EVENTS_IN_DESKTOP = 5;
+
+    /**
+     * Stała określająca liczbę wyświetlanych na biurku
+     * nowych i nieprzypisanych do nikogo zgłoszeń.
+     */
     private static int NUMBER_OF_NONASSIGNED_TICKETS = 5;
+
+    /**
+     * Stała określająca liczbę wyświetalnych na biurku
+     * ostatnio dodanych artykułów.
+     */
     private static int NUMBER_OF_LAST_ADDED_ARTICLES = 5;
+
+    /**
+     * Stała określająca liczbę wyświetalnych na biurku 
+     * ostatnio dodanych ogłoszeń.
+     */
     private static int NUMBER_OF_LAST_ANNOUNCEMENTS = 10;
 
     @Autowired
@@ -42,16 +65,23 @@ public class DesktopViewController  {
 
     @Autowired
     private ArticleDAO articleDAO;
-    
-    @Autowired
-    private AnnouncementDAO announcementDAO;
 
+    @Autowired
+    @Qualifier("jpa")
+    private AnnouncementDAO announcementDAOJpa;
+
+    /**
+     *
+     * @param map
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/desktop/main.html")
     public String showDesktop(ModelMap map) throws Exception {
         map.addAttribute("lastTickets", ticketDAO.getTicketsByStatus(TicketStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_TICKETS));
         map.addAttribute("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
         map.addAttribute("lastArticles", articleDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
-        map.addAttribute("lastAnnouncements", announcementDAO.getLastFew(NUMBER_OF_LAST_ANNOUNCEMENTS));
+        map.addAttribute("lastAnnouncements", announcementDAOJpa.getLastFew(NUMBER_OF_LAST_ANNOUNCEMENTS));
         return "desktop/main";
     }
 }

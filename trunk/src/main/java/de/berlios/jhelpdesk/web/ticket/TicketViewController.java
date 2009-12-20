@@ -55,7 +55,11 @@ public class TicketViewController {
     @Autowired
     private TicketCategoryDAO ticketCategoryDao;
 
-    private final String repositoryPath = "c:\\helpdesk\\files"; //TODO: wypad z tym stąd
+    /**
+     * Ścieżka do katalogu z plikami dołączanymi do zgłoszeń.
+     * TODO: ścieżka powinna być konfigurowana w jednym miejscu i nie w kodzie
+     */
+    private final String repositoryPath = "c:\\helpdesk\\files";
 
     /**
      *
@@ -67,9 +71,9 @@ public class TicketViewController {
      */
     @RequestMapping(value = "/ticketDetails.html", method = RequestMethod.POST)
     public String processAddComment(
-        @RequestParam("ticketId") Long ticketId,
-        @RequestParam("addComm") String addComm,
-        @ModelAttribute("user") User user) throws Exception {
+                  @RequestParam("ticketId") Long ticketId,
+                  @RequestParam("addComm") String addComm,
+                  @ModelAttribute("user") User user) throws Exception {
 
         TicketComment comm = new TicketComment();
         comm.setTicketId(ticketId);

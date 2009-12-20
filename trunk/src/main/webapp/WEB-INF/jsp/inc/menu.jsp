@@ -5,6 +5,7 @@
 	<li class="submenu first"><a href="javascript:none()"><span><fmt:message key="label.zgloszenia"/></span></a>
 	<ul class="level2">
 		<li class="first"><a href="<c:url value="/newTicket.html"/>"><span>Zgłoś problem</span></a></li>
+        <li><a href="<c:url value="/newTicketWizzard.html"/>"><span>Zgłoś problem (nowy)</span></a></li>
 		<li><a href="<c:url value="/showNewTickets.html"/>"><span>Nieprzypisane</span></a></li>
 		<li><a href="<c:url value="/showTickets.html"/>"><span>Wszystkie</span></a></li>
 		<li><a href="<c:url value="/showTicketsNotifiedByMe.html"/>"><span>Zgłoszene przez mnie</span></a></li>

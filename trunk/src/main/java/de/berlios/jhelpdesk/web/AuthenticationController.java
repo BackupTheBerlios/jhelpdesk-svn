@@ -18,6 +18,7 @@ package de.berlios.jhelpdesk.web;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +40,8 @@ import de.berlios.jhelpdesk.model.User;
 public class AuthenticationController {
 
     @Autowired
-    private UserDAO userDAO;
+    @Qualifier("jpa")
+    private UserDAO userDAOJpa;
 
     /**
      * Przygotowuje formularz logowania.
@@ -67,8 +69,11 @@ public class AuthenticationController {
     // TODO: przeniesienie na domyślny widok użytkownika
     @RequestMapping(value = "/login.html", method = RequestMethod.POST)
     protected String processLogin(@ModelAttribute("user") User user, ModelMap map) {
-        if (userDAO.authenticate(user.getLogin(), user.getPassword())) {
-            map.addAttribute("user", userDAO.getByLogin(user.getLogin()));
+        // TODO: w DAO metoda authenticate to wywalenia... uwierzytleniamy sprawdzajac
+        // czy gosc podal pasujace haslo i login (email) oraz czy moze sie logowac (isActive)
+        boolean isAuthenticatedWithJpa = userDAOJpa.authenticate(user.getLogin(), user.getPassword());
+        if (isAuthenticatedWithJpa) {
+            map.addAttribute("user", userDAOJpa.getByLogin(user.getLogin()));
             map.addAttribute("logged", Boolean.TRUE);
             return "redirect:/desktop/main.html";
         }

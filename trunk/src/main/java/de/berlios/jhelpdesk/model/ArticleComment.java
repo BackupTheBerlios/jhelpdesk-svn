@@ -15,98 +15,161 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ArticleComment {
-	
-	private Long articleCommentId;
-	private Long articleId;
-	private User authorId;
-	private Date createDate;
-	private String title;
-	private String body;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-	/**
-	 * @return Returns the articleCommentId.
-	 */
-	public Long getArticleCommentId() {
-		return articleCommentId;
-	}
+/**
+ *
+ * @author jjhop
+ */
+@Entity
+@Table(name = "article_comment")
+public class ArticleComment implements Serializable {
 
-	/**
-	 * @param articleCommentId The articleCommentId to set.
-	 */
-	public void setArticleCommentId(Long articleCommentId) {
-		this.articleCommentId = articleCommentId;
-	}
+    /**
+     *
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "article_comment_id")
+    private Long articleCommentId;
 
-	/**
-	 * @return Returns the articleId.
-	 */
-	public Long getArticleId() {
-		return articleId;
-	}
+    /**
+     * // TODO: migrujemy do article
+     */
+    private Long articleId;
 
-	/**
-	 * @param articleId The articleId to set.
-	 */
-	public void setArticleId(Long articleId) {
-		this.articleId = articleId;
-	}
+    /**
+     *
+     */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "author", referencedColumnName = "user_id")
+    private User authorId;
 
-	/**
-	 * @return Returns the authorId.
-	 */
-	public User getAuthorId() {
-		return authorId;
-	}
+    /**
+     *
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date")
+    private Date createDate;
 
-	/**
-	 * @param authorId The authorId to set.
-	 */
-	public void setAuthorId(User authorId) {
-		this.authorId = authorId;
-	}
+    /**
+     *
+     */
+    @Column(name = "title", length = 255)
+    private String title;
 
-	/**
-	 * @return Returns the createDate.
-	 */
-	public Date getCreateDate() {
-		return createDate;
-	}
+    /**
+     * 
+     */
+    @Column(name = "body")
+    private String body;
 
-	/**
-	 * @param createDate The createDate to set.
-	 */
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    /**
+     *
+     * @return
+     */
+    public Long getArticleCommentId() {
+        return articleCommentId;
+    }
 
-	/**
-	 * @return Returns the title.
-	 */
-	public String getTitle() {
-		return title;
-	}
+    /**
+     *
+     * @param articleCommentId
+     */
+    public void setArticleCommentId(Long articleCommentId) {
+        this.articleCommentId = articleCommentId;
+    }
 
-	/**
-	 * @param title The title to set.
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     *
+     * @return
+     */
+    public Long getArticleId() {
+        return articleId;
+    }
 
-	/**
-	 * @return Returns the body.
-	 */
-	public String getBody() {
-		return body;
-	}
+    /**
+     *
+     * @param articleId
+     */
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
+    }
 
-	/**
-	 * @param body The body to set.
-	 */
-	public void setBody(String body) {
-		this.body = body;
-	}
+    /**
+     *
+     * @return
+     */
+    public User getAuthorId() {
+        return authorId;
+    }
+
+    /**
+     * 
+     * @param authorId
+     */
+    public void setAuthorId(User authorId) {
+        this.authorId = authorId;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    /**
+     *
+     * @param createDate
+     */
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     *
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Zwraca zawartość pola body artykułu.
+     * 
+     * @return zawartość pola body artykułu
+     */
+    public String getBody() {
+        return body;
+    }
+
+    /**
+     * 
+     * @param body
+     */
+    public void setBody(String body) {
+        this.body = body;
+    }
 }

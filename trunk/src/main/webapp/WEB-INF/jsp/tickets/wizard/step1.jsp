@@ -25,7 +25,7 @@
 			</div>
 		</td>
 		<td id="middlecenter">
-			<form action="<c:url value="/newTicket.html"/>" method="post" enctype="multipart/form-data">
+			<form action="<c:url value="${formURL}"/>" method="post" enctype="multipart/form-data">
 				<table id="table2" cellspacing="0">
 					<tr>
 						<td class="tabtitle">Login:</td>
@@ -41,12 +41,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="tabtitle">Imie:</td>
-						<td style="width: 240px">
-							<c:if test="${ not empty hdticket.notifier }">
-							<c:out value="${hdticket.notifier.firstName}" />
-							</c:if>
-						</td>
+                        <td class="tabtitle">Imie:</td>
+                        <td style="width: 240px">
+                            <c:if test="${ not empty hdticket.notifier }">
+                                <c:out value="${hdticket.notifier.firstName}" />
+                            </c:if>
+                        </td>
 					</tr>
 					<tr>
 						<td class="tabtitle">Nazwisko: </td>

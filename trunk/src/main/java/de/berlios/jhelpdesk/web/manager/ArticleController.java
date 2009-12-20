@@ -97,13 +97,11 @@ public class ArticleController {
 
     @RequestMapping(value = "/manage/knowledge/article/edit.html", method = RequestMethod.GET)  
     public String prepareForm(
-                     @RequestParam(value = "articleId", required = false) Long articleId,
-                     @RequestParam(value = "categoryId", required = false) Long categoryId,
-                     ModelMap map) {
+                  @RequestParam(value = "articleId", required = false) Long articleId,
+                  @RequestParam(value = "categoryId", required = false) Long categoryId,
+                  ModelMap map) {
 
-        Article article = (articleId == null) 
-            ? new Article()
-            : articleDAO.getById(articleId);
+        Article article = (articleId == null) ? new Article() : articleDAO.getById(articleId);
         article.setArticleSectionId(categoryId);
         map.addAttribute("article", article);
         return "manage/knowledge/article/edit";
@@ -113,7 +111,6 @@ public class ArticleController {
     public String processSubmit(@ModelAttribute("article") Article article,
                   BindingResult result, SessionStatus status, HttpSession session) {
 
-        //validator.validate(article, result);
         if (result.hasErrors()) {
             return "manage/knowledge/article/edit";
         }

@@ -76,8 +76,8 @@ public enum EventType {
     COMMENTADDEVENT(9, "Dodanie komentarza.");
 
     /**
-     * Liczbowy identyfikator zdarzenia. Za jego pomocą można zapisywać je w
-     * bazie danych.
+     * Liczbowy identyfikator zdarzenia. Za jego pomocą można
+     * zapisywać je w bazie danych.
      */
     private final int code;
 

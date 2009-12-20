@@ -32,7 +32,29 @@ import java.util.List;
  * 
  * @author jjhop
  */
-public class Role {
+public enum Role {
+
+    /**
+     * Rola CLIENT. Użytkownik w tej roli może przede wszystkim zgłaszać błędy. Może także
+     * w ograniczony sposób korzystać z pozostałych części systemu, nie może jednak edytować
+     * nic poza częścią swoich danych osobowych.
+     */
+    CLIENT(1, "Użytkownik"),
+    
+    /**
+     * Rola TICKETKILLER. Uzytkownik w tej roli może zgłaszać problemy w swoim imieniu, oraz
+     * w imieniu innych użytkowników. Może także w pewnym zakresie edytować zgłoszenia
+     * (np. przypisywać je do rozwiązania przez siebie ale nie przez innych użytkowników).
+     * Może także edytować wiele innych elementów systemu.
+     */
+    TICKETKILLER(10, "Pracownik helpdesku"),
+
+    /**
+     * Rola MANAGER. Użytkownik z nieograniczonymi uprawnieniami w systemie. Może zmieniać role
+     * innych użytkowników, przypisywać zgłoszenia do rozwiązania przez dowolnego użytkownika
+     * z rolą TICKETKILLER. W pełni może edytować wszystkie obiekty w systemie.
+     */
+    MANAGER(100, "Helpdesk manager");
 
     /**
      * Liczba, za pomocą której rola może być przedstawiana w bazie danych.
@@ -48,29 +70,6 @@ public class Role {
      * Lista wszystkich dostępnych ról.
      */
     private final static List<Role> roles;
-    
-    /**
-     * Rola CLIENT. Użytkownik w tej roli może przede wszystkim zgłaszać błędy. Może także
-     * w ograniczony sposób korzystać z pozostałych części systemu, nie może jednak edytować
-     * nic poza częścią swoich danych osobowych.
-     */
-    public static final Role CLIENT = new Role(1, "Użytkownik");
-
-    /**
-     * Rola TICKETKILLER. Uzytkownik w tej roli może zgłaszać problemy w swoim imieniu, oraz
-     * w imieniu innych użytkowników. Może także w pewnym zakresie edytować zgłoszenia
-     * (np. przypisywać je do rozwiązania przez siebie ale nie przez innych użytkowników).
-     * Może także edytować wiele innych elementów systemu.
-     */
-    public static final Role TICKETKILLER = new Role(10, "Pracownik helpdesku");
-
-    /**
-     * Rola MANAGER. Użytkownik z nieograniczonymi uprawnieniami w systemie. Może zmieniać role
-     * innych użytkowników, przypisywać zgłoszenia do rozwiązania przez dowolnego użytkownika
-     * z rolą TICKETKILLER. W pełni może edytować wszystkie obiekty w systemie.
-     */
-    public static final Role MANAGER = new Role(100, "Helpdesk manager");
-
 
     static {
         // początkowa inicjalizacja listy wszystkich ról w systemie
@@ -172,4 +171,10 @@ public class Role {
     public int getRoleCode() {
         return code;
     }
+
+    @Override
+    public String toString() {
+        return roleName;
+    }
+
 }

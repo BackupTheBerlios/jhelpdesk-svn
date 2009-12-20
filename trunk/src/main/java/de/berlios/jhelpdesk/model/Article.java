@@ -15,144 +15,207 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-public class Article {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-	private Long articleId;
-	private Long articleSectionId;
-	private User author;
-	private Date createDate;
-	private String title;
-	private String lead;
-	private String body;
-	private Set<ArticleComment> comments;
-	private Set<Ticket> associatedTickets;
+/**
+ *
+ * @author jjhop
+ */
+@Entity
+@Table(name = "article")
+public class Article implements Serializable {
 
-	/**
-	 * @return Returns the createDate.
-	 */
-	public Date getCreateDate() {
-		return createDate;
-	}
+    /**
+     *
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "article_id")
+    private Long articleId;
 
-	/**
-	 * @param createDate The createDate to set.
-	 */
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    /**
+     * // TODO: przemigrować do ArticleCategory
+     */
+    private Long articleSectionId;
 
-	/**
-	 * @return Returns the articleId.
-	 */
-	public Long getArticleId() {
-		return articleId;
-	}
+    /**
+     *
+     */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User author;
 
-	/**
-	 * @param articleId The articleId to set.
-	 */
-	public void setArticleId(Long articleId) {
-		this.articleId = articleId;
-	}
+    /**
+     *
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date")
+    private Date createDate;
 
-	/**
-	 * @return Returns the title.
-	 */
-	public String getTitle() {
-		return title;
-	}
+    /**
+     *
+     */
+    @Column(name = "title")
+    private String title;
 
-	/**
-	 * @param title The title to set.
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     *
+     */
+    @Column(name = "lead")
+    private String lead;
 
-	/**
-	 * @return Returns the articleSectionId.
-	 */
-	public Long getArticleSectionId() {
-		return articleSectionId;
-	}
+    /**
+     *
+     */
+    @Column(name = "body")
+    private String body;
 
-	/**
-	 * @param articleSectionId The articleSectionId to set.
-	 */
-	public void setArticleSectionId(Long articleSectionId) {
-		this.articleSectionId = articleSectionId;
-	}
+    /**
+     *
+     */
+    private Set<ArticleComment> comments;
 
-	/**
-	 * @return Returns the author.
-	 */
-	public User getAuthor() {
-		return author;
-	}
+    /**
+     *
+     */
+    private Set<Ticket> associatedTickets;
 
-	/**
-	 * @param author The author to set.
-	 */
-	public void setAuthor(User author) {
-		this.author = author;
-	}
+    /**
+     * @return Returns the createDate.
+     */
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-	/**
-	 * @return Returns the body.
-	 */
-	public String getBody() {
-		return body;
-	}
+    /**
+     * @param createDate The createDate to set.
+     */
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	/**
-	 * @param body The body to set.
-	 */
-	public void setBody(String body) {
-		this.body = body;
-	}
+    /**
+     * @return Returns the articleId.
+     */
+    public Long getArticleId() {
+        return articleId;
+    }
 
-	/**
-	 * @return Returns the lead.
-	 */
-	public String getLead() {
-		return lead;
-	}
+    /**
+     * @param articleId The articleId to set.
+     */
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
+    }
 
-	/**
-	 * @param lead The lead to set.
-	 */
-	public void setLead(String lead) {
-		this.lead = lead;
-	}
+    /**
+     * @return Returns the title.
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	/**
-	 * @return Returns the comments.
-	 */
-	public Set<ArticleComment> getComments() {
-		return comments;
-	}
+    /**
+     * @param title The title to set.
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	/**
-	 * @param comments The comments to set.
-	 */
-	public void setComments(Set<ArticleComment> comments) {
-		this.comments = comments;
-	}
+    /**
+     * @return Returns the articleSectionId.
+     */
+    public Long getArticleSectionId() {
+        return articleSectionId;
+    }
 
-	/**
-	 * @return Returns the associatedTickets.
-	 */
-	public Set<Ticket> getAssociatedTickets() {
-		return associatedTickets;
-	}
+    /**
+     * @param articleSectionId The articleSectionId to set.
+     */
+    public void setArticleSectionId(Long articleSectionId) {
+        this.articleSectionId = articleSectionId;
+    }
 
-	/**
-	 * @param associatedTickets The associatedTickets to set.
-	 */
-	public void setAssociatedTickets(Set<Ticket> associatedTickets) {
-		this.associatedTickets = associatedTickets;
-	}
+    /**
+     * @return Returns the author.
+     */
+    public User getAuthor() {
+        return author;
+    }
+
+    /**
+     * @param author The author to set.
+     */
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    /**
+     * @return Returns the body.
+     */
+    public String getBody() {
+        return body;
+    }
+
+    /**
+     * @param body The body to set.
+     */
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    /**
+     * @return Returns the lead.
+     */
+    public String getLead() {
+        return lead;
+    }
+
+    /**
+     * @param lead The lead to set.
+     */
+    public void setLead(String lead) {
+        this.lead = lead;
+    }
+
+    /**
+     * @return Returns the comments.
+     */
+    public Set<ArticleComment> getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments The comments to set.
+     */
+    public void setComments(Set<ArticleComment> comments) {
+        this.comments = comments;
+    }
+
+    /**
+     * @return Returns the associatedTickets.
+     */
+    public Set<Ticket> getAssociatedTickets() {
+        return associatedTickets;
+    }
+
+    /**
+     * @param associatedTickets The associatedTickets to set.
+     */
+    public void setAssociatedTickets(Set<Ticket> associatedTickets) {
+        this.associatedTickets = associatedTickets;
+    }
 }

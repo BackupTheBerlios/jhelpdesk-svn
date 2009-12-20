@@ -15,6 +15,21 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -30,56 +45,91 @@ import org.apache.commons.codec.digest.DigestUtils;
  *
  * @author jjhop
  */
-public class User {
+@Entity
+@Table(name = "users")
+@NamedQueries({
+    @NamedQuery(name = "User.byLoginAndHashedPassoword", query = "SELECT u FROM User u WHERE u.login=? AND u.hashedPassword=?"),
+    @NamedQuery(name = "User.byLogin", query = "SELECT u FROM User u WHERE u.login=?"),
+    @NamedQuery(name = "User.allOrderByLastName", query = "SELECT u FROM User u ORDER by u.lastName ASC")
+})
+public class User implements Serializable {
 
     /**
      * Identyfikator bazodanowy użytkownika.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     /**
      * Login użytkownika. Musi być unikalny w obrębie systemu.
      */
+    @Column(name = "login", unique = true, updatable = false, nullable = false)
     private String login;
     
     /**
      * Zahaszowane hasło użytkownika.
      */
+    @Column(name = "passw")
     private String hashedPassword;
 
     /**
      * Imię użytkownika.
      */
+    @Column(name = "first_name")
     private String firstName;
 
     /**
      * Nazwisko użytkownika.
      */
+    @Column(name = "last_name")
     private String lastName;
 
     /**
      * Rola użytkownika.
+     *
+     * @see #roleAsInt
+     * @see #populateRoleDB()
+     * @see #populateRoleTransient()
      */
+    @Transient
     private Role userRole;
+
+    /**
+     * Pole służące do utrwalania w bazie roli użytkownik.
+     * Niedostępne za pomocą żadnych metod i używane tylko przez JPA.
+     *
+     * @see #populateRoleDB()
+     * @see #populateRoleTransient()
+     */
+    @Basic
+    @Column(name = "role") // TODO: zmienić role na user_role
+    @SuppressWarnings("unused")
+    private int roleAsInt;
 
     /**
      * Email użytkownika. Email nie może być pusty i jest unikalny w obrębie aplikacji.
      */
+    @Column(name = "email")
     private String email;
 
     /**
      * Numer kontaktowy użytkownika.
      */
+    @Column(name = "phone")
     private String phone;
 
     /**
      * Numer telefonu komórkowego użytkownika.
      */
+    @Column(name = "mobile")
     private String mobile;
 
     /**
      * Przechowuje informację o tym, czy użytkownika może się logować.
      */
+    @Column(name = "is_active")
     private boolean isActive;
 
     /**
@@ -340,7 +390,7 @@ public class User {
      */
     @Override
     public String toString() {
-        return new StringBuilder("").append(firstName).append(" ").append(lastName).toString();
+        return new StringBuilder().append(firstName).append(" ").append(lastName).toString();
     }
 
     /**
@@ -354,5 +404,15 @@ public class User {
      */
     public String getFullName() {
         return toString();
+    }
+
+    @PrePersist
+    protected void populateRoleDB() {
+        this.roleAsInt = this.userRole.toInt();
+    }
+
+    @PostLoad
+    protected void populateRoleTransient() {
+        this.userRole = Role.fromInt(this.roleAsInt);
     }
 }

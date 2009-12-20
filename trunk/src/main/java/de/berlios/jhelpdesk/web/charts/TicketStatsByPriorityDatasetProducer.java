@@ -31,47 +31,46 @@ import de.laures.cewolf.tooltips.PieToolTipGenerator;
 import de.laures.cewolf.tooltips.ToolTipGenerator;
 
 public class TicketStatsByPriorityDatasetProducer implements DatasetProducer, PieToolTipGenerator,
-		PieSectionLinkGenerator, PieSectionLabelGenerator, ToolTipGenerator, Serializable {
+        PieSectionLinkGenerator, PieSectionLabelGenerator, ToolTipGenerator, Serializable {
 
-	private static final long serialVersionUID = 5634162045009465748L;
+    private static final long serialVersionUID = 5634162045009465748L;
+    private Map<String, Long> chartData;
 
-	private Map<String, Long> chartData;
+    @SuppressWarnings("unchecked")
+    public TicketStatsByPriorityDatasetProducer(Map chartData) {
+        this.chartData = chartData;
+    }
 
-	@SuppressWarnings("unchecked")
-	public TicketStatsByPriorityDatasetProducer(Map chartData) {
-		this.chartData = chartData;
-	}
+    public Object produceDataset(@SuppressWarnings("unchecked") Map arg0) throws DatasetProduceException {
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        for (String key : chartData.keySet()) {
+            dataset.setValue(key, chartData.get(key));
+        }
+        return dataset;
+    }
 
-	public Object produceDataset(@SuppressWarnings("unchecked") Map arg0) throws DatasetProduceException {
-		DefaultPieDataset dataset = new DefaultPieDataset();
-		for (String key : chartData.keySet()) {
-			dataset.setValue(key, chartData.get(key));
-		}
-		return dataset;
-	}
+    public boolean hasExpired(@SuppressWarnings("unchecked") Map arg0, Date arg1) {
+        return false;
+    }
 
-	public boolean hasExpired(@SuppressWarnings("unchecked") Map arg0, Date arg1) {
-		return false;
-	}
+    public String getProducerId() {
+        return "TicketStatsByPriorityDatasetProducer DatasetProducer";
+    }
 
-	public String getProducerId() {
-		return "TicketStatsByPriorityDatasetProducer DatasetProducer";
-	}
+    public String generateToolTip(PieDataset arg0, @SuppressWarnings("unchecked") Comparable arg1, int arg2) {
+        return null;
+    }
 
-	public String generateToolTip(PieDataset arg0, @SuppressWarnings("unchecked") Comparable arg1, int arg2) {
-		return null;
-	}
+    public String generateLink(Object arg0, Object arg1) {
+        return null;
+    }
 
-	public String generateLink(Object arg0, Object arg1) {
-		return null;
-	}
+    public String generateSectionLabel(PieDataset arg0, @SuppressWarnings("unchecked") Comparable arg1) {
+        return null;
+    }
 
-	public String generateSectionLabel(PieDataset arg0, @SuppressWarnings("unchecked") Comparable arg1) {
-		return null;
-	}
-
-	public AttributedString generateAttributedSectionLabel(PieDataset arg0,
-			@SuppressWarnings("unchecked") Comparable arg1) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    public AttributedString generateAttributedSectionLabel(PieDataset arg0,
+            @SuppressWarnings("unchecked") Comparable arg1) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

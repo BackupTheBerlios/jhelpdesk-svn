@@ -19,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -46,7 +47,12 @@ public class AnnouncementController {
     private AnnouncementValidator validator;
 
     @Autowired
+    @Qualifier("jdbc")
     private AnnouncementDAO announcementDAO;
+
+    @Autowired
+    @Qualifier("jpa")
+    private AnnouncementDAO announcementDAOJpa;
 
     /**
      * Wyświetla ogłoszenie na podstawie dostarczonego identyfikatora.
@@ -58,7 +64,7 @@ public class AnnouncementController {
     @RequestMapping("/announcement/show.html")
     public String showAnnouncement(@RequestParam("infoId") Long annId, ModelMap map) {
         try {
-            map.addAttribute("announcement", announcementDAO.getById(annId));
+            map.addAttribute("announcement", announcementDAOJpa.getById(annId));
         } catch (Exception e) {
             log.error(e);
             map.addAttribute("errorInfo", e.getMessage());
@@ -75,7 +81,7 @@ public class AnnouncementController {
      */
     @RequestMapping("/announcement/showAll.html")
     public String showAllAnnouncements(ModelMap map) {
-        map.addAttribute("announcements", announcementDAO.getAll());
+        map.addAttribute("announcements", announcementDAOJpa.getAll());
         return "announcement/showAll";
     }
 
@@ -88,7 +94,7 @@ public class AnnouncementController {
     @RequestMapping("/announcement/remove.html")
     public String removeAnnouncement(@RequestParam("infoId") Long annId) {
         try {
-            announcementDAO.delete(annId);
+            announcementDAOJpa.delete(annId);
         } catch (Exception e) {
             log.error(e);
         }
@@ -119,7 +125,7 @@ public class AnnouncementController {
         if (annId == null) {
             map.addAttribute("announcement", new Announcement());
         } else {
-            map.addAttribute("announcement", announcementDAO.getById(annId));
+            map.addAttribute("announcement", announcementDAOJpa.getById(annId));
         }
         return "announcement/edit";
     }
@@ -142,14 +148,15 @@ public class AnnouncementController {
      * @see SessionStatus
      */
     @RequestMapping(value = "/announcement/edit.html", method = RequestMethod.POST)
-    protected String processSubmit(@ModelAttribute("announcement") Announcement announcement,
+    protected String processSubmit(
+                     @ModelAttribute("announcement") Announcement announcement,
                      BindingResult result, SessionStatus status) {
 
         validator.validate(announcement, result);
         if (result.hasErrors()) {
             return "announcement/edit";
         }
-        announcementDAO.save(announcement);
+        announcementDAOJpa.save(announcement);
         status.setComplete();
         return "redirect:showAll.html";
     }

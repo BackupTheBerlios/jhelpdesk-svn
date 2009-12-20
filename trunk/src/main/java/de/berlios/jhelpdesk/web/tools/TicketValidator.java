@@ -15,25 +15,34 @@
  */
 package de.berlios.jhelpdesk.web.tools;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import de.berlios.jhelpdesk.model.Ticket;
 
+@Component("ticketValidator")
 public class TicketValidator implements Validator {
-	
-	// implementujemy Validator.supports(Class), dlatego SuppressWarnings
-	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { 
-		return Ticket.class.equals(clazz);
-	}
 
-	public void validate(Object command, Errors errors) {
-		Ticket ticket = (Ticket) command;
-		if (ticket.getSubject().trim().isEmpty())
-			errors.reject("pofakany.subject"); // TODO: to chyba do wymiany, nie?
-		if (ticket.getTicketPriority() == null)
-			errors.reject("pofakany.priorytet");
-		if (ticket.getTicketCategory() == null)
-			errors.reject("pofakana.kategoria");
-	}
+    // implementujemy Validator.supports(Class), dlatego SuppressWarnings
+    public boolean supports(@SuppressWarnings("unchecked") Class clazz) {
+        return Ticket.class.equals(clazz);
+    }
+
+    public void validate(Object command, Errors errors) {
+        validateSubject(command, errors);
+        validateDescription(command, errors);
+    }
+
+    public void validateSubject(Object command, Errors errors) {
+        if (((Ticket) command).getSubject().trim().isEmpty()) {
+            errors.reject("pofakany.subject"); // TODO: to chyba do wymiany, nie?
+        }
+    }
+
+    public void validateDescription(Object command, Errors errors) {
+        if (((Ticket) command).getDescription().trim().isEmpty()) {
+            errors.reject("pofakany.subject"); // TODO: to chyba do wymiany, nie?
+        }
+    }
 }

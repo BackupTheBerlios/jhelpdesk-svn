@@ -15,40 +15,84 @@
  */
 package de.berlios.jhelpdesk.model;
 
+/**
+ *
+ * @author jjhop
+ */
 public enum TicketPriority {
-	
-	NORMAL(1, "normalny"),
-	IMPORTANT(2, "wazny"),
-	MAJOR(3, "bardzo wazny"),
-	CRITICAL(4, "krytyczny");
-	
-	private final int priorityId;
-	private final String priorityName;
 
-	private TicketPriority(int id, String name) {
-		this.priorityId = id;
-		this.priorityName = name;
-	}
+    /**
+     *
+     */
+    NORMAL(1, "normalny"),
 
-	public int getPriorityId() {
-		return priorityId;
-	}
+    /**
+     *
+     */
+    IMPORTANT(2, "wazny"),
 
-	public String getPriorityName() {
-		return priorityName;
-	}
-	
-	public static TicketPriority fromInt(int id) {
-		for (TicketPriority value : TicketPriority.values()) {
-			if (value.getPriorityId() == id)
-				return value;
-		}
-		throw new IllegalArgumentException("Wartosc spoza zakresu. Dostepne wartosci to: 1, 2, 3, 4" );
-	}
-	
-	@Override
-	public String toString() {
-		return priorityName;
-	}
+    /**
+     *
+     */
+    MAJOR(3, "bardzo wazny"),
 
+    /**
+     *
+     */
+    CRITICAL(4, "krytyczny");
+
+    /**
+     *
+     */
+    private final int priorityId;
+
+    /**
+     *
+     */
+    private final String priorityName;
+
+    /**
+     * 
+     * @param id
+     * @param name
+     */
+    private TicketPriority(int id, String name) {
+        this.priorityId = id;
+        this.priorityName = name;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public int getPriorityId() {
+        return priorityId;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getPriorityName() {
+        return priorityName;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public static TicketPriority fromInt(int id) {
+        for (TicketPriority value : TicketPriority.values()) {
+            if (value.getPriorityId() == id) {
+                return value;
+            }
+        }
+        throw new IllegalArgumentException("Wartosc spoza zakresu. Dostepne wartosci to: 1, 2, 3, 4");
+    }
+
+    @Override
+    public String toString() {
+        return priorityName;
+    }
 }

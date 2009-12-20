@@ -65,13 +65,13 @@
                                         <td><c:out value="${ticket.notifier}"/></td>
                                         <td>
                                             <c:choose>
-										        <c:when test="${ticket.ticketCategory.ticketCategoryId == 0}">
+                                                <c:when test="${ticket.ticketCategory.ticketCategoryId == 0}">
 										            Brak
-										        </c:when>
-										        <c:otherwise>
-										            <c:out value="${ticket.ticketCategory}"/>
-										        </c:otherwise>
-										    </c:choose>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:out value="${ticket.ticketCategory}"/>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td>
                                         <td><c:out value="${ticket.ticketPriority}"/></td>
                                         <td><fmt:formatDate value="${ticket.createDate}" pattern="dd/MM/yyyy HH:mm"/></td>

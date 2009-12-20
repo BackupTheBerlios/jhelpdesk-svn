@@ -30,42 +30,45 @@ import de.laures.cewolf.DatasetProducer;
 
 public class TicketsStatsByCategoryFullDatasetProducer implements DatasetProducer {
 
-	private static final long serialVersionUID = -5846059145088380422L;
-	// private Map<String,Long> chartData;
-	private SortedSet<Entry<String, Long>> ss;
+    private static final long serialVersionUID = -5846059145088380422L;
+    // private Map<String,Long> chartData;
+    private SortedSet<Entry<String, Long>> ss;
 
-	public TicketsStatsByCategoryFullDatasetProducer(Map<String, Long> chartData) {
-		// this.chartData = chartData;
-		ss = new TreeSet<Entry<String, Long>>(new Comparator<Entry<String, Long>>() {
-			public int compare(Entry<String, Long> o1, Entry<String, Long> o2) {
-				return o2.getValue().compareTo(o1.getValue());
-			}
-		});
-		ss.addAll(chartData.entrySet());
-	}
+    public TicketsStatsByCategoryFullDatasetProducer(Map<String, Long> chartData) {
+        // this.chartData = chartData;
+        ss = new TreeSet<Entry<String, Long>>(new Comparator<Entry<String, Long>>() {
 
-	public String getProducerId() {
-		return String.valueOf(serialVersionUID);
-	}
+            public int compare(Entry<String, Long> o1, Entry<String, Long> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+        ss.addAll(chartData.entrySet());
+    }
 
-	public boolean hasExpired(@SuppressWarnings("unchecked") Map arg0, Date date) {
-		// TODO: należy zaimplemetowac wygasanie
-		return true;
-	}
+    public String getProducerId() {
+        return String.valueOf(serialVersionUID);
+    }
 
-	public Object produceDataset(@SuppressWarnings("unchecked") Map arg0) throws DatasetProduceException {
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		int count = 0;
-		long otherSum = 0;
-		for (Iterator<Entry<String, Long>> it = ss.iterator(); it.hasNext(); count++) {
-			Entry<String, Long> entry = it.next();
-			if (count < 10)
-				dataset.addValue(entry.getValue(), "", entry.getKey());
-			else
-				otherSum += entry.getValue();
-		}
-		if (count > 10)
-			dataset.addValue(otherSum, "", "Pozostałe...");
-		return dataset;
-	}
+    public boolean hasExpired(@SuppressWarnings("unchecked") Map arg0, Date date) {
+        // TODO: należy zaimplemetowac wygasanie
+        return true;
+    }
+
+    public Object produceDataset(@SuppressWarnings("unchecked") Map arg0) throws DatasetProduceException {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        int count = 0;
+        long otherSum = 0;
+        for (Iterator<Entry<String, Long>> it = ss.iterator(); it.hasNext(); count++) {
+            Entry<String, Long> entry = it.next();
+            if (count < 10) {
+                dataset.addValue(entry.getValue(), "", entry.getKey());
+            } else {
+                otherSum += entry.getValue();
+            }
+        }
+        if (count > 10) {
+            dataset.addValue(otherSum, "", "Pozostałe...");
+        }
+        return dataset;
+    }
 }

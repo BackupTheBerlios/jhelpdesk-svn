@@ -15,154 +15,215 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author jjhop
  */
-public class TicketCategory implements Comparable<TicketCategory> {
+@Entity
+@Table(name = "ticket_category")
+public class TicketCategory implements Serializable, Comparable<TicketCategory> {
 
-	private Long ticketCategoryId;
-	private Long parentCategory; // != null jesli jest podkategorią
-	private String categoryName;
-	private String categoryDesc;
-	private Long left;
-	private Long right;
-	private Integer depth;
-	private boolean isActive;
+    /**
+     *
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
+    private Long ticketCategoryId;
 
-	public TicketCategory() {}
+    /**
+     *
+     */
+    @Column(name = "parent_category") // TODO: przerobić na obiekt po prostu
+    private Long parentCategory; // != null jesli jest podkategorią
 
-	public TicketCategory(int categoryId, String categoryName) {
-		this.ticketCategoryId = new Long(categoryId);
-		this.categoryName = categoryName;
-	}
+    /**
+     *
+     */
+    @Column(name = "category_name")
+    private String categoryName;
 
-	/**
-	 * @return Returns the ticketCategoryId.
-	 */
-	public Long getTicketCategoryId() {
-		return ticketCategoryId;
-	}
+    /**
+     *
+     */
+    @Column(name = "category_desc")
+    private String categoryDesc;
 
-	/**
-	 * @param ticketCategoryId The ticketCategoryId to set.
-	 */
-	public void setTicketCategoryId(Long ticketCategoryId) {
-		this.ticketCategoryId = ticketCategoryId;
-	}
+    /**
+     *
+     */
+    @Column(name = "t_left")
+    private Long left;
 
-	/**
-	 * @return Returns the categoryDesc.
-	 */
-	public String getCategoryDesc() {
-		return categoryDesc;
-	}
+    /**
+     *
+     */
+    @Column(name = "t_right")
+    private Long right;
 
-	/**
-	 * @param categoryDesc
-	 *            The categoryDesc to set.
-	 */
-	public void setCategoryDesc(String categoryDesc) {
-		this.categoryDesc = categoryDesc;
-	}
+    /**
+     *
+     */
+    @Column(name = "t_depth")
+    private Integer depth;
 
-	/**
-	 * @return Returns the categoryName.
-	 */
-	public String getCategoryName() {
-		return categoryName;
-	}
+    /**
+     *
+     */
+    @Column(name = "is_active")
+    private boolean isActive;
 
-	/**
-	 * @param categoryName
-	 *            The categoryName to set.
-	 */
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
+    /**
+     *
+     */
+    public TicketCategory() {
+    }
 
-	/**
-	 * @return the depth
-	 */
-	public Integer getDepth() {
-		return depth;
-	}
+    /**
+     *
+     * @param categoryId
+     * @param categoryName
+     */
+    public TicketCategory(int categoryId, String categoryName) {
+        this.ticketCategoryId = new Long(categoryId);
+        this.categoryName = categoryName;
+    }
 
-	/**
-	 * @param depth
-	 *            the depth to set
-	 */
-	public void setDepth(Integer depth) {
-		this.depth = depth;
-	}
+    /**
+     * @return Returns the ticketCategoryId.
+     */
+    public Long getTicketCategoryId() {
+        return ticketCategoryId;
+    }
 
-	/**
-	 * @return the left
-	 */
-	public Long getLeft() {
-		return left;
-	}
+    /**
+     * @param ticketCategoryId The ticketCategoryId to set.
+     */
+    public void setTicketCategoryId(Long ticketCategoryId) {
+        this.ticketCategoryId = ticketCategoryId;
+    }
 
-	/**
-	 * @param left
-	 *            the left to set
-	 */
-	public void setLeft(Long left) {
-		this.left = left;
-	}
+    /**
+     * @return Returns the categoryDesc.
+     */
+    public String getCategoryDesc() {
+        return categoryDesc;
+    }
 
-	/**
-	 * @return the right
-	 */
-	public Long getRight() {
-		return right;
-	}
+    /**
+     * @param categoryDesc
+     *            The categoryDesc to set.
+     */
+    public void setCategoryDesc(String categoryDesc) {
+        this.categoryDesc = categoryDesc;
+    }
 
-	/**
-	 * @param right
-	 *            the right to set
-	 */
-	public void setRight(Long right) {
-		this.right = right;
-	}
+    /**
+     * @return Returns the categoryName.
+     */
+    public String getCategoryName() {
+        return categoryName;
+    }
 
-	/**
-	 * @return Returns the isActive.
-	 */
-	public boolean isActive() {
-		return isActive;
-	}
+    /**
+     * @param categoryName
+     *            The categoryName to set.
+     */
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
-	/**
-	 * @param isActive
-	 *            The isActive to set.
-	 */
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
+    /**
+     * @return the depth
+     */
+    public Integer getDepth() {
+        return depth;
+    }
 
-	/**
-	 * @return Returns the parentCategory.
-	 */
-	public Long getParentCategory() {
-		return parentCategory;
-	}
+    /**
+     * @param depth
+     *            the depth to set
+     */
+    public void setDepth(Integer depth) {
+        this.depth = depth;
+    }
 
-	/**
-	 * @param parentCategory
-	 *            The parentCategory to set.
-	 */
-	public void setParentCategory(Long parentCategory) {
-		this.parentCategory = parentCategory;
-	}
+    /**
+     * @return the left
+     */
+    public Long getLeft() {
+        return left;
+    }
+
+    /**
+     * @param left
+     *            the left to set
+     */
+    public void setLeft(Long left) {
+        this.left = left;
+    }
+
+    /**
+     * @return the right
+     */
+    public Long getRight() {
+        return right;
+    }
+
+    /**
+     * @param right
+     *            the right to set
+     */
+    public void setRight(Long right) {
+        this.right = right;
+    }
+
+    /**
+     * @return Returns the isActive.
+     */
+    public boolean isActive() {
+        return isActive;
+    }
+
+    /**
+     * @param isActive
+     *            The isActive to set.
+     */
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    /**
+     * @return Returns the parentCategory.
+     */
+    public Long getParentCategory() {
+        return parentCategory;
+    }
+
+    /**
+     * @param parentCategory
+     *            The parentCategory to set.
+     */
+    public void setParentCategory(Long parentCategory) {
+        this.parentCategory = parentCategory;
+    }
 
     @Override
-	public String toString() {
-		return categoryName;
-	}
+    public String toString() {
+        return categoryName;
+    }
 
-	public boolean hasChildNodes() {
-		return left + 1 != right;
-	}
+    public boolean hasChildNodes() {
+        return left + 1 != right;
+    }
 
     /**
      * {@inheritDoc }

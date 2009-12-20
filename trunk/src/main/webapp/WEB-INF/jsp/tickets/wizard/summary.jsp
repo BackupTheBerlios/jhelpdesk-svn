@@ -25,7 +25,7 @@
 			</div>
 		</td>
 		<td id="middlecenter">
-			<form action="<c:url value="/newTicket.html"/>" method="post" enctype="multipart/form-data">
+			<form action="<c:url value="${formURL}"/>" method="post" enctype="multipart/form-data">
 				<table id="table2" class="summary standardtable" cellspacing="0">
 					<tr>
 						<th class="lastcol" colspan="2">Powiadamiający</th>

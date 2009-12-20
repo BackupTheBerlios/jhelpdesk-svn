@@ -16,6 +16,7 @@
 package de.berlios.jhelpdesk.web.manager.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +37,7 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 public class UserController {
 
     @Autowired
+    @Qualifier("jdbc")
     private UserDAO userDAO;
 
     /**

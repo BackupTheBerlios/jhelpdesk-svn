@@ -15,13 +15,26 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -39,33 +52,46 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author jjhop
  */
-public class Ticket {
+@Entity
+@Table(name = "ticket")
+public class Ticket implements Serializable {
 
     /**
      * Identyfikator zgłoszenia w bazie danych.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ticket_id")
     private Long ticketId;
 
     /**
      * Data utworzenia zgłoszenia.
      */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date")
     private Date createDate;
 
     /**
      * Użytkownik, który zgłosił problem.
      */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "notifyier", referencedColumnName = "user_id")
     private User notifier;
 
     /**
      * Użytkownik, który rozwiązuje problem. Może być {@code null} jeśli zgłoszenie jeszcze
      * nie zostało do nikogo przypisane.
      */
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "saviour", referencedColumnName = "user_id")
     private User saviour;
 
     /**
      * Użytkownik, który wprowadził zgłoszenie. Zgłoszenie może być wprowadzone do systemu
      * na kilka sposobów. Zawsze jednak akt zgłoszenie związany jest z jakimś użytkownikiem.
      */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "inputer", referencedColumnName = "user_id")
     private User inputer;
 
     /**
@@ -77,17 +103,20 @@ public class Ticket {
     /**
      * Krótki opis zgłoszenia. Max 256 znaków.
      */
+    @Column(name = "subject")
     private String subject;
 
     /**
      * Dokładny opis zgłoszenia. Max 8192 znaki.
      */
+    @Column(name = "description")
     private String description;
 
     /**
      * Szczegółowy opis zgłoszenia. Jeśli problem jest powtarzalny i można opisać 
      * sposób w jaki go wywołać, to właśnie tutaj będzie on zapisany.
      */
+    @Column(name = "step_by_step")
     private String stepByStep;
 
     /**
@@ -109,6 +138,7 @@ public class Ticket {
      *
      * @see TicketCategory
      */
+    @ManyToOne
     private TicketCategory ticketCategory;
     
     /**

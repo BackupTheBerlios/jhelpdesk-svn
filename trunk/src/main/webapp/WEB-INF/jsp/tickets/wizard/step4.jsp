@@ -25,7 +25,7 @@
 			</div>
 		</td>
 		<td id="middlecenter">
-			<form action="<c:url value="/newTicket.html"/>" method="post" enctype="multipart/form-data">
+			<form action="<c:url value="${formURL}"/>" method="post" enctype="multipart/form-data">
 				<c:if test="${not empty hdticket.addFilesList}">
 				<table id="table2" class="files standardtable" cellspacing="0">
 					<tr class="header">

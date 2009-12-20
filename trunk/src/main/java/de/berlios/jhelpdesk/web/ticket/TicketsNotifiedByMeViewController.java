@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -47,13 +48,13 @@ import de.berlios.jhelpdesk.web.commons.PagingParamsEncoder;
 import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 import de.berlios.jhelpdesk.web.form.ShowTicketsNotifiedByMeFilterForm;
 
+@Deprecated
 public class TicketsNotifiedByMeViewController extends SimpleFormController {
-	
-	private static Log log = LogFactory.getLog(TicketsNotifiedByMeViewController.class);
-	private static int PAGE_SIZE = 25;
 
-	private SimpleDateFormat dateFormat;
-	private ShowTicketsNotifiedByMeFilterForm filterForm;
+    private static Log log = LogFactory.getLog(TicketsNotifiedByMeViewController.class);
+    private static int PAGE_SIZE = 25;
+    private SimpleDateFormat dateFormat;
+    private ShowTicketsNotifiedByMeFilterForm filterForm;
 
     @Autowired
     private TicketDAO ticketDao;
@@ -62,46 +63,47 @@ public class TicketsNotifiedByMeViewController extends SimpleFormController {
     private TicketCategoryDAO ticketCategoryDAO;
 
     @Autowired
+    @Qualifier("jdbc")
     private UserDAO userDAO;
 
-	private Map<String, Object> refData;
+    private Map<String, Object> refData;
 
     @Override
-	protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
-		log.info("initBinder()->start");
-		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-		log.info(" initBinder()->end");
-	}
+    protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
+        log.info("initBinder()->start");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        log.info(" initBinder()->end");
+    }
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     @Override
-	protected void onBind(HttpServletRequest req, Object command) {
-		log.info("onBind()->start ");
-		filterForm = (ShowTicketsNotifiedByMeFilterForm) command;
+    protected void onBind(HttpServletRequest req, Object command) {
+        log.info("onBind()->start ");
+        filterForm = (ShowTicketsNotifiedByMeFilterForm) command;
 
-		filterForm.setTicketCategoryDAO(ticketCategoryDAO);
-		filterForm.setUserDAO(userDAO);
+        filterForm.setTicketCategoryDAO(ticketCategoryDAO);
+        filterForm.setUserDAO(userDAO);
 
-		// prepareDate( req );
+        // prepareDate( req );
 
-		filterForm.setStatusesFromRequest(req);
-		filterForm.setPrioritiesFromRequest(req);
-		filterForm.setCategoriesFromRequest(req);
-		filterForm.setSavioursFromRequest(req);
+        filterForm.setStatusesFromRequest(req);
+        filterForm.setPrioritiesFromRequest(req);
+        filterForm.setCategoriesFromRequest(req);
+        filterForm.setSavioursFromRequest(req);
 
-		log.info("onBind()->end ");
-	}
+        log.info("onBind()->end ");
+    }
 
-	/**
-	 * tutaj chyba trzeba zapakowa� do view zestaw wszystkich interesujacych zg�osze� przynajmniej na poczatek bo potem
-	 * w onSubmit bedziemy robic to jeszcze raz
-	 */
-	@SuppressWarnings("unchecked")
+    /**
+     * tutaj chyba trzeba zapakowa� do view zestaw wszystkich interesujacych zg�osze� przynajmniej na poczatek bo potem
+     * w onSubmit bedziemy robic to jeszcze raz
+     */
+    @SuppressWarnings("unchecked")
     @Override
-	protected Map referenceData(HttpServletRequest request) throws ServletException {
+    protected Map referenceData(HttpServletRequest request) throws ServletException {
         try {
             if (refData == null) {
                 refData = new HashMap();
@@ -114,10 +116,12 @@ public class TicketsNotifiedByMeViewController extends SimpleFormController {
                 if (filterForm != null) {
                     ShowTicketsFilterForm ff = new ShowTicketsFilterForm();
                     ff.setCategories(filterForm.getCategories());
-                    if (filterForm.getStartDate() != null)
+                    if (filterForm.getStartDate() != null) {
                         ff.setStartDate(dateFormat.format(filterForm.getStartDate()));
-                    if (filterForm.getEndDate() != null)
+                    }
+                    if (filterForm.getEndDate() != null) {
                         ff.setEndDate(dateFormat.format(filterForm.getEndDate()));
+                    }
                     List<User> n = new ArrayList<User>();
                     n.add((User) request.getSession().getAttribute("user"));
                     ff.setNotifyiers(n);
@@ -132,69 +136,70 @@ public class TicketsNotifiedByMeViewController extends SimpleFormController {
                 }
             }
             return refData;
-        } catch(DataAccessException ex) {
+        } catch (DataAccessException ex) {
             throw new ServletException(ex);
         }
-	}
+    }
 
-	/**
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
+    /**
+     *
+     */
+    @SuppressWarnings("unchecked")
     @Override
-	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse res, Object command,
-			BindException errors) throws Exception {
-		log.info("onSubmit()->start");
-		ModelAndView mav = new ModelAndView("ticketsNotifiedByMeList");
-		ShowTicketsFilterForm ff = new ShowTicketsFilterForm();
-		if (refData == null) {
-			refData = new HashMap();
-			refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
-			refData.put("priorities", TicketPriority.values());
-			refData.put("statuses", TicketStatus.getAllStatuses());
-			refData.put("users", userDAO.getAllUser());
-			refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
-			if (filterForm != null) {
-				// refData.put( "tickets", ticketDao.getTicketsWithFilter( filterForm ) );
-				ff.setCategories(filterForm.getCategories());
-				if (filterForm.getStartDate() != null)
-					ff.setStartDate(dateFormat.format(filterForm.getStartDate()));
-				if (filterForm.getEndDate() != null)
-					ff.setEndDate(dateFormat.format(filterForm.getEndDate()));
-				List<User> n = new ArrayList<User>();
-				n.add((User) request.getSession().getAttribute("user"));
-				ff.setNotifyiers(n);
-				ff.setPriorities(filterForm.getPriorities());
-				// ff.setSaviours( filterForm.getSaviours() );
-				ff.setStatuses(filterForm.getStatuses());
-				PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "p_id", request, PAGE_SIZE);
-				refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(ff));
-				refData.put("tickets", ticketDao.getTicketsWithFilter(ff, PAGE_SIZE, enc.getOffset()));
-			} else {
-				refData.put("tickets", ticketDao.getAllTickets());
-			}
-		}
-		refData.put("filterForm", command);
-		mav.addAllObjects(refData);
-		return mav;
-	}
+    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse res, Object command,
+            BindException errors) throws Exception {
+        log.info("onSubmit()->start");
+        ModelAndView mav = new ModelAndView("ticketsNotifiedByMeList");
+        ShowTicketsFilterForm ff = new ShowTicketsFilterForm();
+        if (refData == null) {
+            refData = new HashMap();
+            refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
+            refData.put("priorities", TicketPriority.values());
+            refData.put("statuses", TicketStatus.getAllStatuses());
+            refData.put("users", userDAO.getAllUser());
+            refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
+            if (filterForm != null) {
+                // refData.put( "tickets", ticketDao.getTicketsWithFilter( filterForm ) );
+                ff.setCategories(filterForm.getCategories());
+                if (filterForm.getStartDate() != null) {
+                    ff.setStartDate(dateFormat.format(filterForm.getStartDate()));
+                }
+                if (filterForm.getEndDate() != null) {
+                    ff.setEndDate(dateFormat.format(filterForm.getEndDate()));
+                }
+                List<User> n = new ArrayList<User>();
+                n.add((User) request.getSession().getAttribute("user"));
+                ff.setNotifyiers(n);
+                ff.setPriorities(filterForm.getPriorities());
+                // ff.setSaviours( filterForm.getSaviours() );
+                ff.setStatuses(filterForm.getStatuses());
+                PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "p_id", request, PAGE_SIZE);
+                refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(ff));
+                refData.put("tickets", ticketDao.getTicketsWithFilter(ff, PAGE_SIZE, enc.getOffset()));
+            } else {
+                refData.put("tickets", ticketDao.getAllTickets());
+            }
+        }
+        refData.put("filterForm", command);
+        mav.addAllObjects(refData);
+        return mav;
+    }
 
-	/**
-	 * 
-	 */
+    /**
+     *
+     */
     @Override
-	protected Object formBackingObject(HttpServletRequest req) throws ServletException {
-		if (filterForm == null) {
-			filterForm = new ShowTicketsNotifiedByMeFilterForm();
-			filterForm.setTicketCategoryDAO(ticketCategoryDAO);
-			filterForm.setUserDAO(userDAO);
-		}
-		// prepareDate( req );
-		filterForm.setStatusesFromRequest(req);
-		filterForm.setPrioritiesFromRequest(req);
-		filterForm.setCategoriesFromRequest(req);
-		filterForm.setSavioursFromRequest(req);
-		return filterForm;
-	}
-
+    protected Object formBackingObject(HttpServletRequest req) throws ServletException {
+        if (filterForm == null) {
+            filterForm = new ShowTicketsNotifiedByMeFilterForm();
+            filterForm.setTicketCategoryDAO(ticketCategoryDAO);
+            filterForm.setUserDAO(userDAO);
+        }
+        // prepareDate( req );
+        filterForm.setStatusesFromRequest(req);
+        filterForm.setPrioritiesFromRequest(req);
+        filterForm.setCategoriesFromRequest(req);
+        filterForm.setSavioursFromRequest(req);
+        return filterForm;
+    }
 }

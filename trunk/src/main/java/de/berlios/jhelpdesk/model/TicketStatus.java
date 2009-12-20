@@ -15,91 +15,196 @@
  */
 package de.berlios.jhelpdesk.model;
 
-
-
+/**
+ *
+ * @author jjhop
+ */
 public enum TicketStatus {
-	
-	NOTIFIED(1, "ZGŁOSZONY", "desc", "FF4040", true),
-	ASSIGNED(2, "PRZYPISANY", "desc", "FFC843", true),
-	REJECTED(3, "ODRZUCONY", "desc", "4D61A9", true),
-	RESOLVED(4, "ROZWIĄZANY", "desc", "228664", true),
-	CLOSED(5, "ZAMKNIĘTY", "desc", "228664", true),
-	
+
+    /**
+     *
+     */
+    NOTIFIED(1, "ZGŁOSZONY", "desc", "FF4040", true),
+    
+    /**
+     * 
+     */
+    ASSIGNED(2, "PRZYPISANY", "desc", "FFC843", true),
+    
+    /**
+     * 
+     */
+    REJECTED(3, "ODRZUCONY", "desc", "4D61A9", true),
+    
+    /**
+     * 
+     */
+    RESOLVED(4, "ROZWIĄZANY", "desc", "228664", true),
+    
+    /**
+     * 
+     */
+    CLOSED(5, "ZAMKNIĘTY", "desc", "228664", true),
+    
+    /**
+     * 
+     */
     UNKNOWN(6, "NIEZNANY", "desc", "228664", true); // TODO: tymczasowe...
-	
+
+    /**
+     *
+     */
     private final int statusId;
+
+    /**
+     *
+     */
     private final String statusName;
+
+    /**
+     *
+     */
     private final String statusDesc;
+
+    /**
+     *
+     */
     private final String bgColor;
+
+    /**
+     *
+     */
     private final boolean isActive;
-	
-    private static TicketStatus[] ALL_STATUSES = { 
-        NOTIFIED, 
-        ASSIGNED, 
-        REJECTED, 
-        RESOLVED, 
+
+    /**
+     *
+     */
+    private static TicketStatus[] ALL_STATUSES = {
+        NOTIFIED,
+        ASSIGNED,
+        REJECTED,
+        RESOLVED,
         CLOSED
     };
-    
-    private static TicketStatus[] NONOPEN_STATUSES = { 
+
+    /**
+     *
+     */
+    private static TicketStatus[] NONOPEN_STATUSES = {
         NOTIFIED,
-        ASSIGNED 
+        ASSIGNED
     };
-	
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @param desc
+     * @param bgColor
+     * @param active
+     */
     private TicketStatus(int id, String name, String desc, String bgColor, boolean active) {
-		this.isActive = active;
-		this.statusDesc = desc;
-		this.statusId = id;
-		this.statusName = name;
-		this.bgColor = bgColor;
-	}
-	
-	public int toInt( ) {
-		return statusId;
-	}
-	
-	public static TicketStatus fromInt(int code) {
-		switch (code) {
-			case 1: return NOTIFIED;
-			case 2: return ASSIGNED;
-			case 3: return REJECTED;
-			case 4: return RESOLVED;
-			case 5: return CLOSED;
-			//default: throw new RuntimeException("Nieznany status.");
-			default: return UNKNOWN;
-		}
-	}
-	
+        this.isActive = active;
+        this.statusDesc = desc;
+        this.statusId = id;
+        this.statusName = name;
+        this.bgColor = bgColor;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int toInt() {
+        return statusId;
+    }
+
+    /**
+     *
+     * @param code
+     * @return
+     */
+    public static TicketStatus fromInt(int code) {
+        switch (code) {
+            case 1:
+                return NOTIFIED;
+            case 2:
+                return ASSIGNED;
+            case 3:
+                return REJECTED;
+            case 4:
+                return RESOLVED;
+            case 5:
+                return CLOSED;
+            //default: throw new RuntimeException("Nieznany status.");
+            default:
+                return UNKNOWN;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
     public static TicketStatus[] getAllStatuses() {
         return ALL_STATUSES;
     }
-	
+
+    /**
+     *
+     * @return
+     */
     public static TicketStatus[] getNonOpenedStatuses() {
         return NONOPEN_STATUSES;
     }
-	
-	public boolean getActive() {
-		return isActive;
-	}
 
-	public int getStatusId() {
-		return statusId;
-	}
+    /**
+     *
+     * @return
+     */
+    public boolean getActive() {
+        return isActive;
+    }
 
-	public String getStatusDesc() {
-		return statusDesc;
-	}
+    /**
+     *
+     * @return
+     */
+    public int getStatusId() {
+        return statusId;
+    }
 
-	public String getStatusName() {
-		return statusName;
-	}
-	
-	@Override
+    /**
+     *
+     * @return
+     */
+    public String getStatusDesc() {
+        return statusDesc;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getStatusName() {
+        return statusName;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getBgColor() {
+        return bgColor;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    @Override
     public String toString() {
-		return statusName;
-	}
+        return statusName;
+    }
 
-	public String getBgColor() {
-		return bgColor;
-	}
 }
