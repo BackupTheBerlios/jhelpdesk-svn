@@ -103,7 +103,7 @@
                                 </tr>
                                 <c:forEach var="article" items="${lastArticles}">
                                     <tr>
-                                        <td><c:out value="${article.title}"/></td>
+                                        <td><a href="<c:url value="/help/base.html?key=details&id=${article.articleId}"/>"><c:out value="${article.title}"/></a></td>
                                         <td class="lastcol"><c:out value="${article.createDate}"/></td>
                                     </tr>
                                 </c:forEach>
