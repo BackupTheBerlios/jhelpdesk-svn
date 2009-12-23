@@ -41,21 +41,6 @@ public interface ArticleCategoryDAO {
     public List<ArticleCategory> getAllCategories();
 
     /**
-     * Zwraca listę obiektów ArticleCategory, przy czym każdy z nich ma
-     * uzupełnione tylko podstawowe dane (id, nazwa, ilość artykułow) bez
-     * wypełnionych list artykułów. Zwracana list zawsze jest prawidłowym
-     * obiektem, nigdy nie jest to {@code null}. Jeśli nie ma dostępnych żadnych
-     * kategorii zwracana jest pusta lista.
-     * 
-     * @return lista obiektów ArticleCategory
-     * 
-     * @see java.util.Collections#EMPTY_LIST
-     *
-     * //TODO: do usunięcia po migracji do JPA (będzie LAZY)
-     */
-    public List<ArticleCategory> getAllShortSections();
-
-    /**
      * Zwraca obiekt ArticleCategory na podstawie dostarczonego identyfikatora
      * lub {@code ull} jeśli w bazie nie ma obiektu z takim identyfikatorem.
      * 
@@ -68,6 +53,11 @@ public interface ArticleCategoryDAO {
     /**
      * Usuwa wskazany obiekt ArticleCategory na podstawie dostarczonego
      * identyfikatora.
+     * <p>UWAGA! Metoda ta usuwa również wszystkie artykuły z tej kategorii,
+     * wszystkie komentarza do tych artykułow a także wszystkie powiązania
+     * pomiędzy artykułami i zgłoszeniami. Należy ją stosować niezwykle
+     * ostrożnie i zawsze ostrzegać użytkownika przed skutkami jej
+     * zastosowania.</p>
      * 
      * @param categoryId identyfikator obiektu ArticleCategory do usunięcia
      * @param categoryId
