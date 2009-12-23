@@ -57,6 +57,7 @@ public class TicketsNotifiedByMeViewController extends SimpleFormController {
     private ShowTicketsNotifiedByMeFilterForm filterForm;
 
     @Autowired
+    @Qualifier("jdbc")
     private TicketDAO ticketDao;
 
     @Autowired

@@ -57,6 +57,7 @@ public class TicketsNewViewController extends SimpleFormController {
     private ShowTicketsNewFilterForm filterForm;
 
     @Autowired
+    @Qualifier("jdbc")
     private TicketDAO ticketDao;
 
     @Autowired

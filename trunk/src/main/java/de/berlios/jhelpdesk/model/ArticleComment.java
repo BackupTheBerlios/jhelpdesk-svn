@@ -46,9 +46,15 @@ public class ArticleComment implements Serializable {
     private Long articleCommentId;
 
     /**
-     * // TODO: migrujemy do article
+     * // TODO: migrujemy do article, stąd też w mapowaniu to:
+     *     insertable = false, updatable = false
      */
+    @Column(name = "article_id", nullable = false, insertable = false, updatable = false)
     private Long articleId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "article_id")
+    private Article article;
 
     /**
      *
@@ -106,6 +112,22 @@ public class ArticleComment implements Serializable {
      */
     public void setArticleId(Long articleId) {
         this.articleId = articleId;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Article getArticle() {
+        return article;
+    }
+
+    /**
+     * 
+     * @param article
+     */
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     /**

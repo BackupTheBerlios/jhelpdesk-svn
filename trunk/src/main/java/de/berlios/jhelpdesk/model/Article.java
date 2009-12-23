@@ -17,6 +17,7 @@ package de.berlios.jhelpdesk.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -25,9 +26,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,7 +65,6 @@ public class Article implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "article_category_id")
     private ArticleCategory category;
-
 
     /**
      *
@@ -98,14 +101,24 @@ public class Article implements Serializable {
     /**
      *
      */
-    @Transient
+    @OneToMany(mappedBy = "article")
     private Set<ArticleComment> comments;
 
     /**
      *
      */
-    @Transient
+    @ManyToMany
+    @JoinTable(name = "article_ticket",
+        joinColumns = {@JoinColumn(name = "article_id")},
+        inverseJoinColumns = {@JoinColumn(name = "ticket_id")})
     private Set<Ticket> associatedTickets;
+
+    /**
+     * 
+     */
+    public Article() {
+        this.comments = new HashSet<ArticleComment>();
+    }
 
     /**
      * @return Returns the createDate.

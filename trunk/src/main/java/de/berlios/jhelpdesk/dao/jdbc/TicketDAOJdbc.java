@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -48,6 +49,7 @@ import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 
 @Repository("ticketDAO")
+@Qualifier("jdbc")
 public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements TicketDAO {
 
     private static Log log = LogFactory.getLog(TicketDAOJdbc.class);
@@ -233,50 +235,47 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
     public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus, int howMuch) throws DataAccessException {
         try {
             return getJdbcTemplate().query(
-                    "SELECT * FROM ticket_list_view WHERE b_status=? "
-                    + "ORDER BY b_create_date DESC LIMIT ?",
-                    new Object[]{
-                        ticketStatus.toInt(),
-                        howMuch
-                    },
-                    new RowMapper() {
-
-                        public Object mapRow(ResultSet rs, int row) throws SQLException {
-                            Ticket ticket = new Ticket();
-                            ticket.setTicketId(rs.getLong("b_id"));
-                            ticket.setSubject(rs.getString("b_subject"));
-                            /* zgłaszający */
-                            ticket.setNotifier(
-                                    new User(
+                "SELECT * FROM ticket_list_view WHERE b_status=? " +
+                "ORDER BY b_create_date DESC LIMIT ?",
+                new Object[]{ticketStatus.toInt(), howMuch},
+                new RowMapper() {
+                    public Object mapRow(ResultSet rs, int row) throws SQLException {
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketId(rs.getLong("b_id"));
+                        ticket.setSubject(rs.getString("b_subject"));
+                        /* zgłaszający */
+                        ticket.setNotifier(
+                                new User(
                                     rs.getLong("n_id"),
                                     rs.getString("n_login"),
                                     rs.getString("n_first_name"),
                                     rs.getString("n_last_name")));
-                            /* wprowadzajacy */
-                            ticket.setInputer(
-                                    new User(
+                        /* wprowadzajacy */
+                        ticket.setInputer(
+                                new User(
                                     rs.getLong("i_id"),
                                     rs.getString("i_login"),
                                     rs.getString("i_first_name"),
                                     rs.getString("i_last_name")));
-                            /* rozwiazujacy */
-                            ticket.setSaviour(
-                                    new User(
+                        /* rozwiazujacy */
+                        ticket.setSaviour(
+                                new User(
                                     rs.getLong("s_id"),
                                     rs.getString("s_login"),
                                     rs.getString("s_first_name"),
                                     rs.getString("s_last_name")));
-                            /* ticketCategory */
-                            TicketCategory category = new TicketCategory();
-                            category.setTicketCategoryId(rs.getLong("c_id"));
-                            category.setCategoryName(rs.getString("c_name"));
-                            ticket.setTicketCategory(category);
-                            /* ticketPriority */
-                            ticket.setTicketPriority(TicketPriority.fromInt(rs.getInt("p_id")));
-                            ticket.setCreateDate(rs.getTimestamp("b_create_date"));
-                            return ticket;
-                        }
-                    });
+                        /* ticketCategory */
+                        TicketCategory category = new TicketCategory();
+                        category.setTicketCategoryId(rs.getLong("c_id"));
+                        category.setCategoryName(rs.getString("c_name"));
+                        ticket.setTicketCategory(category);
+                        /* ticketPriority */
+                        ticket.setTicketPriority(TicketPriority.fromInt(rs.getInt("p_id")));
+                        ticket.setCreateDate(rs.getTimestamp("b_create_date"));
+                        return ticket;
+                    }
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -287,20 +286,18 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
             throws DataAccessException {
         try {
             return getJdbcTemplate().query(
-                    "SELECT * FROM ticket WHERE ticket_priority=? "
-                    + "ORDER BY create_date DESC",
-                    new Object[]{
-                        ticketPriority.getPriorityId()
-                    },
-                    new RowMapper() {
-
-                        public Object mapRow(ResultSet rs, int row) throws SQLException {
-                            Ticket ticket = new Ticket();
-                            ticket.setTicketId(rs.getLong("ticket_id"));
-                            ticket.setSubject(rs.getString("subject"));
-                            return ticket;
-                        }
-                    });
+                "SELECT * FROM ticket WHERE ticket_priority=? " +
+                "ORDER BY create_date DESC",
+                new Object[]{ticketPriority.toInt()},
+                new RowMapper() {
+                    public Object mapRow(ResultSet rs, int row) throws SQLException {
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketId(rs.getLong("ticket_id"));
+                        ticket.setSubject(rs.getString("subject"));
+                        return ticket;
+                    }
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -311,20 +308,19 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
             throws DataAccessException {
         try {
             return getJdbcTemplate().query(
-                    "SELECT * FROM ticket WHERE ticket_category=? "
-                    + "ORDER BY create_date DESC",
-                    new Object[]{
-                        ticketCategory.getTicketCategoryId()
-                    },
-                    new RowMapper() {
+                "SELECT * FROM ticket WHERE ticket_category=? " +
+                "ORDER BY create_date DESC",
+                new Object[]{ticketCategory.getTicketCategoryId()},
+                new RowMapper() {
 
-                        public Object mapRow(ResultSet rs, int row) throws SQLException {
-                            Ticket ticket = new Ticket();
-                            ticket.setTicketId(rs.getLong("ticket_id"));
-                            ticket.setSubject(rs.getString("subject"));
-                            return ticket;
-                        }
-                    });
+                    public Object mapRow(ResultSet rs, int row) throws SQLException {
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketId(rs.getLong("ticket_id"));
+                        ticket.setSubject(rs.getString("subject"));
+                        return ticket;
+                    }
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -334,20 +330,18 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
     public List<Ticket> getTicketsNotifyiedByUser(User user) throws DataAccessException {
         try {
             return getJdbcTemplate().query(
-                    "SELECT * FROM ticket WHERE notifyier=? "
-                    + "ORDER BY create_date DESC",
-                    new Object[]{
-                        user.getUserId()
-                    },
-                    new RowMapper() {
-
-                        public Object mapRow(ResultSet rs, int row) throws SQLException {
-                            Ticket ticket = new Ticket();
-                            ticket.setTicketId(rs.getLong("ticket_id"));
-                            ticket.setSubject(rs.getString("subject"));
-                            return ticket;
-                        }
-                    });
+                "SELECT * FROM ticket WHERE notifyier=? " +
+                "ORDER BY create_date DESC",
+                new Object[]{user.getUserId()},
+                new RowMapper() {
+                    public Object mapRow(ResultSet rs, int row) throws SQLException {
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketId(rs.getLong("ticket_id"));
+                        ticket.setSubject(rs.getString("subject"));
+                        return ticket;
+                    }
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -359,19 +353,17 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
         try {
             // TODO: trzeba to zaimplementowac zeby kontroler dzialal
             return getJdbcTemplate().query(
-                    "SELECT * FROM ticket WHERE",
-                    new Object[]{
-                        user.getUserId()
-                    },
-                    new RowMapper() {
-
-                        public Object mapRow(ResultSet rs, int row) throws SQLException {
-                            Ticket ticket = new Ticket();
-                            ticket.setTicketId(rs.getLong("ticket_id"));
-                            ticket.setSubject(rs.getString("subject"));
-                            return ticket;
-                        }
-                    });
+                "SELECT * FROM ticket WHERE",
+                new Object[]{user.getUserId()},
+                new RowMapper() {
+                    public Object mapRow(ResultSet rs, int row) throws SQLException {
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketId(rs.getLong("ticket_id"));
+                        ticket.setSubject(rs.getString("subject"));
+                        return ticket;
+                    }
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -384,10 +376,9 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
     public void remove(Long ticketId) throws DataAccessException {
         try {
             getJdbcTemplate().update(
-                    "DELETE FROM ticket WHERE ticket_id=?",
-                    new Object[]{
-                        ticketId
-                    });
+                "DELETE FROM ticket WHERE ticket_id=?",
+                new Object[]{ticketId}
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -396,62 +387,62 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
     public void save(final Ticket ticketToSave) throws DataAccessException {
         try {
             getJdbcTemplate().execute(
-                    new ConnectionCallback() {
+                new ConnectionCallback() {
+                    public Object doInConnection(Connection conn) throws SQLException {
+                        conn.setAutoCommit(false);
+                        PreparedStatement pstmt =
+                            conn.prepareStatement(
+                                "INSERT INTO ticket(ticket_id,add_phone,"
+                                + "ticket_category,ticket_priority,ticket_status,"
+                                + "saviour,notifyier,inputer,create_date,"
+                                + "description,step_by_step,subject) "
+                                + "VALUES(nextval('ticket_id_seq'),?,?,?,?,?,?,?,?,?,?,?)");
+                        pstmt.setString(1, ticketToSave.getAddPhone());
+                        pstmt.setInt(2, 0); //(2, ticketToSave.getTicketCategory().getTicketCategoryId());
+                        pstmt.setLong(3, ticketToSave.getTicketPriority().getPriorityId());
+                        pstmt.setLong(4, ticketToSave.getTicketStatus().getStatusId());
 
-                        public Object doInConnection(Connection conn) throws SQLException {
-                            conn.setAutoCommit(false);
-                            PreparedStatement pstmt =
-                                    conn.prepareStatement(
-                                    "INSERT INTO ticket(ticket_id,add_phone,"
-                                    + "ticket_category,ticket_priority,ticket_status,"
-                                    + "saviour,notifyier,inputer,create_date,"
-                                    + "description,step_by_step,subject) "
-                                    + "VALUES(nextval('ticket_id_seq'),?,?,?,?,?,?,?,?,?,?,?)");
-                            pstmt.setString(1, ticketToSave.getAddPhone());
-                            pstmt.setInt(2, 0); //(2, ticketToSave.getTicketCategory().getTicketCategoryId());
-                            pstmt.setLong(3, ticketToSave.getTicketPriority().getPriorityId());
-                            pstmt.setLong(4, ticketToSave.getTicketStatus().getStatusId());
-
-                            if (ticketToSave.getSaviour() != null) {
-                                pstmt.setLong(5, ticketToSave.getSaviour().getUserId());
-                            } else {
-                                pstmt.setNull(5, Types.INTEGER);
-                            }
-
-                            pstmt.setLong(6, ticketToSave.getNotifier().getUserId());
-                            pstmt.setLong(7, ticketToSave.getInputer().getUserId());
-
-                            pstmt.setTimestamp(8, new Timestamp(ticketToSave.getCreateDate().getTime()));
-                            if (ticketToSave.getDescription() != null) {
-                                pstmt.setString(9, ticketToSave.getDescription());
-                            } else {
-                                pstmt.setNull(9, Types.VARCHAR);
-                            }
-
-                            if (ticketToSave.getStepByStep() != null) {
-                                pstmt.setString(10, ticketToSave.getStepByStep());
-                            } else {
-                                pstmt.setNull(10, Types.VARCHAR);
-                            }
-                            if (ticketToSave.getSubject() != null) {
-                                pstmt.setString(11, ticketToSave.getSubject());
-                            } else {
-                                pstmt.setNull(11, Types.VARCHAR);
-                            }
-                            pstmt.executeUpdate();
-
-                            Statement stmt =
-                                    conn.createStatement(
-                                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                    ResultSet.CONCUR_READ_ONLY);
-                            ResultSet rs = stmt.executeQuery("SELECT currval('ticket_id_seq')");
-                            if (rs.first()) {
-                                ticketToSave.setTicketId(rs.getLong(1));
-                            }
-                            conn.commit();
-                            return null;
+                        if (ticketToSave.getSaviour() != null) {
+                            pstmt.setLong(5, ticketToSave.getSaviour().getUserId());
+                        } else {
+                            pstmt.setNull(5, Types.INTEGER);
                         }
-                    });
+
+                        pstmt.setLong(6, ticketToSave.getNotifier().getUserId());
+                        pstmt.setLong(7, ticketToSave.getInputer().getUserId());
+
+                        pstmt.setTimestamp(8, new Timestamp(ticketToSave.getCreateDate().getTime()));
+                        if (ticketToSave.getDescription() != null) {
+                            pstmt.setString(9, ticketToSave.getDescription());
+                        } else {
+                            pstmt.setNull(9, Types.VARCHAR);
+                        }
+
+                        if (ticketToSave.getStepByStep() != null) {
+                            pstmt.setString(10, ticketToSave.getStepByStep());
+                        } else {
+                            pstmt.setNull(10, Types.VARCHAR);
+                        }
+                        if (ticketToSave.getSubject() != null) {
+                            pstmt.setString(11, ticketToSave.getSubject());
+                        } else {
+                            pstmt.setNull(11, Types.VARCHAR);
+                        }
+                        pstmt.executeUpdate();
+
+                        Statement stmt =
+                                conn.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                ResultSet.CONCUR_READ_ONLY);
+                        ResultSet rs = stmt.executeQuery("SELECT currval('ticket_id_seq')");
+                        if (rs.first()) {
+                            ticketToSave.setTicketId(rs.getLong(1));
+                        }
+                        conn.commit();
+                        return null;
+                    }
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -461,76 +452,73 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
     public List<Ticket> getAllTickets() throws DataAccessException {
         try {
             return getJdbcTemplate().query(
-                    new QueryBuilder().getAllQuery(),
-                    new RowMapper() {
-
-                        public Object mapRow(ResultSet rs, int row) throws SQLException {
-                            Ticket ticket = new Ticket();
-                            ticket.setTicketId(rs.getLong("b_id"));
-                            ticket.setSubject(rs.getString("b_subject"));
-                            ticket.setDescription(rs.getString("b_description"));
-                            ticket.setCreateDate(rs.getTimestamp("b_create_date"));
-                            ticket.setTicketStatus(TicketStatus.fromInt(rs.getInt("s_id")));
-                            ticket.setTicketCategory(
-                                new TicketCategory(-1,
-                                rs.getString("c_name"))
-                            );
-                            return ticket;
-                        }
-                    });
+                new QueryBuilder().getAllQuery(),
+                new RowMapper() {
+                    public Object mapRow(ResultSet rs, int row) throws SQLException {
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketId(rs.getLong("b_id"));
+                        ticket.setSubject(rs.getString("b_subject"));
+                        ticket.setDescription(rs.getString("b_description"));
+                        ticket.setCreateDate(rs.getTimestamp("b_create_date"));
+                        ticket.setTicketStatus(TicketStatus.fromInt(rs.getInt("s_id")));
+                        ticket.setTicketCategory(
+                            new TicketCategory(-1,
+                            rs.getString("c_name"))
+                        );
+                        return ticket;
+                    }
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm,
-            int limit, long offset) throws DataAccessException {
+    public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm, int limit, long offset)
+            throws DataAccessException {
         try {
             return getJdbcTemplate().query(
-                    new QueryBuilder(filterForm).getFilteredQuery(false),
-                    new Object[]{
-                        limit,
-                        offset
-                    },
-                    new RowMapper() {
-
-                        public Object mapRow(ResultSet rs, int row) throws SQLException {
-                            Ticket ticket = new Ticket();
-                            ticket.setTicketId(rs.getLong("b_id"));
-                            ticket.setSubject(rs.getString("b_subject"));
-                            ticket.setDescription(rs.getString("b_description"));
-                            ticket.setCreateDate(rs.getTimestamp("b_create_date"));
-                            ticket.setTicketStatus(TicketStatus.fromInt(rs.getInt("b_status")));
-                            ticket.setTicketCategory(
-                                    new TicketCategory(
-                                    rs.getInt("c_id"),
-                                    rs.getString("c_name")));
-                            ticket.setTicketPriority(TicketPriority.fromInt(rs.getInt("p_id")));
-                            /* zgłaszający */
-                            ticket.setNotifier(
-                                    new User(
-                                    rs.getLong("n_id"),
-                                    rs.getString("n_login"),
-                                    rs.getString("n_first_name"),
-                                    rs.getString("n_last_name")));
-                            /* wprowadzajacy */
-                            ticket.setInputer(
-                                    new User(
-                                    rs.getLong("i_id"),
-                                    rs.getString("i_login"),
-                                    rs.getString("i_first_name"),
-                                    rs.getString("i_last_name")));
-                            /* rozwiazujacy */
-                            ticket.setSaviour(
-                                    new User(
-                                    rs.getLong("s_id"),
-                                    rs.getString("s_login"),
-                                    rs.getString("s_first_name"),
-                                    rs.getString("s_last_name")));
-                            return ticket;
-                        }
-                    });
+                new QueryBuilder(filterForm).getFilteredQuery(false),
+                new Object[]{limit, offset},
+                new RowMapper() {
+                    public Object mapRow(ResultSet rs, int row) throws SQLException {
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketId(rs.getLong("b_id"));
+                        ticket.setSubject(rs.getString("b_subject"));
+                        ticket.setDescription(rs.getString("b_description"));
+                        ticket.setCreateDate(rs.getTimestamp("b_create_date"));
+                        ticket.setTicketStatus(TicketStatus.fromInt(rs.getInt("b_status")));
+                        ticket.setTicketCategory(
+                            new TicketCategory(
+                                rs.getInt("c_id"),
+                                rs.getString("c_name")));
+                        ticket.setTicketPriority(TicketPriority.fromInt(rs.getInt("p_id")));
+                        /* zgłaszający */
+                        ticket.setNotifier(
+                            new User(
+                                rs.getLong("n_id"),
+                                rs.getString("n_login"),
+                                rs.getString("n_first_name"),
+                                rs.getString("n_last_name")));
+                        /* wprowadzajacy */
+                        ticket.setInputer(
+                            new User(
+                                rs.getLong("i_id"),
+                                rs.getString("i_login"),
+                                rs.getString("i_first_name"),
+                                rs.getString("i_last_name")));
+                        /* rozwiazujacy */
+                        ticket.setSaviour(
+                            new User(
+                                rs.getLong("s_id"),
+                                rs.getString("s_login"),
+                                rs.getString("s_first_name"),
+                                rs.getString("s_last_name")));
+                        return ticket;
+                    }
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -539,7 +527,7 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
     public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm) throws DataAccessException {
         try {
             return getJdbcTemplate().queryForInt(
-                    new QueryBuilder(filterForm).getFilteredQuery(true));
+                new QueryBuilder(filterForm).getFilteredQuery(true));
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }
@@ -548,16 +536,17 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
     public void addComment(TicketComment comm) throws DataAccessException {
         try {
             getJdbcTemplate().update(
-                    "INSERT INTO ticket_comment(comment_id, ticket_id, "
-                    + "comment_author, comment_date, comment_text, not_for_plain_user) "
-                    + "VALUES (nextval('ticket_comment_id_seq'),?,?,?,?,?)",
-                    new Object[]{
-                        comm.getTicketId(),
-                        comm.getCommentAuthor().getUserId(),
-                        comm.getCommentDate(),
-                        comm.getCommentText(),
-                        comm.isNotForPlainUser()
-                    });
+                "INSERT INTO ticket_comment(comment_id, ticket_id, " +
+                "comment_author, comment_date, comment_text, not_for_plain_user) " +
+                "VALUES (nextval('ticket_comment_id_seq'),?,?,?,?,?)",
+                new Object[]{
+                    comm.getTicketId(),
+                    comm.getCommentAuthor().getUserId(),
+                    comm.getCommentDate(),
+                    comm.getCommentText(),
+                    comm.isNotForPlainUser()
+                }
+            );
         } catch (Exception ex) {
             throw new DataAccessException(ex);
         }

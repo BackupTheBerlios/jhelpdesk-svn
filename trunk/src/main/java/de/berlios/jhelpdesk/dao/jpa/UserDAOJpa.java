@@ -40,7 +40,7 @@ public class UserDAOJpa implements UserDAO {
     private JpaTemplate jpaTemplate;
 
     @Autowired
-    public void setEntityManagerFactory(EntityManagerFactory emf) {
+    public UserDAOJpa(EntityManagerFactory emf) {
         this.jpaTemplate = new JpaTemplate(emf);
     }
 

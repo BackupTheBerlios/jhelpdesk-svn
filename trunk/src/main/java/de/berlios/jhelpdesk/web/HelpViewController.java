@@ -35,7 +35,7 @@ import de.berlios.jhelpdesk.dao.ArticleDAO;
 public class HelpViewController {
 
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private ArticleDAO articleDAO;
     
     @Autowired

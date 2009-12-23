@@ -57,6 +57,7 @@ public class TicketsAssignedToMeViewController extends SimpleFormController {
     private ShowTicketsAssignedToMeFilterForm filterForm;
 
     @Autowired
+    @Qualifier("jdbc")
     private TicketDAO ticketDao;
 
     @Autowired

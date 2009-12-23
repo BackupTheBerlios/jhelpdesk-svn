@@ -24,6 +24,7 @@ import javax.activation.MimetypesFileTypeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,8 +51,13 @@ import de.berlios.jhelpdesk.model.User;
 public class TicketViewController {
 
     @Autowired
+    @Qualifier("jdbc")
     private TicketDAO ticketDao;
     
+    @Autowired
+    @Qualifier("jpa")
+    private TicketDAO ticketDaoJpa;
+
     @Autowired
     private TicketCategoryDAO ticketCategoryDao;
 
@@ -99,8 +105,8 @@ public class TicketViewController {
                   @RequestParam("ticketId") Long ticketId,
                   @RequestParam(value = "format", required = false) String format,
                   ModelMap mav) throws Exception {
-
-        Ticket ticket = ticketDao.getTicketById(ticketId);
+        System.out.println("ticketId => " + ticketId);
+        Ticket ticket = ticketDaoJpa.getTicketById(ticketId);
 
         List<AdditionalFile> addFiles = new ArrayList<AdditionalFile>();
         File repDir = new File(new StringBuffer(repositoryPath).append(File.separatorChar).append(ticketId).toString());

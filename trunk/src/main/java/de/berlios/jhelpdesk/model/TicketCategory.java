@@ -16,26 +16,31 @@
 package de.berlios.jhelpdesk.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
  * @author jjhop
  */
 @Entity
-@Table(name = "ticket_category")
+@Table(name = "ticket_category") //
+@SequenceGenerator(name="ticket_category_sequence", sequenceName="ticket_category_id_seq")
 public class TicketCategory implements Serializable, Comparable<TicketCategory> {
 
     /**
-     *
+     * 
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_category_sequence")
     @Column(name = "category_id")
     private Long ticketCategoryId;
 
@@ -81,10 +86,14 @@ public class TicketCategory implements Serializable, Comparable<TicketCategory> 
     @Column(name = "is_active")
     private boolean isActive;
 
+    @OneToMany(mappedBy = "ticketCategory")
+    private Set<Ticket> tickets;
+
     /**
      *
      */
     public TicketCategory() {
+        this.tickets = new HashSet<Ticket>();
     }
 
     /**

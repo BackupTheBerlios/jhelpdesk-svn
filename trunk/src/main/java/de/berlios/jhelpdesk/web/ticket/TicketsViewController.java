@@ -50,6 +50,7 @@ public class TicketsViewController extends SimpleFormController {
     private static int PAGE_SIZE = 25;
 
     @Autowired
+    @Qualifier("jdbc")
     private TicketDAO ticketDao;
 
     @Autowired

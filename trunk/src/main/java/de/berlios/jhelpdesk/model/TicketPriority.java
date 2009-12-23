@@ -65,8 +65,9 @@ public enum TicketPriority {
      * 
      * @return
      */
+    @Deprecated
     public int getPriorityId() {
-        return priorityId;
+        return this.priorityId;
     }
 
     /**
@@ -74,7 +75,15 @@ public enum TicketPriority {
      * @return
      */
     public String getPriorityName() {
-        return priorityName;
+        return this.priorityName;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int toInt() {
+        return this.priorityId;
     }
 
     /**
@@ -93,6 +102,6 @@ public enum TicketPriority {
 
     @Override
     public String toString() {
-        return priorityName;
+        return this.priorityName;
     }
 }

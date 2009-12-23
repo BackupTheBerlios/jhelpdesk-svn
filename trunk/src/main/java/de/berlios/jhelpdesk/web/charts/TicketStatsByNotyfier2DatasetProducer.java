@@ -58,6 +58,7 @@ public class TicketStatsByNotyfier2DatasetProducer implements DatasetProducer, P
     private UserDAO userDAO;
     
     @Autowired
+    @Qualifier("jdbc")
     private TicketDAO ticketDAO;
 
     public Object produceDataset(@SuppressWarnings("unchecked") Map arg0) throws DatasetProduceException {

@@ -51,6 +51,7 @@ public class TicketStatsByNotyfier1DatasetProducer implements DatasetProducer, P
     private static final Log log = LogFactory.getLog(TicketStatsByNotyfier1DatasetProducer.class);
 
     @Autowired
+    @Qualifier("jdbc")
     private TicketDAO ticketDAO;
 
     @Autowired

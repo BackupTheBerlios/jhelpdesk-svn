@@ -22,16 +22,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -54,6 +61,11 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Entity
 @Table(name = "ticket")
+@NamedQueries({
+    @NamedQuery(name = "Ticket.byStatusOrderByCreateDateDESC", query = "FROM Ticket t WHERE t.ticketStatusAsInt=? ORDER BY t.createDate DESC"),
+    @NamedQuery(name = "Ticket.byLogin", query = "SELECT u FROM User u WHERE u.login=?"),
+    @NamedQuery(name = "Ticket.allOrderByLastName", query = "SELECT u FROM User u ORDER by u.lastName ASC")
+})
 public class Ticket implements Serializable {
 
     /**
@@ -98,6 +110,7 @@ public class Ticket implements Serializable {
      * @deprecated
      */
     @Deprecated
+    @Column(name = "add_phone")
     private String addPhone;
 
     /**
@@ -123,15 +136,31 @@ public class Ticket implements Serializable {
      * Aktualny status zgłoszenia.
      *
      * @see TicketStatus
+     * @see #populateTicketEnumsDB()
+     * @see #populateTicketEnumsTransient()
      */
+    @Transient
     private TicketStatus ticketStatus;
+
+    @Basic
+    @Column(name = "ticket_status")
+    @SuppressWarnings("unused")
+    private int ticketStatusAsInt;
 
     /**
      * Ważność problemy, którego dotyczy zgłoszenie.
      *
      * @see TicketPriority
+     * @see #populateTicketEnumsDB()
+     * @see #populateTicketEnumsTransient() 
      */
+    @Transient
     private TicketPriority ticketPriority;
+
+    @Basic
+    @Column(name = "ticket_priority")
+    @SuppressWarnings("unused")
+    private int ticketPriorityAsInt;
 
     /**
      * Kategoria, do której zakwalifikowano zgłoszenie.
@@ -139,6 +168,7 @@ public class Ticket implements Serializable {
      * @see TicketCategory
      */
     @ManyToOne
+    @JoinColumn(name = "ticket_category")
     private TicketCategory ticketCategory;
     
     /**
@@ -146,23 +176,34 @@ public class Ticket implements Serializable {
      *
      * @see TicketComment
      */
+    @Transient
     private Set<TicketComment> comments;
     
     /**
      * Kolekcja zdarzeń związanych ze zgłoszeniem. Postanie zgłoszenia zawsze jest 
      * pierwszym zdarzeniem w kolekcji.
      */
+    @Transient
     private Set<TicketEvent> events;
 
     /**
      * Kolekcja plików dołączonych do zgłoszenia.
      */
+    @Transient
     private List<AdditionalFile> addFilesList;
+
+    /**
+     * Artykuły w bazie wiedzy, które wiążą się treścią
+     * z tym zgłoszeniem.
+     */
+    @ManyToMany(mappedBy="associatedTickets")
+    private Set<Article> articles;
     
     /**
      * Zmienna przechowująca plik po dodaniu do zgłoszenia. Wykorzystywana jest 
      * tylko podczas obsługi wysłania formularza o wystąpieniu problemu.
      */
+    @Transient
     private MultipartFile uploadedFile;
 
     /**
@@ -171,6 +212,8 @@ public class Ticket implements Serializable {
     public Ticket() {
         this.comments = new HashSet<TicketComment>();
         this.addFilesList = new ArrayList<AdditionalFile>();
+        this.articles = new HashSet<Article>();
+        this.events = new HashSet<TicketEvent>();
     }
 
     /**
@@ -561,7 +604,20 @@ public class Ticket implements Serializable {
     public void setUploadedFile(MultipartFile uploadedFile) {
         this.uploadedFile = uploadedFile;
     }
-    
+
+    @PrePersist
+    protected void populateTicketEnumsDB() {
+        this.ticketStatusAsInt = this.ticketStatus.toInt();
+        this.ticketPriorityAsInt = this.ticketPriority.toInt();
+    }
+
+    @PostLoad
+    protected void populateTicketEnumsTransient() {
+        this.ticketStatus = TicketStatus.fromInt(this.ticketStatusAsInt);
+        this.ticketPriority = TicketPriority.fromInt(this.ticketPriorityAsInt);
+
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

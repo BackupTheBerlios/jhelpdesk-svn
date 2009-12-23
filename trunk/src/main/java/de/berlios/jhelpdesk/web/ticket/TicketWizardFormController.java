@@ -59,6 +59,7 @@ public class TicketWizardFormController extends AbstractWizardFormController {
     private static Log log = LogFactory.getLog(TicketWizardFormController.class);
 
     @Autowired
+    @Qualifier("jdbc")
     private TicketDAO ticketDao;
 
     @Autowired

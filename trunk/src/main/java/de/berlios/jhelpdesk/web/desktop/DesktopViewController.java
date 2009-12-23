@@ -58,7 +58,8 @@ public class DesktopViewController  {
     private static int NUMBER_OF_LAST_ANNOUNCEMENTS = 10;
 
     @Autowired
-    private TicketDAO ticketDAO;
+    @Qualifier("jpa")
+    private TicketDAO ticketDAOJpa;
 
     @Autowired
     private TicketEventDAO eventDAO;
@@ -79,7 +80,7 @@ public class DesktopViewController  {
      */
     @RequestMapping("/desktop/main.html")
     public String showDesktop(ModelMap map) throws Exception {
-        map.addAttribute("lastTickets", ticketDAO.getTicketsByStatus(TicketStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_TICKETS));
+        map.addAttribute("lastTickets", ticketDAOJpa.getTicketsByStatus(TicketStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_TICKETS));
         map.addAttribute("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
         map.addAttribute("lastArticles", articleDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));
         map.addAttribute("lastAnnouncements", announcementDAO.getLastFew(NUMBER_OF_LAST_ANNOUNCEMENTS));

@@ -17,6 +17,7 @@ package de.berlios.jhelpdesk.web.manager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -42,23 +43,23 @@ public class ArticleCategoryController {
 
     @Autowired
     @Qualifier("jdbc")
-    private ArticleCategoryDAO categoryDAO;
+    @Deprecated
+    private ArticleCategoryDAO categoryDAOJdbc;
 
     @Autowired
     @Qualifier("jpa")
-    private ArticleCategoryDAO categoryDAOJpa;
+    private ArticleCategoryDAO categoryDAO;
 
     @RequestMapping("/manage/knowledge/category/showAll.html")
     public String showAll(ModelMap map) throws Exception {
-//        map.addAttribute("categories", categoryDAO.getAllShortSections());
-        map.addAttribute("categories", categoryDAOJpa.getAllCategories());
+        map.addAttribute("categories", categoryDAO.getAllCategories());
         return "manager/knowledge/category/showAll";
     }
 
     @RequestMapping("/manage/knowledge/category/show.html")
     public String showOne(@RequestParam("categoryId") Long categoryId, ModelMap map) {
         try {
-            map.addAttribute("category", categoryDAO.getById(categoryId));
+            map.addAttribute("category", categoryDAOJdbc.getById(categoryId));
         } catch (Exception ex) {
             return "redirect:/manager/knowledge/category/showAll";
         }
@@ -68,7 +69,7 @@ public class ArticleCategoryController {
     @RequestMapping("/manage/knowledge/category/remove.html")
     public String processRemove(@RequestParam("categoryId") Long categoryId) {
         try {
-            categoryDAO.delete(categoryId);
+            categoryDAOJdbc.delete(categoryId);
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -78,7 +79,7 @@ public class ArticleCategoryController {
     @RequestMapping("/manage/knowledge/category/up.html")
     public String moveUp(@RequestParam("categoryId") Long categoryId) {
         try {
-            categoryDAO.moveUp(categoryId);
+            categoryDAOJdbc.moveUp(categoryId);
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -88,7 +89,7 @@ public class ArticleCategoryController {
     @RequestMapping("/manage/knowledge/category/down.html")
     public String moveDown(@RequestParam("categoryId") Long categoryId) {
         try {
-            categoryDAO.moveDown(categoryId);
+            categoryDAOJdbc.moveDown(categoryId);
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -103,7 +104,7 @@ public class ArticleCategoryController {
         if (categoryId == null) {
             map.addAttribute("category", new ArticleCategory());
         } else {
-            map.addAttribute("category", categoryDAO.getById(categoryId));
+            map.addAttribute("category", categoryDAOJdbc.getById(categoryId));
         }
         return "manager/knowledge/category/edit";
     }
@@ -116,7 +117,7 @@ public class ArticleCategoryController {
         if (result.hasErrors()) {
             return "manager/knowledge/category/edit";
         }
-        categoryDAO.saveOrUpdate(category);
+        categoryDAOJdbc.saveOrUpdate(category);
         status.setComplete();
         return "redirect:/manage/knowledge/category/showAll.html";
     }
