@@ -18,16 +18,12 @@ package de.berlios.jhelpdesk.dao.jpa;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +41,7 @@ import de.berlios.jhelpdesk.model.ArticleCategory;
 public class ArticleCategoryDAOJpa implements ArticleCategoryDAO {
 
     private static final Log log = LogFactory.getLog(ArticleCategoryDAOJpa.class);
+    
     private JpaTemplate jpaTemplate;
 
     @Autowired
@@ -54,27 +51,15 @@ public class ArticleCategoryDAOJpa implements ArticleCategoryDAO {
 
     @Transactional(readOnly = false)
     public void delete(final Long categoryId) {
-        try {
-            this.jpaTemplate.execute(new JpaCallback() {
-                public Object doInJpa(EntityManager em) throws PersistenceException {
-                    // TODO: do przestawienia jescze kolejność pozostałych kategorii
-                    Query q = em.createNativeQuery("DELETE FROM article_category WHERE article_category_id=?");
-                    q.setParameter(1, categoryId);
-                    q.executeUpdate();
-                    return null;
-                }
-            });
-        } catch (Exception ex) {
-            log.error(ex);
-        }
+        log.debug("--------------------- DELETE START ---------------------");
+        ArticleCategory categoryToRemove = this.getById(categoryId);
+        log.debug("--------------------- DELETE MIDDLE --------------------");
+        this.jpaTemplate.remove(categoryToRemove);
+        log.debug("--------------------- DELETE END -----------------------");
     }
 
     public List<ArticleCategory> getAllCategories() {
         return this.jpaTemplate.findByNamedQuery("ArticleCategory.getAllOrderByPositionASC");
-    }
-
-    public List<ArticleCategory> getAllShortSections() {
-        throw new UnsupportedOperationException("Metoda jest przestarzała. Użyj #getAllCategories()");
     }
 
     public ArticleCategory getById(Long categoryId) {

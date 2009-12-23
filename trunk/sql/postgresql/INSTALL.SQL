@@ -1,4 +1,4 @@
--- This program is free software: you can redistribute it and/or modify
+ -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
 -- the Free Software Foundation, version 3 of the License.
 --
@@ -90,7 +90,7 @@ $BODY$
   LANGUAGE 'plpgsql'
 ;
 
---- PROCEDURY DO TRIGGERÓW
+--- PROCEDURY DO TRIGGER�W
 
 CREATE OR REPLACE FUNCTION drop_announcement_body()
   RETURNS trigger AS
@@ -98,6 +98,21 @@ $BODY$
   BEGIN
     DELETE FROM announcement_body WHERE announcement_id=OLD.announcement_id;
     RETURN OLD;
+  END;
+$BODY$
+  LANGUAGE 'plpgsql'
+;
+
+CREATE OR REPLACE FUNCTION set_category_position()
+  RETURNS trigger AS
+$BODY$
+  DECLARE
+    POSITION_FOR_NEW_CATEGORY integer;
+  BEGIN
+    LOCK TABLE article_category IN EXCLUSIVE MODE;
+    SELECT INTO POSITION_FOR_NEW_CATEGORY COALESCE((SELECT max(category_position) FROM article_category)+1,0);
+    NEW.category_position := POSITION_FOR_NEW_CATEGORY;
+    RETURN NEW;
   END;
 $BODY$
   LANGUAGE 'plpgsql'
@@ -303,11 +318,19 @@ CREATE TABLE article_comment (
 ) WITH (OIDS=FALSE)
 ;
 
---- ### wiązanie zgłoszeń z artykułami w bazie wiedzy
+--- ### wiazanie zgloszen z artykul�ami w bazie wiedzy
 
-CREATE TABLE ticket_article (
+CREATE TABLE article_ticket
+(
+  article_id integer NOT NULL,
   ticket_id integer NOT NULL,
-  article_id integer NOT NULL
+  CONSTRAINT article_ticket_pkey PRIMARY KEY (article_id, ticket_id),
+  CONSTRAINT article_ticket_article_id_fkey FOREIGN KEY (article_id)
+      REFERENCES article (article_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT article_ticket_ticket_id_fkey FOREIGN KEY (ticket_id)
+      REFERENCES ticket (ticket_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 ) WITH (OIDS=FALSE)
 ;
 
@@ -348,6 +371,12 @@ CREATE TRIGGER drop_announcement_body_trg
   EXECUTE PROCEDURE drop_announcement_body()
 ;
 
+CREATE TRIGGER set_category_position_trg
+  BEFORE INSERT
+  ON article_category
+  FOR EACH ROW
+  EXECUTE PROCEDURE set_category_position()
+;
 
 --- ### WIDOKI
 

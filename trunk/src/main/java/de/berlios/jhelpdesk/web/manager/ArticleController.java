@@ -49,7 +49,12 @@ public class ArticleController {
     
     @Autowired
     @Qualifier("jdbc")
+    @Deprecated
     private ArticleDAO articleDAO;
+
+    @Autowired
+    @Qualifier("jpa")
+    private ArticleDAO articleDAOJpa;
 
     /**
      * TODO: usunąć {@code required=false} z parametru.
@@ -79,7 +84,7 @@ public class ArticleController {
                   ModelMap map) {
 
         try {
-            map.addAttribute("article", articleDAO.getById(articleId));
+            map.addAttribute("article", articleDAOJpa.getById(articleId));
         } catch (Exception ex) {
             log.error(ex);
             return "redirect:/manage/knowledge/category/showAll.html";
@@ -103,7 +108,7 @@ public class ArticleController {
                   @RequestParam(value = "categoryId", required = false) Long categoryId,
                   ModelMap map) {
 
-        Article article = (articleId == null) ? new Article() : articleDAO.getById(articleId);
+        Article article = (articleId == null) ? new Article() : articleDAOJpa.getById(articleId);
         article.setArticleSectionId(categoryId);
         map.addAttribute("article", article);
         return "manage/knowledge/article/edit";

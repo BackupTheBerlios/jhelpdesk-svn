@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -101,7 +102,7 @@ public class Article implements Serializable {
     /**
      *
      */
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = {CascadeType.REMOVE})
     private Set<ArticleComment> comments;
 
     /**
@@ -182,7 +183,7 @@ public class Article implements Serializable {
      * @return Returns the articleSectionId.
      */
     public Long getArticleSectionId() {
-        return articleSectionId;
+        return this.articleSectionId;
     }
 
     /**

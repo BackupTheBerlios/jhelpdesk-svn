@@ -59,7 +59,7 @@ public class ArticleCategoryController {
     @RequestMapping("/manage/knowledge/category/show.html")
     public String showOne(@RequestParam("categoryId") Long categoryId, ModelMap map) {
         try {
-            map.addAttribute("category", categoryDAOJdbc.getById(categoryId));
+            map.addAttribute("category", categoryDAO.getById(categoryId));
         } catch (Exception ex) {
             return "redirect:/manager/knowledge/category/showAll";
         }
@@ -69,7 +69,7 @@ public class ArticleCategoryController {
     @RequestMapping("/manage/knowledge/category/remove.html")
     public String processRemove(@RequestParam("categoryId") Long categoryId) {
         try {
-            categoryDAOJdbc.delete(categoryId);
+            categoryDAO.delete(categoryId);
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -104,7 +104,7 @@ public class ArticleCategoryController {
         if (categoryId == null) {
             map.addAttribute("category", new ArticleCategory());
         } else {
-            map.addAttribute("category", categoryDAOJdbc.getById(categoryId));
+            map.addAttribute("category", categoryDAO.getById(categoryId));
         }
         return "manager/knowledge/category/edit";
     }
@@ -117,7 +117,7 @@ public class ArticleCategoryController {
         if (result.hasErrors()) {
             return "manager/knowledge/category/edit";
         }
-        categoryDAOJdbc.saveOrUpdate(category);
+        categoryDAO.saveOrUpdate(category);
         status.setComplete();
         return "redirect:/manage/knowledge/category/showAll.html";
     }
