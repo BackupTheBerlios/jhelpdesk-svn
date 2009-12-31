@@ -8,6 +8,10 @@
     <name>jHelpdesk</name>
     <description>Webowa aplikacja do zarządzania zgłoszeniami w dziale helpdesk</description>
     <url>http://jhelpdesk.berlios.de</url>
+    <organization>
+        <name>buzzlers.com</name>
+        <url>http://buzzlers.com</url>
+    </organization>
     <issueManagement>
         <system>GForge</system>
         <url>https://developer.berlios.de/bugs/?group_id=6573</url>
@@ -203,7 +207,6 @@
             <version>2.1.0</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>displaytag</groupId>
             <artifactId>displaytag</artifactId>

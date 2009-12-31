@@ -10,6 +10,7 @@
             <item name="buzzlers.com" href="http://buzzlers.com/" />
             <item name="dev.buzzlers.com" href="http://dev.buzzlers.com/" />
             <item name="HelpdeskOnline" href="http://hd.buzzlers.com/" />
+            <item name="BerliOS Developer" href="http://developer.berlios.de"/>
         </links>
         <menu name="Main">
             <item name="Welcome" href="index.html"/>
