@@ -35,8 +35,9 @@
             <id>jjhop</id>
             <name>Rafał Kotusiewicz</name>
             <email>jjhop@users.berlios.de</email>
-            <organization>Xinxilla.com</organization>
-            <organizationUrl>http://xinxilla.com</organizationUrl>
+            <url>http://jjhop.info</url>
+            <organization>buzzlers.com</organization>
+            <organizationUrl>http://buzzlers.com</organizationUrl>
             <roles>
                 <role>ARCHITECT</role>
                 <role>DEVELOPER</role>
