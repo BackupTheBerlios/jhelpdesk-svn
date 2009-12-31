@@ -35,6 +35,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,6 +62,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Entity
 @Table(name = "ticket")
+@SequenceGenerator(name = "ticket_sequence", sequenceName = "ticket_id_seq", allocationSize = 1)
 @NamedQueries({
     @NamedQuery(name = "Ticket.byStatusOrderByCreateDateDESC", query = "FROM Ticket t WHERE t.ticketStatusAsInt=? ORDER BY t.createDate DESC"),
     @NamedQuery(name = "Ticket.byLogin", query = "SELECT u FROM User u WHERE u.login=?"),
@@ -72,7 +74,7 @@ public class Ticket implements Serializable {
      * Identyfikator zgłoszenia w bazie danych.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ticket_sequence")
     @Column(name = "ticket_id")
     private Long ticketId;
 
@@ -188,6 +190,8 @@ public class Ticket implements Serializable {
 
     /**
      * Kolekcja plików dołączonych do zgłoszenia.
+     * <br/>
+     * <font color="red">TODO: obsłużyć zapisywanie i usuwanie tych plików</font>
      */
     @Transient
     private List<AdditionalFile> addFilesList;
@@ -201,7 +205,11 @@ public class Ticket implements Serializable {
     
     /**
      * Zmienna przechowująca plik po dodaniu do zgłoszenia. Wykorzystywana jest 
-     * tylko podczas obsługi wysłania formularza o wystąpieniu problemu.
+     * tylko podczas obsługi wysłania formularza o wystąpieniu problemu.<br/>
+     *
+     * <font color="red">TODO: wywalić, obsluga uploadu obsługiwana oddzielną encją.</font>
+     *
+     * @deprecated
      */
     @Transient
     private MultipartFile uploadedFile;
@@ -214,6 +222,8 @@ public class Ticket implements Serializable {
         this.addFilesList = new ArrayList<AdditionalFile>();
         this.articles = new HashSet<Article>();
         this.events = new HashSet<TicketEvent>();
+        this.ticketStatus = TicketStatus.NOTIFIED;
+        this.createDate = new Date();
     }
 
     /**
@@ -584,7 +594,11 @@ public class Ticket implements Serializable {
      * Zwraca wysłany na serwer plik w postaci obiektu {@code MultipartFile} podczas obsługi żądania.
      * Metoda zwraca jakąś wartość tylko podczas obsługi żądania i tylko wtedy, gdy został wysłany jakiś plik.
      * W każdej innej sytuacji Zwraca {@code null}. Dostęp do plików dołączonych do zgłoszenia odbywa się
-     * za pomocą metody {@link #getAddFilesList()}.
+     * za pomocą metody {@link #getAddFilesList()}.<br/>
+     * 
+     * <font color="red">TODO: wywalić, obsluga uploadu obsługiwana oddzielną encją.</font>
+     *
+     * @deprecated
      *
      * @return wysłany na serwer plik
      *
@@ -597,7 +611,11 @@ public class Ticket implements Serializable {
     }
 
     /**
-     * Ustawia <i>uploadowany</i> plik w obiekcie zgłoszenia.
+     * Ustawia <i>uploadowany</i> plik w obiekcie zgłoszenia.<br/>
+     *
+     * <font color="red">TODO: wywalić, obsluga uploadu obsługiwana oddzielną encją.</font>
+     *
+     * @deprecated
      *
      * @param uploadedFile plik do przechowania
      */
