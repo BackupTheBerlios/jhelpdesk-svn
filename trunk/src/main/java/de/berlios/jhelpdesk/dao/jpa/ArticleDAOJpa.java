@@ -15,6 +15,7 @@
  */
 package de.berlios.jhelpdesk.dao.jpa;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
@@ -35,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 import de.berlios.jhelpdesk.dao.ArticleDAO;
 import de.berlios.jhelpdesk.model.Article;
 
-
 /**
  *
  * @author jjhop
@@ -45,7 +45,7 @@ import de.berlios.jhelpdesk.model.Article;
 @Transactional(readOnly = true)
 public class ArticleDAOJpa implements ArticleDAO {
 
-    private static final Log log = LogFactory.getLog(AnnouncementDAOJpa.class);
+    private static final Log log = LogFactory.getLog(ArticleDAOJpa.class);
     
     private JpaTemplate jpaTemplate;
 
@@ -54,43 +54,64 @@ public class ArticleDAOJpa implements ArticleDAO {
         this.jpaTemplate = new JpaTemplate(emf);
     }
 
+    @Transactional(readOnly = false)
     public void delete(Article article) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            this.jpaTemplate.remove(article);
+        } catch (Exception ex) {
+            log.error("Nie można usunąć artykułu o identyfikatorze [" + article.getArticleId() + "]", ex);
+        }
     }
 
+    @Transactional(readOnly = false)
     public void delete(Long articleId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            Article toDelete = this.jpaTemplate.find(Article.class, articleId);
+            this.jpaTemplate.remove(toDelete);
+        } catch (Exception ex) {
+            log.error("Nie można usunąć artykułu o identyfikatorze [" + articleId + "]", ex);
+        }
     }
 
     public Article getById(Long articleId) {
         try {
             return this.jpaTemplate.find(Article.class, articleId);
         } catch (Exception ex) {
-            log.error(ex);
-            return null;
+            log.error("Wystąpił problem z pobranie artykułu o identyfikatorze [" + articleId + "]", ex);
         }
+        return null;
     }
 
     public List<Article> getForSection(Long categoryId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return this.jpaTemplate.findByNamedQuery("Article.getForCategory", categoryId);
+        } catch (Exception ex) {
+            log.error("Nie można pobrać artykułów dla wskazanej kategorii.", ex);
+        }
+        return Collections.<Article>emptyList();
     }
 
     public List<Article> getLastAddedArticles(final int howMuch) {
         try {
-             return (List<Article>)this.jpaTemplate.executeFind(new JpaCallback() {
+            return (List<Article>) this.jpaTemplate.executeFind(new JpaCallback() {
                 public Object doInJpa(EntityManager em) throws PersistenceException {
                     Query q = em.createNamedQuery("Article.lastAdded");
                     q.setMaxResults(howMuch);
                     return q.getResultList();
                 }
             });
-         } catch(Exception ex) {
-            log.error("wystapil problem..", ex);
-         }
-        return null;
+        } catch (Exception ex) {
+            log.error("Nie można pobrać ostatnio dodanych artykułów.", ex);
+        }
+        return Collections.<Article>emptyList();
     }
 
+    @Transactional(readOnly = false)
     public void saveOrUpdate(Article article) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (article.getArticleId() == null) {
+            this.jpaTemplate.persist(article);
+        } else {
+            this.jpaTemplate.merge(article);
+        }
     }
 }
