@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="${project.name}">
+    <bannerLeft>
+        <name>jHelpdesk</name>
+        <src>images/logo.png</src>
+        <href>http://jhelpdesk.berlios.de/</href>
+    </bannerLeft>
+    <body>
+        <links>
+            <item name="buzzlers.com" href="http://buzzlers.com/" />
+            <item name="dev.buzzlers.com" href="http://dev.buzzlers.com/" />
+            <item name="HelpdeskOnline" href="http://hd.buzzlers.com/" />
+        </links>
+        <menu name="Main">
+            <item name="Welcome" href="index.html"/>
+        </menu>
+        <!--
+        <menu name="About jHelpdesk">
+            <item name="Latest stable" href="#"/>
+        </menu>
+        <menu name="Commercial support">
+            <item name="Latest stable" href="#"/>
+            <item name="Nightly build" href="#"/>
+        </menu>
+        <menu name="Download jHelpdesk">
+            <item name="Latest stable" href="#"/>
+            <item name="Nightly build" href="#"/>
+        </menu>
+        -->
+        <menu ref="modules" />
+        <menu ref="reports"/>
+    </body>
+</project>
