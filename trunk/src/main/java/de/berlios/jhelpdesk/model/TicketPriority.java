@@ -15,6 +15,9 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author jjhop
@@ -40,6 +43,17 @@ public enum TicketPriority {
      *
      */
     CRITICAL(4, "krytyczny");
+
+
+    private static List<TicketPriority> ps;
+
+    static {
+        ps = new ArrayList<TicketPriority>();
+        ps.add(TicketPriority.NORMAL);
+        ps.add(TicketPriority.IMPORTANT);
+        ps.add(TicketPriority.MAJOR);
+        ps.add(TicketPriority.CRITICAL);
+    }
 
     /**
      *
@@ -98,6 +112,10 @@ public enum TicketPriority {
             }
         }
         throw new IllegalArgumentException("Wartosc spoza zakresu. Dostepne wartosci to: 1, 2, 3, 4");
+    }
+
+    public static List<TicketPriority> getPriorities() {
+        return ps;
     }
 
     @Override
