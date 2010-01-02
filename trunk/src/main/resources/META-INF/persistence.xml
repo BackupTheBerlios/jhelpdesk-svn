@@ -11,6 +11,7 @@
     <class>de.berlios.jhelpdesk.model.Ticket</class>
     <class>de.berlios.jhelpdesk.model.TicketCategory</class>
     <class>de.berlios.jhelpdesk.model.TicketEvent</class>
+    <class>de.berlios.jhelpdesk.model.TicketComment</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.connection.pool_size" value="5"/>

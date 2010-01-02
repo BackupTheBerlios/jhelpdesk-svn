@@ -15,18 +15,56 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * @author jjhop
  */
-public class TicketComment {
+@Entity
+@Table(name = "ticket_comment") // -> ticket_comments
+public class TicketComment implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long ticketCommentId;
+
+    @Transient
+    @Deprecated
     private Long ticketId;
+
+    @ManyToOne
+    @JoinColumn(name="ticket_id")
+    private Ticket ticket;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User commentAuthor;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "comment_date")
     private Date commentDate;
+
+    @Column(name="comment_text")
     private String commentText;
+
+    /**
+     * Warto to zmienic na private lub coś w ten deseń...
+     */
+    @Column(name="not_for_plain_user")
     private boolean notForPlainUser;
 
     public TicketComment() {
@@ -50,6 +88,7 @@ public class TicketComment {
     /**
      * @return Returns the ticketId.
      */
+    @Deprecated
     public Long getTicketId() {
         return ticketId;
     }
@@ -57,8 +96,17 @@ public class TicketComment {
     /**
      * @param ticketId The ticketId to set.
      */
+    @Deprecated
     public void setTicketId(Long ticketId) {
         this.ticketId = ticketId;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     /**

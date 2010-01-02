@@ -51,7 +51,13 @@ public class TicketEvent implements Serializable {
     /**
      * TODO: przerobic na Ticket
      */
+    @Deprecated
+    @Transient
     private Long ticketId;
+
+    @ManyToOne
+    @JoinColumn(name="ticket_id")
+    private Ticket ticket;
 
     /**
      *
@@ -166,6 +172,7 @@ public class TicketEvent implements Serializable {
     /**
      * @return Returns the ticketId.
      */
+    @Deprecated
     public Long getTicketId() {
         return ticketId;
     }
@@ -173,8 +180,25 @@ public class TicketEvent implements Serializable {
     /**
      * @param ticketId The ticketId to set.
      */
+    @Deprecated
     public void setTicketId(Long ticketId) {
         this.ticketId = ticketId;
+    }
+
+    public int getEventTypeAsInt() {
+        return eventTypeAsInt;
+    }
+
+    public void setEventTypeAsInt(int eventTypeAsInt) {
+        this.eventTypeAsInt = eventTypeAsInt;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     @Override

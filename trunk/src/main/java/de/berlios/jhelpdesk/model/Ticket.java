@@ -33,6 +33,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
@@ -40,8 +41,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -178,14 +177,14 @@ public class Ticket implements Serializable {
      *
      * @see TicketComment
      */
-    @Transient
+    @OneToMany(mappedBy = "ticket")
     private Set<TicketComment> comments;
     
     /**
-     * Kolekcja zdarzeń związanych ze zgłoszeniem. Postanie zgłoszenia zawsze jest 
+     * Kolekcja zdarzeń związanych ze zgłoszeniem. Powstanie zgłoszenia zawsze jest
      * pierwszym zdarzeniem w kolekcji.
      */
-    @Transient
+    @OneToMany(mappedBy = "ticket")
     private Set<TicketEvent> events;
 
     /**
@@ -347,7 +346,9 @@ public class Ticket implements Serializable {
 
     /**
      * Zmienia aktualny status zgłoszenia.
-     * <p>TODO: status powinien zmieniać się według jakiegoś schematu.</p>
+     * <p>TODO: status powinien zmieniać się według jakiegoś schematu.
+     * Patrz komentarz w {@link TicketStatus}
+     * </p>
      * @param ticketStatus nowy status zgłoszenia.
      * 
      * @see #ticketStatus
@@ -633,11 +634,16 @@ public class Ticket implements Serializable {
     protected void populateTicketEnumsTransient() {
         this.ticketStatus = TicketStatus.fromInt(this.ticketStatusAsInt);
         this.ticketPriority = TicketPriority.fromInt(this.ticketPriorityAsInt);
-
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID:       ").append(this.ticketId).append("\n");
+        sb.append("CREATED:  ").append(this.createDate).append("\n");
+        sb.append("SUBJECT:  ").append(this.subject).append("\n");
+        sb.append("PRIORITY: ").append(this.ticketPriority).append("\n");
+        sb.append("STATUS:   ").append(this.ticketStatus).append("\n");
+        return sb.toString();
     }
 }
