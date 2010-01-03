@@ -15,6 +15,7 @@
  */
 package de.berlios.jhelpdesk.dao.jpa;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -78,7 +79,7 @@ public class AnnouncementDAOJpa implements AnnouncementDAO {
          } catch(Exception ex) {
             log.error("wystapil problem..", ex);
          }
-        return null;
+        return Collections.<Announcement>emptyList();
     }
 
     @Transactional(readOnly = false)
@@ -93,14 +94,8 @@ public class AnnouncementDAOJpa implements AnnouncementDAO {
     @Transactional(readOnly = false)
     public void delete(final Long announcementId) {
         try {
-            this.jpaTemplate.execute(new JpaCallback() {
-                public Object doInJpa(EntityManager em) throws PersistenceException {
-                    Query q = em.createNativeQuery("DELETE FROM announcement WHERE announcement_id=?");
-                    q.setParameter(1, announcementId);
-                    q.executeUpdate();
-                    return null;
-                }
-            });
+            Announcement toDelete = this.jpaTemplate.find(Announcement.class, announcementId);
+            this.jpaTemplate.remove(toDelete);
         } catch(Exception ex) {
             log.error(ex);
         }
