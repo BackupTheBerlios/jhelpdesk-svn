@@ -28,17 +28,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.AnnouncementDAO;
 import de.berlios.jhelpdesk.model.Announcement;
 
-@Repository("announcementDAO")
-@Qualifier("jdbc")
+@Deprecated
 public class AnnouncementDAOJdbc extends AbstractJdbcTemplateSupport implements AnnouncementDAO {
 
     private static Log log = LogFactory.getLog(AnnouncementDAOJdbc.class);
@@ -67,10 +64,9 @@ public class AnnouncementDAOJdbc extends AbstractJdbcTemplateSupport implements 
         // funkcja SQL -> drop_announcement_body()
         // trigger     -> drop_announcement_body_trg
         getJdbcTemplate().update(
-                "DELETE FROM announcement WHERE announcement_id=?",
-                new Object[]{
-                    announcementId
-                });
+            "DELETE FROM announcement WHERE announcement_id=?",
+            new Object[]{announcementId}
+        );
     }
 
     public void delete(Announcement announcement) {
@@ -80,10 +76,9 @@ public class AnnouncementDAOJdbc extends AbstractJdbcTemplateSupport implements 
         // funkcja SQL -> drop_announcement_body()
         // trigger     -> drop_announcement_body_trg
         getJdbcTemplate().update(
-                "DELETE FROM announcement WHERE announcement_id=?",
-                new Object[]{
-                    announcement.getAnnouncementId()
-                });
+            "DELETE FROM announcement WHERE announcement_id=?",
+            new Object[]{announcement.getAnnouncementId()}
+        );
     }
 
     @SuppressWarnings("unchecked")
@@ -95,97 +90,93 @@ public class AnnouncementDAOJdbc extends AbstractJdbcTemplateSupport implements 
 
     public Announcement getById(Long announcementId) {
         return (Announcement) getJdbcTemplate().queryForObject(
-                "SELECT * FROM announcement_view WHERE announcement_id=?",
-                new Object[]{
-                    announcementId
-                },
-                ANNOUNCEMENT_ROW_MAPPER);
+            "SELECT * FROM announcement_view WHERE announcement_id=?",
+            new Object[]{announcementId},
+            ANNOUNCEMENT_ROW_MAPPER
+        );
     }
 
     @SuppressWarnings("unchecked")
     public List<Announcement> getLastFew(int howMuch) {
         return getJdbcTemplate().query(
-                "SELECT * FROM announcement_view ORDER BY create_date DESC LIMIT ?",
-                new Object[]{
-                    howMuch
-                },
-                ANNOUNCEMENT_ROW_MAPPER);
+            "SELECT * FROM announcement_view ORDER BY create_date DESC LIMIT ?",
+            new Object[]{howMuch},
+            ANNOUNCEMENT_ROW_MAPPER
+        );
     }
 
     public void save(final Announcement announcement) {
         if (announcement.getAnnouncementId() != null) {
             getJdbcTemplate().execute(
-                    new ConnectionCallback() {
-
-                        public Object doInConnection(Connection conn) throws SQLException, DataAccessException {
-                            conn.setAutoCommit(false);
-                            try {
-                                PreparedStatement pstmt =
-                                        conn.prepareStatement(
-                                        "UPDATE announcement SET title=?, lead=? WHERE announcement_id=?");
-                                pstmt.setString(1, announcement.getTitle());
-                                pstmt.setString(2, announcement.getLead());
-                                pstmt.setLong(3, announcement.getAnnouncementId());
+                new ConnectionCallback() {
+                    public Object doInConnection(Connection conn) throws SQLException, DataAccessException {
+                        conn.setAutoCommit(false);
+                        try {
+                            PreparedStatement pstmt =
+                                conn.prepareStatement(
+                                "UPDATE announcement SET title=?, lead=? WHERE announcement_id=?");
+                            pstmt.setString(1, announcement.getTitle());
+                            pstmt.setString(2, announcement.getLead());
+                            pstmt.setLong(3, announcement.getAnnouncementId());
+                            pstmt.executeUpdate();
+                            if (announcement.getBody() != null) {
+                                pstmt =
+                                    conn.prepareStatement("DELETE FROM announcement_body WHERE announcement_id=?");
+                                pstmt.setLong(1, announcement.getAnnouncementId());
                                 pstmt.executeUpdate();
-                                if (announcement.getBody() != null) {
-                                    pstmt =
-                                            conn.prepareStatement("DELETE FROM announcement_body WHERE announcement_id=?");
-                                    pstmt.setLong(1, announcement.getAnnouncementId());
-                                    pstmt.executeUpdate();
-                                    pstmt =
-                                            conn.prepareStatement("INSERT INTO announcement_body(announcement_id,body) VALUES(?,?)");
-                                    pstmt.setLong(1, announcement.getAnnouncementId());
-                                    pstmt.setString(2, announcement.getBody());
-                                    pstmt.executeUpdate();
-                                }
-                                conn.commit();
-                            } catch (Exception ex) {
-                                log.error(ex);
-                                conn.rollback();
+                                pstmt =
+                                    conn.prepareStatement("INSERT INTO announcement_body(announcement_id,body) VALUES(?,?)");
+                                pstmt.setLong(1, announcement.getAnnouncementId());
+                                pstmt.setString(2, announcement.getBody());
+                                pstmt.executeUpdate();
                             }
-                            return null;
+                            conn.commit();
+                        } catch (Exception ex) {
+                            log.error(ex);
+                            conn.rollback();
                         }
-                    });
+                        return null;
+                    }
+                }
+            );
         } else {
             getJdbcTemplate().execute(
-                    new ConnectionCallback() {
-
-                        public Object doInConnection(Connection conn) throws SQLException, DataAccessException {
-                            conn.setAutoCommit(false);
-                            try {
-                                PreparedStatement pstmt =
-                                        conn.prepareStatement(
-                                        "INSERT INTO announcement(announcement_id,create_date,title,lead) "
-                                        + "VALUES(nextval('announcement_id_seq'),now(),?,?)");
-                                pstmt.setString(1, announcement.getTitle());
-                                pstmt.setString(2, announcement.getLead());
-                                pstmt.executeUpdate();
-
-                                Statement stmt =
-                                        conn.createStatement(
-                                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                                        ResultSet.CONCUR_READ_ONLY);
-                                ResultSet rs = stmt.executeQuery("SELECT currval('announcement_id_seq')");
-                                if (rs.first()) {
-                                    announcement.setAnnouncementId(rs.getLong(1));
-                                }
-
-                                if ((announcement.getBody() != null) && (announcement.getBody().length() > 0)) {
-                                    PreparedStatement pstmt3 =
-                                            conn.prepareStatement("INSERT INTO announcement_body(announcement_id,body) VALUES(?,?)");
-                                    pstmt3.setLong(1, announcement.getAnnouncementId());
-                                    pstmt3.setString(2, announcement.getBody());
-                                    pstmt3.executeUpdate();
-                                }
-                                conn.commit();
-                            } catch (Exception ex) {
-                                log.error(ex);
-                                conn.rollback();
-                                announcement.setAnnouncementId(null);
+                new ConnectionCallback() {
+                    public Object doInConnection(Connection conn) throws SQLException, DataAccessException {
+                        conn.setAutoCommit(false);
+                        try {
+                            PreparedStatement pstmt =
+                                conn.prepareStatement(
+                                "INSERT INTO announcement(announcement_id,create_date,title,lead) " +
+                                "VALUES(nextval('announcement_id_seq'),now(),?,?)");
+                            pstmt.setString(1, announcement.getTitle());
+                            pstmt.setString(2, announcement.getLead());
+                            pstmt.executeUpdate();
+                            Statement stmt =
+                                conn.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                ResultSet.CONCUR_READ_ONLY);
+                            ResultSet rs = stmt.executeQuery("SELECT currval('announcement_id_seq')");
+                            if (rs.first()) {
+                                announcement.setAnnouncementId(rs.getLong(1));
                             }
-                            return null;
+                            if ((announcement.getBody() != null) && (announcement.getBody().length() > 0)) {
+                                PreparedStatement pstmt3 =
+                                    conn.prepareStatement("INSERT INTO announcement_body(announcement_id,body) VALUES(?,?)");
+                                pstmt3.setLong(1, announcement.getAnnouncementId());
+                                pstmt3.setString(2, announcement.getBody());
+                                pstmt3.executeUpdate();
+                            }
+                            conn.commit();
+                        } catch (Exception ex) {
+                            log.error(ex);
+                            conn.rollback();
+                            announcement.setAnnouncementId(null);
                         }
-                    });
+                        return null;
+                    }
+                }
+            );
         }
     }
 }
