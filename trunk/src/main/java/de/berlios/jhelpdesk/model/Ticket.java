@@ -108,22 +108,15 @@ public class Ticket implements Serializable {
     private User inputer;
 
     /**
-     * @deprecated
-     */
-    @Deprecated
-    @Column(name = "add_phone")
-    private String addPhone;
-
-    /**
      * Krótki opis zgłoszenia. Max 256 znaków.
      */
-    @Column(name = "subject")
+    @Column(name = "subject", length = 256)
     private String subject;
 
     /**
      * Dokładny opis zgłoszenia. Max 8192 znaki.
      */
-    @Column(name = "description")
+    @Column(name = "description", length = 8192)
     private String description;
 
     /**
@@ -242,29 +235,6 @@ public class Ticket implements Serializable {
      */
     public void setTicketId(Long ticketId) {
         this.ticketId = ticketId;
-    }
-
-    /**
-     * @deprecated
-     * @return {@code null}
-     *
-     * @see #addPhone
-     */
-    @Deprecated
-    public String getAddPhone() {
-        return addPhone;
-    }
-
-    /**
-     * @deprecated
-     *
-     * @param addPhone
-     *
-     * @see #addPhone
-     */
-    @Deprecated
-    public void setAddPhone(String addPhone) {
-        this.addPhone = addPhone;
     }
 
     /**

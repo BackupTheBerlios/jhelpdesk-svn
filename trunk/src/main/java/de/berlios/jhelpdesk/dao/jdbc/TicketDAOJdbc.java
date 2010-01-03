@@ -36,7 +36,7 @@ import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import de.berlios.jhelpdesk.dao.DataAccessException;
+import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.model.EventType;
 import de.berlios.jhelpdesk.model.Ticket;
@@ -60,7 +60,7 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
     }
 
     @SuppressWarnings("unchecked")
-    public Ticket getTicketById(final Long ticketId) throws DataAccessException {
+    public Ticket getTicketById(final Long ticketId) throws DAOException {
         log.debug("getTicketById(final Long ticketId) => " + ticketId);
         try {
             Ticket ticket = (Ticket) getJdbcTemplate().queryForObject(
@@ -205,12 +205,12 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
             );
             return ticket;
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus) throws DataAccessException {
+    public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus) throws DAOException {
         try {
             return getJdbcTemplate().query(
                 "SELECT * FROM ticket WHERE ticket_status=? " +
@@ -227,12 +227,12 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus, int howMuch) throws DataAccessException {
+    public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus, int howMuch) throws DAOException {
         try {
             return getJdbcTemplate().query(
                 "SELECT * FROM ticket_list_view WHERE b_status=? " +
@@ -277,13 +277,13 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
     public List<Ticket> getTicketsByPriority(TicketPriority ticketPriority)
-            throws DataAccessException {
+            throws DAOException {
         try {
             return getJdbcTemplate().query(
                 "SELECT * FROM ticket WHERE ticket_priority=? " +
@@ -299,13 +299,13 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
     public List<Ticket> getTicketsByCategory(TicketCategory ticketCategory)
-            throws DataAccessException {
+            throws DAOException {
         try {
             return getJdbcTemplate().query(
                 "SELECT * FROM ticket WHERE ticket_category=? " +
@@ -322,12 +322,12 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public List<Ticket> getTicketsNotifyiedByUser(User user) throws DataAccessException {
+    public List<Ticket> getTicketsNotifyiedByUser(User user) throws DAOException {
         try {
             return getJdbcTemplate().query(
                 "SELECT * FROM ticket WHERE notifyier=? " +
@@ -343,12 +343,12 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public List<Ticket> getTicketsResolvedByUser(User user) throws DataAccessException {
+    public List<Ticket> getTicketsResolvedByUser(User user) throws DAOException {
         log.debug("getTicketsResolvedByUser(HDUser user) => " + user.getUserId());
         try {
             // TODO: trzeba to zaimplementowac zeby kontroler dzialal
@@ -365,26 +365,26 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
-    public void removeTicket(Ticket ticket) throws DataAccessException {
+    public void removeTicket(Ticket ticket) throws DAOException {
         remove(ticket.getTicketId());
     }
 
-    public void remove(Long ticketId) throws DataAccessException {
+    public void remove(Long ticketId) throws DAOException {
         try {
             getJdbcTemplate().update(
                 "DELETE FROM ticket WHERE ticket_id=?",
                 new Object[]{ticketId}
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
-    public void save(final Ticket ticketToSave) throws DataAccessException {
+    public void save(final Ticket ticketToSave) throws DAOException {
         try {
             getJdbcTemplate().execute(
                 new ConnectionCallback() {
@@ -392,41 +392,40 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                         conn.setAutoCommit(false);
                         PreparedStatement pstmt =
                             conn.prepareStatement(
-                                "INSERT INTO ticket(ticket_id,add_phone,"
+                                "INSERT INTO ticket(ticket_id,"
                                 + "ticket_category,ticket_priority,ticket_status,"
                                 + "saviour,notifyier,inputer,create_date,"
                                 + "description,step_by_step,subject) "
                                 + "VALUES(nextval('ticket_id_seq'),?,?,?,?,?,?,?,?,?,?,?)");
-                        pstmt.setString(1, ticketToSave.getAddPhone());
-                        pstmt.setInt(2, 0); //(2, ticketToSave.getTicketCategory().getTicketCategoryId());
-                        pstmt.setLong(3, ticketToSave.getTicketPriority().getPriorityId());
-                        pstmt.setLong(4, ticketToSave.getTicketStatus().getStatusId());
+                        pstmt.setInt(1, 0); //(2, ticketToSave.getTicketCategory().getTicketCategoryId());
+                        pstmt.setLong(2, ticketToSave.getTicketPriority().getPriorityId());
+                        pstmt.setLong(3, ticketToSave.getTicketStatus().getStatusId());
 
                         if (ticketToSave.getSaviour() != null) {
-                            pstmt.setLong(5, ticketToSave.getSaviour().getUserId());
+                            pstmt.setLong(4, ticketToSave.getSaviour().getUserId());
                         } else {
-                            pstmt.setNull(5, Types.INTEGER);
+                            pstmt.setNull(4, Types.INTEGER);
                         }
 
-                        pstmt.setLong(6, ticketToSave.getNotifier().getUserId());
-                        pstmt.setLong(7, ticketToSave.getInputer().getUserId());
+                        pstmt.setLong(5, ticketToSave.getNotifier().getUserId());
+                        pstmt.setLong(6, ticketToSave.getInputer().getUserId());
 
-                        pstmt.setTimestamp(8, new Timestamp(ticketToSave.getCreateDate().getTime()));
+                        pstmt.setTimestamp(7, new Timestamp(ticketToSave.getCreateDate().getTime()));
                         if (ticketToSave.getDescription() != null) {
-                            pstmt.setString(9, ticketToSave.getDescription());
+                            pstmt.setString(8, ticketToSave.getDescription());
                         } else {
-                            pstmt.setNull(9, Types.VARCHAR);
+                            pstmt.setNull(8, Types.VARCHAR);
                         }
 
                         if (ticketToSave.getStepByStep() != null) {
-                            pstmt.setString(10, ticketToSave.getStepByStep());
+                            pstmt.setString(9, ticketToSave.getStepByStep());
                         } else {
-                            pstmt.setNull(10, Types.VARCHAR);
+                            pstmt.setNull(9, Types.VARCHAR);
                         }
                         if (ticketToSave.getSubject() != null) {
-                            pstmt.setString(11, ticketToSave.getSubject());
+                            pstmt.setString(10, ticketToSave.getSubject());
                         } else {
-                            pstmt.setNull(11, Types.VARCHAR);
+                            pstmt.setNull(10, Types.VARCHAR);
                         }
                         pstmt.executeUpdate();
 
@@ -444,12 +443,12 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public List<Ticket> getAllTickets() throws DataAccessException {
+    public List<Ticket> getAllTickets() throws DAOException {
         try {
             return getJdbcTemplate().query(
                 new QueryBuilder().getAllQuery(),
@@ -470,13 +469,13 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
     @SuppressWarnings("unchecked")
     public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm, int limit, long offset)
-            throws DataAccessException {
+            throws DAOException {
         try {
             return getJdbcTemplate().query(
                 new QueryBuilder(filterForm).getFilteredQuery(false),
@@ -520,20 +519,20 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
-    public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm) throws DataAccessException {
+    public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm) throws DAOException {
         try {
             return getJdbcTemplate().queryForInt(
                 new QueryBuilder(filterForm).getFilteredQuery(true));
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 
-    public void addComment(TicketComment comm) throws DataAccessException {
+    public void addComment(TicketComment comm) throws DAOException {
         try {
             getJdbcTemplate().update(
                 "INSERT INTO ticket_comment(comment_id, ticket_id, " +
@@ -548,7 +547,7 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                 }
             );
         } catch (Exception ex) {
-            throw new DataAccessException(ex);
+            throw new DAOException(ex);
         }
     }
 }
