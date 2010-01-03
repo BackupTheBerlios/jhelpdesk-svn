@@ -15,44 +15,74 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 /**
- * Pliki w systmie, które są dołączane do zgłoszenia . Do każdego zgłoszenia można
- * dołączyć dowolną (ograniczoną przestrzenią dyskową) ilość plików. Pliki z założenia
- * mają pomóc osobie zajmującej się zgłoszeniem rozwiązać problem.
+ * Pliki w systemie, które są dołączane do zgłoszenia. Do każdego zgłoszenia można
+ * dołączyć dowolną (ograniczoną przestrzenią dyskową) ilość plików. W bazie danych
+ * przechowujemy informacje o plikach, same zaś plik we wskazanym katalogu. Pliki
+ * z założenia mają pomóc osobie zajmującej się zgłoszeniem rozwiązać problem.
  *
  * @author jjhop
  */
-public class AdditionalFile {
+@Entity
+@Table(name = "ticket_additional_files")
+@SequenceGenerator(name = "ticket_add_files_id_seq",
+    sequenceName= "ticket_add_files_id_seq", allocationSize = 1)
+public class AdditionalFile implements Serializable {
 
     /**
      * Identyfikator pliku
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ticket_add_files_id_seq")
+    @Column(name = "id")
     private Long fileId;
+
+    @ManyToOne
+    @JoinColumn(name="ticket_id")
+    private Ticket ticket;
 
     /**
      * Nazwa pliku.
      */
+    @Column(name = "original_filename", length = 128, nullable = false)
     private String originalFileName;
 
     /**
      * Skrót z nazwy pliku i identyfikatora. Pozwala przechowywać wiele plików
      * o tej samej nazwie w jednym miejscu nie generując przy tym problemów.
      */
+    @Column(name = "hashed_filename", length = 64, nullable = false, unique = true)
     private String hashedFileName;
 
     /**
      * Rozmiar pliku w bajtach.
      */
+    @Column(name = "file_size", nullable = false)
     private Long fileSize;
 
     /**
      * Typ pliku (np. image/x-png, application/x-word).
      */
+    @Column(name = "content_type", length = 64, nullable = false)
     private String contentType;
     
     /**
      * Zawartość pliku.
      */
+    @Transient
     private byte[] fileData;
 
     /**
@@ -77,6 +107,24 @@ public class AdditionalFile {
      */
     public void setFileId(Long fileId) {
         this.fileId = fileId;
+    }
+
+    /**
+     * Zwraca Ticket, z którym powiązany jest plik.
+     * 
+     * @return Ticket, z którym powiązany jest plik
+     */
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    /**
+     * Ustala powiązanie pliku z Ticketem.
+     *
+     * @param ticket ticket, z którym ma być powiązany plik.
+     */
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     /**

@@ -182,10 +182,10 @@ public class Ticket implements Serializable {
 
     /**
      * Kolekcja plików dołączonych do zgłoszenia.
-     * <br/>
-     * <font color="red">TODO: obsłużyć zapisywanie i usuwanie tych plików</font>
+     * 
+     * TODO: obsłużyć zapisywanie i usuwanie tych plików
      */
-    @Transient
+    @OneToMany(mappedBy = "ticket")
     private List<AdditionalFile> addFilesList;
 
     /**
@@ -559,6 +559,22 @@ public class Ticket implements Serializable {
      */
     public void setAddFilesList(List<AdditionalFile> addFilesList) {
         this.addFilesList = addFilesList;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Set<Article> getArticles() {
+        return articles;
+    }
+
+    /**
+     * 
+     * @param articles
+     */
+    public void setArticles(Set<Article> articles) {
+        this.articles = articles;
     }
 
     /**
