@@ -42,12 +42,6 @@ public class ArticleCategoryController {
     private ArticleCategoryValidator validator;
 
     @Autowired
-    @Qualifier("jdbc")
-    @Deprecated
-    private ArticleCategoryDAO categoryDAOJdbc;
-
-    @Autowired
-    @Qualifier("jpa")
     private ArticleCategoryDAO categoryDAO;
 
     @RequestMapping("/manage/knowledge/category/showAll.html")
@@ -79,7 +73,7 @@ public class ArticleCategoryController {
     @RequestMapping("/manage/knowledge/category/up.html")
     public String moveUp(@RequestParam("categoryId") Long categoryId) {
         try {
-            categoryDAOJdbc.moveUp(categoryId);
+            categoryDAO.moveUp(categoryId);
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -89,7 +83,7 @@ public class ArticleCategoryController {
     @RequestMapping("/manage/knowledge/category/down.html")
     public String moveDown(@RequestParam("categoryId") Long categoryId) {
         try {
-            categoryDAOJdbc.moveDown(categoryId);
+            categoryDAO.moveDown(categoryId);
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -110,7 +104,8 @@ public class ArticleCategoryController {
     }
 
     @RequestMapping(value = "/manage/knowledge/category/edit.html", method = RequestMethod.POST)
-    public String processSubmit(@ModelAttribute("category")  ArticleCategory category,
+    public String processSubmit(
+                  @ModelAttribute("category")  ArticleCategory category,
                   BindingResult result, SessionStatus status) throws Exception {
 
         validator.validate(category, result);

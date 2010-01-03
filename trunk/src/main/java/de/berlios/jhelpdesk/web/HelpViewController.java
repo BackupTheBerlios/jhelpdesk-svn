@@ -39,7 +39,6 @@ public class HelpViewController {
     private ArticleDAO articleDAO;
     
     @Autowired
-    @Qualifier("jpa")
     private ArticleCategoryDAO articleCategoryDAO;
 
     /**

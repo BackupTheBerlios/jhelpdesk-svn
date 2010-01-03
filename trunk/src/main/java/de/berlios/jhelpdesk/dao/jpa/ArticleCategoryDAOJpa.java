@@ -17,13 +17,17 @@ package de.berlios.jhelpdesk.dao.jpa;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +58,9 @@ public class ArticleCategoryDAOJpa implements ArticleCategoryDAO {
         log.debug("--------------------- DELETE START ---------------------");
         ArticleCategory categoryToRemove = this.getById(categoryId);
         log.debug("--------------------- DELETE MIDDLE --------------------");
+        // TODO: tutaj nalezaloby jeszcze zmienic category_position dla wszystkich
+        //       rekordow powyzej category_position - odjac 1 dla kazdemu - może
+        //       to być zrealizowane za pomocą triggera w bazie danych
         this.jpaTemplate.remove(categoryToRemove);
         log.debug("--------------------- DELETE END -----------------------");
     }
@@ -66,12 +73,28 @@ public class ArticleCategoryDAOJpa implements ArticleCategoryDAO {
         return this.jpaTemplate.find(ArticleCategory.class, categoryId);
     }
 
-    public void moveDown(Long categoryId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Transactional(readOnly = false)
+    public void moveDown(final Long categoryId) {
+        this.jpaTemplate.execute(new JpaCallback() {
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                Query q = em.createNativeQuery("SELECT category_move_down(?)");
+                q.setParameter(1, categoryId);
+                q.getSingleResult();
+                return null;
+            }
+        });
     }
 
-    public void moveUp(Long categoryId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Transactional(readOnly = false)
+    public void moveUp(final Long categoryId) {
+        this.jpaTemplate.execute(new JpaCallback() {
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                Query q = em.createNativeQuery("SELECT category_move_up(?)");
+                q.setParameter(1, categoryId);
+                q.getSingleResult();
+                return null;
+            }
+        });
     }
 
     @Transactional(readOnly = false)
