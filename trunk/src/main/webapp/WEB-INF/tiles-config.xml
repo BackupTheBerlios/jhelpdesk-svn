@@ -122,6 +122,15 @@
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/showTicketsNotifiedByMeForm.jsp"/>
 		<put-attribute name="content" value="/WEB-INF/jsp/tickets/notifiedByMe.jsp"/>
 	</definition>
+
+        <definition
+            name="tickets/new"
+            extends="baseLayout">
+                <put-attribute name="title" value="Dodawanie/edycja zgłoszenia"/>
+		<put-attribute name="displayFilterLink" value="none"/>
+		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/jsp/tickets/new.jsp"/>
+        </definition>
 	
 	<definition
 		name="editTicket"
