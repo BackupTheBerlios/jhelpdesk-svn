@@ -396,7 +396,7 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                                 + "ticket_category,ticket_priority,ticket_status,"
                                 + "saviour,notifyier,inputer,create_date,"
                                 + "description,step_by_step,subject) "
-                                + "VALUES(nextval('ticket_id_seq'),?,?,?,?,?,?,?,?,?,?,?)");
+                                + "VALUES(nextval('ticket_id_seq'),?,?,?,?,?,?,?,?,?,?)");
                         pstmt.setInt(1, 0); //(2, ticketToSave.getTicketCategory().getTicketCategoryId());
                         pstmt.setLong(2, ticketToSave.getTicketPriority().getPriorityId());
                         pstmt.setLong(3, ticketToSave.getTicketStatus().getStatusId());
