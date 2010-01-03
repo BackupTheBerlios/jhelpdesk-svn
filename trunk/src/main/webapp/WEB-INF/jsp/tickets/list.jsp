@@ -6,9 +6,6 @@
     <div id="content">
         <div class="contenttop"></div>
         <div class="contentmiddle">
-            <hr/>
-            <util:pdfurl url="showTickets.html">PDF</util:pdfurl>
-            <hr/>
             <display:table
                 name="tickets" id="ticketsIterator" export="false" pagesize="25" requestURI="" cellspacing="0"
                 sort="external" partialList="true" size="ticketsListSize">
