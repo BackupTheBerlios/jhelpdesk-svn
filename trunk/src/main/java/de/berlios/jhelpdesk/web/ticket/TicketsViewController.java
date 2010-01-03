@@ -26,11 +26,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
@@ -43,6 +47,9 @@ import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.web.commons.PagingParamsEncoder;
 import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 
+@Controller("killerTicketsViewController")
+@Scope("prototype")
+@RequestMapping("/showTickets.html")
 public class TicketsViewController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(TicketsViewController.class);
@@ -65,6 +72,13 @@ public class TicketsViewController extends SimpleFormController {
     private ShowTicketsFilterForm filterForm;
     
     private Map<String, Object> refData;
+
+    public TicketsViewController() {
+        setCommandClass(ShowTicketsFilterForm.class);
+        setCommandName("filterForm");
+        setFormView("ticketsList");
+        setSuccessView("showTickets.html");
+    }
 
     @Override
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse arg1, BindException arg2)

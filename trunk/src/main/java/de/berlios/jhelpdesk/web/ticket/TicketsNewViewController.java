@@ -28,15 +28,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import de.berlios.jhelpdesk.dao.DataAccessException;
+import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
@@ -48,6 +52,9 @@ import de.berlios.jhelpdesk.web.form.ShowTicketsNewFilterForm;
 import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 
 @Deprecated
+@Controller("killerNewTicketsViewController")
+@Scope("prototype")
+@RequestMapping("/showNewTickets.html")
 public class TicketsNewViewController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(TicketsNewViewController.class);
@@ -66,6 +73,13 @@ public class TicketsNewViewController extends SimpleFormController {
     @Autowired
     @Qualifier("jdbc")
     private UserDAO userDAO;
+
+    public TicketsNewViewController() {
+        setCommandClass(ShowTicketsNewFilterForm.class);
+        setCommandName("filterForm");
+        setFormView("ticketsNewList");
+        setSuccessView("showNewTickets.html");
+    }
 
     @Override
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
@@ -109,7 +123,7 @@ public class TicketsNewViewController extends SimpleFormController {
                 }
             }
             return refData;
-        } catch (DataAccessException ex) {
+        } catch (DAOException ex) {
             throw new ServletException(ex);
         }
     }

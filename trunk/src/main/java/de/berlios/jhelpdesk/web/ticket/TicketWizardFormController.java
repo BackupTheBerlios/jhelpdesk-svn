@@ -15,6 +15,7 @@
  */
 package de.berlios.jhelpdesk.web.ticket;
 
+import java.lang.reflect.Field;
 import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -33,10 +34,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,18 +52,21 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.AdditionalFile;
 import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.Ticket;
+import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.tools.UserEditor;
 
+@Controller("killerTicketEditController")
+@RequestMapping("/newTicket.html")
 public class TicketWizardFormController extends AbstractWizardFormController {
 
     private static Log log = LogFactory.getLog(TicketWizardFormController.class);
 
     @Autowired
-    @Qualifier("jdbc")
-    private TicketDAO ticketDao;
+    @Qualifier("jpa")
+    private TicketDAO ticketDaoJpa;
 
     @Autowired
     private TicketCategoryDAO ticketCategoryDAO;
@@ -69,7 +75,18 @@ public class TicketWizardFormController extends AbstractWizardFormController {
     @Qualifier("jdbc")
     private UserDAO userDAO;
 
-    private String fileRepositoryPath;
+    private String fileRepositoryPath = "c:\\helpdesk\\files\\";
+
+    public TicketWizardFormController() {
+        setCommandClass(Ticket.class);
+        setCommandName("hdticket");
+        setPages(
+            new String[]{
+                "ticketWizard/step1", "ticketWizard/step2",
+                "ticketWizard/step3", "ticketWizard/step4", "ticketWizard/summary"
+            }
+        );
+    }
 
     @Override
     protected void validatePage(Object command, Errors errors, int page, boolean finish) {
@@ -133,7 +150,9 @@ public class TicketWizardFormController extends AbstractWizardFormController {
             ticket.setTicketStatus(TicketStatus.NOTIFIED);
             ticket.setInputer((User) request.getSession().getAttribute("user"));
 
-            ticketDao.save(ticket);
+            ticket.setTicketCategory(new TicketCategory(1, null)); // TODO: jakoś to słabo wygląda...
+
+            ticketDaoJpa.save(ticket);
             File thisTicketRepository =
                     new File(
                     new StringBuffer(repository.getAbsolutePath()).append(File.separatorChar).append(ticket.getTicketId()).toString());
@@ -146,7 +165,6 @@ public class TicketWizardFormController extends AbstractWizardFormController {
                 }
             }
         } catch (Exception ex) {
-            // TODO: jakas sensowna obsluga wyjątku?
             ex.printStackTrace();
         }
 
@@ -168,7 +186,15 @@ public class TicketWizardFormController extends AbstractWizardFormController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
         UserEditor userEditor = new UserEditor();
-        userEditor.setUserDAO(userDAO);
+
+        try {
+            Field userDAOField = UserEditor.class.getDeclaredField("userDAO");
+            userDAOField.setAccessible(true);
+            userDAOField.set(userEditor, userDAO);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+
         binder.registerCustomEditor(User.class, userEditor);
     }
 
@@ -181,19 +207,5 @@ public class TicketWizardFormController extends AbstractWizardFormController {
         refData.put("users", userDAO.getAllUser());
         refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
         return refData;
-    }
-
-//	@Override
-//	protected int getTargetPage( HttpServletRequest request, Object command, Errors errors, int page ) {
-//		if( errors.hasErrors() )
-//			return page;
-//		if( request.getParameter( "checkLogin" ) != null )
-//			return 0;
-//		//return ( request.getParameter( "back" ) != null ) ? ( page - 1 ) : ( page + 1 );
-//		return super.getTargetPage( request, command, errors, page );
-//	}
-    /** @param fileRepositoryPath the fileRepositoryPath to set */
-    public void setFileRepositoryPath(String fileRepositoryPath) {
-        this.fileRepositoryPath = fileRepositoryPath;
     }
 }

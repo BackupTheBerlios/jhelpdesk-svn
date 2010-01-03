@@ -15,14 +15,8 @@
  */
 package de.berlios.jhelpdesk.web.ticket;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.activation.MimetypesFileTypeMap;
-
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,7 +29,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketDAO;
-import de.berlios.jhelpdesk.model.AdditionalFile;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketComment;
 import de.berlios.jhelpdesk.model.TicketPriority;
@@ -108,23 +101,22 @@ public class TicketViewController {
         System.out.println("ticketId => " + ticketId);
         Ticket ticket = ticketDaoJpa.getTicketById(ticketId);
 
-        List<AdditionalFile> addFiles = new ArrayList<AdditionalFile>();
-        File repDir = new File(new StringBuffer(repositoryPath).append(File.separatorChar).append(ticketId).toString());
-
-        if (repDir.exists() && repDir.isDirectory()) {
-            for (File f : repDir.listFiles()) {
-                AdditionalFile addFile = new AdditionalFile();
-                addFile.setOriginalFileName(f.getName());
-                String mimeType = new MimetypesFileTypeMap().getContentType(f.getName());
-                addFile.setContentType((mimeType != null) ? mimeType : "application/octet-strem");
-                addFile.setFileSize(f.length());
-                addFile.setHashedFileName(FileUtils.byteCountToDisplaySize(f.length()));
-                addFiles.add(addFile);
-            }
-        }
+//        List<AdditionalFile> addFiles = new ArrayList<AdditionalFile>(); // addFilesList
+//        File repDir = new File(new StringBuffer(repositoryPath).append(File.separatorChar).append(ticketId).toString());
+//
+//        if (repDir.exists() && repDir.isDirectory()) {
+//            for (File f : repDir.listFiles()) {
+//                AdditionalFile addFile = new AdditionalFile();
+//                addFile.setOriginalFileName(f.getName());
+//                String mimeType = new MimetypesFileTypeMap().getContentType(f.getName());
+//                addFile.setContentType((mimeType != null) ? mimeType : "application/octet-strem");
+//                addFile.setFileSize(f.length());
+//                addFile.setHashedFileName(FileUtils.byteCountToDisplaySize(f.length()));
+//                addFiles.add(addFile);
+//            }
+//        }
 
         mav.addAttribute("ticket", ticket);
-        mav.addAttribute("files", addFiles);
         mav.addAttribute("ticketPriorities", TicketPriority.values());
         mav.addAttribute("ticketStatuses", TicketStatus.values());
         mav.addAttribute("ticketCategories", ticketCategoryDao.getAllCategories());
