@@ -130,7 +130,7 @@ public class TicketsAssignedToMeViewController extends SimpleFormController {
                     ff.setSaviours(n);
                     ff.setStatuses(filterForm.getStatuses());
                     PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "p_id", request, PAGE_SIZE);
-                    refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(ff));
+                    refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(ff).intValue());
                     refData.put("tickets", ticketDao.getTicketsWithFilter(ff, PAGE_SIZE, enc.getOffset()));
                 } else {
                     refData.put("tickets", ticketDao.getAllTickets());
@@ -183,7 +183,7 @@ public class TicketsAssignedToMeViewController extends SimpleFormController {
                 saviours.add(u);
                 ff.setSaviours(saviours);
                 PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "p_id", request, PAGE_SIZE);
-                refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(ff));
+                refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(ff).intValue());
                 refData.put("tickets", ticketDao.getTicketsWithFilter(ff, PAGE_SIZE, enc.getOffset()));
             } else {
                 refData.put("tickets", ticketDao.getAllTickets());
