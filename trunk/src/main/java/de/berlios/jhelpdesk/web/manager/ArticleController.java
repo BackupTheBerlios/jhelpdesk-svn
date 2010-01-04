@@ -15,6 +15,8 @@
  */
 package de.berlios.jhelpdesk.web.manager;
 
+import java.text.NumberFormat;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -22,18 +24,24 @@ import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
 
+import de.berlios.jhelpdesk.dao.ArticleCategoryDAO;
 import de.berlios.jhelpdesk.dao.ArticleDAO;
 import de.berlios.jhelpdesk.model.Article;
+import de.berlios.jhelpdesk.model.ArticleCategory;
 import de.berlios.jhelpdesk.model.User;
+import de.berlios.jhelpdesk.web.tools.ArticleCategoryEditor;
+import de.berlios.jhelpdesk.web.tools.UserEditor;
 
 /**
  *
@@ -48,13 +56,25 @@ public class ArticleController {
     private static Log log = LogFactory.getLog(ArticleController.class);
     
     @Autowired
-    @Qualifier("jdbc")
-    @Deprecated
-    private ArticleDAO articleDAO;
-
-    @Autowired
     @Qualifier("jpa")
     private ArticleDAO articleDAOJpa;
+
+    @Autowired
+    private ArticleCategoryDAO articleCategoryDAO;
+
+    @Autowired
+    private ArticleCategoryEditor articleCategoryEditor;
+
+    @Autowired
+    private UserEditor userEditor;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(ArticleCategory.class, "category", articleCategoryEditor);
+        binder.registerCustomEditor(User.class, "author", userEditor);
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, nf, true));
+    }
 
     /**
      * TODO: usunąć {@code required=false} z parametru.
@@ -69,7 +89,7 @@ public class ArticleController {
                   ModelMap map) {
 
         try {
-            map.addAttribute("articles", articleDAO.getForSection(categoryId));
+            map.addAttribute("articles", articleDAOJpa.getForSection(categoryId));
             map.addAttribute("categoryId", categoryId);
         } catch (Exception ex) {
             log.error(ex);
@@ -95,7 +115,7 @@ public class ArticleController {
     @RequestMapping("/manage/knowledge/article/remove.html")
     public String remove(@RequestParam("articleId") Long articleId) {
         try {
-            articleDAO.delete(articleId);
+            articleDAOJpa.delete(articleId);
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -106,26 +126,35 @@ public class ArticleController {
     public String prepareForm(
                   @RequestParam(value = "articleId", required = false) Long articleId,
                   @RequestParam(value = "categoryId", required = false) Long categoryId,
-                  ModelMap map) {
+                  HttpSession session, ModelMap map) {
+        
+        Article article = null;
+        if (articleId == null) {
+            article = new Article();
+            article.setCategory(articleCategoryDAO.getById(categoryId));
+            article.setAuthor((User) session.getAttribute("user"));
+        } else {
+            article = articleDAOJpa.getById(articleId);
+        }
 
-        Article article = (articleId == null) ? new Article() : articleDAOJpa.getById(articleId);
-        article.setArticleSectionId(categoryId);
         map.addAttribute("article", article);
         return "manage/knowledge/article/edit";
     }
 
     @RequestMapping(value = "/manage/knowledge/article/edit.html", method = RequestMethod.POST)
-    public String processSubmit(@ModelAttribute("article") Article article,
-                  BindingResult result, SessionStatus status, HttpSession session) {
+    public String processSubmit(
+                  @ModelAttribute("article") Article article,
+                  BindingResult result, HttpSession session) {
 
         if (result.hasErrors()) {
+            for (Object o : result.getAllErrors()) {
+                System.out.println("e: " + o);
+            }
             return "manage/knowledge/article/edit";
         }
-        if (article.getArticleId() == null) {
-            article.setAuthor((User) session.getAttribute("user"));
-        }
-        articleDAO.saveOrUpdate(article);
-        status.setComplete();
+        System.out.println("ArticleController --------------------- 147");
+        articleDAOJpa.saveOrUpdate(article);
+        System.out.println("ArticleController --------------------- 149");
         return "redirect:showAll.html";
     }
 }

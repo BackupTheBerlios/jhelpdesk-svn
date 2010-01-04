@@ -1,5 +1,6 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div id="editsection" class="management">
     <div id="pagecontentheader"><h2>Zarządzanie</h2></div>
@@ -10,15 +11,12 @@
                 <div id="content">
                     <div class="contenttop"></div>
                     <div class="contentmiddle">
-                        <form action="" method="post">
+                        <form:form commandName="article">
                             <c:if test="${article.articleId != null}">
-                                <spring:bind path="article.articleId">
-                                    <input type="hidden" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-                                </spring:bind>
+                                <form:hidden path="articleId"/>
                             </c:if>
-                            <spring:bind path="article.articleSectionId">
-                                <input type="hidden" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-                            </spring:bind>
+                            <form:hidden path="category"/>
+                            <form:hidden path="author"/>
                             <table cellspacing="0" class="standardtable">
                                 <tr>
                                     <td>Tytuł</td>
@@ -64,7 +62,7 @@
                                     </td>
                                 </tr>
                             </table>
-                        </form>
+                        </form:form>
                     </div>
                     <div class="contentbottom"></div>
                 </div>
