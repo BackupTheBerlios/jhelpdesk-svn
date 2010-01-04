@@ -26,11 +26,11 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+//import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
+//import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.ArticleDAO;
 import de.berlios.jhelpdesk.model.Article;
@@ -39,8 +39,8 @@ import de.berlios.jhelpdesk.model.User;
 /**
  * @author jjhop
  */
-@Repository("articleDAO")
-@Qualifier("jdbc")
+//@Repository("articleDAO")
+//@Qualifier("jdbc")
 public class ArticleDAOJdbc extends AbstractJdbcTemplateSupport implements ArticleDAO {
 
     @Autowired
@@ -88,8 +88,8 @@ public class ArticleDAOJdbc extends AbstractJdbcTemplateSupport implements Artic
             // and we have to save it as new one (and return with
             // articleId set to database id)
             getJdbcTemplate().update(
-                "UPDATE article SET title=?,article_category_id=?,"
-                + "create_date=?,lead=?,body=?,user_id=? WHERE article_id=?",
+                "UPDATE article SET title=?,article_category_id=?," +
+                "create_date=?,lead=?,body=?,user_id=? WHERE article_id=?",
                 new Object[]{
                     article.getTitle(), article.getArticleSectionId(),
                     article.getCreateDate(), article.getLead(), article.getBody(),
@@ -133,30 +133,28 @@ public class ArticleDAOJdbc extends AbstractJdbcTemplateSupport implements Artic
     @SuppressWarnings("unchecked")
     public List<Article> getForSection(Long categoryId) {
         return getJdbcTemplate().query(
-                "SELECT article.*, users.login,users.first_name, users.last_name "
-                + "FROM article, users "
-                + "WHERE article_category_id=? AND article.user_id=users.user_id",
-                new Object[]{
-                    categoryId
-                },
-                new RowMapper() {
-
-                    public Object mapRow(ResultSet rs, int row) throws SQLException {
-                        Article article = new Article();
-                        article.setArticleId(rs.getLong("article_id"));
-                        article.setArticleSectionId(rs.getLong("article_category_id"));
-                        article.setTitle(rs.getString("title"));
-                        article.setCreateDate(rs.getTimestamp("create_date"));
-                        article.setAuthor(
-                                new User(
-                                rs.getLong("user_id"),
-                                rs.getString("login"),
-                                rs.getString("first_name"),
-                                rs.getString("last_name")));
-                        /// itd...
-                        return article;
-                    }
-                });
+            "SELECT article.*, users.login,users.first_name, users.last_name " +
+            "FROM article, users " +
+            "WHERE article_category_id=? AND article.user_id=users.user_id",
+            new Object[]{categoryId},
+            new RowMapper() {
+                public Object mapRow(ResultSet rs, int row) throws SQLException {
+                    Article article = new Article();
+                    article.setArticleId(rs.getLong("article_id"));
+                    article.setArticleSectionId(rs.getLong("article_category_id"));
+                    article.setTitle(rs.getString("title"));
+                    article.setCreateDate(rs.getTimestamp("create_date"));
+                    article.setAuthor(
+                            new User(
+                            rs.getLong("user_id"),
+                            rs.getString("login"),
+                            rs.getString("first_name"),
+                            rs.getString("last_name")));
+                    /// itd...
+                    return article;
+                }
+            }
+        );
     }
 
     @SuppressWarnings("unchecked")
