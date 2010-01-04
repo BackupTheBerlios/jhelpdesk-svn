@@ -348,28 +348,6 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Ticket> getTicketsResolvedByUser(User user) throws DAOException {
-        log.debug("getTicketsResolvedByUser(HDUser user) => " + user.getUserId());
-        try {
-            // TODO: trzeba to zaimplementowac zeby kontroler dzialal
-            return getJdbcTemplate().query(
-                "SELECT * FROM ticket WHERE",
-                new Object[]{user.getUserId()},
-                new RowMapper() {
-                    public Object mapRow(ResultSet rs, int row) throws SQLException {
-                        Ticket ticket = new Ticket();
-                        ticket.setTicketId(rs.getLong("ticket_id"));
-                        ticket.setSubject(rs.getString("subject"));
-                        return ticket;
-                    }
-                }
-            );
-        } catch (Exception ex) {
-            throw new DAOException(ex);
-        }
-    }
-
     public void removeTicket(Ticket ticket) throws DAOException {
         remove(ticket.getTicketId());
     }

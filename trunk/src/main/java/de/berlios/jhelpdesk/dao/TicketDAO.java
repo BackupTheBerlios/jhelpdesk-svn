@@ -87,14 +87,6 @@ public interface TicketDAO {
             throws DAOException;
 
     /**
-     * 
-     * @param user
-     * @return
-     */
-    public List<Ticket> getTicketsResolvedByUser(User user)
-            throws DAOException;
-
-    /**
      * Usuwa wybrane zgłoszenie.
      * 
      * @param ticket

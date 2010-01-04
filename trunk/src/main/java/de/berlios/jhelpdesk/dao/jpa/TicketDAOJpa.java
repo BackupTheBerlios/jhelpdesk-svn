@@ -37,7 +37,6 @@ import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketCategory;
-import de.berlios.jhelpdesk.model.TicketComment;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
@@ -74,15 +73,17 @@ public class TicketDAOJpa implements TicketDAO {
     }
 
     public List<Ticket> getTicketsByCategory(TicketCategory ticketCategory) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.jpaTemplate.findByNamedQuery("Ticket.allByCategory", ticketCategory);
     }
 
     public List<Ticket> getTicketsByPriority(TicketPriority ticketPriority) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // INFO: ticketPriority.toInt() musi być dlatego ze jest trick w encji...
+        return this.jpaTemplate.findByNamedQuery("Ticket.allByPriority", ticketPriority.toInt());
     }
 
     public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // INFO: ticketStatus.toInt() musi być dlatego ze jest trick w encji...
+        return this.jpaTemplate.findByNamedQuery("Ticket.allByStatus", ticketStatus.toInt());
     }
 
     public List<Ticket> getTicketsByStatus(final TicketStatus ticketStatus, final int howMuch) throws DAOException {
@@ -101,11 +102,7 @@ public class TicketDAOJpa implements TicketDAO {
     }
 
     public List<Ticket> getTicketsNotifyiedByUser(User user) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public List<Ticket> getTicketsResolvedByUser(User user) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.jpaTemplate.findByNamedQuery("Ticket.allByNotifier", user);
     }
 
     public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm, int limit, long offset) throws DAOException {
