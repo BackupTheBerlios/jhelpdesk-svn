@@ -117,7 +117,7 @@ public interface TicketDAO {
     /**
      * @param filterForm
      */
-    public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm,
+    public abstract List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm,
             int limit, long offset) throws DAOException;
 
     /**
@@ -125,7 +125,7 @@ public interface TicketDAO {
      * @param filterForm
      * @return
      */
-    public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm)
+    public Long countTicketsWithFilter(ShowTicketsFilterForm filterForm)
             throws DAOException;
 
 }

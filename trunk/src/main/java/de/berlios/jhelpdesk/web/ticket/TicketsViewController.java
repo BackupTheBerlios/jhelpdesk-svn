@@ -57,8 +57,8 @@ public class TicketsViewController extends SimpleFormController {
     private static int PAGE_SIZE = 25;
 
     @Autowired
-    @Qualifier("jdbc")
-    private TicketDAO ticketDao;
+    @Qualifier("jpa")
+    private TicketDAO ticketDaoJpa;
 
     @Autowired
     private TicketCategoryDAO ticketCategoryDAO;
@@ -86,7 +86,7 @@ public class TicketsViewController extends SimpleFormController {
         log.info("showForm()->start");
         if (request.getParameter("format") != null && request.getParameter("format").equalsIgnoreCase("pdf")) {
             ModelAndView pdfMaV = new ModelAndView("full-list-pdf");
-            pdfMaV.addObject("tickets", ticketDao.getTicketsWithFilter(filterForm, Integer.MAX_VALUE, 0));
+            pdfMaV.addObject("tickets", ticketDaoJpa.getTicketsWithFilter(filterForm, Integer.MAX_VALUE, 0));
             return pdfMaV;
         }
         return super.showForm(request, arg1, arg2);
@@ -101,8 +101,8 @@ public class TicketsViewController extends SimpleFormController {
     }
 
     /**
-     * tutaj chyba trzeba zapakowa� do view zestaw wszystkich interesujacych zgłoszeń przynajmniej na poczatek bo potem
-     * w onSubmit bedziemy robic to jeszcze raz
+     * tutaj chyba trzeba zapakować do view zestaw wszystkich interesujacych zgłoszeń przynajmniej 
+     * na poczatek bo potem w onSubmit bedziemy robic to jeszcze raz
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -118,11 +118,11 @@ public class TicketsViewController extends SimpleFormController {
                 refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
                 if (filterForm != null) {
                     PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "b_status", request, PAGE_SIZE);
-                    refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(filterForm));
-                    refData.put("tickets", ticketDao.getTicketsWithFilter(filterForm, PAGE_SIZE, enc.getOffset()));
+                    refData.put("ticketsListSize", ticketDaoJpa.countTicketsWithFilter(filterForm).intValue());
+                    refData.put("tickets", ticketDaoJpa.getTicketsWithFilter(filterForm, PAGE_SIZE, enc.getOffset()));
                     log.debug("getTicketsWithFilter()");
                 } else {
-                    refData.put("tickets", ticketDao.getAllTickets());
+                    refData.put("tickets", ticketDaoJpa.getAllTickets());
                     log.debug("getAllTicketsAsBean()");
                 }
             }
@@ -192,10 +192,10 @@ public class TicketsViewController extends SimpleFormController {
             refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
             if (filterForm != null) {
                 PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "b_status", request, PAGE_SIZE);
-                refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(filterForm));
-                refData.put("tickets", ticketDao.getTicketsWithFilter(filterForm, PAGE_SIZE, enc.getOffset()));
+                refData.put("ticketsListSize", ticketDaoJpa.countTicketsWithFilter(filterForm).intValue());
+                refData.put("tickets", ticketDaoJpa.getTicketsWithFilter(filterForm, PAGE_SIZE, enc.getOffset()));
             } else {
-                refData.put("tickets", ticketDao.getAllTickets());
+                refData.put("tickets", ticketDaoJpa.getAllTickets());
             }
         }
         refData.put("filterForm", command);

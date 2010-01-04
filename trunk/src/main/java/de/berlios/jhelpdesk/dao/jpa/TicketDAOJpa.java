@@ -35,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
+import de.berlios.jhelpdesk.dao.tools.QueryBuilder;
+import de.berlios.jhelpdesk.dao.tools.QueryBuilderJpa;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketPriority;
@@ -60,8 +62,13 @@ public class TicketDAOJpa implements TicketDAO {
         this.jpaTemplate = new JpaTemplate(emf);
     }
 
-    public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Long countTicketsWithFilter(final ShowTicketsFilterForm filterForm) throws DAOException {
+        return (Long) this.jpaTemplate.execute(new JpaCallback() {
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                Query q = new QueryBuilderJpa(filterForm, em).getFilteredQuery(true);
+                return q.getSingleResult();
+            }
+        });
     }
 
     public List<Ticket> getAllTickets() throws DAOException {
@@ -105,8 +112,16 @@ public class TicketDAOJpa implements TicketDAO {
         return this.jpaTemplate.findByNamedQuery("Ticket.allByNotifier", user);
     }
 
-    public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm, int limit, long offset) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Ticket> getTicketsWithFilter(final ShowTicketsFilterForm filterForm, final int limit, final long offset) throws DAOException {
+        // new QueryBuilder(filterForm).getFilteredQuery(false)
+        return (List<Ticket>) this.jpaTemplate.execute(new JpaCallback() {
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                Query q = new QueryBuilderJpa(filterForm, em).getFilteredQuery(false);
+                q.setMaxResults(limit);
+                q.setFirstResult((int) offset); // TODO: refaktoryzować
+                return q.getResultList();
+            }
+        });
     }
 
     @Transactional(readOnly = false)

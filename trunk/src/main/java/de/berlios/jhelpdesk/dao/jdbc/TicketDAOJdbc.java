@@ -38,6 +38,7 @@ import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
+import de.berlios.jhelpdesk.dao.tools.QueryBuilder;
 import de.berlios.jhelpdesk.model.EventType;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketCategory;
@@ -502,106 +503,12 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
         }
     }
 
-    public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm) throws DAOException {
+    public Long countTicketsWithFilter(ShowTicketsFilterForm filterForm) throws DAOException {
         try {
-            return getJdbcTemplate().queryForInt(
+            return getJdbcTemplate().queryForLong(
                 new QueryBuilder(filterForm).getFilteredQuery(true));
         } catch (Exception ex) {
             throw new DAOException(ex);
         }
-    }
-}
-
-class QueryBuilder {
-
-    private static Log log = LogFactory.getLog(QueryBuilder.class);
-    ShowTicketsFilterForm filter;
-
-    public QueryBuilder() {
-    }
-
-    public QueryBuilder(ShowTicketsFilterForm filterForm) {
-        filter = filterForm;
-    }
-
-    public String getFilteredQuery(boolean countOnly) {
-        StringBuffer sb = new StringBuffer();
-        if (!countOnly) {
-            sb.append("SELECT * FROM ticket_list_view WHERE ");
-        } else {
-            sb.append("SELECT COUNT(*) FROM ticket_list_view WHERE ");
-        }
-
-        if ((filter.getStartDate() != null)
-                && (filter.getStartDate().length() > 0)) {
-            sb.append(" b_create_date >= '" + filter.getStartDate() + "' AND ");
-        }
-        if ((filter.getEndDate() != null)
-                && (filter.getEndDate().length() > 0)) {
-            sb.append(" b_create_date <= '" + filter.getEndDate() + "' AND ");
-        }
-        if ((filter.getCategories() != null)
-                && (filter.getCategories().size() > 0)) {
-            String cat_ = "";
-            for (TicketCategory cat : filter.getCategories()) {
-                cat_ += cat.getTicketCategoryId().intValue() + ",";
-            }
-            cat_ += "-1";
-            sb.append(" c_id IN(" + cat_ + ") AND ");
-        }
-
-        if ((filter.getNotifyiers() != null)
-                && (filter.getNotifyiers().size() > 0)) {
-            String not_ = "";
-            for (User user : filter.getNotifyiers()) {
-                not_ += user.getUserId().intValue() + ",";
-            }
-            not_ += "-1";
-            sb.append(" n_id IN(" + not_ + ") AND ");
-        }
-
-        if ((filter.getSaviours() != null)
-                && (filter.getSaviours().size() > 0)) {
-            String sav_ = "";
-            for (User user : filter.getSaviours()) {
-                sav_ += user.getUserId().intValue() + ",";
-            }
-            sav_ += "-1";
-            sb.append(" s_id IN(" + sav_ + ") AND ");
-        }
-
-        if ((filter.getPriorities() != null)
-                && (filter.getPriorities().size() > 0)) {
-            String priors_ = "";
-            for (TicketPriority pr : filter.getPriorities()) {
-                priors_ += pr.getPriorityId() + ",";
-            }
-            priors_ += "-1";
-            sb.append(" p_id IN(" + priors_ + ") AND ");
-        }
-
-        if ((filter.getStatuses() != null)
-                && (filter.getStatuses().size() > 0)) {
-            String stat_ = "";
-            for (TicketStatus stat : filter.getStatuses()) {
-                stat_ += stat.getStatusId() + ",";
-            }
-            stat_ += "-1";
-            sb.append(" b_status IN(" + stat_ + ") AND ");
-        }
-
-        sb.append(" true ");
-        if (!countOnly) {
-            sb.append("ORDER BY b_create_date DESC LIMIT ? OFFSET ?");
-        }
-
-        log.debug(sb.toString());
-        return sb.toString();
-    }
-
-    public String getAllQuery() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("SELECT * FROM ticket_list_view ORDER BY b_create_date DESC");
-        return sb.toString();
     }
 }
