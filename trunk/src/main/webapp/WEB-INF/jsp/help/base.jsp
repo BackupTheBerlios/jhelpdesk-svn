@@ -1,5 +1,6 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div id="knowledgebase" class="management">
     <div id="pagecontentheader"><h2>Pomoc</h2></div>
@@ -46,7 +47,7 @@
                                 <td class="lastcol">
                                     <ol>
                                         <c:forEach items="${categories}" var="itemSection">
-                                            <li><c:out value="${itemSection.categoryName}"/>
+                                            <li><c:out value="${itemSection.categoryName}"/> (${fn:length(itemSection.articles)})
                                                 <ul>
                                                     <c:forEach items="${itemSection.articles}" var="art">
                                                         <li>
