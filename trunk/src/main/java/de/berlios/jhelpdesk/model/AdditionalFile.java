@@ -28,6 +28,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.io.FileUtils;
+
 /**
  * Pliki w systemie, które są dołączane do zgłoszenia. Do każdego zgłoszenia można
  * dołączyć dowolną (ograniczoną przestrzenią dyskową) ilość plików. W bazie danych
@@ -206,6 +208,17 @@ public class AdditionalFile implements Serializable {
      */
     public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    /**
+     * Zwraca rozmiar plik sformatowany w sposób czytelny dla człowieka.
+     * 
+     * @return rozmiar plik sformatowany w sposób czytelny dla człowieka
+     *
+     * @see FileUtils#byteCountToDisplaySize(long)
+     */
+    public String getHumanReadableFileSize() {
+        return FileUtils.byteCountToDisplaySize(getFileSize());
     }
 
     /**
