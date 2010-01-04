@@ -37,19 +37,19 @@ public interface TicketDAO {
      * 
      * @param ticketId identyfikator zgłoszenia
      * @return
-     * @throws de.berlios.jhelpdesk.dao.DataAccessException
+     * @throws de.berlios.jhelpdesk.dao.DAOException
      */
-    public Ticket getTicketById(Long ticketId) throws DataAccessException;
+    public Ticket getTicketById(Long ticketId) throws DAOException;
 
     /**
      * Zwraca wszystkie zgłoszenia o podanym statusie.
      * 
      * @param ticketStatus
      * @return
-     * @throws de.berlios.jhelpdesk.dao.DataAccessException
+     * @throws de.berlios.jhelpdesk.dao.DAOException
      */
     public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus)
-            throws DataAccessException;
+            throws DAOException;
 
     /**
      * 
@@ -58,7 +58,7 @@ public interface TicketDAO {
      * @return
      */
     public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus,
-            int howMuch) throws DataAccessException;
+            int howMuch) throws DAOException;
 
     /**
      * Zwraca wszystkie zgłoszenia o podanej ważności.
@@ -67,7 +67,7 @@ public interface TicketDAO {
      * @return
      */
     public List<Ticket> getTicketsByPriority(TicketPriority ticketPriority)
-            throws DataAccessException;
+            throws DAOException;
 
     /**
      * Zwraca wszystkie zgłoszenia wybranej kategorii.
@@ -76,7 +76,7 @@ public interface TicketDAO {
      * @return
      */
     public List<Ticket> getTicketsByCategory(TicketCategory ticketCategory)
-            throws DataAccessException;
+            throws DAOException;
 
     /**
      * 
@@ -84,7 +84,7 @@ public interface TicketDAO {
      * @return
      */
     public List<Ticket> getTicketsNotifyiedByUser(User user)
-            throws DataAccessException;
+            throws DAOException;
 
     /**
      * 
@@ -92,7 +92,7 @@ public interface TicketDAO {
      * @return
      */
     public List<Ticket> getTicketsResolvedByUser(User user)
-            throws DataAccessException;
+            throws DAOException;
 
     /**
      * Usuwa wybrane zgłoszenie.
@@ -100,14 +100,14 @@ public interface TicketDAO {
      * @param ticket
      * @throws Exception
      */
-    public void removeTicket(Ticket ticket) throws DataAccessException;
+    public void removeTicket(Ticket ticket) throws DAOException;
 
     /**
      * Usuwa zgłoszenie o podanym identyfikatorze.
      * 
      * @param ticketId
      */
-    public void remove(Long ticketId) throws DataAccessException;
+    public void remove(Long ticketId) throws DAOException;
 
     /**
      * Zapisuje podane zgłoszenie. Jesli jest to zgłoszenie istniejący
@@ -115,18 +115,18 @@ public interface TicketDAO {
      * 
      * @param ticket
      */
-    public void save(Ticket ticket) throws DataAccessException;
+    public void save(Ticket ticket) throws DAOException;
 
     /**
      * Zwraca wszystkie błędy z bazy.
      */
-    public List<Ticket> getAllTickets() throws DataAccessException;
+    public List<Ticket> getAllTickets() throws DAOException;
 
     /**
      * @param filterForm
      */
     public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm,
-            int limit, long offset) throws DataAccessException;
+            int limit, long offset) throws DAOException;
 
     /**
      * 
@@ -134,11 +134,6 @@ public interface TicketDAO {
      * @return
      */
     public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm)
-            throws DataAccessException;
+            throws DAOException;
 
-    /**
-     * 
-     * @param comm
-     */
-    public void addComment(TicketComment comm) throws DataAccessException;
 }

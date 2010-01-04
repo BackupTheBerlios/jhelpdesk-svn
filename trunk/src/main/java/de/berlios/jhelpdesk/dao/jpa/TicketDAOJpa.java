@@ -22,13 +22,18 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import de.berlios.jhelpdesk.dao.DataAccessException;
+import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketCategory;
@@ -44,7 +49,10 @@ import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
  */
 @Repository
 @Qualifier("jpa")
+@Transactional(readOnly = true)
 public class TicketDAOJpa implements TicketDAO {
+
+    private static final Log log = LogFactory.getLog(TicketDAOJpa.class);
 
     private JpaTemplate jpaTemplate;
 
@@ -53,66 +61,78 @@ public class TicketDAOJpa implements TicketDAO {
         this.jpaTemplate = new JpaTemplate(emf);
     }
 
-    public void addComment(TicketComment comm) throws DataAccessException {
+    public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public Integer countTicketsWithFilter(ShowTicketsFilterForm filterForm) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Ticket> getAllTickets() throws DAOException {
+        return this.jpaTemplate.findByNamedQuery("Ticket.orderByCreateDateDESC");
     }
 
-    public List<Ticket> getAllTickets() throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public Ticket getTicketById(Long ticketId) throws DataAccessException {
+    public Ticket getTicketById(Long ticketId) throws DAOException {
         return this.jpaTemplate.find(Ticket.class, ticketId);
     }
 
-    public List<Ticket> getTicketsByCategory(TicketCategory ticketCategory) throws DataAccessException {
+    public List<Ticket> getTicketsByCategory(TicketCategory ticketCategory) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public List<Ticket> getTicketsByPriority(TicketPriority ticketPriority) throws DataAccessException {
+    public List<Ticket> getTicketsByPriority(TicketPriority ticketPriority) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus) throws DataAccessException {
+    public List<Ticket> getTicketsByStatus(TicketStatus ticketStatus) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public List<Ticket> getTicketsByStatus(final TicketStatus ticketStatus, final int howMuch) throws DataAccessException {
-        return this.jpaTemplate.executeFind(new JpaCallback() {
-            public Object doInJpa(EntityManager em) throws PersistenceException {
-                Query query = em.createNamedQuery("Ticket.byStatusOrderByCreateDateDESC");
-                query.setParameter(1, ticketStatus.toInt());
-                query.setMaxResults(howMuch);
-                return query.getResultList();
-            }
-        });
+    public List<Ticket> getTicketsByStatus(final TicketStatus ticketStatus, final int howMuch) throws DAOException {
+        try {
+            return this.jpaTemplate.executeFind(new JpaCallback() {
+                public Object doInJpa(EntityManager em) throws PersistenceException {
+                    Query query = em.createNamedQuery("Ticket.byStatusOrderByCreateDateDESC");
+                    query.setParameter(1, ticketStatus.toInt());
+                    query.setMaxResults(howMuch);
+                    return query.getResultList();
+                }
+            });
+        } catch(DataAccessException dae) {
+            throw new DAOException(dae);
+        }
     }
 
-    public List<Ticket> getTicketsNotifyiedByUser(User user) throws DataAccessException {
+    public List<Ticket> getTicketsNotifyiedByUser(User user) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public List<Ticket> getTicketsResolvedByUser(User user) throws DataAccessException {
+    public List<Ticket> getTicketsResolvedByUser(User user) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm, int limit, long offset) throws DataAccessException {
+    public List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm, int limit, long offset) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void remove(Long ticketId) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Transactional(readOnly = false)
+    public void remove(Long ticketId) throws DAOException {
+        try {
+            Ticket toDelete = this.jpaTemplate.find(Ticket.class, ticketId);
+            this.jpaTemplate.remove(toDelete);
+        } catch (Exception ex) {
+            log.error("Nie można usunąć artykułu o identyfikatorze [" + ticketId + "]", ex);
+        }
     }
 
-    public void removeTicket(Ticket ticket) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Transactional(readOnly = false)
+    public void removeTicket(Ticket ticket) throws DAOException {
+        this.jpaTemplate.remove(ticket);
     }
 
-    public void save(Ticket ticket) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Transactional(readOnly = false)
+    public void save(Ticket ticket) throws DAOException {
+        if (ticket.getTicketId() == null) {
+            this.jpaTemplate.persist(ticket);
+        } else {
+            this.jpaTemplate.merge(ticket);
+        }
     }
 }

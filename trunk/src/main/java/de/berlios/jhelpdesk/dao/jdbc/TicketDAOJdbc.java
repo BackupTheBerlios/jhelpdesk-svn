@@ -186,7 +186,8 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
                         new RowMapper() {
                             public Object mapRow(ResultSet rs, int row) throws SQLException {
                                 TicketComment comment = new TicketComment();
-                                comment.setTicketId(ticketId);
+                                comment.setTicket(new Ticket());
+                                comment.getTicket().setTicketId(ticketId);
                                 comment.setTicketCommentId(rs.getLong("comment_id"));
                                 comment.setCommentDate(rs.getTimestamp("comment_date"));
                                 comment.setCommentText(rs.getString("comment_text"));
@@ -527,25 +528,6 @@ public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements Ticket
         try {
             return getJdbcTemplate().queryForInt(
                 new QueryBuilder(filterForm).getFilteredQuery(true));
-        } catch (Exception ex) {
-            throw new DAOException(ex);
-        }
-    }
-
-    public void addComment(TicketComment comm) throws DAOException {
-        try {
-            getJdbcTemplate().update(
-                "INSERT INTO ticket_comment(comment_id, ticket_id, " +
-                "comment_author, comment_date, comment_text, not_for_plain_user) " +
-                "VALUES (nextval('ticket_comment_id_seq'),?,?,?,?,?)",
-                new Object[]{
-                    comm.getTicketId(),
-                    comm.getCommentAuthor().getUserId(),
-                    comm.getCommentDate(),
-                    comm.getCommentText(),
-                    comm.isNotForPlainUser()
-                }
-            );
         } catch (Exception ex) {
             throw new DAOException(ex);
         }
