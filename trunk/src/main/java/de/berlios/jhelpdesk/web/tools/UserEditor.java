@@ -17,28 +17,32 @@ package de.berlios.jhelpdesk.web.tools;
 
 import java.beans.PropertyEditorSupport;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.User;
 
+@Component
 public class UserEditor extends PropertyEditorSupport {
-	
-	private UserDAO userDAO;
 
-	@Override
-	public String getAsText() {
-		if (getValue() != null)
-			return ((User) getValue()).getLogin();
-		else
-			return null;
-	}
+    @Autowired
+    @Qualifier("jdbc")
+    private UserDAO userDAO;
 
-	@Override
-	public void setAsText(String text) {
-		User user = userDAO.getByLogin(text);
-		setValue(user);
-	}
+    @Override
+    public String getAsText() {
+        if (getValue() != null) {
+            return ((User) getValue()).getLogin();
+        } else {
+            return null;
+        }
+    }
 
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
+    @Override
+    public void setAsText(String text) {
+        User user = userDAO.getByLogin(text);
+        setValue(user);
+    }
 }

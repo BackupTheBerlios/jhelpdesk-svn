@@ -32,17 +32,24 @@ public class TicketValidator implements Validator {
     public void validate(Object command, Errors errors) {
         validateSubject(command, errors);
         validateDescription(command, errors);
+        validateNotifier(command, errors);
     }
 
     public void validateSubject(Object command, Errors errors) {
         if (((Ticket) command).getSubject().trim().isEmpty()) {
-            errors.reject("pofakany.subject"); // TODO: to chyba do wymiany, nie?
+            errors.rejectValue("subject", "ticket.subject.error");
         }
     }
 
     public void validateDescription(Object command, Errors errors) {
         if (((Ticket) command).getDescription().trim().isEmpty()) {
-            errors.reject("pofakany.subject"); // TODO: to chyba do wymiany, nie?
+            errors.rejectValue("description", "ticket.description.error");
+        }
+    }
+
+    public void validateNotifier(Object command, Errors errors) {
+        if (((Ticket) command).getNotifier() == null) {
+            errors.rejectValue("notifier", "ticket.notifier.error");
         }
     }
 }
