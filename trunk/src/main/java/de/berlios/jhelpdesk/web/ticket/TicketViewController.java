@@ -75,12 +75,14 @@ public class TicketViewController {
                   @ModelAttribute("user") User user) throws Exception {
 
         TicketComment comm = new TicketComment();
-        comm.setTicketId(ticketId);
-        comm.setCommentDate(new Date(System.currentTimeMillis()));
+        Ticket ticket = ticketDaoJpa.getTicketById(ticketId);
+        comm.setTicket(ticket);
+        comm.setCommentDate(new Date());
         comm.setNotForPlainUser(false); // TODO: to musi pochodzi z formularza
         comm.setCommentAuthor(user);
         comm.setCommentText(addComm);
-        ticketDao.addComment(comm);
+        ticket.addComment(comm);
+        ticketDao.save(ticket);
         return "redirect:/ticketDetails.html?ticketId=" + ticketId;
     }
 

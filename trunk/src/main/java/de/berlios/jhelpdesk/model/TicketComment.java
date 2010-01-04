@@ -28,7 +28,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 /**
  * @author jjhop
@@ -41,10 +40,6 @@ public class TicketComment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long ticketCommentId;
-
-    @Transient
-    @Deprecated
-    private Long ticketId;
 
     @ManyToOne
     @JoinColumn(name="ticket_id")
@@ -83,22 +78,6 @@ public class TicketComment implements Serializable {
      */
     public void setTicketCommentId(Long ticketCommentId) {
         this.ticketCommentId = ticketCommentId;
-    }
-
-    /**
-     * @return Returns the ticketId.
-     */
-    @Deprecated
-    public Long getTicketId() {
-        return ticketId;
-    }
-
-    /**
-     * @param ticketId The ticketId to set.
-     */
-    @Deprecated
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
     }
 
     public Ticket getTicket() {
