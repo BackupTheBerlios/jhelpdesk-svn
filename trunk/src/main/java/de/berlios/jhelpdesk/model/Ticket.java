@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -63,6 +64,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Table(name = "ticket")
 @SequenceGenerator(name = "ticket_sequence", sequenceName = "ticket_id_seq", allocationSize = 1)
 @NamedQueries({
+    @NamedQuery(name = "Ticket.orderByCreateDateDESC", query = "FROM Ticket t ORDER BY t.createDate DESC"),
     @NamedQuery(name = "Ticket.byStatusOrderByCreateDateDESC", query = "FROM Ticket t WHERE t.ticketStatusAsInt=? ORDER BY t.createDate DESC"),
     @NamedQuery(name = "Ticket.byLogin", query = "SELECT u FROM User u WHERE u.login=?"),
     @NamedQuery(name = "Ticket.allOrderByLastName", query = "SELECT u FROM User u ORDER by u.lastName ASC")
@@ -170,7 +172,7 @@ public class Ticket implements Serializable {
      *
      * @see TicketComment
      */
-    @OneToMany(mappedBy = "ticket")
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     private Set<TicketComment> comments;
     
     /**
@@ -608,6 +610,10 @@ public class Ticket implements Serializable {
      */
     public void setUploadedFile(MultipartFile uploadedFile) {
         this.uploadedFile = uploadedFile;
+    }
+
+    public void addComment(TicketComment comm) {
+        this.comments.add(comm);
     }
 
     @PrePersist

@@ -42,10 +42,6 @@ import de.berlios.jhelpdesk.model.User;
 @Controller
 @SessionAttributes("user")
 public class TicketViewController {
-
-    @Autowired
-    @Qualifier("jdbc")
-    private TicketDAO ticketDao;
     
     @Autowired
     @Qualifier("jpa")
@@ -53,12 +49,6 @@ public class TicketViewController {
 
     @Autowired
     private TicketCategoryDAO ticketCategoryDao;
-
-    /**
-     * Ścieżka do katalogu z plikami dołączanymi do zgłoszeń.
-     * TODO: ścieżka powinna być konfigurowana w jednym miejscu i nie w kodzie
-     */
-    private final String repositoryPath = "c:\\helpdesk\\files";
 
     /**
      *
@@ -82,7 +72,7 @@ public class TicketViewController {
         comm.setCommentAuthor(user);
         comm.setCommentText(addComm);
         ticket.addComment(comm);
-        ticketDao.save(ticket);
+        ticketDaoJpa.save(ticket);
         return "redirect:/ticketDetails.html?ticketId=" + ticketId;
     }
 
@@ -90,7 +80,6 @@ public class TicketViewController {
      *
      * 
      * @param ticketId
-     * @param format
      * @param mav
      * @return
      * @throws java.lang.Exception
@@ -98,31 +87,13 @@ public class TicketViewController {
     @RequestMapping(value = "/ticketDetails.html", method = RequestMethod.GET)
     public String showTicket(
                   @RequestParam("ticketId") Long ticketId,
-                  @RequestParam(value = "format", required = false) String format,
                   ModelMap mav) throws Exception {
-        System.out.println("ticketId => " + ticketId);
+
         Ticket ticket = ticketDaoJpa.getTicketById(ticketId);
-
-//        List<AdditionalFile> addFiles = new ArrayList<AdditionalFile>(); // addFilesList
-//        File repDir = new File(new StringBuffer(repositoryPath).append(File.separatorChar).append(ticketId).toString());
-//
-//        if (repDir.exists() && repDir.isDirectory()) {
-//            for (File f : repDir.listFiles()) {
-//                AdditionalFile addFile = new AdditionalFile();
-//                addFile.setOriginalFileName(f.getName());
-//                String mimeType = new MimetypesFileTypeMap().getContentType(f.getName());
-//                addFile.setContentType((mimeType != null) ? mimeType : "application/octet-strem");
-//                addFile.setFileSize(f.length());
-//                addFile.setHashedFileName(FileUtils.byteCountToDisplaySize(f.length()));
-//                addFiles.add(addFile);
-//            }
-//        }
-
         mav.addAttribute("ticket", ticket);
         mav.addAttribute("ticketPriorities", TicketPriority.values());
         mav.addAttribute("ticketStatuses", TicketStatus.values());
         mav.addAttribute("ticketCategories", ticketCategoryDao.getAllCategories());
-
-        return (format != null && format.equalsIgnoreCase("pdf")) ? "one-pdf" : "ticketDetails";
+        return "ticketDetails";
     }
 }
