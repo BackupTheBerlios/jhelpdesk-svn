@@ -30,30 +30,6 @@ import de.berlios.jhelpdesk.model.User;
 public interface UserDAO {
 
     /**
-     * Zwraca listę użytkowników, których nazwisko zaczyna się na podaną literę.
-     * Jeśli żaden użytkownik nie zostanie odnaleziony zwracana jest pusta lista.
-     *
-     * @param letter pierwsza litera nazwiska szukanych użytkowników
-     * @return lista użytkowników, których nazwisko zaczyna się na podaną literę
-     *
-     * @see User
-     * @see java.util.Collections#EMPTY_LIST
-     */
-    List<User> getAllUserWithLastNameStartsWithLetter(String letter);
-
-    /**
-     * Zwraca listę użytkowników w roli {@link Role#TICKETKILLER}, których nazwisko
-     * zaczyna się na podaną literę.
-     * 
-     * @param letter pierwsza litera nazwiska szukanych użytkowników
-     * @return lista użytkowników, których nazwisko zaczyna się na podaną literę
-     *
-     * @see User
-     * @see java.util.Collections#EMPTY_LIST
-     */
-    List<User> getSavioursWithLastNameStartsWithLetter(String letter);
-
-    /**
      * Zwraca wszystkich użytkowników w systemie. Lista zawsze jest jest różna od {@code null}
      * i zawiera przynajmniej jednego użytkownika.
      *

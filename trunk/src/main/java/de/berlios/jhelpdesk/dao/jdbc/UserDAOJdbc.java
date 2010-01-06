@@ -69,15 +69,6 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
         );
     }
 
-    @SuppressWarnings("unchecked")
-    public List<User> getAllUserWithLastNameStartsWithLetter(String letter) {
-        return getJdbcTemplate().query(
-            "SELECT * FROM users WHERE last_name ~* '^?'",
-            new Object[]{letter},
-            new UserRowMapper()
-        );
-    }
-
     public User getById(Long id) {
         return (User) getJdbcTemplate().queryForObject(
             "SELECT * FROM users WHERE user_id=?",
@@ -95,9 +86,10 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
                 "SELECT COUNT(*) FROM users WHERE login=?",
                 new Object[]{login}) > 0) {
             return (User) getJdbcTemplate().queryForObject(
-                    "SELECT * FROM users WHERE login=?",
-                    new Object[]{login},
-                    new UserRowMapper());
+                "SELECT * FROM users WHERE login=?",
+                new Object[]{login},
+                new UserRowMapper()
+            );
         }
         return null;
     }
@@ -107,16 +99,6 @@ public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO 
         return getJdbcTemplate().query(
             "SELECT * FROM users WHERE role=?",
             new Object[]{role.toInt()},
-            new UserRowMapper()
-        );
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<User> getSavioursWithLastNameStartsWithLetter(String letter) {
-        log.info(letter);
-        return getJdbcTemplate().query(
-            "SELECT * FROM users WHERE role=? AND last_name ~* '^[" + letter + "]'",
-            new Object[]{Role.TICKETKILLER.toInt()},
             new UserRowMapper()
         );
     }

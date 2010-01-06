@@ -44,14 +44,6 @@ public class UserDAOJpa implements UserDAO {
         this.jpaTemplate = new JpaTemplate(emf);
     }
 
-    public List<User> getAllUserWithLastNameStartsWithLetter(String letter) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public List<User> getSavioursWithLastNameStartsWithLetter(String letter) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public List<User> getAllUser() {
         return this.jpaTemplate.findByNamedQuery("User.allOrderByLastName");
     }
