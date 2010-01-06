@@ -17,7 +17,6 @@ package de.berlios.jhelpdesk.dao.jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -56,26 +55,6 @@ public class TicketEventDAOJdbc extends AbstractJdbcTemplateSupport implements T
         return getJdbcTemplate().query(
             "SELECT * FROM ticket_event WHERE ticket_id=?",
             new Object[]{ticketId},
-            new TicketEventRowMapper()
-        );
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<TicketEvent> getByDate(Date date) {
-        log.debug("getByDate(Date) => " + date);
-        return getJdbcTemplate().query(
-            "SELECT * FROM ticket_event WHERE event_date=?",
-            new Object[]{date},
-            new TicketEventRowMapper()
-        );
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<TicketEvent> getByDate(Date from, Date to) {
-        log.debug("getByDate( Date from, Date to ) => " + from + ", " + to);
-        return getJdbcTemplate().query(
-            "SELECT * FROM ticket_event WHERE event_date BETWEEN ? AND ?",
-            new Object[]{from, to},
             new TicketEventRowMapper()
         );
     }

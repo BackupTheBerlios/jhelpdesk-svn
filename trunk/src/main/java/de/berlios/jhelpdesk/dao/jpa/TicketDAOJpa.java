@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
-import de.berlios.jhelpdesk.dao.tools.QueryBuilder;
 import de.berlios.jhelpdesk.dao.tools.QueryBuilderJpa;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketCategory;

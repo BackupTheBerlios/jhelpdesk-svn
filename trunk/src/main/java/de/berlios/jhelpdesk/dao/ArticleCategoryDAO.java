@@ -22,33 +22,33 @@ import de.berlios.jhelpdesk.model.ArticleCategory;
 /**
  * Interfejs DAO dla obiektów ArticleCategory. Nieco rozszrzony ponad
  * standardowe operacje CRUD.
- * 
+ *
  * @author jjhop
- * 
+ *
  * @see ArticleCategory
  */
 public interface ArticleCategoryDAO {
 
     /**
-     * Zwraca listę wszystkich dostępnych kategorii. Zwracana lista zawsze jest
-     * prawidłowym obiektem - nigdy {@code null}. Jeśli nie ma dostępnych
+     * Zwraca listę wszystkich dostępnych kategorii. Zwracana lista zawsze
+     * jest prawidłowym obiektem - nigdy {@code null}. Jeśli nie ma
      * żadnych kategorii zwracana jest pusta lista.
-     * 
+     *
      * @return lista obiektów ArticleCategory
-     * 
+     *
      * @see java.util.Collections#EMPTY_LIST
      */
-    public List<ArticleCategory> getAllCategories();
+    List<ArticleCategory> getAllCategories();
 
     /**
      * Zwraca obiekt ArticleCategory na podstawie dostarczonego identyfikatora
      * lub {@code ull} jeśli w bazie nie ma obiektu z takim identyfikatorem.
-     * 
+     *
      * @param categoryId identyfikator oczekiwanego obiektu ArticleCategory
      * @return obiekt ArticleCategory lub {@code null} jeśli nie zostanie
      * znaleziony
      */
-    public ArticleCategory getById(Long categoryId);
+    ArticleCategory getById(Long categoryId);
 
     /**
      * Usuwa wskazany obiekt ArticleCategory na podstawie dostarczonego
@@ -58,31 +58,31 @@ public interface ArticleCategoryDAO {
      * pomiędzy artykułami i zgłoszeniami. Należy ją stosować niezwykle
      * ostrożnie i zawsze ostrzegać użytkownika przed skutkami jej
      * zastosowania.</p>
-     * 
+     *
      * @param categoryId identyfikator obiektu ArticleCategory do usunięcia
      * @param categoryId
      */
-    public void delete(Long categoryId);
+    void delete(Long categoryId);
 
     /**
-     * Przenosi kategorię o podanym identyfikatorze o jedno miejsce w górę w
-     * kolejności wyświetlania.
-     * 
+     * Przenosi kategorię o podanym identyfikatorze o jedno miejsce w górę
+     * w kolejności wyświetlania.
+     *
      * @param categoryId identyfikator kategorii do przeniesienia
-     * 
+     *
      * @see #moveDown(java.lang.Long)
      */
-    public void moveUp(Long categoryId);
+    void moveUp(Long categoryId);
 
     /**
      * Przenosi kategorię o podanym identyfikatorze o jedno miejsce w dół w
      * kolejności wyświetlania.
-     * 
+     *
      * @param categoryId identyfikator kategorii do przeniesienia
-     * 
+     *
      * @see #moveUp(java.lang.Long)
      */
-    public void moveDown(Long categoryId);
+    void moveDown(Long categoryId);
 
     /**
      * Zapisuje lub uaktualnia podany obiekt ArticleCategory. Operacja do
@@ -92,10 +92,10 @@ public interface ArticleCategoryDAO {
      * identyfikator jest uzupełniany. Jeśli dostarczony obiekt posiada już
      * identyfikator({@code category.getArticleCategoryId() != null}) to w bazie
      * danych uaktualniane są jego dane.
-     * 
+     *
      * @param category obiekt ArticleCategory do zapisania (lub uaktualnienia)
-     * 
+     *
      * @see ArticleCategory
      */
-    public void saveOrUpdate(ArticleCategory category);
+    void saveOrUpdate(ArticleCategory category);
 }

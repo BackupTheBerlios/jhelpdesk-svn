@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Role;
@@ -35,6 +36,7 @@ import de.berlios.jhelpdesk.model.User;
  */
 @Repository
 @Qualifier("jpa")
+@Transactional(readOnly = true)
 public class UserDAOJpa implements UserDAO {
 
     private JpaTemplate jpaTemplate;
@@ -49,11 +51,11 @@ public class UserDAOJpa implements UserDAO {
     }
 
     public List<User> getByRole(Role role) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.jpaTemplate.findByNamedQuery("User.allByRoleOrderByLastName", role.toInt());
     }
 
     public User getById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.jpaTemplate.find(User.class, id);
     }
 
     public User getByLogin(String login) {
@@ -66,11 +68,17 @@ public class UserDAOJpa implements UserDAO {
         return users.isEmpty() ? false : true;
     }
 
+    @Transactional(readOnly = false)
     public void loginUser(String login, Date date) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Transactional(readOnly = false)
     public void saveOrUpdate(User user) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (user.getUserId() == null) {
+            this.jpaTemplate.persist(user);
+        } else {
+            this.jpaTemplate.merge(user);
+        }
     }
 }

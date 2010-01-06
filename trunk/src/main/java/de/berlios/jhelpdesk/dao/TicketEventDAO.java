@@ -15,7 +15,6 @@
  */
 package de.berlios.jhelpdesk.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import de.berlios.jhelpdesk.model.Ticket;
@@ -35,68 +34,53 @@ public interface TicketEventDAO {
      * @param eventId
      * @return
      */
-    public TicketEvent getById(Long eventId);
+    TicketEvent getById(Long eventId);
 
     /**
      *
      * @param user
      * @return
      */
-    public List<TicketEvent> getByUser(User user);
+    List<TicketEvent> getByUser(User user);
 
     /**
      *
      * @param userId
      * @return
      */
-    public List<TicketEvent> getByUser(Long userId);
+    List<TicketEvent> getByUser(Long userId);
 
     /**
      *
      * @param ticket
      * @return
      */
-    public List<TicketEvent> getByTicket(Ticket ticket);
+    List<TicketEvent> getByTicket(Ticket ticket);
 
     /**
      *
      * @param ticketId
      * @return
      */
-    public List<TicketEvent> getByTicket(Long ticketId);
+    List<TicketEvent> getByTicket(Long ticketId);
 
     /**
      *
      * @param type
      * @return
      */
-    public List<EventType> getByType(EventType type);
-
-    /**
-     *
-     * @param date
-     * @return
-     */
-    public List<TicketEvent> getByDate(Date date);
-
-    /**
-     *
-     * @param from
-     * @param to
-     * @return
-     */
-    public List<TicketEvent> getByDate(Date from, Date to);
+    List<EventType> getByType(EventType type);
 
     /**
      *
      * @param howMuch
      * @return
      */
-    public List<TicketEvent> getLastFewEvents(int howMuch);
+    List<TicketEvent> getLastFewEvents(int howMuch);
 
     /**
      *
      * @param event
      */
-    public void save(TicketEvent event);
+    void save(TicketEvent event);
 }

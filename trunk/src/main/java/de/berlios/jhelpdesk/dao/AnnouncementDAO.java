@@ -19,17 +19,47 @@ import java.util.List;
 
 import de.berlios.jhelpdesk.model.Announcement;
 
+/**
+ *
+ * @author jjhop
+ */
 public interface AnnouncementDAO {
-    
+
+    /**
+     *
+     * @param announcementId
+     * @return
+     */
     Announcement getById(Long announcementId);
 
+    /**
+     * 
+     * @return
+     */
     List<Announcement> getAll();
 
+    /**
+     * 
+     * @param howMuch
+     * @return
+     */
     List<Announcement> getLastFew(int howMuch);
 
+    /**
+     * 
+     * @param announcement
+     */
     void save(Announcement announcement);
 
+    /**
+     * 
+     * @param announcementId
+     */
     void delete(Long announcementId);
 
+    /**
+     * 
+     * @param announcement
+     */
     void delete(Announcement announcement);
 }
