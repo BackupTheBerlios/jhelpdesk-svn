@@ -32,7 +32,7 @@ import javax.persistence.Table;
  * @author jjhop
  */
 @Entity
-@Table(name = "ticket_category") //
+@Table(name = "ticket_category")
 @SequenceGenerator(name="ticket_category_sequence", sequenceName="ticket_category_id_seq")
 public class TicketCategory implements Serializable, Comparable<TicketCategory> {
 
@@ -223,6 +223,10 @@ public class TicketCategory implements Serializable, Comparable<TicketCategory> 
      */
     public void setParentCategory(Long parentCategory) {
         this.parentCategory = parentCategory;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
     }
 
     @Override

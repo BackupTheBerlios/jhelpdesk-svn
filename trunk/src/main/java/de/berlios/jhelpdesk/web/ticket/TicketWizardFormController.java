@@ -72,7 +72,7 @@ public class TicketWizardFormController extends AbstractWizardFormController {
     private TicketCategoryDAO ticketCategoryDAO;
     
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private UserDAO userDAO;
 
     private String fileRepositoryPath = "c:\\helpdesk\\files\\";

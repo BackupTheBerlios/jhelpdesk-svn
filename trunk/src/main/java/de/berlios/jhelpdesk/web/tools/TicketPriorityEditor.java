@@ -36,7 +36,6 @@ public class TicketPriorityEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String text) {
         int ticketPriorityId = Integer.valueOf(text);
-        TicketPriority.fromInt(ticketPriorityId);
         setValue(TicketPriority.fromInt(ticketPriorityId));
     }
 }

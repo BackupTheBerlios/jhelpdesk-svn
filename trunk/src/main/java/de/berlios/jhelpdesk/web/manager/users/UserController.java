@@ -37,7 +37,7 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 public class UserController {
 
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private UserDAO userDAO;
 
     /**

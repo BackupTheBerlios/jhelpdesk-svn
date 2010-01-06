@@ -21,7 +21,7 @@ package de.berlios.jhelpdesk.model;
  */
 public enum NotifyFrequency {
 
-    IMMEDIATLY(1, "IMMEDIATLY"),
+    IMMEDIATELY(1, "IMMEDIATELY"),
     DAILY(2, "DAILY"),
     WEEKLY(3, "WEEKLY"),
     MONTHLY(4, "MONTHLY"),
@@ -46,7 +46,7 @@ public enum NotifyFrequency {
     public static final NotifyFrequency fromInt(int i) {
         switch(i) {
             case 1:
-                return IMMEDIATLY;
+                return IMMEDIATELY;
             case 2:
                 return DAILY;
             case 3:

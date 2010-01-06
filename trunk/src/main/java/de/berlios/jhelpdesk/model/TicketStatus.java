@@ -16,7 +16,8 @@
 package de.berlios.jhelpdesk.model;
 
 /**
- *
+ * TODO: dodać jakąą maszynę stanów, która kontrolowałaby w logiczny
+ *       sposób przejścia pomiędzy różnymi statusami.
  * @author jjhop
  */
 public enum TicketStatus {
@@ -88,7 +89,7 @@ public enum TicketStatus {
     };
 
     /**
-     *
+     * TODO: dlaczego tutaj jest NONOPEN skoro NOTIFIED to OPEN??
      */
     private static TicketStatus[] NONOPEN_STATUSES = {
         NOTIFIED,

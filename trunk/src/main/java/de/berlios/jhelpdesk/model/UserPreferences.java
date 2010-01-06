@@ -38,6 +38,8 @@ public class UserPreferences {
      */
     private String lang;
 
+//    private String ticketAssign; // I, D, W, M, N - Immediatly, Daily, Weekly, Monthly, Never
+
     /**
      * 
      * @return

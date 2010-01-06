@@ -64,7 +64,7 @@ public class TicketsViewController extends SimpleFormController {
     private TicketCategoryDAO ticketCategoryDAO;
 
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private UserDAO userDAO;
 
     private SimpleDateFormat dateFormat;

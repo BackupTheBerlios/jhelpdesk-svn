@@ -24,20 +24,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 
 /**
  *
- * @author Rafał
+ * @author jjhop
  */
 public class QueryBuilderJpa {
-
-    private static Log log = LogFactory.getLog(QueryBuilderJpa.class);
 
     private ShowTicketsFilterForm filter;
     private EntityManager em;

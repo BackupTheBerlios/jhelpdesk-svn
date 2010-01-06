@@ -28,7 +28,7 @@ import de.berlios.jhelpdesk.model.User;
 public class UserEditor extends PropertyEditorSupport {
 
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private UserDAO userDAO;
 
     @Override

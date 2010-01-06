@@ -118,7 +118,7 @@ public enum Role {
             case 100:
                 return MANAGER;
             default:
-                throw new RuntimeException("Nieznana rola.");
+                throw new RuntimeException("Nieznana rola. [" + code + "]");
         }
     }
 

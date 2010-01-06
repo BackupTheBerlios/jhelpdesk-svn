@@ -53,7 +53,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 @NamedQueries({
     @NamedQuery(name = "User.byLoginAndHashedPassoword", query = "SELECT u FROM User u WHERE u.login=? AND u.hashedPassword=?"),
     @NamedQuery(name = "User.byLogin", query = "SELECT u FROM User u WHERE u.login=?"),
-    @NamedQuery(name = "User.allOrderByLastName", query = "SELECT u FROM User u ORDER by u.lastName ASC")
+    @NamedQuery(name = "User.allOrderByLastName", query = "SELECT u FROM User u ORDER by u.lastName ASC"),
+    @NamedQuery(name = "User.allByRoleOrderByLastName", query = "SELECT u FROM User u WHERE u.roleAsInt=? ORDER by u.lastName ASC")
 })
 public class User implements Serializable {
 
@@ -248,6 +249,7 @@ public class User implements Serializable {
      */
     public void setUserRole(Role userRole) {
         this.userRole = userRole;
+        this.roleAsInt = this.userRole.toInt();
     }
 
     /**

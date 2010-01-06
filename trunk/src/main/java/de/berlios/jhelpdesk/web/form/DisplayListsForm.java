@@ -10,12 +10,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
 package de.berlios.jhelpdesk.web.form;
 
 // odwolanie w jednym kontrolerze do niej jest
+/**
+ *
+ * @author jjhop
+ */
 public class DisplayListsForm {
 
 }

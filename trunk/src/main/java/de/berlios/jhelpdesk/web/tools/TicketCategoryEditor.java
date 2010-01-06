@@ -10,7 +10,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
 package de.berlios.jhelpdesk.web.tools;
@@ -24,6 +24,10 @@ import org.springframework.stereotype.Component;
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.model.TicketCategory;
 
+/**
+ *
+ * @author jjhop
+ */
 @Component
 public class TicketCategoryEditor extends PropertyEditorSupport {
 
@@ -35,7 +39,8 @@ public class TicketCategoryEditor extends PropertyEditorSupport {
     public String getAsText() {
         Object value = getValue();
         if (value != null) {
-            return String.valueOf(((TicketCategory)value).getTicketCategoryId());
+            TicketCategory tCategory = (TicketCategory) value;
+            return String.valueOf(tCategory.getTicketCategoryId());
         } else {
             return null;
         }
@@ -44,7 +49,7 @@ public class TicketCategoryEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String text) {
         Long ticketCategoryId = Long.valueOf(text);
-        TicketCategory ticketCategory = ticketCategoryDAO.getById(ticketCategoryId);
-        setValue(ticketCategory);
+        TicketCategory category = ticketCategoryDAO.getById(ticketCategoryId);
+        setValue(category);
     }
 }

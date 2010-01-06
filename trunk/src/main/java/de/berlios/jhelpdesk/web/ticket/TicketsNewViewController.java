@@ -64,14 +64,14 @@ public class TicketsNewViewController extends SimpleFormController {
     private ShowTicketsNewFilterForm filterForm;
 
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private TicketDAO ticketDao;
 
     @Autowired
     private TicketCategoryDAO ticketCategoryDAO;
 
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private UserDAO userDAO;
 
     public TicketsNewViewController() {
@@ -87,7 +87,7 @@ public class TicketsNewViewController extends SimpleFormController {
         log.info("w new userId => " + ((User) (req.getSession()).getAttribute("user")).getUserId());
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-        log.info(" initBinder()->end");
+        log.info("initBinder()->end");
     }
 
     @SuppressWarnings("unchecked")

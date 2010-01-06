@@ -25,20 +25,20 @@ import de.berlios.jhelpdesk.model.User;
 @Component("userValidator")
 public class UserValidator implements Validator {
 
-	// implementujemy Validator.supports(Class), dlatego SuppressWarnings
-	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { 
-		return User.class.equals(clazz);
-	}
+    // implementujemy Validator.supports(Class), dlatego SuppressWarnings
+    public boolean supports(@SuppressWarnings("unchecked") Class clazz) {
+        return User.class.equals(clazz);
+    }
 
-	public void validate(Object user, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "firstName", "errors.hduser.firstName");
-		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "lastName", "errors.hduser.lastName");
-		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "login", "errors.hduser.login");
-		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "password", "errors.hduser.password");
-		// TODO: reszta walidacji
-	}
+    public void validate(Object user, Errors errors) {
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "firstName", "errors.hduser.firstName");
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "lastName", "errors.hduser.lastName");
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "login", "errors.hduser.login");
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "password", "errors.hduser.password");
+        // TODO: reszta walidacji
+    }
 }

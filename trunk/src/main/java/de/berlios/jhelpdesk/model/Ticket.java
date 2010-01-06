@@ -183,7 +183,7 @@ public class Ticket implements Serializable {
      * Kolekcja zdarzeń związanych ze zgłoszeniem. Powstanie zgłoszenia zawsze jest
      * pierwszym zdarzeniem w kolekcji.
      */
-    @OneToMany(mappedBy = "ticket")
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     private Set<TicketEvent> events;
 
     /**
@@ -191,7 +191,7 @@ public class Ticket implements Serializable {
      * 
      * TODO: obsłużyć zapisywanie i usuwanie tych plików
      */
-    @OneToMany(mappedBy = "ticket")
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     private List<AdditionalFile> addFilesList;
 
     /**

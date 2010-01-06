@@ -51,11 +51,14 @@ import de.berlios.jhelpdesk.web.tools.UserValidator;
 public class UserEditController {
 
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private UserDAO userDAO;
     
     @Autowired
     private UserValidator validator;
+
+    @Autowired
+    private RoleEditor roleEditor;
 
     /**
      * Rejestruje edytory właściwości niezbędne podczas edycji danych
@@ -67,9 +70,9 @@ public class UserEditController {
      */
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Role.class, new RoleEditor());
-        binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class,
-            NumberFormat.getNumberInstance(), true));
+        binder.registerCustomEditor(Role.class, "userRole", roleEditor);
+        binder.registerCustomEditor(Long.class, null, 
+            new CustomNumberEditor(Long.class, NumberFormat.getNumberInstance(), true));
         binder.registerCustomEditor(Boolean.class, null, new CustomBooleanEditor(true));
     }
 
@@ -126,15 +129,15 @@ public class UserEditController {
      * @see SessionStatus
      */
     @RequestMapping(value = "/manage/users/edit.html", method = RequestMethod.POST)
-    protected String processSubmit(@ModelAttribute("user") User user,
-                     BindingResult result, SessionStatus status) {
+    protected String processSubmit(@ModelAttribute("user") User user, BindingResult result) {
+
 
         validator.validate(user, result);
         if (result.hasErrors()) {
             return "manager/users/edit";
         }
+        System.out.println("u.role " + user.getUserRole());
         userDAO.saveOrUpdate(user);
-        status.setComplete();
         return "redirect:/manage/users/show.html?userId=" + user.getUserId();
     }
 
