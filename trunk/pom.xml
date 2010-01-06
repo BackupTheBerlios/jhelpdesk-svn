@@ -218,41 +218,10 @@
             <version>8.3-603.jdbc3</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>10.4.2.0</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.4</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-            <version>1.0.11</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>gnujaxp</groupId>
-                    <artifactId>gnujaxp</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>cewolf</groupId>
-            <artifactId>cewolf</artifactId>
-            <version>1.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>gnujaxp</groupId>
-                    <artifactId>gnujaxp</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>crimson</groupId>
-                    <artifactId>crimson</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -288,7 +257,25 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <configuration>
                     <targetJdk>1.5</targetJdk>
+                    <encoding>UTF-8</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.4</version>
             </plugin>
         </plugins>
     </reporting>
