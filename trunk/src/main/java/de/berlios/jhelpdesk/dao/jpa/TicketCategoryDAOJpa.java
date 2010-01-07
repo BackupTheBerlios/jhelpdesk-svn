@@ -57,13 +57,13 @@ public class TicketCategoryDAOJpa implements TicketCategoryDAO {
                     category.setRight(category.getLeft() + 1);
                 }
                 Query q1 = em.createNativeQuery(
-                        "UPDATE ticket_category SET t_left=t_left-2 WHERE t_left>? AND t_left<?");
+                    "UPDATE ticket_category SET t_left=t_left-2 WHERE t_left>? AND t_left<?");
                 q1.setParameter(1, category.getRight());
                 q1.setParameter(2, ((getNodeCount() * 2) + 1));
                 q1.executeUpdate();
 
                 Query q2 = em.createNativeQuery(
-                        "UPDATE ticket_category SET t_right=t_right-2 WHERE t_right>=? AND t_right<=?");
+                    "UPDATE ticket_category SET t_right=t_right-2 WHERE t_right>=? AND t_right<=?");
                 q2.setParameter(1, category.getRight());
                 q2.setParameter(2, (getNodeCount() * 2));
                 q2.executeUpdate();
@@ -85,21 +85,21 @@ public class TicketCategoryDAOJpa implements TicketCategoryDAO {
         this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 Query q = em.createQuery(
-                        "DELETE FROM TicketCategory c WHERE c.left > ? AND c.right < ?");
+                    "DELETE FROM TicketCategory c WHERE c.left > ? AND c.right < ?");
                 q.setParameter(1, category.getLeft());
                 q.setParameter(2, category.getRight());
                 q.executeUpdate();
                 Query q2 = em.createQuery(
-                        "UPDATE TicketCategory c SET c.left = c.left - ? " +
-                        "WHERE c.left > ? AND c.left < ?");
+                    "UPDATE TicketCategory c SET c.left = c.left - ? " +
+                    "WHERE c.left > ? AND c.left < ?");
                 q2.setParameter(1, subtreeNodeCount * 2);
                 q2.setParameter(2, category.getLeft());
                 q2.setParameter(3, nodeCount * 2);
                 q2.executeUpdate();
 
                 Query q3 = em.createQuery(
-                        "UPDATE TicketCategory c SET c.right = c.right - ? " +
-                        "WHERE c.right >= ? AND c.right <= ?");
+                    "UPDATE TicketCategory c SET c.right = c.right - ? " +
+                    "WHERE c.right >= ? AND c.right <= ?");
                 q3.setParameter(1, subtreeNodeCount * 2);
                 q3.setParameter(2, category.getRight());
                 q3.setParameter(3, nodeCount * 2);
@@ -123,8 +123,8 @@ public class TicketCategoryDAOJpa implements TicketCategoryDAO {
         return (List<TicketCategory>) this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 Query q = em.createNativeQuery(
-                        "SELECT * FROM ticket_category WHERE category_id>0 ORDER BY t_left ASC",
-                        TicketCategory.class);
+                    "SELECT * FROM ticket_category WHERE category_id>0 ORDER BY t_left ASC",
+                    TicketCategory.class);
                 return q.getResultList();
             }
         });
@@ -134,9 +134,9 @@ public class TicketCategoryDAOJpa implements TicketCategoryDAO {
         return (List<TicketCategory>) this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 Query q = em.createNativeQuery(
-                        "SELECT * FROM ticket_category "
-                        + "WHERE is_active IS true AND category_id > 0 ORDER BY t_left ASC",
-                        TicketCategory.class);
+                    "SELECT * FROM ticket_category " +
+                    "WHERE is_active IS true AND category_id > 0 ORDER BY t_left ASC",
+                    TicketCategory.class);
                 return q.getResultList();
             }
         });
@@ -155,7 +155,7 @@ public class TicketCategoryDAOJpa implements TicketCategoryDAO {
         this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 Query getMaxTRightQuery =
-                        em.createNativeQuery("SELECT max(t_right) FROM ticket_category", Long.class);
+                    em.createNativeQuery("SELECT max(t_right) FROM ticket_category", Long.class);
                 final Long maxTRight = (Long) getMaxTRightQuery.getSingleResult();
 
                 rootCategory.setLeft(new Long(maxTRight.longValue() + 1));
