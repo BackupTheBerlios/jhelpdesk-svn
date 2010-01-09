@@ -39,7 +39,7 @@
                                         <td><c:out value="${event.evtSubject}"/></td>
                                         <td><c:out value="${event.eventType}"/></td>
                                         <td><fmt:formatDate value="${event.evtDate}" pattern="dd/MM/yyyy HH:mm"/></td>
-                                        <td class="lastcol"><a href="<c:url value="/ticketDetails.html?ticketId=${event.ticketId}"/>">wiecej</a></td>
+                                        <td class="lastcol"><a href="<c:url value="/ticketDetails.html?ticketId=${event.ticket.ticketId}"/>">wiecej</a></td>
                                     </tr>
                                 </c:forEach>
                             </table>
