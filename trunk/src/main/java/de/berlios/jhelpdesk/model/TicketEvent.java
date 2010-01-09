@@ -64,13 +64,6 @@ public class TicketEvent implements Serializable {
     @Column(name = "event_id")
     private Long ticketEventId;
 
-    /**
-     * TODO: przerobic na Ticket
-     */
-    @Deprecated
-    @Transient
-    private Long ticketId;
-
     @ManyToOne
     @JoinColumn(name="ticket_id")
     private Ticket ticket;
@@ -183,24 +176,7 @@ public class TicketEvent implements Serializable {
      */
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
-    }
-
-    /**
-     * @return Returns the ticketId.
-     * TODO: usunąc po usunięciu TicketEventDAOJdbc
-     */
-    @Deprecated
-    public Long getTicketId() {
-        return ticketId;
-    }
-
-    /**
-     * @param ticketId The ticketId to set.
-     * TODO: usunąc po usunięciu TicketDAOJdbc i TicketEventDAOJdbc
-     */
-    @Deprecated
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
+        this.eventTypeAsInt = eventType.toInt();
     }
 
     public int getEventTypeAsInt() {
