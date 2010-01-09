@@ -67,6 +67,7 @@ public class TicketsAssignedToMeViewController extends SimpleFormController {
     private TicketDAO ticketDao;
 
     @Autowired
+    @Qualifier("jpa")
     private TicketCategoryDAO ticketCategoryDAO;
 
     @Autowired

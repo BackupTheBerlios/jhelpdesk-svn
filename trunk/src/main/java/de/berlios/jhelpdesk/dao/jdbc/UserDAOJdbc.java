@@ -32,19 +32,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-//import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.User;
-//import org.springframework.beans.factory.annotation.Qualifier;
 
-/**
- * @inheritDoc 
- * @author jjhop
- */
-//@Repository("userDAO")
-//@Qualifier("jdbc")
 @Deprecated
 public class UserDAOJdbc extends AbstractJdbcTemplateSupport implements UserDAO {
 

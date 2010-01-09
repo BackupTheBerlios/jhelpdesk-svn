@@ -69,6 +69,7 @@ public class TicketWizardFormController extends AbstractWizardFormController {
     private TicketDAO ticketDaoJpa;
 
     @Autowired
+    @Qualifier("jpa")
     private TicketCategoryDAO ticketCategoryDAO;
     
     @Autowired

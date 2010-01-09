@@ -26,7 +26,6 @@ import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.TicketEventDAO;
 import de.berlios.jhelpdesk.model.EventType;
@@ -34,7 +33,7 @@ import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketEvent;
 import de.berlios.jhelpdesk.model.User;
 
-@Repository("ticketEventDAO")
+@Deprecated
 public class TicketEventDAOJdbc extends AbstractJdbcTemplateSupport implements TicketEventDAO {
 
     private static Log log = LogFactory.getLog(TicketEventDAOJdbc.class);

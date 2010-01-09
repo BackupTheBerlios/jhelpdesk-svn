@@ -33,7 +33,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ticket_category")
-@SequenceGenerator(name="ticket_category_sequence", sequenceName="ticket_category_id_seq")
+@SequenceGenerator(name = "ticket_category_sequence", sequenceName = "ticket_category_id_seq", allocationSize = 1)
 public class TicketCategory implements Serializable, Comparable<TicketCategory> {
 
     /**

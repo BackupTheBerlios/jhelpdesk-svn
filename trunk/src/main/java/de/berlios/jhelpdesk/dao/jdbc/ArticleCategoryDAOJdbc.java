@@ -27,18 +27,14 @@ import java.util.Set;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-//import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.ArticleCategoryDAO;
 import de.berlios.jhelpdesk.model.Article;
 import de.berlios.jhelpdesk.model.ArticleCategory;
 
-//@Repository("articleCategoryDAO")
-//@Qualifier("jdbc")
 @Deprecated
 public class ArticleCategoryDAOJdbc extends AbstractJdbcTemplateSupport implements ArticleCategoryDAO {
 

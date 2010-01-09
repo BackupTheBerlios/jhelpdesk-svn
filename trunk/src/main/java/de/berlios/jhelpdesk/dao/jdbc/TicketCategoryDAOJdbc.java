@@ -27,17 +27,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.model.TicketCategory;
 
-@Repository("ticketCategoryDAO")
-@Qualifier("jdbc")
+@Deprecated
 public class TicketCategoryDAOJdbc extends AbstractJdbcTemplateSupport implements TicketCategoryDAO {
 	
     private static Log log = LogFactory.getLog(TicketCategoryDAOJdbc.class);
@@ -104,14 +101,9 @@ public class TicketCategoryDAOJdbc extends AbstractJdbcTemplateSupport implement
         );
     }
 
-    public TicketCategory getById(int categoryId) {
-        return getById(new Long(categoryId));
-    }
-
     public void insertRootCategory(TicketCategory category) {
-        final long maxRight =
-            getJdbcTemplate().queryForLong(
-                "SELECT max(t_right) FROM ticket_category");
+        final long maxRight = getJdbcTemplate().queryForLong(
+            "SELECT max(t_right) FROM ticket_category");
         getJdbcTemplate().update(
             "INSERT INTO ticket_category (category_name,category_desc,is_active,t_left,t_right,t_depth) VALUES (?,?,?,?,?,?)",
             new Object[]{
@@ -204,14 +196,6 @@ public class TicketCategoryDAOJdbc extends AbstractJdbcTemplateSupport implement
                 }
             }
         );
-    }
-
-    public void moveDown(Long categoryId) {
-        // TODO Auto-generated method stub
-    }
-
-    public void moveUp(Long categoryId) {
-        // TODO Auto-generated method stub
     }
 
     public void updateCategory(TicketCategory category) {

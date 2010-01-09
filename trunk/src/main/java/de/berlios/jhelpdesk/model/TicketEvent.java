@@ -26,6 +26,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -38,6 +40,20 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "ticket_event")
+@NamedQueries({
+    @NamedQuery(name = "TicketEvent.getByTicketOrderByEventDateDESC",
+                query = "FROM TicketEvent t WHERE t.ticket=? ORDER BY t.evtDate DESC"),
+    @NamedQuery(name = "TicketEvent.getByTicketIdOrderByEventDateDESC",
+                query = "FROM TicketEvent t WHERE t.ticket.ticketId=? ORDER BY t.evtDate DESC"),
+    @NamedQuery(name = "TicketEvent.getByEventTypeOrderByEventDateDESC",
+                query = "FROM TicketEvent t WHERE t.eventTypeAsInt=? ORDER BY t.evtDate DESC"),
+    @NamedQuery(name = "TicketEvent.getByUserOrderByEventDateDESC",
+                query = "FROM TicketEvent t WHERE t.evtAuthor=? ORDER BY t.evtDate DESC"),
+    @NamedQuery(name = "TicketEvent.getByUserIdOrderByEventDateDESC",
+                query = "FROM TicketEvent t WHERE t.evtAuthor.userId=? ORDER BY t.evtDate DESC"),
+    @NamedQuery(name = "TicketEvent.getLastFewEventsOrderByEventDateDESC",
+                query = "FROM TicketEvent t ORDER BY t.evtDate DESC")
+})
 public class TicketEvent implements Serializable {
 
     /**
@@ -171,6 +187,7 @@ public class TicketEvent implements Serializable {
 
     /**
      * @return Returns the ticketId.
+     * TODO: usunąc po usunięciu TicketEventDAOJdbc
      */
     @Deprecated
     public Long getTicketId() {
@@ -179,6 +196,7 @@ public class TicketEvent implements Serializable {
 
     /**
      * @param ticketId The ticketId to set.
+     * TODO: usunąc po usunięciu TicketDAOJdbc i TicketEventDAOJdbc
      */
     @Deprecated
     public void setTicketId(Long ticketId) {

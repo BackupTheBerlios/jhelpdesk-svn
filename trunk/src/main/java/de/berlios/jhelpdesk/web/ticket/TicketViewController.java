@@ -48,6 +48,7 @@ public class TicketViewController {
     private TicketDAO ticketDaoJpa;
 
     @Autowired
+    @Qualifier("jpa")
     private TicketCategoryDAO ticketCategoryDao;
 
     /**

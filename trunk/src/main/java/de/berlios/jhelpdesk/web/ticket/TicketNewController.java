@@ -19,6 +19,8 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -63,6 +65,7 @@ public class TicketNewController {
     private TicketDAO ticketDaoJpa;
 
     @Autowired
+    @Qualifier("jpa")
     private TicketCategoryDAO ticketCategoryDao;
 
     @Autowired
@@ -92,8 +95,15 @@ public class TicketNewController {
     }
 
     @RequestMapping(value = "/tickets/new.html", method = RequestMethod.GET)
-    public String prepareForm(ModelMap map) {
-        map.addAttribute("ticket", new Ticket());
+    public String prepareForm(ModelMap map, HttpSession session) {
+        Ticket t = new Ticket();
+        User u = (User) session.getAttribute("user");
+        String ticketstamp = DigestUtils.shaHex(
+            Thread.currentThread().getName() + Thread.currentThread().getId() +
+            u.toString() + u.getUserId() + System.nanoTime()
+        ); // TODO: chyba to trzeba gdzies przeniesc czy coś...
+        t.setTicketstamp(ticketstamp);
+        map.addAttribute("ticket", t);
         return "tickets/new";
     }
 
@@ -113,6 +123,7 @@ public class TicketNewController {
         }
         ticket.setInputer((User)session.getAttribute("user"));
         ticketDaoJpa.save(ticket);
+
         return "redirect:/ticketDetails.html?ticketId=" + ticket.getTicketId();
     }
 }

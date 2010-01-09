@@ -62,6 +62,7 @@ public class DesktopViewController  {
     private TicketDAO ticketDAOJpa;
 
     @Autowired
+    @Qualifier("jpa")
     private TicketEventDAO eventDAO;
 
     @Autowired

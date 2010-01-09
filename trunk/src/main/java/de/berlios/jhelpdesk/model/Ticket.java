@@ -83,6 +83,9 @@ public class Ticket implements Serializable {
     @Column(name = "ticket_id")
     private Long ticketId;
 
+    @Transient
+    private String ticketstamp;
+
     /**
      * Data utworzenia zgłoszenia.
      */
@@ -241,6 +244,30 @@ public class Ticket implements Serializable {
      */
     public void setTicketId(Long ticketId) {
         this.ticketId = ticketId;
+    }
+
+    public int getTicketPriorityAsInt() {
+        return ticketPriorityAsInt;
+    }
+
+    public void setTicketPriorityAsInt(int ticketPriorityAsInt) {
+        this.ticketPriorityAsInt = ticketPriorityAsInt;
+    }
+
+    public String getTicketstamp() {
+        return ticketstamp;
+    }
+
+    public void setTicketstamp(String ticketstamp) {
+        this.ticketstamp = ticketstamp;
+    }
+
+    public int getTicketStatusAsInt() {
+        return ticketStatusAsInt;
+    }
+
+    public void setTicketStatusAsInt(int ticketStatusAsInt) {
+        this.ticketStatusAsInt = ticketStatusAsInt;
     }
 
     /**

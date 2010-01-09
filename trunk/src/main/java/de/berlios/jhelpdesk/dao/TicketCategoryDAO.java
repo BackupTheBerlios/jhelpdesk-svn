@@ -45,13 +45,6 @@ public interface TicketCategoryDAO {
     TicketCategory getById(Long id);
 
     /**
-     * 
-     * @param id
-     * @return
-     */
-    TicketCategory getById(int id);
-
-    /**
      *
      * @param rootCategory
      */
@@ -76,15 +69,4 @@ public interface TicketCategoryDAO {
      */
     void updateCategory(TicketCategory category);
 
-    /**
-     *
-     * @param categoryId
-     */
-    void moveUp(Long categoryId);
-
-    /**
-     *
-     * @param categoryId
-     */
-    void moveDown(Long categoryId);
 }

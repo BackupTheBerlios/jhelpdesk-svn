@@ -146,10 +146,33 @@ public class TicketCategoryDAOJpa implements TicketCategoryDAO {
         return this.jpaTemplate.find(TicketCategory.class, id);
     }
 
-    public void insertCategory(TicketCategory category, TicketCategory parent) {
-        // TODO: zaimplementowac
-    }
+    @Transactional(readOnly = false)
+    public void insertCategory(final TicketCategory category, final TicketCategory parent) {
+        final long nodeCount = getNodeCount();
+        this.jpaTemplate.execute(new JpaCallback() {
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                Query q1 = em.createNativeQuery(
+                    "UPDATE ticket_category SET t_right=t_right+2 WHERE t_right>=? AND t_right<=?");
+                q1.setParameter(1, parent.getRight());
+                q1.setParameter(2, nodeCount * 2);
+                q1.executeUpdate();
 
+                Query q2 = em.createNativeQuery(
+                    "UPDATE ticket_category SET t_left=t_left+2 WHERE t_left>? AND t_left<?");
+                q2.setParameter(1, parent.getRight());
+                q2.setParameter(2, (nodeCount + 1) * 2);
+                q2.executeUpdate();
+
+                category.setLeft(parent.getRight());
+                category.setRight(parent.getRight() + 1);
+                category.setDepth(parent.getDepth() + 1);
+
+                em.persist(category);
+                return null;
+            }
+        });
+    }
+    
     @Transactional(readOnly = false)
     public void insertRootCategory(final TicketCategory rootCategory) {
         this.jpaTemplate.execute(new JpaCallback() {

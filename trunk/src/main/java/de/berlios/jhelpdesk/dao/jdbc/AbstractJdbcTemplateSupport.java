@@ -19,10 +19,6 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-/**
- *
- * @author jjhop
- */
 public class AbstractJdbcTemplateSupport {
 
     private DataSource dataSource;

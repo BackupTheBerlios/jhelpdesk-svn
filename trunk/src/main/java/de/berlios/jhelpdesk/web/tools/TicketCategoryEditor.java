@@ -32,7 +32,7 @@ import de.berlios.jhelpdesk.model.TicketCategory;
 public class TicketCategoryEditor extends PropertyEditorSupport {
 
     @Autowired
-    @Qualifier("jdbc")
+    @Qualifier("jpa")
     private TicketCategoryDAO ticketCategoryDAO;
 
     @Override

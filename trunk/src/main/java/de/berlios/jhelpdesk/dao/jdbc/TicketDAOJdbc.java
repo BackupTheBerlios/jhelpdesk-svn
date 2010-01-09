@@ -31,10 +31,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.RowMapper;
-//import org.springframework.stereotype.Repository;
 
 import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
@@ -49,8 +47,7 @@ import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 
-//@Repository("ticketDAO")
-//@Qualifier("jdbc")
+@Deprecated
 public class TicketDAOJdbc extends AbstractJdbcTemplateSupport implements TicketDAO {
 
     private static Log log = LogFactory.getLog(TicketDAOJdbc.class);
