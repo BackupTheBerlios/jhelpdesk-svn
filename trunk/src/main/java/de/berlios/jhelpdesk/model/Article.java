@@ -37,7 +37,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 /**
  *
@@ -47,9 +46,9 @@ import javax.persistence.Transient;
 @Table(name = "article")
 @SequenceGenerator(name = "article_sequence", sequenceName = "article_id_seq", allocationSize = 1)
 @NamedQueries({
-    @NamedQuery(name = "Article.lastAdded", query = "FROM Article a ORDER BY a.createDate DESC"),
+    @NamedQuery(name = "Article.lastAdded", query = "SELECT a FROM Article a ORDER BY a.createDate DESC"),
     @NamedQuery(name = "Article.getForCategory", 
-        query = "FROM Article a WHERE a.category.articleCateogryId=? ORDER BY a.createDate DESC")
+        query = "SELECT a FROM Article a WHERE a.category.articleCateogryId=?1 ORDER BY a.createDate DESC")
 })
 public class Article implements Serializable {
 
@@ -60,13 +59,6 @@ public class Article implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="article_sequence")
     @Column(name = "article_id")
     private Long articleId;
-
-    /**
-     * // TODO: przemigrować do ArticleCategory
-     */
-    @Transient
-    @Deprecated
-    private Long articleSectionId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "article_category_id")
@@ -183,22 +175,6 @@ public class Article implements Serializable {
      */
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    /**
-     * @return Returns the articleSectionId.
-     */
-    @Deprecated
-    public Long getArticleSectionId() {
-        return this.articleSectionId;
-    }
-
-    /**
-     * @param articleSectionId The articleSectionId to set.
-     */
-    @Deprecated
-    public void setArticleSectionId(Long articleSectionId) {
-        this.articleSectionId = articleSectionId;
     }
 
     /**
