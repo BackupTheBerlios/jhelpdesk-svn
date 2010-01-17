@@ -131,6 +131,8 @@
 		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
 		<put-attribute name="content" value="/WEB-INF/jsp/tickets/new.jsp"/>
         </definition>
+        
+        <definition name="tickets/upload" template="/WEB-INF/jsp/tickets/upload.jsp"/>
 	
 	<definition
 		name="editTicket"
@@ -178,14 +180,33 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/preferences/eventNotify.jsp"/>
 	</definition>
 	
-	<definition 
-		name="preferences/personalData"
-		extends="baseLayout">
-		<put-attribute name="title" value="Edycja preferencji - ustawienia powiadamiania"/>
-		<put-attribute name="displayFilterLink" value="none"/>
-		<put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
-		<put-attribute name="content" value="/WEB-INF/jsp/preferences/personalData.jsp"/>
+	<definition name="preferences/personalData" extends="baseLayout">
+            <put-attribute name="title" value="Edycja preferencji - ustawienia powiadamiania"/>
+            <put-attribute name="displayFilterLink" value="none"/>
+            <put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+            <put-attribute name="content" value="/WEB-INF/jsp/preferences/personalData.jsp"/>
 	</definition>
+
+        <definition name="preferences/filters/showAll" extends="baseLayout">
+            <put-attribute name="title" value="Edycja preferencji :: zarządzanie filtrami :: szczegóły filtra"/>
+            <put-attribute name="displayFilterLink" value="none"/>
+            <put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+            <put-attribute name="content" value="/WEB-INF/jsp/preferences/filters/showAll.jsp"/>
+        </definition>
+
+        <definition name="preferences/filters/show" extends="baseLayout">
+            <put-attribute name="title" value="Edycja preferencji :: zarządzanie filtrami :: szczegóły filtra"/>
+            <put-attribute name="displayFilterLink" value="none"/>
+            <put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+            <put-attribute name="content" value="/WEB-INF/jsp/preferences/filters/show.jsp"/>
+        </definition>
+
+        <definition name="preferences/filters/new" extends="baseLayout">
+            <put-attribute name="title" value="Edycja preferencji :: zarządzanie filtrami :: nowy"/>
+            <put-attribute name="displayFilterLink" value="none"/>
+            <put-attribute name="filterForm" value="/WEB-INF/jsp/forms/none.jsp"/>
+            <put-attribute name="content" value="/WEB-INF/jsp/preferences/filters/new.jsp"/>
+        </definition>
 	
 	<!-- zarzadzanie -->
 	<definition
