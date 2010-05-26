@@ -32,20 +32,24 @@ import de.berlios.jhelpdesk.web.NotAuthorizedAccessException;
 
 public class TicketkillerFilter implements Filter {
 
-	public void init(FilterConfig config) throws ServletException {}
+    public void init(FilterConfig config) throws ServletException {
+    }
 
-	public void doFilter(ServletRequest request, ServletResponse response, 
-			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpSession sess = req.getSession();
-		User user = (User) sess.getAttribute("user");
-		if (user == null)
-			throw new NotAuthorizedAccessException("not authorized access!");
-		if (user.getUserRole().toInt() < Role.TICKETKILLER.toInt())
-			throw new NotAuthorizedAccessException("not authorized access!");
-		// ((HttpServletResponse) response).addHeader("access", "403");
-		chain.doFilter(request, response);
-	}
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession sess = req.getSession();
+        User user = (User) sess.getAttribute("user");
+        if (user == null) {
+            throw new NotAuthorizedAccessException("not authorized access!");
+        }
+        if (user.getUserRole().toInt() < Role.TICKETKILLER.toInt()) {
+            throw new NotAuthorizedAccessException("not authorized access!");
+        }
+        // ((HttpServletResponse) response).addHeader("access", "403");
+        chain.doFilter(request, response);
+    }
 
-	public void destroy() {}
+    public void destroy() {
+    }
 }

@@ -5,6 +5,7 @@
 <h1>formularz nowego zgłoszenia</h1>
 
 <form:form commandName="ticket">
+    <form:hidden path="ticketstamp"/>
     <label for="zglaszacz">Zgłaszający:</label>
     <form:input id="zglaszacz" path="notifier"/><font color="red"><form:errors path="notifier" /></font><br/>
 
@@ -25,4 +26,22 @@
 
     <span>Zarządzanie dodatkowymi plikami</span><br/>
     <input type="submit" value="Zapisz"/>
-</form:form>
+</form:form><br/>
+<script type="text/javascript" src="<c:url value="/js/jquery-1.3.1.min.js"/>"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("a.group").fancybox({
+            'hideOnContentClick': false,
+            'hideOnOverlayClick': false,
+            'frameWidth' : 320,
+            'frameHeight' : 150
+        });
+    });
+</script>
+<script type="text/javascript" src="<c:url value="/js/jquery.easing.1.3.js"/>"></script>
+
+
+<link rel="stylesheet" type="text/css" href="<c:url value="/js/fancybox/fancybox.css"/>" media="screen" />
+
+<script type="text/javascript" src="<c:url value="/js/fancybox/fancybox1.js"/>"></script>
+<a class="group iframe" href="<c:url value="/tickets/uploadFile.html?ticketstamp=${ticket.ticketstamp}"/>">Dołącz plik</a>

@@ -33,47 +33,47 @@ public enum EventType {
     /**
      * 
      */
-    CREATEEVENT(1, "Zgłoszenie problemu."),
+    CREATE(1, "Zgłoszenie problemu."),
 
     /**
      *
      */
-    ASSIGNEVENT(2, "Przypisanie problemu."),
+    ASSIGN(2, "Przypisanie problemu."),
 
     /**
      *
      */
-    REASSIGNEVENT(3, "Zmiana przypisania problemu."),
+    REASSIGN(3, "Zmiana przypisania problemu."),
 
     /**
      *
      */
-    CLOSEEVENT(4, "Zamknięcie/rozwiązanie problemu."),
+    CLOSE(4, "Zamknięcie/rozwiązanie problemu."),
 
     /**
      *
      */
-    REJECTEVENT(5, "Odrzucenie problemu."),
+    REJECT(5, "Odrzucenie problemu."),
 
     /**
      * 
      */
-    CATEGORYCHANGEEVENT(6, "Zmiana kategorii."),
+    CATEGORYCHANGE(6, "Zmiana kategorii."),
 
     /**
      *
      */
-    PRIORITYCHANGEEVENT(7, "Zmiana ważności."),
+    PRIORITYCHANGE(7, "Zmiana ważności."),
 
     /**
      *
      */
-    STATUSCHANGEEVENT(8, "Zmiana statusu."),
+    STATUSCHANGE(8, "Zmiana statusu."),
 
     /**
      *
      */
-    COMMENTADDEVENT(9, "Dodanie komentarza.");
+    COMMENTADD(9, "Dodanie komentarza.");
 
     /**
      * Liczbowy identyfikator zdarzenia. Za jego pomocą można
@@ -148,23 +148,23 @@ public enum EventType {
     public static EventType fromInt(int code) {
         switch (code) {
             case 1:
-                return CREATEEVENT;
+                return CREATE;
             case 2:
-                return ASSIGNEVENT;
+                return ASSIGN;
             case 3:
-                return REASSIGNEVENT;
+                return REASSIGN;
             case 4:
-                return CLOSEEVENT;
+                return CLOSE;
             case 5:
-                return REJECTEVENT;
+                return REJECT;
             case 6:
-                return CATEGORYCHANGEEVENT;
+                return CATEGORYCHANGE;
             case 7:
-                return PRIORITYCHANGEEVENT;
+                return PRIORITYCHANGE;
             case 8:
-                return STATUSCHANGEEVENT;
+                return STATUSCHANGE;
             case 9:
-                return COMMENTADDEVENT;
+                return COMMENTADD;
             default:
                 throw new RuntimeException("Nieznany typ zdarzenia.");
         }

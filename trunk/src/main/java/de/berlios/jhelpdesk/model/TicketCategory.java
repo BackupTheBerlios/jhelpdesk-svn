@@ -48,7 +48,7 @@ public class TicketCategory implements Serializable, Comparable<TicketCategory> 
      *
      */
     @Column(name = "parent_category") // TODO: przerobić na obiekt po prostu
-    private Long parentCategory; // != null jesli jest podkategorią
+    private Long parentCategory;      // parentCategory != null jesli jest podkategorią
 
     /**
      *
@@ -232,6 +232,31 @@ public class TicketCategory implements Serializable, Comparable<TicketCategory> 
     @Override
     public String toString() {
         return categoryName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+       if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        if (this.ticketCategoryId == null) {
+            return false;
+        }
+        TicketCategory category = (TicketCategory) obj;
+        return this.ticketCategoryId.equals(category.ticketCategoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + (this.ticketCategoryId != null ? this.ticketCategoryId.hashCode() : 0);
+        hash = 67 * hash + (this.parentCategory != null ? this.parentCategory.hashCode() : 0);
+        hash = 67 * hash + (this.categoryName != null ? this.categoryName.hashCode() : 0);
+        hash = 67 * hash + (this.categoryDesc != null ? this.categoryDesc.hashCode() : 0);
+        return hash;
     }
 
     public boolean hasChildNodes() {

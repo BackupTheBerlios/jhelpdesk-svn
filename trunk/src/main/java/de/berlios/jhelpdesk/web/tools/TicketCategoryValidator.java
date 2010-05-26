@@ -24,16 +24,16 @@ import de.berlios.jhelpdesk.model.TicketCategory;
 
 @Component("ticketCategoryValidator")
 public class TicketCategoryValidator implements Validator {
-	
-	// implementujemy Validator.supports(Class), dlatego SuppressWarnings
-	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { 
-		return TicketCategory.class.equals(clazz);
-	}
 
-	public void validate(Object category, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "categoryName", "errors.category.categoryName");
-		ValidationUtils.rejectIfEmptyOrWhitespace(
-				errors, "categoryDesc", "errors.category.categoryDesc");
-	}
+    // implementujemy Validator.supports(Class), dlatego SuppressWarnings
+    public boolean supports(Class<?> clazz) {
+        return TicketCategory.class.equals(clazz);
+    }
+
+    public void validate(Object category, Errors errors) {
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "categoryName", "errors.category.categoryName");
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "categoryDesc", "errors.category.categoryDesc");
+    }
 }

@@ -9,8 +9,9 @@
         <links>
             <item name="buzzlers.com" href="http://buzzlers.com/" />
             <item name="dev.buzzlers.com" href="http://dev.buzzlers.com/" />
-            <item name="HelpdeskOnline" href="http://hd.buzzlers.com/" />
+            <item name="jHelpdeskOnline" href="http://jhelpdesk-online.com/" />
             <item name="BerliOS Developer" href="http://developer.berlios.de"/>
+            <item name="OS Help Desk List" href="http://www.opensourcehelpdesklist.com/"/>
         </links>
         <menu name="Main">
             <item name="Welcome" href="index.html"/>

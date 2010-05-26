@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
@@ -28,12 +30,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketFilterDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
+import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketFilter;
 import de.berlios.jhelpdesk.model.TicketPriority;
@@ -48,7 +54,6 @@ import de.berlios.jhelpdesk.web.tools.UserEditor;
  * @author jjhop
  */
 @Controller
-@RequestMapping("/preferences/filters/new.html")
 public class CustomFilterEditController {
 
     @Autowired
@@ -75,7 +80,7 @@ public class CustomFilterEditController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
+        dateFormat.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
         binder.registerCustomEditor(User.class, userEditor);
         binder.registerCustomEditor(TicketCategory.class, categoryEditor);
@@ -92,35 +97,49 @@ public class CustomFilterEditController {
     }
 
     @ModelAttribute("ticketStatuses")
-    public TicketStatus[] spopulateTicketStatuses() {
+    public TicketStatus[] populateTicketStatuses() {
         return TicketStatus.getAllStatuses();
     }
+    
+    @ModelAttribute("saviours")
+    public List<User> populateSaviuours() {
+        return userDAO.getByRole(Role.TICKETKILLER);
+    }
 
-    @ModelAttribute("activeUsers")
-    public List<User> populateActiveUsers() {
+    @ModelAttribute("notifiers")
+    public List<User> populateNotifiers() {
         return userDAO.getAllUser();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String prepareForm(ModelMap map) {
-        map.addAttribute(new TicketFilter());
-        return "preferences/filters/new";
+    @RequestMapping(value = "/preferences/filters/{filterId}/edit.html", method = GET)
+    public String prepareEditForm(@PathVariable("filterId") Long filterId,
+                                  ModelMap map, HttpSession session) {
+        map.addAttribute("filter", ticketFilterDAO.getById(filterId));
+        return "preferences/filters/edit";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String processForm(
-                  @ModelAttribute("ticketFilter") TicketFilter ticketFilter,
-                  BindingResult result, ModelMap map) {
+    @RequestMapping(value = "/preferences/filters/new.html", method = GET)
+    public String prepareNewForm(ModelMap map, HttpSession session) {
+        User currentUser = (User)session.getAttribute("user");
+        TicketFilter filter = new TicketFilter();
+        filter.setOwner(currentUser);
+        map.addAttribute("filter", filter);
+        return "preferences/filters/edit";
+    }
 
-        ticketFilterValidator.validate(ticketFilter, result);
-        if (result.hasErrors()) {
-            map.addAttribute(ticketFilter);
-            return "preferences/filters/new";
-        } else {
-            map.addAttribute(ticketFilter);
-            return "preferences/filters/new";
-            // jesli valid to
-            // ticketFilterDAO.saveOrUpdate(ticketFilter);
+    @RequestMapping(value = "/preferences/filters/save.html", method = POST)
+    public String processForm(@ModelAttribute("filter") TicketFilter filter,
+                              BindingResult result, ModelMap map,
+                              HttpSession session) {
+        User currentUser = (User)session.getAttribute("user");
+        ticketFilterValidator.validate(filter, result);
+        if (!result.hasErrors()) {
+            ticketFilterDAO.saveOrUpdate(filter);
+            map.addAttribute("message", "Filtr został zapisany.");
+            session.setAttribute("user", userDAO.getById(currentUser.getUserId()));
         }
+        map.addAttribute(filter);
+        
+        return "preferences/filters/edit";
     }
 }

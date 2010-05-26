@@ -44,7 +44,7 @@ import de.berlios.jhelpdesk.model.User;
 @Transactional(readOnly = true)
 public class TicketEventDAOJpa implements TicketEventDAO {
 
-    private JpaTemplate jpaTemplate;
+    private final JpaTemplate jpaTemplate;
 
     @Autowired
     public TicketEventDAOJpa(EntityManagerFactory emf) {

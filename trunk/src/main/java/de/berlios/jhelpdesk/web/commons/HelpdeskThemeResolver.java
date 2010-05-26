@@ -10,7 +10,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
 package de.berlios.jhelpdesk.web.commons;
@@ -23,15 +23,33 @@ import org.springframework.stereotype.Component;
 
 import de.berlios.jhelpdesk.model.User;
 
+/**
+ *  {@inheritdoc}
+ *
+ * @author jjhop
+ */
 @Component("themeResolver")
 public class HelpdeskThemeResolver implements ThemeResolver {
 
-	public String resolveThemeName(HttpServletRequest request) {
-		User user = (User) (request.getSession()).getAttribute("user");
-		// TODO: jesli user ustalony to nalezy wyciagnac jego preferencje
-		return (user == null) ? "hd_blue_theme" : "hd_blue_theme";
-	}
+    /**
+     * {@inheritDoc}
+     *
+     * @param request
+     * @return
+     */
+    public String resolveThemeName(HttpServletRequest request) {
+        User user = (User) (request.getSession()).getAttribute("user");
+        return (user != null) ? user.getPreferedTheme() : "hd_blue_theme";
+    }
 
-	public void setThemeName(HttpServletRequest request, 
-			HttpServletResponse response, String themeName) {}
+    /**
+     * {@inheritDoc}
+     * 
+     * @param request
+     * @param response
+     * @param themeName
+     */
+    public void setThemeName(HttpServletRequest request,
+            HttpServletResponse response, String themeName) {
+    }
 }

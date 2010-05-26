@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.berlios.jhelpdesk.dao.ArticleCategoryDAO;
@@ -66,22 +67,25 @@ public class HelpViewController {
      *
      * @param id identyfikator artykułu z bazy wiedzy, może mieć wartość {@code null}
      * @param key
-     * @param mav model widoku
-     * @return identyfikator widoku właściwego dla zakresu żądania
+     * @param map model widoku
+     * @return identyfikator widoku
      */
-    // TODO: metoda do przejrzenia, być może trzeba będzie ją rozbić na dwie lub więcej
-    @RequestMapping("/help/base.html")
-    public String knowledgeBaseView(
-                  @RequestParam(value = "id", required = false) Long id,
-                  @RequestParam(value = "key", required = false) String key,
-                  ModelMap mav) {
+    @RequestMapping(value = "/help/base/showAll.html", method = RequestMethod.GET)
+    public String knowledgeBaseView(ModelMap map) {
+        map.addAttribute("categories", articleCategoryDAO.getAllCategories());
+        return "help/base";
+    }
 
-        if ((key != null) && key.equalsIgnoreCase("details")) {
-            mav.addAttribute("article", articleDAO.getById(id));
-            return "help/base/one";
-        } else {
-            mav.addAttribute("categories", articleCategoryDAO.getAllCategories());
-            return "help/base";
-        }
+    /**
+     * Wyświetla artykuł oznaczony w bazie wiedzy identyfikatorem {@code id}
+     * 
+     * @param id identyfikator artykułu do wyświetlenia
+     * @param map model widoku
+     * @return identyfikator widoku
+     */
+    @RequestMapping(value = "/help/base/showOne.html", method = RequestMethod.GET)
+    public String knowledgeBaseItemView(@RequestParam("id") Long id, ModelMap map) {
+        map.addAttribute("article", articleDAO.getById(id));
+        return "help/base/one";
     }
 }

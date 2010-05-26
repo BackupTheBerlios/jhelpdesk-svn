@@ -24,31 +24,33 @@ import de.berlios.jhelpdesk.model.Ticket;
 @Component("ticketValidator")
 public class TicketValidator implements Validator {
 
-    // implementujemy Validator.supports(Class), dlatego SuppressWarnings
-    public boolean supports(@SuppressWarnings("unchecked") Class clazz) {
+    public boolean supports(Class<?> clazz) {
         return Ticket.class.equals(clazz);
     }
 
     public void validate(Object command, Errors errors) {
-        validateSubject(command, errors);
-        validateDescription(command, errors);
-        validateNotifier(command, errors);
+        Ticket ticketToValidate = (Ticket)command;
+        validateSubject(ticketToValidate, errors);
+        validateDescription(ticketToValidate, errors);
+        validateNotifier(ticketToValidate, errors);
     }
 
-    public void validateSubject(Object command, Errors errors) {
-        if (((Ticket) command).getSubject().trim().isEmpty()) {
+    private void validateSubject(Ticket ticketToValidate, Errors errors) {
+        if (ticketToValidate.getSubject() == null
+                || ticketToValidate.getSubject().trim().isEmpty()) { // isEmpty jest z jdk 1.6
             errors.rejectValue("subject", "ticket.subject.error");
         }
     }
 
-    public void validateDescription(Object command, Errors errors) {
-        if (((Ticket) command).getDescription().trim().isEmpty()) {
+    private void validateDescription(Ticket ticketToValidate, Errors errors) {
+        if (ticketToValidate.getDescription() == null
+                || ticketToValidate.getDescription().trim().isEmpty()) {
             errors.rejectValue("description", "ticket.description.error");
         }
     }
 
-    public void validateNotifier(Object command, Errors errors) {
-        if (((Ticket) command).getNotifier() == null) {
+    private void validateNotifier(Ticket ticketToValidate, Errors errors) {
+        if (ticketToValidate.getNotifier() == null) {
             errors.rejectValue("notifier", "ticket.notifier.error");
         }
     }

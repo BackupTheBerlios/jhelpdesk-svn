@@ -10,7 +10,7 @@
                 <div id="content">
                     <div class="contenttop"></div>
                     <div class="contentmiddle">
-                        <form action="" method="post">
+                        <form action="<c:url value="/announcements/save.html"/>" method="post">
                             <c:if test="${announcement.announcementId != null}">
                                 <spring:bind path="announcement.announcementId">
                                     <input type="hidden" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>

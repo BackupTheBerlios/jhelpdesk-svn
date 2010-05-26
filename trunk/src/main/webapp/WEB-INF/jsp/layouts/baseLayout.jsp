@@ -8,7 +8,7 @@
         <script language="javascript" type="text/javascript" src="<c:url value="/js/tiny_mce/tiny_mce.js"/>"></script>
         <script type="text/javascript">
             tinyMCE.init({
-                width : "500",
+                width : "420",
                 mode : "textareas",
                 editor_selector : "mceEditor",
                 theme : "advanced",

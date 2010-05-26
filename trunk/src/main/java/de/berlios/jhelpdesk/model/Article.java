@@ -48,7 +48,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "Article.lastAdded", query = "SELECT a FROM Article a ORDER BY a.createDate DESC"),
     @NamedQuery(name = "Article.getForCategory", 
-        query = "SELECT a FROM Article a WHERE a.category.articleCateogryId=?1 ORDER BY a.createDate DESC")
+        query = "SELECT a FROM Article a WHERE a.category.articleCategoryId=?1 ORDER BY a.createDate DESC")
 })
 public class Article implements Serializable {
 

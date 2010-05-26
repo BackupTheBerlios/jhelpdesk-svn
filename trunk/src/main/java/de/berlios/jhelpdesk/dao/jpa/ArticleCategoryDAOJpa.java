@@ -46,7 +46,7 @@ public class ArticleCategoryDAOJpa implements ArticleCategoryDAO {
 
     private static final Log log = LogFactory.getLog(ArticleCategoryDAOJpa.class);
     
-    private JpaTemplate jpaTemplate;
+    private final JpaTemplate jpaTemplate;
 
     @Autowired
     public ArticleCategoryDAOJpa(EntityManagerFactory emf) {
@@ -77,7 +77,7 @@ public class ArticleCategoryDAOJpa implements ArticleCategoryDAO {
     public void moveDown(final Long categoryId) {
         this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
-                Query q = em.createNativeQuery("SELECT category_move_down(?)");
+                Query q = em.createNativeQuery("SELECT category_move_down(?1)");
                 q.setParameter(1, categoryId);
                 q.getSingleResult();
                 return null;
@@ -89,7 +89,7 @@ public class ArticleCategoryDAOJpa implements ArticleCategoryDAO {
     public void moveUp(final Long categoryId) {
         this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
-                Query q = em.createNativeQuery("SELECT category_move_up(?)");
+                Query q = em.createNativeQuery("SELECT category_move_up(?1)");
                 q.setParameter(1, categoryId);
                 q.getSingleResult();
                 return null;

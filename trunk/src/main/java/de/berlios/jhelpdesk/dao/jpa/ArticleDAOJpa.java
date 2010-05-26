@@ -47,7 +47,7 @@ public class ArticleDAOJpa implements ArticleDAO {
 
     private static final Log log = LogFactory.getLog(ArticleDAOJpa.class);
     
-    private JpaTemplate jpaTemplate;
+    private final JpaTemplate jpaTemplate;
 
     @Autowired
     public ArticleDAOJpa(EntityManagerFactory emf) {

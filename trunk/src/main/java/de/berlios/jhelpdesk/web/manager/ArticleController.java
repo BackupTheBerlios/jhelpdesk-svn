@@ -147,14 +147,9 @@ public class ArticleController {
                   BindingResult result, HttpSession session) {
 
         if (result.hasErrors()) {
-            for (Object o : result.getAllErrors()) {
-                System.out.println("e: " + o);
-            }
             return "manage/knowledge/article/edit";
         }
-        System.out.println("ArticleController --------------------- 147");
         articleDAOJpa.saveOrUpdate(article);
-        System.out.println("ArticleController --------------------- 149");
         return "redirect:showAll.html";
     }
 }

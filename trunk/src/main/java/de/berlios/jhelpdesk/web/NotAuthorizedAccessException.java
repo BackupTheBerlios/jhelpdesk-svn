@@ -10,16 +10,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright: (C) 2006 jHelpdesk Developers Team
  */
 package de.berlios.jhelpdesk.web;
 
+/**
+ *
+ * @author jjhop
+ */
 public class NotAuthorizedAccessException extends RuntimeException {
-	
-	private static final long serialVersionUID = -7396029049123879745L;
 
-	public NotAuthorizedAccessException(String message) {
-		super(message);
-	}
+    private static final long serialVersionUID = -7396029049123879745L;
+
+    /**
+     *
+     * @param message
+     */
+    public NotAuthorizedAccessException(String message) {
+        super(message);
+    }
 }

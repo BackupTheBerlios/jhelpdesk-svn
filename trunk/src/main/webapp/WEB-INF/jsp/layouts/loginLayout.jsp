@@ -5,8 +5,8 @@
     <head>
         <title><tiles:getAsString name="title"/></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css"/>"/>
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/login.css"/>"/>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/themes/hd/css/style.css"/>"/>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/themes/hd/css/login.css"/>"/>
     </head>
     <body>
 

@@ -15,6 +15,7 @@
  */
 package de.berlios.jhelpdesk.web.manager;
 
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -24,9 +25,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 
 import de.berlios.jhelpdesk.dao.AnnouncementDAO;
@@ -53,14 +54,14 @@ public class AnnouncementController {
     /**
      * Wyświetla ogłoszenie na podstawie dostarczonego identyfikatora.
      *
-     * @param annId identyfikator ogłoszenia
+     * @param infoId identyfikator ogłoszenia
      * @param map modelu widoku
      * @return identyfikator widoku prezentującego ogłoszenia
      */
-    @RequestMapping("/announcement/show.html")
-    public String showAnnouncement(@RequestParam("infoId") Long annId, ModelMap map) {
+    @RequestMapping("/announcements/{infoId}/show.html")
+    public String showAnnouncement(@PathVariable("infoId") Long infoId, ModelMap map) {
         try {
-            map.addAttribute("announcement", announcementDAO.getById(annId));
+            map.addAttribute("announcement", announcementDAO.getById(infoId));
         } catch (Exception e) {
             log.error(e);
             map.addAttribute("errorInfo", e.getMessage());
@@ -75,7 +76,7 @@ public class AnnouncementController {
      * @param map model widoku
      * @return identyfikator widoku prezentującego listę ogłoszeń
      */
-    @RequestMapping("/announcement/showAll.html")
+    @RequestMapping("/announcements/list.html")
     public String showAllAnnouncements(ModelMap map) {
         map.addAttribute("announcements", announcementDAO.getAll());
         return "announcement/showAll";
@@ -87,14 +88,14 @@ public class AnnouncementController {
      * @param annId identyfikator ogłoszenia do usunięcia
      * @return widok do wyświetlania po usunięciu ogłoszenia
      */
-    @RequestMapping("/announcement/remove.html")
-    public String removeAnnouncement(@RequestParam("infoId") Long annId) {
+    @RequestMapping("/announcements/{infoId}/remove.html")
+    public String removeAnnouncement(@PathVariable("infoId") Long annId) {
         try {
             announcementDAO.delete(annId);
         } catch (Exception e) {
             log.error(e);
         }
-        return "redirect:/announcement/showAll.html";
+        return "redirect:/announcements/list.html";
     }
 
     /**
@@ -103,8 +104,7 @@ public class AnnouncementController {
      * do edycji, w przeciwnym wypadku do modelu zostanie dołączony nowy (pusty)
      * obiekt ogłoszenia.
      * 
-     * @param annId identyfikator ogłoszenia do edycji lub {@code false} jeśli
-     * to nowe ogłoszenie
+     * @param infoId identyfikator ogłoszenia do edycji
      * @param map model widoku
      * @return identyfikato widoku
      * 
@@ -113,16 +113,15 @@ public class AnnouncementController {
      * 
      * @see ModelMap
      */
-    @RequestMapping(value = "/announcement/edit.html", method = RequestMethod.GET)
-    protected String prepareForm(
-                     @RequestParam(value = "infoId", required = false) Long annId,
-                     ModelMap map) {
+    @RequestMapping(value = "/announcements/{infoId}/edit.html", method = RequestMethod.GET)
+    protected String prepareEditForm(@PathVariable("infoId") Long infoId, ModelMap map) {
+        map.addAttribute("announcement", announcementDAO.getById(infoId));
+        return "announcement/edit";
+    }
 
-        if (annId == null) {
-            map.addAttribute("announcement", new Announcement());
-        } else {
-            map.addAttribute("announcement", announcementDAO.getById(annId));
-        }
+    @RequestMapping(value = "/announcements/new.html", method = RequestMethod.GET)
+    protected String prepareNewForm(ModelMap map) {
+        map.addAttribute(new Announcement());
         return "announcement/edit";
     }
 
@@ -143,10 +142,9 @@ public class AnnouncementController {
      * @see BindingResult
      * @see SessionStatus
      */
-    @RequestMapping(value = "/announcement/edit.html", method = RequestMethod.POST)
-    protected String processSubmit(
-                     @ModelAttribute("announcement") Announcement announcement,
-                     BindingResult result, SessionStatus status) {
+    @RequestMapping(value = "/announcements/save.html", method = RequestMethod.POST)
+    protected String processSubmit(@ModelAttribute("announcement") Announcement announcement,
+                                   BindingResult result, SessionStatus status) {
 
         validator.validate(announcement, result);
         if (result.hasErrors()) {
@@ -154,6 +152,6 @@ public class AnnouncementController {
         }
         announcementDAO.save(announcement);
         status.setComplete();
-        return "redirect:showAll.html";
+        return "redirect:list.html";
     }
 }

@@ -19,10 +19,10 @@ import java.util.List;
 
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketCategory;
+import de.berlios.jhelpdesk.model.TicketFilter;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
-import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 
 /**
  * Definiuje zestaw metod do obsługi trwałości obiektów Ticket.
@@ -47,8 +47,7 @@ public interface TicketDAO {
      * @return
      * @throws de.berlios.jhelpdesk.dao.DAOException
      */
-    List<Ticket> getTicketsByStatus(TicketStatus ticketStatus)
-            throws DAOException;
+    List<Ticket> getTicketsByStatus(TicketStatus ticketStatus) throws DAOException;
 
     /**
      * 
@@ -56,8 +55,7 @@ public interface TicketDAO {
      * @param howMuch
      * @return
      */
-    List<Ticket> getTicketsByStatus(TicketStatus ticketStatus,
-            int howMuch) throws DAOException;
+    List<Ticket> getTicketsByStatus(TicketStatus ticketStatus, int howMuch) throws DAOException;
 
     /**
      * Zwraca wszystkie zgłoszenia o podanej ważności.
@@ -65,8 +63,7 @@ public interface TicketDAO {
      * @param ticketPriority
      * @return
      */
-    List<Ticket> getTicketsByPriority(TicketPriority ticketPriority)
-            throws DAOException;
+    List<Ticket> getTicketsByPriority(TicketPriority ticketPriority) throws DAOException;
 
     /**
      * Zwraca wszystkie zgłoszenia wybranej kategorii.
@@ -74,16 +71,14 @@ public interface TicketDAO {
      * @param ticketCategory
      * @return
      */
-    List<Ticket> getTicketsByCategory(TicketCategory ticketCategory)
-            throws DAOException;
+    List<Ticket> getTicketsByCategory(TicketCategory ticketCategory) throws DAOException;
 
     /**
      * 
      * @param user
      * @return
      */
-    List<Ticket> getTicketsNotifyiedByUser(User user)
-            throws DAOException;
+    List<Ticket> getTicketsNotifyiedByUser(User user) throws DAOException;
 
     /**
      * Usuwa wybrane zgłoszenie.
@@ -115,21 +110,26 @@ public interface TicketDAO {
 
     /**
      * 
-     * @param filterForm
+     * @param ticketFilter
      * @param limit
      * @param offset
      * @return
      * @throws DAOException
      */
-    abstract List<Ticket> getTicketsWithFilter(ShowTicketsFilterForm filterForm,
-            int limit, long offset) throws DAOException;
+    List<Ticket> getTicketsWithFilter(TicketFilter ticketFilter, int limit, int offset)
+            throws DAOException;
 
     /**
      * 
-     * @param filterForm
+     * @param ticketFilter
      * @return
      */
-    Long countTicketsWithFilter(ShowTicketsFilterForm filterForm)
-            throws DAOException;
+    Long countTicketsWithFilter(TicketFilter ticketFilter) throws DAOException;
+
+    /**
+     * 
+     * @param filter
+     */
+    List<Ticket> getTicketsWithFilter(TicketFilter filter);
 
 }

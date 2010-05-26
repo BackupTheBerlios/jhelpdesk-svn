@@ -47,7 +47,7 @@ public class AnnouncementDAOJpa implements AnnouncementDAO {
 
     private static final Log log = LogFactory.getLog(AnnouncementDAOJpa.class);
 
-    private JpaTemplate jpaTemplate;
+    private final JpaTemplate jpaTemplate;
 
     @Autowired
     public AnnouncementDAOJpa(EntityManagerFactory emf) {

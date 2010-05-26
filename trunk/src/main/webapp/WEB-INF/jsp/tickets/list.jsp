@@ -13,7 +13,7 @@
                     <c:out value="${ticketsIterator_rowNum}"/>
                 </display:column>
                 <display:column title="Przyczyna zgłoszenia" class="ticketsDetail" headerClass="ticketsDetail">
-                    <a href="<c:url value="ticketDetails.html"/>?ticketId=<c:out value="${ticketsIterator.ticketId}"/>" onmouseover="jGetXY( event )" onmouseout="jHideDesc( event, 'row_<c:out value="${ticketsIterator.ticketId}"/>' );" title="">
+                    <a href="<c:url value="/tickets/${ticketsIterator.ticketId}/details.html"/>" onmouseover="jGetXY( event )" onmouseout="jHideDesc( event, 'row_<c:out value="${ticketsIterator.ticketId}"/>' );" title="">
                         <c:out value="${ticketsIterator.subject}"/>
                     </a>
                     <div id="row_<c:out value="${ticketsIterator.ticketId}"/>" class="linker">
@@ -32,7 +32,7 @@
                 <display:column property="ticketPriority" title="Ważność" class="priority" headerClass="priority" />
                 <display:column property="notifier" title="Zgłaszający" class="notifier" headerClass="notifier" />
                 <display:column title="" media="html" class="ticketView" headerClass="ticketView">
-                    <a href="<c:url value="ticketDetails.html?ticketId=${ticketsIterator.ticketId}"/>">View</a>
+                    <a href="<c:url value="/tickets/${ticketsIterator.ticketId}/details.html"/>">View</a>
                 </display:column>
 
                 <display:setProperty name="paging.banner.no_items_found" value="<table id=\"pagination\"><tr><td id=\"paginationinfo\">No {0} found.</td>"/>
@@ -61,7 +61,7 @@
 <div id="hint">
     <div id="hinttop"></div>
     <div id="hintmiddle">
-        
+
     </div>
     <div id="hintbottom"></div>
 </div>

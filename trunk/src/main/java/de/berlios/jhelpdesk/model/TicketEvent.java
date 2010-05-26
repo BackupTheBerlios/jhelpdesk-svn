@@ -42,17 +42,17 @@ import javax.persistence.Transient;
 @Table(name = "ticket_event")
 @NamedQueries({
     @NamedQuery(name = "TicketEvent.getByTicketOrderByEventDateDESC",
-                query = "FROM TicketEvent t WHERE t.ticket=? ORDER BY t.evtDate DESC"),
-    @NamedQuery(name = "TicketEvent.getByTicketIdOrderByEventDateDESC",
-                query = "FROM TicketEvent t WHERE t.ticket.ticketId=? ORDER BY t.evtDate DESC"),
+                query = "SELECT t FROM TicketEvent t WHERE t.ticket=?1 ORDER BY t.evtDate DESC"),
+    @NamedQuery(name = "SELECT t TicketEvent.getByTicketIdOrderByEventDateDESC",
+                query = "SELECT t FROM TicketEvent t WHERE t.ticket.ticketId=?1 ORDER BY t.evtDate DESC"),
     @NamedQuery(name = "TicketEvent.getByEventTypeOrderByEventDateDESC",
-                query = "FROM TicketEvent t WHERE t.eventTypeAsInt=? ORDER BY t.evtDate DESC"),
+                query = "SELECT t FROM TicketEvent t WHERE t.eventTypeAsInt=?1 ORDER BY t.evtDate DESC"),
     @NamedQuery(name = "TicketEvent.getByUserOrderByEventDateDESC",
-                query = "FROM TicketEvent t WHERE t.evtAuthor=? ORDER BY t.evtDate DESC"),
+                query = "SELECT t FROM TicketEvent t WHERE t.evtAuthor=?1 ORDER BY t.evtDate DESC"),
     @NamedQuery(name = "TicketEvent.getByUserIdOrderByEventDateDESC",
-                query = "FROM TicketEvent t WHERE t.evtAuthor.userId=? ORDER BY t.evtDate DESC"),
+                query = "SELECT t FROM TicketEvent t WHERE t.evtAuthor.userId=?1 ORDER BY t.evtDate DESC"),
     @NamedQuery(name = "TicketEvent.getLastFewEventsOrderByEventDateDESC",
-                query = "FROM TicketEvent t ORDER BY t.evtDate DESC")
+                query = "SELECT t FROM TicketEvent t ORDER BY t.evtDate DESC")
 })
 public class TicketEvent implements Serializable {
 

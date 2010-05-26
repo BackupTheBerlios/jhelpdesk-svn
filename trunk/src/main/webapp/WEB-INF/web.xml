@@ -5,6 +5,11 @@
          http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
+    <display-name>jHelpdesk 1.0.GA - OpenSource Edition</display-name>
+    <description>
+        jHelpdesk - software...
+    </description>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -104,11 +109,7 @@
     <jsp-config>
         <taglib>
             <taglib-uri>http://jhelpdesk.berlios.de/taglib/auth-tag.tld</taglib-uri>
-            <taglib-location>/WEB-INF/auth-tag.tld</taglib-location>
-        </taglib>
-        <taglib>
-            <taglib-uri>http://jhelpdesk.berlios.de/taglib/helpdesk-utils.tld</taglib-uri>
-            <taglib-location>/WEB-INF/helpdesk-utils.tld</taglib-location>
+            <taglib-location>/WEB-INF/tld/auth-tag.tld</taglib-location>
         </taglib>
     </jsp-config>
 </web-app>

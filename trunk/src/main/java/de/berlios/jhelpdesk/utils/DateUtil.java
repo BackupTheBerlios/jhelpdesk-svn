@@ -45,7 +45,7 @@ public class DateUtil {
         try {
             target = formatter.parse(dateToParse);
         } catch (Exception ex) {
-            ex.printStackTrace(); // TODO: obsługa wyjątku
+            throw new RuntimeException(ex);
         }
     }
 

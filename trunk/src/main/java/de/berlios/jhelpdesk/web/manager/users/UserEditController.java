@@ -28,9 +28,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
@@ -89,26 +89,21 @@ public class UserEditController {
     }
 
     /**
-     * Przygotowuje formularz do dodania (lub edycji) użytkownika. Jeśli w żądaniu
-     * znaduje się identyfikator istniejącego użytkownika to zostanie on przygotowany
-     * do edycji, w przeciwnym wypadku do modelu zostanie dołączony nowy (pusty)
-     * obiekt użytkownika.
+     * Przygotowuje formularz edycji użytkownika.
      *
      * @param userId identyfikator użytkownika do edycji
-     *               lub {@code false} jeśli to nowy użytkownik
      * @param map model widoku
      * @return identyfikator widoku
      */
-    @RequestMapping(value = "/manage/users/edit.html", method = RequestMethod.GET)
-    protected String prepareForm(
-                     @RequestParam(value = "userId", required = false) Long userId,
-                     ModelMap map) {
+    @RequestMapping(value = "/manage/users/{userId}/edit.html", method = RequestMethod.GET)
+    protected String prepareForm(@PathVariable("userId") Long userId, ModelMap map) {
+        map.addAttribute("user", userDAO.getById(userId));
+        return "manager/users/edit";
+    }
 
-        if ((userId) == null) {
-            map.addAttribute("user", new User());
-        } else {
-            map.addAttribute("user", userDAO.getById(userId));
-        }
+    @RequestMapping(value = "/manage/users/new.html", method = RequestMethod.GET)
+    protected String prepareForm(ModelMap map) {
+        map.addAttribute(new User());
         return "manager/users/edit";
     }
     
@@ -128,17 +123,13 @@ public class UserEditController {
      * @see BindingResult
      * @see SessionStatus
      */
-    @RequestMapping(value = "/manage/users/edit.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/manage/users/save.html", method = RequestMethod.POST)
     protected String processSubmit(@ModelAttribute("user") User user, BindingResult result) {
-
-
         validator.validate(user, result);
         if (result.hasErrors()) {
             return "manager/users/edit";
         }
-        System.out.println("u.role " + user.getUserRole());
         userDAO.saveOrUpdate(user);
-        return "redirect:/manage/users/show.html?userId=" + user.getUserId();
+        return "redirect:/manage/users/" + user.getUserId() + "/show.html";
     }
-
 }

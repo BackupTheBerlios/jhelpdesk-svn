@@ -16,7 +16,11 @@
 package de.berlios.jhelpdesk.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -44,6 +48,7 @@ public enum TicketPriority {
      */
     CRITICAL(4, "krytyczny");
 
+    private static final Log log = LogFactory.getLog(TicketPriority.class);
 
     private static List<TicketPriority> ps;
 
@@ -112,6 +117,33 @@ public enum TicketPriority {
             }
         }
         throw new IllegalArgumentException("Wartosc spoza zakresu. Dostepne wartosci to: 1, 2, 3, 4");
+    }
+
+    public static List<TicketPriority> listFromString(String inputString) {
+        List<TicketPriority> resultList = new ArrayList<TicketPriority>();
+        if (inputString != null) {
+            for (String priorityId : inputString.split(",")) {
+                try {
+                    resultList.add(TicketPriority.fromInt(Integer.parseInt(priorityId)));
+                } catch(NumberFormatException nfe) {
+                    log.debug(nfe.getMessage());
+                }
+            }
+        }
+        return resultList;
+    }
+
+    public static String listAsString(List<TicketPriority> inputList) {
+        StringBuilder tpBuf = new StringBuilder("");
+        if (inputList != null) {
+            for (Iterator<TicketPriority> it = inputList.iterator(); it.hasNext();) {
+                tpBuf.append(it.next().toInt());
+                if (it.hasNext()) {
+                    tpBuf.append(",");
+                }
+            }
+        }
+        return tpBuf.toString();
     }
 
     public static List<TicketPriority> getPriorities() {

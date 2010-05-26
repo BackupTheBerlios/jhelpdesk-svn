@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Table(name = "article_category")
 @SequenceGenerator(name="article_category_sequence", sequenceName="article_category_id_seq")
 @NamedQueries({
-    @NamedQuery(name = "ArticleCategory.getAllOrderByPositionASC", query = "FROM ArticleCategory a ORDER BY a.cateogryPosition ASC")
+    @NamedQuery(name = "ArticleCategory.getAllOrderByPositionASC", query = "SELECT a FROM ArticleCategory a ORDER BY a.categoryPosition ASC")
 })
 public class ArticleCategory implements Serializable {
 
@@ -49,19 +49,19 @@ public class ArticleCategory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="article_category_sequence")
     @Column(name = "article_category_id")
-    private Long articleCateogryId; // TODO: refaktoryzacja na articleCategoryId
+    private Long articleCategoryId;
 
     /**
      *
      */
     @Column(name = "category_position")
-    private Long cateogryPosition; // TODO: refaktoryzacja na categoryPosition
+    private Long categoryPosition;
 
     /**
      *
      */
     @Column(name = "category_name")
-    private String cateogryName; // TODO: refaktoryzacja na categoryName
+    private String categoryName;
 
     /**
      *
@@ -80,45 +80,45 @@ public class ArticleCategory implements Serializable {
     }
 
     /**
-     * @return Returns the articleCateogryId.
+     * @return Returns the articleCategoryId.
      */
     public Long getArticleCategoryId() {
-        return articleCateogryId;
+        return articleCategoryId;
     }
 
     /**
-     * @param articleCateogryId The articleCateogryId to set.
+     * @param articleCategoryId The articleCategoryId to set.
      */
     public void setArticleCategoryId(Long articleCategoryId) {
-        this.articleCateogryId = articleCategoryId;
+        this.articleCategoryId = articleCategoryId;
     }
 
     /**
-     * @return Returns the cateogryName.
+     * @return Returns the categoryName.
      */
     public String getCategoryName() {
-        return cateogryName;
+        return categoryName;
     }
 
     /**
-     * @param cateogryName The cateogryName to set.
+     * @param categoryName The categoryName to set.
      */
-    public void setCategoryName(String cateogryName) {
-        this.cateogryName = cateogryName;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     /**
-     * @return Returns the cateogryPosition.
+     * @return Returns the categoryPosition.
      */
     public Long getCategoryPosition() {
-        return cateogryPosition;
+        return categoryPosition;
     }
 
     /**
-     * @param cateogryPosition The cateogryPosition to set.
+     * @param categoryPosition The categoryPosition to set.
      */
     public void setCategoryPosition(Long categoryPosition) {
-        this.cateogryPosition = categoryPosition;
+        this.categoryPosition = categoryPosition;
     }
 
     /**

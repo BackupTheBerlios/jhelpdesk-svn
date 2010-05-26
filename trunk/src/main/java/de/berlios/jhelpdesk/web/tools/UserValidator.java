@@ -15,6 +15,9 @@
  */
 package de.berlios.jhelpdesk.web.tools;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -25,20 +28,28 @@ import de.berlios.jhelpdesk.model.User;
 @Component("userValidator")
 public class UserValidator implements Validator {
 
-    // implementujemy Validator.supports(Class), dlatego SuppressWarnings
-    public boolean supports(@SuppressWarnings("unchecked") Class clazz) {
+    public boolean supports(Class<?> clazz) {
         return User.class.equals(clazz);
     }
 
     public void validate(Object user, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "firstName", "errors.hduser.firstName");
-        ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "lastName", "errors.hduser.lastName");
-        ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "login", "errors.hduser.login");
-        ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "password", "errors.hduser.password");
-        // TODO: reszta walidacji
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "errors.hduser.firstName");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "errors.hduser.lastName");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "errors.hduser.login");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "errors.hduser.password");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "errors.hduser.email");
+
+        User u = (User) user;
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = u.getEmail();
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (!matcher.matches()) {
+            errors.rejectValue("email", "errors.hduser.email.invalid");
+        }
+        if (u.getUserRole() == null) {
+            errors.rejectValue("userRole", "errors.hduser.userRole.notset");
+        }
     }
 }
+

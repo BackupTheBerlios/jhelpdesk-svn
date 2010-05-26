@@ -13,7 +13,7 @@
                         <table cellspacing="0">
                             <tr>
                                 <td>
-                                    <a class="btn" href="<c:url value="/announcement/edit.html"/>">Dodaj wiadomość</a>
+                                    <a class="btn" href="<c:url value="/announcements/new.html"/>">Dodaj wiadomość</a>
                                 </td>
                             </tr>
                         </table>
@@ -27,10 +27,10 @@
                                 </tr>
                                 <c:forEach var="announcement" items="${announcements}">
                                     <tr>
-                                        <td><a href="<c:url value="/announcement/show.html?infoId=${announcement.announcementId}"/>"><c:out value="${announcement.title}"/></a></td>
+                                        <td><a href="<c:url value="/announcements/${announcement.announcementId}/show.html"/>"><c:out value="${announcement.title}"/></a></td>
                                         <td><c:out value="${announcement.createDate}"/></td>
-                                        <td class="ticketEdit"><a href="<c:url value="/announcement/edit.html?infoId=${announcement.announcementId}"/>">Edit</a></td>
-                                        <td class="lastcol ticketDrop"><a href="<c:url value="/announcement/remove.html?infoId=${announcement.announcementId}"/>">Del</a></td>
+                                        <td class="ticketEdit"><a href="<c:url value="/announcements/${announcement.announcementId}/edit.html"/>">Edit</a></td>
+                                        <td class="lastcol ticketDrop"><a href="<c:url value="/announcements/${announcement.announcementId}/remove.html"/>">Del</a></td>
                                     </tr>
                                 </c:forEach>
                             </table>

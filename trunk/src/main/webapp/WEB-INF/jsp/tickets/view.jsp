@@ -131,6 +131,8 @@
                                                     <form action="<c:url value="/ticketDetails.html?ticketId=${param.ticketId}"/>" method="POST">
                                                         <textarea id="addComm" name="addComm" rows="3" cols="40" class="mceEditor addcomment" style="height: 120px;"></textarea>
                                                         <br/>
+                                                        <input type="checkbox" name="notForPlainUser" value="true"/> - tylko dla pracowników helpdesku
+                                                        <br/><br/>
                                                         <input type="submit" value="dodaj komentarz" class="btn" />
                                                     </form>
                                                 </td>

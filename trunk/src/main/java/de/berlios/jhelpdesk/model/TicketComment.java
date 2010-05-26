@@ -66,6 +66,7 @@ public class TicketComment implements Serializable {
 
     public TicketComment() {
         this.notForPlainUser = true;
+        this.commentDate = new Date();
     }
 
     /**

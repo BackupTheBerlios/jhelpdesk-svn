@@ -51,7 +51,7 @@
                                                 <ul>
                                                     <c:forEach items="${itemSection.articles}" var="art">
                                                         <li>
-                                                            <a href="<c:url value="/help/base.html?key=details&id=${art.articleId}"/>">
+                                                            <a href="<c:url value="/help/base/showOne.html?id=${art.articleId}"/>">
                                                                 <c:out value="${art.title}"/>
                                                             </a>
                                                         </li>

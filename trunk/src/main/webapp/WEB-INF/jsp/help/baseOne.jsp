@@ -10,7 +10,8 @@
 <h3>Powiązane zgłoszenia</h3>
 <ol>
     <c:forEach items="${article.associatedTickets}" var="ticket">
-        <li><a href="<c:url value="/ticketDetails.html?ticketId=${ticket.ticketId}"/>"><c:out value="${ticket.subject}"/></a></li>
+        <li><a href="<c:url value="/ticketDetails.html?ticketId=${ticket.ticketId}"/>"><c:out
+                value="${ticket.subject}"/></a></li>
     </c:forEach>
 </ol>
 <hr/>

@@ -19,8 +19,6 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -42,6 +40,7 @@ import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.User;
+import de.berlios.jhelpdesk.utils.StampUtils;
 import de.berlios.jhelpdesk.web.tools.TicketCategoryEditor;
 import de.berlios.jhelpdesk.web.tools.TicketPriorityEditor;
 import de.berlios.jhelpdesk.web.tools.TicketValidator;
@@ -98,32 +97,32 @@ public class TicketNewController {
     public String prepareForm(ModelMap map, HttpSession session) {
         Ticket t = new Ticket();
         User u = (User) session.getAttribute("user");
-        String ticketstamp = DigestUtils.shaHex(
-            Thread.currentThread().getName() + Thread.currentThread().getId() +
-            u.toString() + u.getUserId() + System.nanoTime()
-        ); // TODO: chyba to trzeba gdzies przeniesc czy coś...
+        String ticketstamp = StampUtils.craeteStampFromObjects(u, u.getUserId());
         t.setTicketstamp(ticketstamp);
         map.addAttribute("ticket", t);
         return "tickets/new";
     }
 
     @RequestMapping(value = "/tickets/new.html", method = RequestMethod.POST)
-    public String processSubmit(
-                  @ModelAttribute("ticket") Ticket ticket, 
-                  BindingResult result, HttpSession session) throws DAOException {
+    public String processSubmit(@ModelAttribute("ticket") Ticket ticket,
+                                BindingResult result, HttpSession session) throws DAOException {
 
         validator.validate(ticket, result);
         if (result.hasErrors()) {
-            if (log.isDebugEnabled()) {
-                for (Object o : result.getAllErrors()) {
-                    log.debug("[" + o + "]");
-                }
-            }
+            logErrors(result);
             return "tickets/new";
         }
         ticket.setInputer((User)session.getAttribute("user"));
         ticketDaoJpa.save(ticket);
 
-        return "redirect:/ticketDetails.html?ticketId=" + ticket.getTicketId();
+        return "redirect:/tickets/" + ticket.getTicketId() + "/details.html";
+    }
+
+    private void logErrors(BindingResult result) {
+        if (log.isDebugEnabled()) {
+            for (Object o : result.getAllErrors()) {
+                log.debug("[" + o + "]");
+            }
+        }
     }
 }

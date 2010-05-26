@@ -35,13 +35,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketDAO;
-import de.berlios.jhelpdesk.dao.tools.QueryBuilderJpa;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketCategory;
+import de.berlios.jhelpdesk.model.TicketFilter;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
-import de.berlios.jhelpdesk.web.form.ShowTicketsFilterForm;
 
 /**
  *
@@ -54,17 +53,17 @@ public class TicketDAOJpa implements TicketDAO {
 
     private static final Log log = LogFactory.getLog(TicketDAOJpa.class);
 
-    private JpaTemplate jpaTemplate;
+    private final JpaTemplate jpaTemplate;
 
     @Autowired
     public TicketDAOJpa(EntityManagerFactory emf) {
         this.jpaTemplate = new JpaTemplate(emf);
     }
 
-    public Long countTicketsWithFilter(final ShowTicketsFilterForm filterForm) throws DAOException {
+    public Long countTicketsWithFilter(final TicketFilter ticketFilter) throws DAOException {
         return (Long) this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
-                Query q = new QueryBuilderJpa(filterForm, em).getFilteredQuery(true);
+                Query q = new QueryBuilder(ticketFilter, em).getFilteredQuery(true);
                 return q.getSingleResult();
             }
         });
@@ -111,13 +110,21 @@ public class TicketDAOJpa implements TicketDAO {
         return this.jpaTemplate.findByNamedQuery("Ticket.allByNotifier", user);
     }
 
-    public List<Ticket> getTicketsWithFilter(final ShowTicketsFilterForm filterForm, final int limit, final long offset) throws DAOException {
-        // new QueryBuilder(filterForm).getFilteredQuery(false)
+    public List<Ticket> getTicketsWithFilter(final TicketFilter ticketFilter, final int limit, final int offset) throws DAOException {
         return (List<Ticket>) this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
-                Query q = new QueryBuilderJpa(filterForm, em).getFilteredQuery(false);
+                Query q = new QueryBuilder(ticketFilter, em).getFilteredQuery(false);
                 q.setMaxResults(limit);
-                q.setFirstResult((int) offset); // TODO: refaktoryzować
+                q.setFirstResult(offset);
+                return q.getResultList();
+            }
+        });
+    }
+
+    public List<Ticket> getTicketsWithFilter(final TicketFilter filter) {
+        return (List<Ticket>)this.jpaTemplate.execute(new JpaCallback() {
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                Query q = new QueryBuilder(filter, em).getFilteredQuery(false);
                 return q.getResultList();
             }
         });

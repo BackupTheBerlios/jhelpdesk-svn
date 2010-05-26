@@ -7,11 +7,8 @@
             <tr>
                 <td id="pagecontentheaderleft"><h2>Moje biurko</h2></td>
                 <td id="pagecontentheaderright">
-                    <a href="<c:url value="/newTicket.html"/>"><img src="<c:url value="/i/icons/48/evolution.png"/>" alt="s1" width="48" height="48"/></a>
-                    <a href="<c:url value="/showNewTickets.html"/>"><img src="<c:url value="/i/icons/48/gnome-xterm.png"/>" alt="s2" width="48" height="48"/></a>
-                    <a href="<c:url value="/showNonresolvedTicketsAssignedToMe.html"/>"><img src="<c:url value="/i/icons/48/file-manager.png"/>" alt="s3" width="48" height="48"/></a>
-                    <!-- <a href="<c:url value="/stats/my.html"/>"><img src="<c:url value="/i/icons/48/gnome-applications.png"/>" alt="s4" width="48" height="48"/></a> -->
-                    <a href="<c:url value="/help/base.html"/>"><img src="<c:url value="/i/icons/48/gnome-help.png"/>" alt="s5" width="48" height="48"/></a>
+                    <a href="<c:url value="/newTicket.html"/>"><img src="<c:url value="/themes/hd/i/icons/48/evolution.png"/>" alt="s1" width="48" height="48"/></a>
+                    <a href="<c:url value="/help/base/showAll.html"/>"><img src="<c:url value="/themes/hd/i/icons/48/gnome-help.png"/>" alt="s5" width="48" height="48"/></a>
                 </td>
             </tr>
         </table>
@@ -39,7 +36,7 @@
                                         <td><c:out value="${event.evtSubject}"/></td>
                                         <td><c:out value="${event.eventType}"/></td>
                                         <td><fmt:formatDate value="${event.evtDate}" pattern="dd/MM/yyyy HH:mm"/></td>
-                                        <td class="lastcol"><a href="<c:url value="/ticketDetails.html?ticketId=${event.ticket.ticketId}"/>">wiecej</a></td>
+                                        <td class="lastcol"><a href="<c:url value="/tickets/${event.ticket.ticketId}/details.html"/>">wiecej</a></td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -66,7 +63,7 @@
                                         <td>
                                             <c:choose>
                                                 <c:when test="${ticket.ticketCategory.ticketCategoryId == 0}">
-										            Brak
+                                                    Brak
                                                 </c:when>
                                                 <c:otherwise>
                                                     <c:out value="${ticket.ticketCategory}"/>
@@ -75,7 +72,7 @@
                                         </td>
                                         <td><c:out value="${ticket.ticketPriority}"/></td>
                                         <td><fmt:formatDate value="${ticket.createDate}" pattern="dd/MM/yyyy HH:mm"/></td>
-                                        <td class="lastcol"><a href="<c:url value="/ticketDetails.html?ticketId=${ticket.ticketId}"/>">wiecej</a></td>
+                                        <td class="lastcol"><a href="<c:url value="/tickets/${ticket.ticketId}/details.html"/>">wiecej</a></td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -124,7 +121,7 @@
                                     <tr>
                                         <td><c:out value="${announcement.createDate}"/></td>
                                         <td class="lastcol">
-                                            <a href="<c:url value="/announcement/show.html?infoId=${announcement.announcementId}"/>"><c:out value="${announcement.title}"/></a>
+                                            <a href="<c:url value="/announcements/${announcement.announcementId}/show.html"/>"><c:out value="${announcement.title}"/></a>
                                         </td>
                                     </tr>
                                     <tr>

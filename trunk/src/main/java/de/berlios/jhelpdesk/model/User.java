@@ -51,10 +51,11 @@ import org.apache.commons.codec.digest.DigestUtils;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-    @NamedQuery(name = "User.byLoginAndHashedPassoword", query = "SELECT u FROM User u WHERE u.login=? AND u.hashedPassword=?"),
-    @NamedQuery(name = "User.byLogin", query = "SELECT u FROM User u WHERE u.login=?"),
+    @NamedQuery(name = "User.byLoginAndHashedPassoword", query = "SELECT u FROM User u WHERE u.login=?1 AND u.hashedPassword=?2"),
+    @NamedQuery(name = "User.byLogin", query = "SELECT u FROM User u WHERE u.login=?1"),
+    @NamedQuery(name = "User.byLoginFetchFilters", query = "SELECT u FROM User u LEFT JOIN FETCH u.filters WHERE u.login=?1"),
     @NamedQuery(name = "User.allOrderByLastName", query = "SELECT u FROM User u ORDER by u.lastName ASC"),
-    @NamedQuery(name = "User.allByRoleOrderByLastName", query = "SELECT u FROM User u WHERE u.roleAsInt=? ORDER by u.lastName ASC")
+    @NamedQuery(name = "User.allByRoleOrderByLastName", query = "SELECT u FROM User u WHERE u.roleAsInt=?1 ORDER by u.lastName ASC")
 })
 public class User implements Serializable {
 
@@ -108,7 +109,7 @@ public class User implements Serializable {
      * @see #populateRoleTransient()
      */
     @Basic
-    @Column(name = "role") // TODO: zmienić role na user_role
+    @Column(name = "app_role")
     @SuppressWarnings("unused")
     private int roleAsInt;
 
@@ -136,8 +137,17 @@ public class User implements Serializable {
     @Column(name = "is_active")
     private boolean isActive;
 
+    /**
+     * Przechowuje kolekcję artykułów, których autorem jest użytkownik.
+     */
     @OneToMany(mappedBy = "author")
     private Set<Article> articles;
+
+    /**
+     * Przechowuje kolekcję filtrów użytkownika.
+     */
+    @OneToMany(mappedBy = "owner")
+    private Set<TicketFilter> filters;
 
     /**
      * Pusty konstuktor. Umieszczony dlatego, że w klasie jest także inny konstruktor.
@@ -155,6 +165,7 @@ public class User implements Serializable {
      * @param lastName nazwisko użytkownika
      */
     public User(Long userId, String login, String firstName, String lastName) {
+        this();
         this.userId = userId;
         this.login = login;
         this.firstName = firstName;
@@ -393,8 +404,9 @@ public class User implements Serializable {
     }
 
     /**
+     * Zwraca kolekcję artykułów, których autorem jest użytkownik.
      *
-     * @return
+     * @return kolekcja artykułów, których autorem jest użytkownik
      */
     public Set<Article> getArticles() {
         return articles;
@@ -409,13 +421,16 @@ public class User implements Serializable {
     }
 
     /**
-     * Zwraca łańcuchową reprezentację użytkownika. Jest to string postaci "imię nazwisko".
-     * 
-     * @return łańcuchowa reprezentacja uzytkownika
+     * Zwraca kolekcję filtrów użytkownika.
+     *
+     * @return kolekcja filtrów użytkownika
      */
-    @Override
-    public String toString() {
-        return new StringBuilder().append(firstName).append(" ").append(lastName).toString();
+    public Set<TicketFilter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Set<TicketFilter> filters) {
+        this.filters = filters;
     }
 
     /**
@@ -431,6 +446,15 @@ public class User implements Serializable {
         return toString();
     }
 
+    /**
+     * Zwraca preferowaną przez użytkownika skórkę aplikacji.
+     *
+     * @return preferowana skórka aplikacji
+     */
+    public String getPreferedTheme() {
+        return "hd_blue_theme";
+    }
+
     @PrePersist
     protected void populateRoleDB() {
         this.roleAsInt = this.userRole.toInt();
@@ -439,5 +463,41 @@ public class User implements Serializable {
     @PostLoad
     protected void populateRoleTransient() {
         this.userRole = Role.fromInt(this.roleAsInt);
+    }
+
+    /**
+     * Zwraca łańcuchową reprezentację użytkownika. Jest to string postaci "imię nazwisko".
+     *
+     * @return łańcuchowa reprezentacja uzytkownika
+     */
+    @Override
+    public String toString() {
+        return new StringBuilder().append(firstName).append(" ").append(lastName).toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        if (this.userId == null) {
+            return false;
+        }
+        User u = (User) obj;
+        return this.userId.equals(u.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (null == this.userId ? 0 : this.userId.hashCode());
+        hash = 31 * hash + (null == this.login ? 0 : this.login.hashCode());
+        hash = 31 * hash + (null == this.firstName ? 0 : this.firstName.hashCode());
+        hash = 31 * hash + (null == this.lastName ? 0 : this.lastName.hashCode());
+        hash = 31 * hash + (null == this.email ? 0 : this.email.hashCode());
+        return hash;
     }
 }

@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
-  <persistence-unit name="jhelpdeskPersistenceUnit" transaction-type="RESOURCE_LOCAL">
-    <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <non-jta-data-source/>
-    <class>de.berlios.jhelpdesk.model.User</class>
-    <class>de.berlios.jhelpdesk.model.Announcement</class>
-    <class>de.berlios.jhelpdesk.model.ArticleCategory</class>
-    <class>de.berlios.jhelpdesk.model.Article</class>
-    <class>de.berlios.jhelpdesk.model.ArticleComment</class>
-    <class>de.berlios.jhelpdesk.model.Ticket</class>
-    <class>de.berlios.jhelpdesk.model.TicketCategory</class>
-    <class>de.berlios.jhelpdesk.model.TicketEvent</class>
-    <class>de.berlios.jhelpdesk.model.TicketComment</class>
-    <class>de.berlios.jhelpdesk.model.AdditionalFile</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-    <properties>
-      <property name="hibernate.connection.pool_size" value="5"/>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-      <property name="hibernate.use_sql_comments" value="false"/>
-      <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.format_sql" value="true"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="jhelpdeskPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+        <non-jta-data-source/>
+        <class>de.berlios.jhelpdesk.model.User</class>
+        <class>de.berlios.jhelpdesk.model.Announcement</class>
+        <class>de.berlios.jhelpdesk.model.ArticleCategory</class>
+        <class>de.berlios.jhelpdesk.model.Article</class>
+        <class>de.berlios.jhelpdesk.model.ArticleComment</class>
+        <class>de.berlios.jhelpdesk.model.Ticket</class>
+        <class>de.berlios.jhelpdesk.model.TicketCategory</class>
+        <class>de.berlios.jhelpdesk.model.TicketEvent</class>
+        <class>de.berlios.jhelpdesk.model.TicketComment</class>
+        <class>de.berlios.jhelpdesk.model.AdditionalFile</class>
+        <class>de.berlios.jhelpdesk.model.TicketFilter</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="openjpa.jdbc.DBDictionary" value=""/>
+            <!--<property name="openjpa.Log" value="DefaultLevel=TRACE, Tool=INFO"/>-->
+        </properties>
+    </persistence-unit>
 </persistence>

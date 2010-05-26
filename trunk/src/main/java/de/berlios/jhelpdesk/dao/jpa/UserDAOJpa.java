@@ -1,4 +1,4 @@
-/*
+    /*
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, version 3 of the License.
@@ -39,7 +39,7 @@ import de.berlios.jhelpdesk.model.User;
 @Transactional(readOnly = true)
 public class UserDAOJpa implements UserDAO {
 
-    private JpaTemplate jpaTemplate;
+    private final JpaTemplate jpaTemplate;
 
     @Autowired
     public UserDAOJpa(EntityManagerFactory emf) {
@@ -56,6 +56,11 @@ public class UserDAOJpa implements UserDAO {
 
     public User getById(Long id) {
         return this.jpaTemplate.find(User.class, id);
+    }
+
+    public User getByLoginFetchFilters(String login) {
+        List<User> users = this.jpaTemplate.findByNamedQuery("User.byLoginFetchFilters", login);
+        return users.isEmpty() ? null : users.get(0);
     }
 
     public User getByLogin(String login) {
@@ -81,4 +86,9 @@ public class UserDAOJpa implements UserDAO {
             this.jpaTemplate.merge(user);
         }
     }
+
+    public void refresh(User user) {
+        this.jpaTemplate.refresh(user);
+    }
+
 }

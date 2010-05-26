@@ -18,8 +18,8 @@ package de.berlios.jhelpdesk.web.manager.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
@@ -47,8 +47,8 @@ public class UserController {
      * @param map modelu widoku
      * @return identyfikator widoku prezentującego użytkownika
      */
-    @RequestMapping("/manage/users/show.html")
-    public ModelAndView showUser(@RequestParam("userId") Long userId) {
+    @RequestMapping("/manage/users/{userId}/show.html")
+    public ModelAndView showUser(@PathVariable("userId") Long userId) {
         ModelAndView mav = new ModelAndView("manager/users/show");
         mav.addObject("user", userDAO.getById(userId));
         return mav;
@@ -61,7 +61,7 @@ public class UserController {
      * @param map model widoku
      * @return identyfikator widoku prezentującego listę użytkowników
      */
-    @RequestMapping("/manage/users/showAll.html")
+    @RequestMapping("/manage/users/list.html")
     public ModelAndView showAllUsers() {
         ModelAndView mav = new ModelAndView("manager/users/showAll");
         mav.addObject("users", userDAO.getAllUser());
@@ -76,8 +76,8 @@ public class UserController {
      * @param userId identyfikator uzytkownika do usunięcia
      * @return identyfikator widoku do wyświetlenia po usunięciu użytkownika
      */
-    @RequestMapping("/manage/users/remove.html")
-    public String removeUser(@RequestParam("userId") Long userId) {
+    @RequestMapping("/manage/users/{userId}/remove.html")
+    public String removeUser(@PathVariable("userId") Long userId) {
 //        userDAO.remove(userId);
         return "redirect:/manage/users/showAll.html";
     }

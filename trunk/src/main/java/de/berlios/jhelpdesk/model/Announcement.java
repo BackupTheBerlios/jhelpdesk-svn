@@ -42,8 +42,8 @@ import javax.persistence.TemporalType;
 @SecondaryTable(name="announcement_body",
     pkJoinColumns=@PrimaryKeyJoinColumn(name="announcement_id", referencedColumnName="announcement_id"))
 @NamedQueries({
-    @NamedQuery(name = "Announcement.allOrderByCreateDateDesc", query = "FROM Announcement a ORDER BY a.createDate DESC"),
-    @NamedQuery(name = "Announcement.byId", query = "FROM Announcement a WHERE a.announcementId=?")
+    @NamedQuery(name = "Announcement.allOrderByCreateDateDesc", query = "SELECT a FROM Announcement a ORDER BY a.createDate DESC"),
+    @NamedQuery(name = "Announcement.byId", query = "SELECT a FROM Announcement a WHERE a.announcementId=?1")
 })
 public class Announcement implements Serializable {
 

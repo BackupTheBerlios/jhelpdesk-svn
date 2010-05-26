@@ -26,7 +26,7 @@ import de.berlios.jhelpdesk.model.ArticleCategory;
 public class ArticleCategoryValidator implements Validator {
 	
 	// implementujemy Validator.supports(Class), dlatego SuppressWarnings
-	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { 
+	public boolean supports(Class<?> clazz) {
 		return ArticleCategory.class.equals(clazz);
 	}
 

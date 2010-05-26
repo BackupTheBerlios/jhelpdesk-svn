@@ -15,6 +15,13 @@
  */
 package de.berlios.jhelpdesk.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * TODO: dodać jakąą maszynę stanów, która kontrolowałaby w logiczny
  *       sposób przejścia pomiędzy różnymi statusami.
@@ -51,6 +58,8 @@ public enum TicketStatus {
      * 
      */
     UNKNOWN(6, "NIEZNANY", "desc", "228664", true); // TODO: tymczasowe...
+
+    private static final Log log = LogFactory.getLog(TicketStatus.class);
 
     /**
      *
@@ -138,9 +147,37 @@ public enum TicketStatus {
             case 5:
                 return CLOSED;
             //default: throw new RuntimeException("Nieznany status.");
+            //TODO: trzeba rzucac wyjatek...
             default:
                 return UNKNOWN;
         }
+    }
+
+    public static List<TicketStatus> listFromString(String inputString) {
+        List<TicketStatus> resultList = new ArrayList<TicketStatus>();
+        if (inputString != null) {
+            for (String statusId : inputString.split(",")) {
+                try {
+                    resultList.add(TicketStatus.fromInt(Integer.parseInt(statusId)));
+                } catch (NumberFormatException nfe) {
+                    log.debug(nfe.getMessage());
+                }
+            }
+        }
+        return resultList;
+    }
+
+    public static String listAsString(List<TicketStatus> inputList) {
+        StringBuilder tsBuf = new StringBuilder("");
+        if (inputList != null) {
+            for (Iterator<TicketStatus> it = inputList.iterator(); it.hasNext();) {
+                tsBuf.append(it.next().toInt());
+                if (it.hasNext()) {
+                    tsBuf.append(",");
+                }
+            }
+        }
+        return tsBuf.toString();
     }
 
     /**

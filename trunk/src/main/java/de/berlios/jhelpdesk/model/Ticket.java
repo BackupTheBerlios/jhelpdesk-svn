@@ -64,14 +64,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Table(name = "ticket")
 @SequenceGenerator(name = "ticket_sequence", sequenceName = "ticket_id_seq", allocationSize = 1)
 @NamedQueries({
-    @NamedQuery(name = "Ticket.orderByCreateDateDESC", query = "FROM Ticket t ORDER BY t.createDate DESC"),
-    @NamedQuery(name = "Ticket.byStatusOrderByCreateDateDESC", query = "FROM Ticket t WHERE t.ticketStatusAsInt=? ORDER BY t.createDate DESC"),
-//    @NamedQuery(name = "Ticket.byLogin", query = "SELECT u FROM User u WHERE u.login=?"),
-//    @NamedQuery(name = "Ticket.allOrderByLastName", query = "SELECT u FROM User u ORDER by u.lastName ASC"),
-    @NamedQuery(name = "Ticket.allByCategory", query = "FROM Ticket t WHERE t.ticketCategory=? ORDER BY t.createDate DESC"),
-    @NamedQuery(name = "Ticket.allByPriority", query = "FROM Ticket t WHERE t.ticketPriorityAsInt=? ORDER BY t.createDate DESC"),
-    @NamedQuery(name = "Ticket.allByStatus", query = "FROM Ticket t WHERE t.ticketStatusAsInt=? ORDER BY t.createDate DESC"),
-    @NamedQuery(name = "Ticket.allByNotifier", query = "FROM Ticket t WHERE t.notifier=? ORDER BY t.createDate DESC")
+    @NamedQuery(name = "Ticket.orderByCreateDateDESC", query = "SELECT t FROM Ticket t ORDER BY t.createDate DESC"),
+    @NamedQuery(name = "Ticket.byStatusOrderByCreateDateDESC", query = "SELECT t FROM Ticket t WHERE t.ticketStatusAsInt=?1 ORDER BY t.createDate DESC"),
+    @NamedQuery(name = "Ticket.allByCategory", query = "SELECT t FROM Ticket t WHERE t.ticketCategory=?1 ORDER BY t.createDate DESC"),
+    @NamedQuery(name = "Ticket.allByPriority", query = "SELECT t FROM Ticket t WHERE t.ticketPriorityAsInt=?1 ORDER BY t.createDate DESC"),
+    @NamedQuery(name = "Ticket.allByStatus", query = "SELECT t FROM Ticket t WHERE t.ticketStatusAsInt=?1 ORDER BY t.createDate DESC"),
+    @NamedQuery(name = "Ticket.allByNotifier", query = "SELECT t FROM Ticket t WHERE t.notifier=?1 ORDER BY t.createDate DESC")
 })
 public class Ticket implements Serializable {
 

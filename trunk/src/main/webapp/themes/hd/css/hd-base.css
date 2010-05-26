@@ -544,7 +544,7 @@ div.buttons {
 	padding-bottom: 30px;
 	border-left: 20px solid #F3F3F3;
 	border-right: none;
-	background: #F3F3F3 url(../i/hd-contentbottomdesktop.jpg) no-repeat 0 100%;
+/*	background: #F3F3F3 url(../i/hd-contentbottomdesktop.jpg) no-repeat 0 100%; */
 }
 #ticketdetails .contentmiddle {
 	position: relative;

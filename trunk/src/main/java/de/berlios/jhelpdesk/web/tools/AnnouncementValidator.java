@@ -28,7 +28,7 @@ import de.berlios.jhelpdesk.model.Announcement;
 public class AnnouncementValidator implements Validator {
 
 	// implementujemy Validator.supports(Class), dlatego SuppressWarnings
-	public boolean supports(@SuppressWarnings("unchecked") Class clazz) { 
+	public boolean supports(Class<?> clazz) {
 		return Announcement.class.equals(clazz);
 	}
 

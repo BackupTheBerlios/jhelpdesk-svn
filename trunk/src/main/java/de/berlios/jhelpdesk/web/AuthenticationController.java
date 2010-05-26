@@ -73,7 +73,7 @@ public class AuthenticationController {
         // czy gosc podal pasujace haslo i login (email) oraz czy moze sie logowac (isActive)
         boolean isAuthenticatedWithJpa = userDAOJpa.authenticate(user.getLogin(), user.getPassword());
         if (isAuthenticatedWithJpa) {
-            map.addAttribute("user", userDAOJpa.getByLogin(user.getLogin()));
+            map.addAttribute("user", userDAOJpa.getByLoginFetchFilters(user.getLogin()));
             map.addAttribute("logged", Boolean.TRUE);
             return "redirect:/desktop/main.html";
         }

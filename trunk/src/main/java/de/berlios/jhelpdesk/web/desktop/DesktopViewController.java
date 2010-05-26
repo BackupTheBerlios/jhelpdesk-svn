@@ -15,6 +15,8 @@
  */
 package de.berlios.jhelpdesk.web.desktop;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -80,7 +82,7 @@ public class DesktopViewController  {
      * @throws Exception
      */
     @RequestMapping("/desktop/main.html")
-    public String showDesktop(ModelMap map) throws Exception {
+    public String showDesktop(ModelMap map, HttpSession sess) throws Exception {
         map.addAttribute("lastTickets", ticketDAOJpa.getTicketsByStatus(TicketStatus.NOTIFIED, NUMBER_OF_NONASSIGNED_TICKETS));
         map.addAttribute("lastEvents", eventDAO.getLastFewEvents(NUMBER_OF_EVENTS_IN_DESKTOP));
         map.addAttribute("lastArticles", articleDAO.getLastAddedArticles(NUMBER_OF_LAST_ADDED_ARTICLES));

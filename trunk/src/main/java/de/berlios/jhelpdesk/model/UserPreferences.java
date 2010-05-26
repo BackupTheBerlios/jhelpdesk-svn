@@ -16,11 +16,13 @@
 package de.berlios.jhelpdesk.model;
 
 import java.util.Locale;
+import javax.persistence.Entity;
 
 /**
  *
  * @author jjhop
  */
+@Entity
 public class UserPreferences {
 
     /**

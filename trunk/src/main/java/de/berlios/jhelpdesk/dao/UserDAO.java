@@ -72,6 +72,16 @@ public interface UserDAO {
     User getByLogin(String login);
 
     /**
+     * Działa jak metoda {@link #getByLogin(java.lang.String)} jednak ignoruje
+     * znacznik leniwego pobierania kolekcji filtrów użytkownika i zaciągą je
+     * wraz z nim.
+     *
+     * @param login login poszukiwanego użytkownika
+     * @return obiekt użytkownika o podanym identyfikatorze
+     */
+    User getByLoginFetchFilters(String login);
+
+    /**
      * Sprawdza czy w systemie istnieje użytkownik z pasującą do podanych
      * parą {@code login} oraz {@code hasło}. Zwraca {@code true} jeśli użytkownik
      * zostanie odnaleziony i hasło pasuje oraz {@code false} w każdym innym wypadku.
@@ -100,4 +110,6 @@ public interface UserDAO {
      * @param user obiekt użytkownika do zapisania lub uaktualnienia
      */
     void saveOrUpdate(User user);
+
+    void refresh(User user);
 }
