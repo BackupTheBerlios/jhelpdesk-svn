@@ -19,11 +19,7 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -32,6 +28,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
@@ -52,19 +50,16 @@ import de.berlios.jhelpdesk.web.tools.UserEditor;
  * @author jjhop
  */
 @Controller
+@SessionAttributes("ticket")
 public class TicketNewController {
-
-    private static final Log log = LogFactory.getLog(TicketNewController.class);
 
     @Autowired
     private TicketValidator validator;
 
     @Autowired
-    @Qualifier("jpa")
     private TicketDAO ticketDaoJpa;
 
     @Autowired
-    @Qualifier("jpa")
     private TicketCategoryDAO ticketCategoryDao;
 
     @Autowired
@@ -99,30 +94,23 @@ public class TicketNewController {
         User u = (User) session.getAttribute("user");
         String ticketstamp = StampUtils.craeteStampFromObjects(u, u.getUserId());
         t.setTicketstamp(ticketstamp);
+        t.setInputer(u);
         map.addAttribute("ticket", t);
         return "tickets/new";
     }
 
     @RequestMapping(value = "/tickets/new.html", method = RequestMethod.POST)
     public String processSubmit(@ModelAttribute("ticket") Ticket ticket,
-                                BindingResult result, HttpSession session) throws DAOException {
+                                BindingResult result, SessionStatus status) throws DAOException {
 
         validator.validate(ticket, result);
-        if (result.hasErrors()) {
-            logErrors(result);
+
+        if (!result.hasErrors()) {
+            ticketDaoJpa.save(ticket);
+            status.setComplete();
+        } else {
             return "tickets/new";
         }
-        ticket.setInputer((User)session.getAttribute("user"));
-        ticketDaoJpa.save(ticket);
-
         return "redirect:/tickets/" + ticket.getTicketId() + "/details.html";
-    }
-
-    private void logErrors(BindingResult result) {
-        if (log.isDebugEnabled()) {
-            for (Object o : result.getAllErrors()) {
-                log.debug("[" + o + "]");
-            }
-        }
     }
 }

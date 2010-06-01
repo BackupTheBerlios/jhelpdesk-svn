@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ import de.berlios.jhelpdesk.model.TicketFilter;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
+import de.berlios.jhelpdesk.web.commons.PagingParamsEncoder;
 import de.berlios.jhelpdesk.web.tools.TicketCategoryEditor;
 import de.berlios.jhelpdesk.web.tools.TicketPriorityEditor;
 import de.berlios.jhelpdesk.web.tools.UserEditor;
@@ -52,7 +54,7 @@ import de.berlios.jhelpdesk.web.tools.UserEditor;
  * @author jjhop
  */
 @Controller
-public class TicketsByFilterViewController {
+public class TicketsViewController {
 
     @Autowired
     private TicketFilterDAO ticketFilterDAO;
@@ -107,7 +109,7 @@ public class TicketsByFilterViewController {
 
     @ModelAttribute("notifiers")
     public List<User> populateNotifiers() {
-        return userDAO.getAllUser();
+        return userDAO.getAllUsers();
     }
 
     @RequestMapping("/tickets/byFilter/{filterId}/list.html")
@@ -115,35 +117,46 @@ public class TicketsByFilterViewController {
                                  @ModelAttribute("filter") TicketFilter filter,
                                  @RequestParam(value = "_formSent", defaultValue = "false",
                                                required = false) boolean formSent,
-                                 ModelMap map, HttpSession session){
+                                 @RequestParam(value = "cf", defaultValue = "false",
+                                               required = false) boolean cf,
+                                 ModelMap map, HttpServletRequest request, HttpSession session) throws Exception {
         User currentUser = (User) session.getAttribute("user");
 
-        List<Ticket> result = null;
+        Integer listSize = currentUser.getPreferedTicketsListSize();
+
         TicketFilter currentFilter = null;
 
-        if (formSent) {
+        if (formSent) { // nowy filtr
             currentFilter = filter;
-            result = ticketDAO.getTicketsWithFilter(currentFilter);
-        } else {
-            currentFilter = ticketFilterDAO.getById(filterId);
-            if (currentFilter != null && currentFilter.isOwnedBy(currentUser)) {
-                result = ticketDAO.getTicketsWithFilter(currentFilter);
+            session.setAttribute("currentFilter", currentFilter);
+            map.addAttribute("requestURI", "?cf=true");
+        } else if (cf) { // filtr z sesji stronicowany
+            currentFilter = (TicketFilter) session.getAttribute("currentFilter");
+            map.addAttribute("requestURI", "?cf=true");
+        } else { // po prostu żądanie GET
+            session.removeAttribute("currentFilter");
+            TicketFilter dbFilter = ticketFilterDAO.getById(filterId);
+            if (dbFilter != null && dbFilter.isOwnedBy(currentUser)) {
+                currentFilter = dbFilter;
             }
         }
 
-        if (currentFilter == null) {
-            map.addAttribute("message", "nie znaleziono filtra...");
-        }
 
-        map.addAttribute("requestURI", "?cf=true");
-        map.addAttribute("filter", currentFilter);
-        map.addAttribute("ticketsListSize", result != null ? result.size() : 0);
-        map.addAttribute("tickets", result);
-        return "tickets/byFilter";
+        if(currentFilter != null) {
+            PagingParamsEncoder enc =
+                    new PagingParamsEncoder("ticketsIterator", "p_id", request, listSize);
+            int offset = enc.getOffset();
+            List<Ticket> result = ticketDAO.getTicketsWithFilter(currentFilter, listSize, offset);
+            Integer numOfTicketsWithFilter = ticketDAO.countTicketsWithFilter(currentFilter).intValue();
+            map.addAttribute("offset", offset);
+            map.addAttribute("listSize", listSize);
+            map.addAttribute("tickets", result);
+            map.addAttribute("filter", currentFilter);
+            map.addAttribute("ticketsListSize", numOfTicketsWithFilter);
+        } else {
+            map.addAttribute("message", currentFilter == null ? "nie znaleziono filtra..." : null);
+        }
+        return "tickets/list";
     }
 
 }
-
-//  PagingParamsEncoder enc = new PagingParamsEncoder("ticketsIterator", "p_id", request, PAGE_SIZE);
-//  refData.put("ticketsListSize", ticketDao.countTicketsWithFilter(ff).intValue());
-//  refData.put("tickets", ticketDao.getTicketsWithFilter(ff, PAGE_SIZE, enc.getOffset()));

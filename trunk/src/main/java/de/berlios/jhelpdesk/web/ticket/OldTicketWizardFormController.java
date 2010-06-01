@@ -15,7 +15,6 @@
  */
 package de.berlios.jhelpdesk.web.ticket;
 
-import java.lang.reflect.Field;
 import java.io.File;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -27,11 +26,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
@@ -58,40 +53,55 @@ import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.web.tools.UserEditor;
 
-@Controller("killerTicketEditController")
+@Controller
 @RequestMapping("/newTicket.html")
-public class TicketWizardFormController extends AbstractWizardFormController {
-
-    private static Log log = LogFactory.getLog(TicketWizardFormController.class);
+public class OldTicketWizardFormController extends AbstractWizardFormController {
 
     @Autowired
-    @Qualifier("jpa")
     private TicketDAO ticketDaoJpa;
 
     @Autowired
-    @Qualifier("jpa")
     private TicketCategoryDAO ticketCategoryDAO;
     
     @Autowired
-    @Qualifier("jpa")
     private UserDAO userDAO;
+
+    @Autowired
+    private UserEditor userEditor;
 
     private String fileRepositoryPath = "c:\\helpdesk\\files\\";
 
-    public TicketWizardFormController() {
+    public OldTicketWizardFormController() {
         setCommandClass(Ticket.class);
         setCommandName("hdticket");
         setPages(
             new String[]{
-                "ticketWizard/step1", "ticketWizard/step2",
-                "ticketWizard/step3", "ticketWizard/step4", "ticketWizard/summary"
+                "ticketWizard/step1",
+                "ticketWizard/step2",
+                "ticketWizard/step3",
+                "ticketWizard/step4",
+                "ticketWizard/summary"
             }
         );
     }
 
     @Override
+    protected int getTargetPage(HttpServletRequest request, int currentPage) {
+        return super.getTargetPage(request, currentPage);
+    }
+
+    @Override
+    protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, nf, true));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+        binder.registerCustomEditor(User.class, userEditor);
+    }
+
+    @Override
     protected void validatePage(Object command, Errors errors, int page, boolean finish) {
-        log.debug("validatePage()->" + page);
         Ticket ticket = (Ticket) command;
         setAllowDirtyBack(true);
         if (page > 0) {
@@ -107,9 +117,8 @@ public class TicketWizardFormController extends AbstractWizardFormController {
     @Override
     protected void onBindAndValidate(HttpServletRequest request, Object command,
             BindException bindErrors, int page) throws Exception {
-        log.debug("onBindAndValidate");
         Ticket ticket = (Ticket) command;
-        if ((request.getParameter("checkLogin") != null) && (ticket.getNotifier() == null)) {
+        if ((request.getParameter("_checkLogin") != null) && (ticket.getNotifier() == null)) {
             bindErrors.rejectValue("notifier", "hdticket.notifier.notExists",
                     new Object[]{request.getParameter("notifier")}, "defaultMessage");
         } else if (ticket.getNotifier() == null) {
@@ -127,13 +136,12 @@ public class TicketWizardFormController extends AbstractWizardFormController {
             addFile.setOriginalFileName(file.getOriginalFilename());
 
             ticket.getAddFilesList().add(addFile);
-            if (log.isDebugEnabled()) {
-                log.debug("Filename => " + file.getName()
-                        + "OriginalFilename => " + file.getOriginalFilename()
-                        + "ContentType => " + file.getContentType()
-                        + "Size => " + file.getSize());
-                log.debug("Files num => " + ticket.getAddFilesList().size());
-            }
+            System.out.println("");
+            System.out.println("Filename => " + file.getName() +
+                               "OriginalFilename => " + file.getOriginalFilename() +
+                               "ContentType => " + file.getContentType() +
+                               "Size => " + file.getSize());
+            System.out.println("Files num => " + ticket.getAddFilesList().size());
         }
     }
 
@@ -143,69 +151,38 @@ public class TicketWizardFormController extends AbstractWizardFormController {
 
         File repository = new File(fileRepositoryPath);
 
-        try {
-            Ticket ticket = (Ticket) command;
-            // najpierw zapisujemy zgłoszenie w bazie danych
-            ticket.setCreateDate(new Date(System.currentTimeMillis()));
-            ticket.setTicketPriority(TicketPriority.fromInt(1));
-            ticket.setTicketStatus(TicketStatus.NOTIFIED);
-            ticket.setInputer((User) request.getSession().getAttribute("user"));
+        Ticket ticket = (Ticket) command;
+        // najpierw zapisujemy zgłoszenie w bazie danych
+        ticket.setCreateDate(new Date(System.currentTimeMillis()));
+        ticket.setTicketPriority(TicketPriority.fromInt(1));
+        ticket.setTicketStatus(TicketStatus.NOTIFIED);
+        ticket.setInputer((User) request.getSession().getAttribute("user"));
 
-            ticket.setTicketCategory(new TicketCategory(1, null)); // TODO: jakoś to słabo wygląda...
+        ticket.setTicketCategory(new TicketCategory(1, null)); // TODO: jakoś to słabo wygląda...
 
-            ticketDaoJpa.save(ticket);
-            File thisTicketRepository =
-                    new File(
-                    new StringBuffer(repository.getAbsolutePath()).append(File.separatorChar).append(ticket.getTicketId()).toString());
-            if (thisTicketRepository.mkdir()) {
-                for (AdditionalFile addFile : ticket.getAddFilesList()) {
-                    FileCopyUtils.copy(
-                            addFile.getFileData(),
-                            new File(
-                            new StringBuffer(thisTicketRepository.getAbsolutePath()).append(File.separatorChar).append(addFile.getOriginalFileName()).toString()));
-                }
+        ticketDaoJpa.save(ticket);
+        File thisTicketRepository =
+                new File(
+                new StringBuffer(repository.getAbsolutePath()).append(File.separatorChar).append(ticket.getTicketId()).toString());
+        if (thisTicketRepository.mkdir()) {
+            for (AdditionalFile addFile : ticket.getAddFilesList()) {
+                FileCopyUtils.copy(
+                        addFile.getFileData(),
+                        new File(
+                            new StringBuffer(thisTicketRepository.getAbsolutePath())
+                                .append(File.separatorChar)
+                                .append(addFile.getOriginalFileName()).toString()));
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
-
-        return new ModelAndView(new RedirectView("/showNewTickets.html", true));
+        return new ModelAndView(new RedirectView("/tickets/" + ticket.getTicketId() + "/details.html", true));
     }
 
-    @Override
-    protected ModelAndView processCancel(HttpServletRequest request, HttpServletResponse response,
-            Object command, BindException errors) throws Exception {
-        return super.processCancel(request, response, command, errors);
-    }
-
-    @Override
-    protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder) {
-        log.debug("initBinder()->start");
-        NumberFormat nf = NumberFormat.getNumberInstance();
-        binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, nf, true));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-        binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-        UserEditor userEditor = new UserEditor();
-
-        try {
-            Field userDAOField = UserEditor.class.getDeclaredField("userDAO");
-            userDAOField.setAccessible(true);
-            userDAOField.set(userEditor, userDAO);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-
-        binder.registerCustomEditor(User.class, userEditor);
-    }
-
-    @SuppressWarnings("unchecked")
     protected Map referenceData(HttpServletRequest request) throws ServletException {
         Map refData = new HashMap();
         refData.put("categories", ticketCategoryDAO.getAllCategoriesForView());
         refData.put("priorities", TicketPriority.values());
         refData.put("statuses", TicketStatus.getAllStatuses());
-        refData.put("users", userDAO.getAllUser());
+        refData.put("users", userDAO.getAllUsers());
         refData.put("saviours", userDAO.getByRole(Role.TICKETKILLER));
         return refData;
     }
