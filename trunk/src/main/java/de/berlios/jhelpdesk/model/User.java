@@ -455,6 +455,10 @@ public class User implements Serializable {
         return "hd_blue_theme";
     }
 
+    public Integer getPreferedTicketsListSize() {
+        return 20; // TODO: wartość z bazy danych
+    }
+
     @PrePersist
     protected void populateRoleDB() {
         this.roleAsInt = this.userRole.toInt();

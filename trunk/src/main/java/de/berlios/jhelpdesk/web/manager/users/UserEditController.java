@@ -19,7 +19,6 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
@@ -51,7 +50,6 @@ import de.berlios.jhelpdesk.web.tools.UserValidator;
 public class UserEditController {
 
     @Autowired
-    @Qualifier("jpa")
     private UserDAO userDAO;
     
     @Autowired

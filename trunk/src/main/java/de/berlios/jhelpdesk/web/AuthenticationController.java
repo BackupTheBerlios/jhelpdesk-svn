@@ -18,7 +18,6 @@ package de.berlios.jhelpdesk.web;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,7 +39,6 @@ import de.berlios.jhelpdesk.model.User;
 public class AuthenticationController {
 
     @Autowired
-    @Qualifier("jpa")
     private UserDAO userDAOJpa;
 
     /**

@@ -17,28 +17,30 @@ package de.berlios.jhelpdesk.web.commons;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import static org.displaytag.tags.TableTagParameters.PARAMETER_PAGE;
+import static org.displaytag.tags.TableTagParameters.PARAMETER_SORT;
+import static org.displaytag.tags.TableTagParameters.PARAMETER_ORDER;
 
 public class PagingParamsEncoder {
 
     private final static int DEFAULT_OFFSET = 0;
-    private String tableName;
-    private String columnToSort;
     private HttpServletRequest request;
+    private ParamEncoder paramEncoder;
+    private String columnToSort;
     private int pageSize;
 
     public PagingParamsEncoder(String tableName, String defaultColumnToSort,
             HttpServletRequest request, int pageSize) {
-        this.tableName = tableName;
         this.columnToSort = defaultColumnToSort;
         this.request = request;
         this.pageSize = pageSize;
+        this.paramEncoder = new ParamEncoder(tableName);
     }
 
     public int getOffset() {
         int offset = DEFAULT_OFFSET;
-        String liczba2 = new ParamEncoder(tableName).encodeParameterName(TableTagParameters.PARAMETER_PAGE);
+        String liczba2 = this.paramEncoder.encodeParameterName(PARAMETER_PAGE);
         if ((request.getParameter(liczba2) != null)
                 && (request.getParameter(liczba2).length() > 0)) {
             offset = (Integer.parseInt(request.getParameter(liczba2)) - 1) * pageSize;
@@ -47,7 +49,7 @@ public class PagingParamsEncoder {
     }
 
     public String getColumnToSort() {
-        String myCompanyColumnSorting = new ParamEncoder(tableName).encodeParameterName(TableTagParameters.PARAMETER_SORT);
+        String myCompanyColumnSorting = this.paramEncoder.encodeParameterName(PARAMETER_SORT);
         if ((request.getParameter(myCompanyColumnSorting) != null)
                 && (request.getParameter(myCompanyColumnSorting).length() > 0)) {
             columnToSort = request.getParameter(myCompanyColumnSorting);
@@ -57,7 +59,7 @@ public class PagingParamsEncoder {
 
     public boolean getOrder() {
         String mySortOrder = null;
-        String myCompanySortOrder = new ParamEncoder(tableName).encodeParameterName(TableTagParameters.PARAMETER_ORDER);
+        String myCompanySortOrder = this.paramEncoder.encodeParameterName(PARAMETER_ORDER);
         if ((request.getParameter(myCompanySortOrder) != null)
                 && (request.getParameter(myCompanySortOrder).length() > 0)) {
             mySortOrder = request.getParameter(myCompanySortOrder);

@@ -34,7 +34,7 @@ import de.berlios.jhelpdesk.model.User;
  *
  * @author jjhop
  */
-@Repository
+@Repository("userDAO")
 @Qualifier("jpa")
 @Transactional(readOnly = true)
 public class UserDAOJpa implements UserDAO {
@@ -46,7 +46,7 @@ public class UserDAOJpa implements UserDAO {
         this.jpaTemplate = new JpaTemplate(emf);
     }
 
-    public List<User> getAllUser() {
+    public List<User> getAllUsers() {
         return this.jpaTemplate.findByNamedQuery("User.allOrderByLastName");
     }
 

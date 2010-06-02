@@ -23,7 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -56,7 +55,6 @@ public class ArticleController {
     private static Log log = LogFactory.getLog(ArticleController.class);
     
     @Autowired
-    @Qualifier("jpa")
     private ArticleDAO articleDAOJpa;
 
     @Autowired

@@ -37,7 +37,7 @@ public interface UserDAO {
      *
      * @see User
      */
-    List<User> getAllUser();
+    List<User> getAllUsers();
 
     /**
      * Zwraca wszystkich użytkowników sytemu z podaną rolą. Jeśli nie zostanie znaleziony

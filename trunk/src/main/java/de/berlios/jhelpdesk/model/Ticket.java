@@ -43,8 +43,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.springframework.web.multipart.MultipartFile;
-
 /**
  * <p>
  * Klasa będąca osią aplikacji. Modeluje zgłoszenie problemu do działu wsparcia w rzeczywistym świecie.
@@ -202,17 +200,6 @@ public class Ticket implements Serializable {
     @ManyToMany(mappedBy="associatedTickets")
     private Set<Article> articles;
     
-    /**
-     * Zmienna przechowująca plik po dodaniu do zgłoszenia. Wykorzystywana jest 
-     * tylko podczas obsługi wysłania formularza o wystąpieniu problemu.<br/>
-     *
-     * <font color="red">TODO: wywalić, obsluga uploadu obsługiwana oddzielną encją.</font>
-     *
-     * @deprecated
-     */
-    @Transient
-    private MultipartFile uploadedFile;
-
     /**
      * Podstawowy konstruktor. Inicjalizuje kolekcje obiektu.
      */
@@ -606,39 +593,6 @@ public class Ticket implements Serializable {
      */
     public void setArticles(Set<Article> articles) {
         this.articles = articles;
-    }
-
-    /**
-     * Zwraca wysłany na serwer plik w postaci obiektu {@code MultipartFile} podczas obsługi żądania.
-     * Metoda zwraca jakąś wartość tylko podczas obsługi żądania i tylko wtedy, gdy został wysłany jakiś plik.
-     * W każdej innej sytuacji Zwraca {@code null}. Dostęp do plików dołączonych do zgłoszenia odbywa się
-     * za pomocą metody {@link #getAddFilesList()}.<br/>
-     * 
-     * <font color="red">TODO: wywalić, obsluga uploadu obsługiwana oddzielną encją.</font>
-     *
-     * @deprecated
-     *
-     * @return wysłany na serwer plik
-     *
-     * @see #uploadedFile
-     * @see MultipartFile
-     * @see #getAddFilesList() 
-     */
-    public MultipartFile getUploadedFile() {
-        return uploadedFile;
-    }
-
-    /**
-     * Ustawia <i>uploadowany</i> plik w obiekcie zgłoszenia.<br/>
-     *
-     * <font color="red">TODO: wywalić, obsluga uploadu obsługiwana oddzielną encją.</font>
-     *
-     * @deprecated
-     *
-     * @param uploadedFile plik do przechowania
-     */
-    public void setUploadedFile(MultipartFile uploadedFile) {
-        this.uploadedFile = uploadedFile;
     }
 
     public void addComment(TicketComment comm) {

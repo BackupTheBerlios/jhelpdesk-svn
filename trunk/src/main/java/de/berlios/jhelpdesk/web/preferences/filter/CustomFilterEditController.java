@@ -108,7 +108,7 @@ public class CustomFilterEditController {
 
     @ModelAttribute("notifiers")
     public List<User> populateNotifiers() {
-        return userDAO.getAllUser();
+        return userDAO.getAllUsers();
     }
 
     @RequestMapping(value = "/preferences/filters/{filterId}/edit.html", method = GET)

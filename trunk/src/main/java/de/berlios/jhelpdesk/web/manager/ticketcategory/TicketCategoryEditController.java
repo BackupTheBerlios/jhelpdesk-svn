@@ -18,7 +18,6 @@ package de.berlios.jhelpdesk.web.manager.ticketcategory;
 import java.text.NumberFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
@@ -40,7 +39,6 @@ import de.berlios.jhelpdesk.web.tools.TicketCategoryValidator;
 public class TicketCategoryEditController {
 
     @Autowired
-    @Qualifier("jpa")
     private TicketCategoryDAO categoryDAO;
     
     @Autowired

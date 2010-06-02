@@ -15,7 +15,6 @@
  */
 package de.berlios.jhelpdesk.camel;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.apache.camel.Exchange;
@@ -33,22 +32,23 @@ public class TicketFromEmailProcessor implements Processor {
 
     public void process(Exchange exchange) throws Exception {
         MailMessage in = exchange.getIn(MailMessage.class);
-        System.out.println("Przyszła wiadomość:");
+        String from = in.getHeader("From:", String.class);
+        System.out.println("FROM: " + from);
         for (Map.Entry<String, Object> e : in.getHeaders().entrySet()) {
-            System.out.println(e.getKey() + " => " + e.getValue());
+            if (e.getKey().startsWith("From")) {
+                System.out.println("Email zglaszacza: " + exstract(e.getValue()));
+            }
         }
-        System.out.println("-------");
-        System.out.println("b:" + in.getMessage());
-        System.out.println("bClass:" + in.getMessage().getClass().getCanonicalName());
-        
+
         if (in.hasAttachments()) {
             for (String attachmentName : in.getAttachmentNames()) {
                 System.out.println("attachment: " + attachmentName);
             }
         }
-        System.out.println("b:" + in.getBody());
-        System.out.println("--END--");
-        System.out.println(new Date() + " [[[" + exchange.getIn().toString() + "]]]");
+    }
 
+    private String exstract(Object from) {
+        String fromAsString = (String) from;
+        return fromAsString;
     }
 }

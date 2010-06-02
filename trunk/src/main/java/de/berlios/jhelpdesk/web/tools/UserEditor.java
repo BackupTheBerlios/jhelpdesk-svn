@@ -18,7 +18,6 @@ package de.berlios.jhelpdesk.web.tools;
 import java.beans.PropertyEditorSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
@@ -28,7 +27,6 @@ import de.berlios.jhelpdesk.model.User;
 public class UserEditor extends PropertyEditorSupport {
 
     @Autowired
-    @Qualifier("jpa")
     private UserDAO userDAO;
 
     @Override

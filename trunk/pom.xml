@@ -65,6 +65,15 @@
                 <role>DEVELOPER</role>
             </roles>
         </developer>
+        <developer>
+            <id>bezul</id>
+            <name>Adam Bezulski</name>
+            <email>...</email>
+            <url>http://bezulski.com/</url>
+            <roles>
+                <role>DEVELOPER</role>
+            </roles>
+        </developer>
     </developers>
     <build>
         <finalName>jhelpdesk</finalName>

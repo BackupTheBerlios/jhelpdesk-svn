@@ -47,7 +47,9 @@ import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
+import de.berlios.jhelpdesk.web.tools.TicketCategoryEditor;
 import de.berlios.jhelpdesk.web.tools.TicketPartialValidator;
+import de.berlios.jhelpdesk.web.tools.TicketPriorityEditor;
 import de.berlios.jhelpdesk.web.tools.UserEditor;
 
 /**
@@ -81,6 +83,12 @@ public class TicketNewWizardController {
     @Autowired
     private UserEditor userEditor;
 
+    @Autowired
+    private TicketPriorityEditor ticketPriorityEditor;
+
+    @Autowired
+    private TicketCategoryEditor ticketCategoryEditor;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         NumberFormat nf = NumberFormat.getNumberInstance();
@@ -89,6 +97,8 @@ public class TicketNewWizardController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
         binder.registerCustomEditor(User.class, userEditor);
+        binder.registerCustomEditor(TicketPriority.class, ticketPriorityEditor);
+        binder.registerCustomEditor(TicketCategory.class, ticketCategoryEditor);
     }
 
     @ModelAttribute("categories")
@@ -101,11 +111,6 @@ public class TicketNewWizardController {
         return TicketPriority.getPriorities();
     }
 
-    @ModelAttribute("statuses")
-    public TicketStatus[] populateTicketStatuses() {
-        return TicketStatus.getAllStatuses();
-    }
-
     @ModelAttribute("readOnly")
     public Boolean testReadOnly(HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
@@ -116,6 +121,7 @@ public class TicketNewWizardController {
     public String prepareWizzard(ModelMap map, HttpServletRequest request, HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
         Ticket ticket = new Ticket();
+        ticket.setTicketStatus(TicketStatus.NOTIFIED);
         ticket.setInputer(currentUser);
         map.addAttribute("hdticket", ticket);
         if (currentUser.getUserRole().equals(Role.CLIENT)) {

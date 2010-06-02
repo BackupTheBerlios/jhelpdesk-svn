@@ -16,7 +16,6 @@
 package de.berlios.jhelpdesk.web.manager.ticketcategory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +31,6 @@ import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 public class TicketCategoryController {
 
     @Autowired
-    @Qualifier("jpa")
     private TicketCategoryDAO categoryDAO;
 
     /**

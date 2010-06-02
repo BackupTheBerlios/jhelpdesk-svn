@@ -16,7 +16,6 @@
 package de.berlios.jhelpdesk.web.manager.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +36,6 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 public class UserController {
 
     @Autowired
-    @Qualifier("jpa")
     private UserDAO userDAO;
 
     /**
@@ -64,7 +62,7 @@ public class UserController {
     @RequestMapping("/manage/users/list.html")
     public ModelAndView showAllUsers() {
         ModelAndView mav = new ModelAndView("manager/users/showAll");
-        mav.addObject("users", userDAO.getAllUser());
+        mav.addObject("users", userDAO.getAllUsers());
         return mav;
     }
 
