@@ -16,6 +16,8 @@
 package de.berlios.jhelpdesk.web.ticket;
 
 import java.io.File;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -49,7 +51,7 @@ public class UploadFileController {
     @RequestMapping(method = RequestMethod.POST)
     protected String processSubmit(@ModelAttribute("fileBean") FileUploadBean uploadedFile,
                                    @RequestParam("ticketstamp") String ticketstamp,
-                                   ModelMap map, HttpSession s) {
+                                   ModelMap map, HttpSession session) {
 
         MultipartFile file = uploadedFile.getFile();
 
@@ -58,13 +60,22 @@ public class UploadFileController {
             System.out.println("file.getContentType() => " + file.getContentType());
             System.out.println("file.getSize() => " + file.getSize());
             System.out.println("ticketstamp => " + ticketstamp);
+
+            addTicketstampToSession(session, ticketstamp);
             
-            String path = s.getServletContext().getRealPath("./ticket_attachements/");
+            String path = session.getServletContext().getRealPath("./ticket_attachements/");
             File f = new File(new File(path, ticketstamp), file.getOriginalFilename());
             System.out.println("path => " + path);
             System.out.println("abs => " + f.getAbsolutePath());
         }
         map.addAttribute("uploaded", Boolean.TRUE);
         return "tickets/upload";
+    }
+
+    private void addTicketstampToSession(HttpSession session, String ticketStamp) {
+        Map<String, Boolean> stampsList = (Map<String, Boolean>) session.getAttribute("stampsList");
+
+        stampsList.put(ticketStamp, Boolean.TRUE);
+        session.setAttribute("stampsList", stampsList);
     }
 }

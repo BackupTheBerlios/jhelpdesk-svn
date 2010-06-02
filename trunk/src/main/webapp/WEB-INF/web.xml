@@ -9,7 +9,10 @@
     <description>
         jHelpdesk - software...
     </description>
-
+   
+    <listener>
+        <listener-class>de.berlios.jhelpdesk.web.tools.SessionListener</listener-class>
+    </listener>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -20,17 +23,15 @@
     </context-param>
 
     <filter>
-        <filter-name>CharacterEncoding</filter-name>
-        <filter-class>
-            de.berlios.jhelpdesk.web.tools.filter.EncodingFilter
-        </filter-class>
+        <filter-name>encoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
+            <param-value>utf-8</param-value>
         </init-param>
         <init-param>
-            <param-name>ignore</param-name>
-            <param-value>1</param-value>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
         </init-param>
     </filter>
 
@@ -59,7 +60,7 @@
     </filter-mapping>
 
     <filter-mapping>
-        <filter-name>CharacterEncoding</filter-name>
+        <filter-name>encoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
@@ -73,7 +74,6 @@
         <filter-name>jpaFilter</filter-name>
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
-
 
     <servlet>
         <servlet-name>helpdesk</servlet-name>
@@ -91,20 +91,6 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/jsp/errors/err500.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/jsp/errors/err404.jsp</location>
-    </error-page>
-
-    <error-page>
-        <exception-type>de.berlios.jhelpdesk.web.NotAuthorizedAccessException</exception-type>
-        <location>/WEB-INF/jsp/errors/not-auth.jsp</location>
-    </error-page>
 
     <jsp-config>
         <taglib>
