@@ -17,6 +17,7 @@
                             </display:column>
                             <display:column title="Nazwisko" property="lastName" style="width: 200px;" />
                             <display:column title="Imię" property="firstName" />
+                            <display:column title="Login" property="login" />
                             <display:column title="" media="html" class="ticketView" headerClass="ticketView">
                                 <a href="<c:url value="/manage/users/${user.userId}/show.html"/>">View</a>
                             </display:column>

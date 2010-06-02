@@ -28,12 +28,12 @@
     <div id="boxShadow" class="shadow">
         <div id="box">
             <div class="links" style="padding-top: 2px">
-                <span style="font-size: 12px; font-weight: bold; color: white; padding-left: 5px; "><c:out
-                        value="${filter.name}"/></span> |
+                <span style="font-size: 12px; font-weight: bold; color: white; padding-left: 5px; ">
+                    <c:out value="${filter.name}" default="Filtr zmodyfikowany"/></span> |
                 <a href="javascript:sweeptoggle('contract')">Ukryj wszystko</a> | <a
                     href="javascript:sweeptoggle('expand')">Pokaż wszystko</a>
-                <a id="x" href="javascript:blank()" onclick="showForm();" style="float: right;"><img alt=""
-                                                                                                     src="<c:url value="/themes/hd/i/hd-x.png"/>"/></a>
+                <a id="x" href="javascript:blank()" onclick="showForm();" style="float: right;"
+                   ><img alt="" src="<c:url value="/themes/hd/i/hd-x.png"/>"/></a>
             </div>
             <div class="panelsBg">
                 <div id="panels">

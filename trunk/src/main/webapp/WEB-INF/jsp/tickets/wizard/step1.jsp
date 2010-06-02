@@ -26,18 +26,26 @@
                     </td>
                     <td id="middlecenter">
                         <form action="<c:url value="${formURL}"/>" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="currentPage" value="1"/>
                             <table id="table2" cellspacing="0">
                                 <tr>
                                     <td class="tabtitle">Login:</td>
                                     <td>
                                         <spring:bind path="hdticket.notifier">
-                                            <input class="textinput" type="text" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"
-                                                   <c:if test="${not empty status.errorMessage}">
-                                                       class="hintanchor" onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
-                                                   </c:if>
-                                                   />
+                                            <c:choose>
+                                                <c:when test="${readOnly}">
+                                                    <c:out value="${status.expression}"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input class="textinput" type="text" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"
+                                                           <c:if test="${not empty status.errorMessage}">
+                                                               class="hintanchor" onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
+                                                           </c:if>
+                                                           />
+                                                    <input type="image" name="_checkLogin" value="true" src="<c:url value="/themes/hd/i/find.gif"/>" style="border: 0" align="top" />
+                                                </c:otherwise>
+                                            </c:choose>
                                         </spring:bind>
-                                        <input type="image" name="checkLogin" value="ok" src="<c:url value="/i/find.gif"/>" border="0" align="top" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -60,7 +68,7 @@
                                     <td class="tabtitle">Telefon:</td>
                                     <td>
                                         <c:if test="${ not empty hdticket.notifier}">
-                                            <input class="textinput" type="text" value="<c:out value="${hdticket.notifier.phone}" />" />
+                                            <c:out value="${hdticket.notifier.phone}"/>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -68,7 +76,7 @@
                                     <td class="tabtitle">Telefon kom.:</td>
                                     <td>
                                         <c:if test="${ not empty hdticket.notifier}">
-                                            <input class="textinput" type="text" value="<c:out value="${hdticket.notifier.mobile}"/>"/>
+                                            <c:out value="${hdticket.notifier.mobile}"/>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -76,7 +84,7 @@
                                     <td class="tabtitle">E-mail:</td>
                                     <td>
                                         <c:if test="${ not empty hdticket.notifier}">
-                                            <input class="textinput" type="text" value="<c:out value="${hdticket.notifier.email}"/>"/>
+                                            <c:out value="${hdticket.notifier.email}"/>
                                         </c:if>
                                     </td>
                                 </tr>

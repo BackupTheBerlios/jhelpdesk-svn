@@ -4,8 +4,9 @@
     <li class="submenu first"><a href="<c:url value="/desktop/main.html"/>"><span><fmt:message key="label.desktop"/></span></a>
     <li class="submenu first"><a href="javascript:none()"><span><fmt:message key="label.zgloszenia"/></span></a>
         <ul class="level2">
-            <li class="first"><a href="<c:url value="/tickets/new.html"/>"><span>Zgłoś problem (no wizzard)</span></a></li>
-            <li><a href="<c:url value="/newTicket.html"/>"><span>Zgłoś problem</span></a></li>
+            <li class="first"><a href="<c:url value="/tickets/new.html"/>"><span>Zgłoś problem</span></a></li>
+            <li class="first"><a href="<c:url value="/tickets/wizzard.html"/>"><span>Kreator zgłoszenia</span></a></li>
+            <%--<li><a href="<c:url value="/newTicket.html"/>"><span>Zgłoś problem</span></a></li>--%>
             <c:if test="${not empty sessionScope.user.filters}">
                 <li><a href="#"><span>------------</span></a></li>
                 <c:forEach var="f" items="${sessionScope.user.filters}">

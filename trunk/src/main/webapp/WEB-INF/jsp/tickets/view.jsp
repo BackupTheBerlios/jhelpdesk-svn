@@ -12,7 +12,7 @@
                     <div class="contentmiddle">
                         <table cellspacing="0" class="standardtable">
                             <tr>
-                                <th colspan="3" style="width: 258px;">Numer</th>
+                                <th colspan="3" style="width: 258px;">Identyfikator</th>
                                 <th colspan="3" class="lastcol">Data</th>
                             </tr>
                             <tr>
@@ -34,7 +34,7 @@
                                 <td colspan="2" style="width: 170px;">
                                     <select size="1">
                                         <c:forEach var="status" items="${ticketStatuses}">
-                                            <option value="${status.statusId}" <c:if test="${status == ticket.ticketStatus}">selected="selected"</c:if>>
+                                            <option value="${status.statusId}" <c:if test="${status.statusId == ticket.ticketStatus.statusId}">selected="selected"</c:if>>
                                                 <c:out value="${status}" />
                                             </option>
                                         </c:forEach>
@@ -42,9 +42,6 @@
                                 </td>
                                 <td colspan="2" style="width: 170px;">
                                     <select size="1">
-                                        <option value="0" <c:if test="${ticket.ticketCategory.ticketCategoryId == 0}">selected="selected"</c:if>>
-                                            Brak
-                                        </option>
                                         <c:forEach var="category" items="${ticketCategories}">
                                             <option value="${category.ticketCategoryId}" <c:if test="${category.ticketCategoryId == ticket.ticketCategory.ticketCategoryId}">selected="selected"</c:if>>
                                                 <c:out value="${category}" />
@@ -66,14 +63,14 @@
                                 <th colspan="6" class="lastcol">Opis</th>
                             </tr>
                             <tr>
-                                <td colspan="6" class="lastcol"><c:out value="${ticket.description}" /></td>
+                                <td colspan="6" class="lastcol"><c:out value="${ticket.description}" escapeXml="false" /></td>
                             </tr>
                             <c:if test="${not empty ticket.stepByStep}">
                                 <tr>
                                     <th colspan="6" class="lastcol">Krok po kroku</th>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" class="lastcol"><c:out value="${ticket.stepByStep}" /></td>
+                                    <td colspan="6" class="lastcol"><c:out value="${ticket.stepByStep}" escapeXml="false"/></td>
                                 </tr>
                             </c:if>
                         </table>

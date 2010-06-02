@@ -26,6 +26,7 @@
                     </td>
                     <td id="middlecenter">
                         <form action="<c:url value="${formURL}"/>" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="currentPage" value="4"/>
                             <c:if test="${not empty hdticket.addFilesList}">
                                 <table id="table2" class="files standardtable" cellspacing="0">
                                     <tr class="header">
@@ -45,6 +46,9 @@
                                 </table>
                             </c:if>
                             <table class="upload" cellspacing="0">
+                                <tr>
+                                    <td style="color: red; font-weight: bold; font-size: 15px">Do obczajenia jeszcze ten mechanizm!</td>
+                                </tr>
                                 <tr class="inputs">
                                     <td>
                                         <input id="fileinput" type="file" name="uploadedFile" />

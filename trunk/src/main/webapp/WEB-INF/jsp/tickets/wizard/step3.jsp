@@ -26,6 +26,7 @@
                     </td>
                     <td id="middlecenter">
                         <form action="<c:url value="${formURL}"/>" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="currentPage" value="3"/>
                             <table id="table2" cellspacing="0">
                                 <tr>
                                     <td>Kroki by powtórzyć:</td>
@@ -34,8 +35,9 @@
                                     <td>
                                         <spring:bind path="hdticket.stepByStep">
                                             <textarea class="mceEditor" name="<c:out value="${status.expression}"/>" rows="15">
-                                                <c:out value="${status.value}" /></textarea>
-                                            </spring:bind>
+                                                <c:out value="${status.value}" />
+                                            </textarea>
+                                        </spring:bind>
                                     </td>
                                 </tr>
                                 <tr>
