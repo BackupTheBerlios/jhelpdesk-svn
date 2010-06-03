@@ -68,6 +68,11 @@ public class UserDAOJpa implements UserDAO {
         return users.isEmpty() ? null : users.get(0);
     }
 
+    public User getByEmail(String email) {
+        List<User> users = this.jpaTemplate.findByNamedQuery("User.byEmail", email);
+        return users.isEmpty() ? null : users.get(0);
+    }
+
     public boolean authenticate(String login, String passw) {
         List<User> users = this.jpaTemplate.findByNamedQuery("User.byLoginAndHashedPassoword", login, passw);
         return users.isEmpty() ? false : true;

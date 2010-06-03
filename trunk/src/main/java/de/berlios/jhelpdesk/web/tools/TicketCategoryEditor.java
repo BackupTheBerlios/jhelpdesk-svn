@@ -18,7 +18,6 @@ package de.berlios.jhelpdesk.web.tools;
 import java.beans.PropertyEditorSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
@@ -32,7 +31,6 @@ import de.berlios.jhelpdesk.model.TicketCategory;
 public class TicketCategoryEditor extends PropertyEditorSupport {
 
     @Autowired
-    @Qualifier("jpa")
     private TicketCategoryDAO ticketCategoryDAO;
 
     @Override

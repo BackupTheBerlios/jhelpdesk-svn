@@ -146,6 +146,10 @@ public class TicketCategoryDAOJpa implements TicketCategoryDAO {
         return this.jpaTemplate.find(TicketCategory.class, id);
     }
 
+    public TicketCategory getDefault() {
+        return null;
+    }
+
     @Transactional(readOnly = false)
     public void insertCategory(final TicketCategory category, final TicketCategory parent) {
         final long nodeCount = getNodeCount();

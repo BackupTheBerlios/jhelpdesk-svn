@@ -15,13 +15,31 @@
  */
 package de.berlios.jhelpdesk.camel;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+
+import javax.activation.DataHandler;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.mail.MailMessage;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
+import de.berlios.jhelpdesk.dao.TicketDAO;
+import de.berlios.jhelpdesk.dao.UserDAO;
+import de.berlios.jhelpdesk.model.AdditionalFile;
+import de.berlios.jhelpdesk.model.Ticket;
+import de.berlios.jhelpdesk.model.TicketPriority;
+import de.berlios.jhelpdesk.model.TicketStatus;
+import de.berlios.jhelpdesk.model.User;
+import de.berlios.jhelpdesk.web.tools.TicketCategoryEditor;
 
 /**
  *
@@ -30,25 +48,75 @@ import org.springframework.stereotype.Component;
 @Component("ticketFromEmailProcessor")
 public class TicketFromEmailProcessor implements Processor {
 
+    private static final Log log = LogFactory.getLog(TicketFromEmailProcessor.class);
+
+    @Autowired
+    private TicketDAO ticketDAO;
+
+    @Autowired
+    private TicketCategoryDAO ticketCategoryDAO;
+
+    @Autowired
+    private TicketCategoryEditor ticketCategoryEditor;
+    
+    @Autowired
+    private UserDAO userDAO;
+
     public void process(Exchange exchange) throws Exception {
         MailMessage in = exchange.getIn(MailMessage.class);
-        String from = in.getHeader("From:", String.class);
-        System.out.println("FROM: " + from);
+        User u = null;
+        TicketPriority priority = null;
         for (Map.Entry<String, Object> e : in.getHeaders().entrySet()) {
+            System.out.println(e.getKey() + " : " + e.getValue());
             if (e.getKey().startsWith("From")) {
-                System.out.println("Email zglaszacza: " + exstract(e.getValue()));
+                u = exstractUserEmail(e.getValue());
+            } else if (e.getKey().startsWith("X-Priority")) {
+                priority = extractTicketPriority(e.getValue());
             }
         }
-
-        if (in.hasAttachments()) {
-            for (String attachmentName : in.getAttachmentNames()) {
-                System.out.println("attachment: " + attachmentName);
-            }
+        if (u != null && u.isActive()) {
+            Ticket ticket = new Ticket();
+            ticket.setTicketStatus(TicketStatus.NOTIFIED);
+            ticket.setTicketPriority(priority);
+            ticket.setCreateDate(new Date());
+            ticket.setNotifier(u);
+            ticket.setInputer(u);
+            // TODO: kategoria powinna być albo na podstawie zawartości maila, albo
+            //       ticketCategoryDAO.getDefault() jeśli to co zostanie zwrócone nie jest null
+            ticket.setTicketCategory(ticketCategoryDAO.getById(1L));
+            ticket.setSubject(in.getMessage().getSubject());
+            ticket.setDescription((String) in.getMessage().getContent());
+            ticket.setAddFilesList(in.hasAttachments() 
+                                        ? extractAttachments(in.getAttachments())
+                                        : null);
+            ticketDAO.save(ticket);
         }
     }
 
-    private String exstract(Object from) {
+    // TODO: przechwycić załączniki i zapisać razem z Ticketem
+    private List<AdditionalFile> extractAttachments(Map<String, DataHandler> attachmentsMap) {
+        for (String attachmentName : attachmentsMap.keySet()) {
+            System.out.println("attachment: " + attachmentName);
+        }
+        return null;
+    }
+
+    private TicketPriority extractTicketPriority(Object from) {
+        try {
+            String priorityAsString = ((String) from).substring(0, 1);
+            int priorityAsInt = Integer.parseInt(priorityAsString);
+            return TicketPriority.fromInt(priorityAsInt);
+        } catch(Exception ex) {
+            log.debug("Nieznany znaczniki priorytetu. Ustawiam [TicketPriority.NORMAL]", ex);
+        }
+        return TicketPriority.NORMAL;
+    }
+
+    private User exstractUserEmail(Object from) {
         String fromAsString = (String) from;
-        return fromAsString;
+        int begin = fromAsString.indexOf("<") + 1;
+        int end   = fromAsString.indexOf(">", begin);
+        String email = fromAsString.substring(begin, end);
+        return userDAO.getByEmail(email);
     }
 }

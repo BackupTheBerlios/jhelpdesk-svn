@@ -31,22 +31,27 @@ public enum TicketPriority {
     /**
      *
      */
-    NORMAL(1, "normalny"),
+    CRITICAL(1, "krytyczny"),
 
     /**
      *
      */
-    IMPORTANT(2, "wazny"),
+    MAJOR(2, "bardzo wazny"),
 
     /**
      *
      */
-    MAJOR(3, "bardzo wazny"),
+    IMPORTANT(3, "wazny"),
 
     /**
      *
      */
-    CRITICAL(4, "krytyczny");
+    NORMAL(4, "normalny"),
+
+    /**
+     *
+     */
+    LOW(5, "niski");
 
     private static final Log log = LogFactory.getLog(TicketPriority.class);
 
@@ -112,11 +117,11 @@ public enum TicketPriority {
      */
     public static TicketPriority fromInt(int id) {
         for (TicketPriority value : TicketPriority.values()) {
-            if (value.getPriorityId() == id) {
+            if (value.toInt() == id) {
                 return value;
             }
         }
-        throw new IllegalArgumentException("Wartosc spoza zakresu. Dostepne wartosci to: 1, 2, 3, 4");
+        throw new IllegalArgumentException("Wartosc spoza zakresu. Dostepne wartosci to: 1, 2, 3, 4, 5");
     }
 
     public static List<TicketPriority> listFromString(String inputString) {

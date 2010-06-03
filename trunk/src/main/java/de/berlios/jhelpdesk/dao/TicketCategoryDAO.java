@@ -45,6 +45,16 @@ public interface TicketCategoryDAO {
     TicketCategory getById(Long id);
 
     /**
+     * Zwraca domyślną kategorię dla zgłoszeń, który nie nadano jej wprost.
+     * (np. zgłoszenia wysłane emailem). W domyślnej instalacji pierwsza kategoria,
+     * jest kategorią domyślną. Jeśli takiej kategorii nie ma to odpowiedni mechanizm,
+     * próbuje wyszukać najbardziej odpowiednią dla danego problemu.
+     *
+     * @return domyślna kategoria
+     */
+    TicketCategory getDefault();
+
+    /**
      *
      * @param rootCategory
      */

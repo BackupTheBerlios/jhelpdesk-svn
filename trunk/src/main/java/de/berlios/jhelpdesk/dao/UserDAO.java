@@ -72,6 +72,15 @@ public interface UserDAO {
     User getByLogin(String login);
 
     /**
+     * Zwraca użytkownika o podanym loginie lub {@code null} jeśli
+     * nie zostanie odnaleziony.
+     * 
+     * @param email poszukiwanego użytkownika
+     * @return obiekt użytkownika o podanym emailu
+     */
+    User getByEmail(String email);
+
+    /**
      * Działa jak metoda {@link #getByLogin(java.lang.String)} jednak ignoruje
      * znacznik leniwego pobierania kolekcji filtrów użytkownika i zaciągą je
      * wraz z nim.

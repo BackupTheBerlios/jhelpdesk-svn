@@ -53,6 +53,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 @NamedQueries({
     @NamedQuery(name = "User.byLoginAndHashedPassoword", query = "SELECT u FROM User u WHERE u.login=?1 AND u.hashedPassword=?2"),
     @NamedQuery(name = "User.byLogin", query = "SELECT u FROM User u WHERE u.login=?1"),
+    @NamedQuery(name = "User.byEmail", query = "SELECT u FROM User u WHERE u.email=?1"),
     @NamedQuery(name = "User.byLoginFetchFilters", query = "SELECT u FROM User u LEFT JOIN FETCH u.filters WHERE u.login=?1"),
     @NamedQuery(name = "User.allOrderByLastName", query = "SELECT u FROM User u ORDER by u.lastName ASC"),
     @NamedQuery(name = "User.allByRoleOrderByLastName", query = "SELECT u FROM User u WHERE u.roleAsInt=?1 ORDER by u.lastName ASC")
