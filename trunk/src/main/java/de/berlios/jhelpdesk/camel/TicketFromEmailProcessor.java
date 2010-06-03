@@ -69,7 +69,7 @@ public class TicketFromEmailProcessor implements Processor {
         for (Map.Entry<String, Object> e : in.getHeaders().entrySet()) {
             System.out.println(e.getKey() + " : " + e.getValue());
             if (e.getKey().startsWith("From")) {
-                u = exstractUserEmail(e.getValue());
+                u = extractUserEmail(e.getValue());
             } else if (e.getKey().startsWith("X-Priority")) {
                 priority = extractTicketPriority(e.getValue());
             }
@@ -112,7 +112,7 @@ public class TicketFromEmailProcessor implements Processor {
         return TicketPriority.NORMAL;
     }
 
-    private User exstractUserEmail(Object from) {
+    private User extractUserEmail(Object from) {
         String fromAsString = (String) from;
         int begin = fromAsString.indexOf("<") + 1;
         int end   = fromAsString.indexOf(">", begin);
