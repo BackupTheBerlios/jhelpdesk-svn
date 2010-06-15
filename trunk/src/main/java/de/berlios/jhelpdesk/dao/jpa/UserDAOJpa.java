@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +33,7 @@ import de.berlios.jhelpdesk.model.User;
  *
  * @author jjhop
  */
-@Repository("userDAO")
-@Qualifier("jpa")
+@Repository
 @Transactional(readOnly = true)
 public class UserDAOJpa implements UserDAO {
 

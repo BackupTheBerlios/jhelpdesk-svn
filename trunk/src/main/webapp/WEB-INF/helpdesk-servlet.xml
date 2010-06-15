@@ -27,6 +27,9 @@
     <!-- mapowanie kontrolerów -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 
+    <!-- tematy springowe -->
+    <bean id="themeResolver" class="de.berlios.jhelpdesk.web.tools.ThemeCustomResolever"/>
+    
     <!--  inne beany widoku -->
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">

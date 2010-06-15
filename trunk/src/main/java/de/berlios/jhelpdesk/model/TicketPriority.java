@@ -59,6 +59,7 @@ public enum TicketPriority {
 
     static {
         ps = new ArrayList<TicketPriority>();
+        ps.add(TicketPriority.LOW);
         ps.add(TicketPriority.NORMAL);
         ps.add(TicketPriority.IMPORTANT);
         ps.add(TicketPriority.MAJOR);

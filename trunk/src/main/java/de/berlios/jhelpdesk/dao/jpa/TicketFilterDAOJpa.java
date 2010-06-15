@@ -23,7 +23,6 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
@@ -38,7 +37,6 @@ import de.berlios.jhelpdesk.model.User;
  * @author jjhop
  */
 @Repository
-@Qualifier("jpa")
 @Transactional(readOnly = true)
 public class TicketFilterDAOJpa implements TicketFilterDAO {
 

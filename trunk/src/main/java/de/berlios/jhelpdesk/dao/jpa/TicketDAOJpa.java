@@ -26,7 +26,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.JpaTemplate;
@@ -47,7 +46,6 @@ import de.berlios.jhelpdesk.model.User;
  * @author jjhop
  */
 @Repository
-@Qualifier("jpa")
 @Transactional(readOnly = true)
 public class TicketDAOJpa implements TicketDAO {
 

@@ -57,9 +57,8 @@ public class NotifyEditController {
     // TODO: może warto po zapisaniu z sukcesem wrocic na podstawowy widok i wyswietlic
     // na krótką chwilkę komunikat (na zielonym tle - a jakże), że się udało???
     @RequestMapping(value = "/preferences/eventNotify.html", method = RequestMethod.POST)
-    public String processForm(
-                  @ModelAttribute("preferences") EventNotifyForm form,
-                  ModelMap map) {
+    public String processForm(@ModelAttribute("preferences") EventNotifyForm form,
+                              ModelMap map) {
         if (log.isDebugEnabled()) {
             log.debug("START ---------------------------------------");
             log.debug("ticketAssign          -> " + form.getTicketAssign().getName());

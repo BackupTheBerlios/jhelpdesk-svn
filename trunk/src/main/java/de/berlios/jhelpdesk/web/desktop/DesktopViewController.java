@@ -18,7 +18,6 @@ package de.berlios.jhelpdesk.web.desktop;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,19 +59,15 @@ public class DesktopViewController  {
     private static int NUMBER_OF_LAST_ANNOUNCEMENTS = 10;
 
     @Autowired
-    @Qualifier("jpa")
     private TicketDAO ticketDAOJpa;
 
     @Autowired
-    @Qualifier("jpa")
     private TicketEventDAO eventDAO;
 
     @Autowired
-    @Qualifier("jpa")
     private ArticleDAO articleDAO;
 
     @Autowired
-    @Qualifier("jpa")
     private AnnouncementDAO announcementDAO;
 
     /**

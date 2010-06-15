@@ -20,14 +20,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -137,6 +140,10 @@ public class User implements Serializable {
      */
     @Column(name = "is_active")
     private boolean isActive;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "laf_preferences_id")
+    private LookAndFeelPreferences lafPreferences;
 
     /**
      * Przechowuje kolekcję artykułów, których autorem jest użytkownik.
@@ -359,6 +366,22 @@ public class User implements Serializable {
     }
 
     /**
+     *
+     * @return
+     */
+    public LookAndFeelPreferences getLafPreferences() {
+        return lafPreferences;
+    }
+
+    /**
+     * 
+     * @param lafPreferences
+     */
+    public void setLafPreferences(LookAndFeelPreferences lafPreferences) {
+        this.lafPreferences = lafPreferences;
+    }
+
+    /**
      * Zwraca numer telefonu komórkowego użytkownika.
      *
      * @return numer telefonu komórkowego użytkownika
@@ -453,7 +476,9 @@ public class User implements Serializable {
      * @return preferowana skórka aplikacji
      */
     public String getPreferedTheme() {
-        return "hd_blue_theme";
+        return lafPreferences != null 
+                ? lafPreferences.getTheme()
+                : "blue";
     }
 
     public Integer getPreferedTicketsListSize() {
@@ -503,6 +528,7 @@ public class User implements Serializable {
         hash = 31 * hash + (null == this.firstName ? 0 : this.firstName.hashCode());
         hash = 31 * hash + (null == this.lastName ? 0 : this.lastName.hashCode());
         hash = 31 * hash + (null == this.email ? 0 : this.email.hashCode());
+        hash = 31 * hash + (null == this.lafPreferences ? 0 : this.lafPreferences.hashCode());
         return hash;
     }
 }
