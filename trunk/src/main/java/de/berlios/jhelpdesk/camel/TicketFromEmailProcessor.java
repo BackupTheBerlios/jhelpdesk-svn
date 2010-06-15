@@ -39,7 +39,6 @@ import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
-import de.berlios.jhelpdesk.web.tools.TicketCategoryEditor;
 
 /**
  *
@@ -55,9 +54,6 @@ public class TicketFromEmailProcessor implements Processor {
 
     @Autowired
     private TicketCategoryDAO ticketCategoryDAO;
-
-    @Autowired
-    private TicketCategoryEditor ticketCategoryEditor;
     
     @Autowired
     private UserDAO userDAO;
@@ -65,9 +61,8 @@ public class TicketFromEmailProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         MailMessage in = exchange.getIn(MailMessage.class);
         User u = null;
-        TicketPriority priority = null;
+        TicketPriority priority = TicketPriority.LOW; // TODO: jakiś default powinien być
         for (Map.Entry<String, Object> e : in.getHeaders().entrySet()) {
-            System.out.println(e.getKey() + " : " + e.getValue());
             if (e.getKey().startsWith("From")) {
                 u = extractUserEmail(e.getValue());
             } else if (e.getKey().startsWith("X-Priority")) {
