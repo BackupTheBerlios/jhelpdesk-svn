@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-        <title><tiles:getAsString name="title"/></title>
+        <title><tiles:getAsString name="title"/> - (${pageContext.response.locale})</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <spring:theme code="login.css" var="loginCss"/>
         <spring:theme code="style.css" var="styleCss"/>
@@ -15,7 +15,7 @@
         <div id="loginpage">
             <div class="infobox1">
                 <div class="infobox2">
-                    <h2>Logowanie</h2>
+                    <h2><fmt:message key="prompt.title"/></h2>
                 </div>
             </div>
             <div class="infobox1">
@@ -41,7 +41,7 @@
                             </tr>
                             <tr>
                                 <td class="left">&nbsp;</td>
-                                <td><input type="submit" value="Zaloguj"/></td>
+                                <td><input type="submit" value="<fmt:message key="prompt.logon"/>"/></td>
                             </tr>
                         </table>
                     </form>

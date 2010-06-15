@@ -39,7 +39,7 @@ public class HelpdeskThemeResolver implements ThemeResolver {
      */
     public String resolveThemeName(HttpServletRequest request) {
         User user = (User) (request.getSession()).getAttribute("user");
-        return (user != null) ? user.getPreferedTheme() : "hd_blue_theme";
+        return (user != null) ? user.getPreferredTheme() : "hd_blue_theme";
     }
 
     /**

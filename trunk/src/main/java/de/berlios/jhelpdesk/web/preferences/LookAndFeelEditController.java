@@ -15,9 +15,10 @@
  */
 package de.berlios.jhelpdesk.web.preferences;
 
-import de.berlios.jhelpdesk.dao.UserDAO;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import de.berlios.jhelpdesk.dao.UserPreferencesDAO;
 import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.model.LookAndFeelPreferences;
+import javax.servlet.http.Cookie;
+import org.springframework.web.util.WebUtils;
 
 /**
  * 
@@ -61,16 +66,25 @@ public class LookAndFeelEditController {
 
     @RequestMapping(value = "/preferences/lookAndFeel.html", method = RequestMethod.POST)
     public String processForm(@ModelAttribute("preferences") LookAndFeelPreferences lafPreferences,
-            ModelMap map, HttpSession session) {
+                              HttpServletRequest request, HttpServletResponse respone,
+                              ModelMap map, HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
         if (isPrefsOwnedByUser(lafPreferences, currentUser)) {
             lafPreferences.setUser(currentUser);
             currentUser.setLafPreferences(lafPreferences);
             this.userPreferencesDAO.save(lafPreferences);
+            respone.addCookie(createCookie(request, lafPreferences.getPreferredLocale()));
             session.setAttribute("user", currentUser);
             map.addAttribute("preferences", lafPreferences);
         }
         return "preferences/lookAndFeel";
+    }
+
+    private Cookie createCookie(HttpServletRequest req, Locale loc) {
+        Cookie cookie = new Cookie("jhd_locale", loc.getLanguage());
+        cookie.setMaxAge(24*3600*7); // tydzień
+        cookie.setPath(req.getContextPath());
+        return cookie;
     }
 
     private boolean isPrefsOwnedByUser(LookAndFeelPreferences laf, User user) {

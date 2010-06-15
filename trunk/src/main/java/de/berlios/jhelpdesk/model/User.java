@@ -17,6 +17,7 @@ package de.berlios.jhelpdesk.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -475,10 +476,16 @@ public class User implements Serializable {
      *
      * @return preferowana skórka aplikacji
      */
-    public String getPreferedTheme() {
+    public String getPreferredTheme() {
         return lafPreferences != null 
                 ? lafPreferences.getTheme()
                 : "blue";
+    }
+
+    public Locale getPreferredLocale() {
+        return lafPreferences != null
+                ? lafPreferences.getPreferredLocale()
+                : Locale.getDefault();
     }
 
     public Integer getPreferedTicketsListSize() {

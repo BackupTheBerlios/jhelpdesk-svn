@@ -29,6 +29,8 @@
 
     <!-- tematy springowe -->
     <bean id="themeResolver" class="de.berlios.jhelpdesk.web.tools.ThemeCustomResolever"/>
+    <!-- i18n -->
+    <bean id="localeResolver" class="de.berlios.jhelpdesk.web.tools.LocaleCustomResolver"/>
     
     <!--  inne beany widoku -->
     <bean id="messageSource"

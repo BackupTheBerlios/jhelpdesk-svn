@@ -399,11 +399,16 @@ div.panelsBg {
     right: 6px;
 }
 div.links {
-    position: relative;
-    width: 561px;
-    height: 26px;
-    background: transparent url(../i/hd-filterHeader.png) no-repeat 0 0;
+    background:url("../i/hd-filterHeader.png") no-repeat scroll 0 0 transparent;
+    height:23px;
+    position:relative;
+    width:561px;
+    border-bottom: 2px solid #D0DBFB;
+    padding: 5px 0 0 0 !important;
 }
+div.links span {padding:0 5px !important;}
+div.links a {color:#fff;padding:0 5px;}
+
 * html div.links {
     /*background: #3B486B;*/
     background: none;
@@ -422,16 +427,18 @@ div.links {
     color: #fff;
 }
 div.buttons {
-    position: absolute;
+    position:  absolute;
     float: left;
     clear: both;
     width: 561px;
-    height: 28px;
+    height: 25px;
     background: transparent url(../i/hd-filterFooter.png) no-repeat 0 0;
-    border-top: 1px solid #D0DBFB;
+    border-top: 3px solid #D0DBFB;
     color: #fff;
     text-align: right;
+    padding: 3px 0 0 0;
 }
+div.buttons input {margin: 0 5px;}
 * html div.buttons {
     background: none;
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='themes/hd/i/hd-filterFooter.png', sizingMethod='crop');

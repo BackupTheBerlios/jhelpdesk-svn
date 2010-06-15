@@ -1,6 +1,6 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div id="lookandfeel" class="preferences">
     <div id="pagecontentheader"><h2>Preferencje</h2></div>
@@ -18,18 +18,18 @@
                             <tr class="options">
                                 <td style="width: 186px;">
                                     <form:radiobutton id="t1" path="theme" value="blue"/>
-                                    <label for="t1">Temat pierwszy</label><br />
-                                    <div><img src="http://www.gram.pl/www_image.asp?ip=upl/galerie/425/1.jpg&fn=g" width="150" height="100" alt="d"/></div>
+                                    <label for="t1">Blue (standardowy)</label><br />
+                                    <div>obrazek</div>
                                 </td>
                                 <td style="width: 186px;">
-                                    <form:radiobutton id="t2" path="theme" value="green"/>
-                                    <label for="t2">Temat drugi</label><br />
-                                    <div><img src="http://www.gram.pl/www_image.asp?ip=upl/galerie/425/6.jpg&fn=g" width="150" height="100" alt="d"/></div>
+                                    <form:radiobutton id="t2" path="theme" value="green" disabled="true"/>
+                                    <label for="t2">Green (nie istnieje)</label><br />
+                                    <div>obrazek</div>
                                 </td>
                                 <td class="lastcol" style="width: 188px;">
                                     <form:radiobutton id="t3" path="theme" value="bluestroke"/>
-                                    <label for="t3">Temat trzeci</label><br />
-                                    <div><img src="http://www.gram.pl/www_image.asp?ip=upl/galerie/237/1.jpg&fn=g" width="150" height="100" alt="d"/></div>
+                                    <label for="t3">Bluestroke</label><br />
+                                    <div>obrazek</div>
                                 </td>
                             </tr>
                         </table>
@@ -65,7 +65,7 @@
                                     <form:radiobutton id="l3" path="preferredLocale" value="es"/>
                                     <label for="l3">hiszpański</label></td>
                                 <td class="lastcol" style="width: 140px;">
-                                    <form:radiobutton id="l4" path="preferredLocale" value="pt"/>
+                                    <form:radiobutton id="l4" path="preferredLocale" value="pt" disabled="true"/>
                                     <label for="l4">portugalski</label></td>
                             </tr>
                         </table>

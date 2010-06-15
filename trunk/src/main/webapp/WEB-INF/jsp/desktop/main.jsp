@@ -5,7 +5,7 @@
     <div id="pagecontentheader">
         <table cellspacing="0">
             <tr>
-                <td id="pagecontentheaderleft"><h2>Moje biurko</h2></td>
+                <td id="pagecontentheaderleft"><h2><fmt:message key="desktop.title"/></h2></td>
                 <td id="pagecontentheaderright">
                     <a href="<c:url value="/newTicket.html"/>"><img src="<c:url value="/themes/hd/i/icons/48/evolution.png"/>" alt="s1" width="48" height="48"/></a>
                     <a href="<c:url value="/help/base/showAll.html"/>"><img src="<c:url value="/themes/hd/i/icons/48/gnome-help.png"/>" alt="s5" width="48" height="48"/></a>
