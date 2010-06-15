@@ -1,9 +1,5 @@
 DROP FUNCTION drop_announcement_body;
 
-DROP VIEW bug_full_view;
-DROP VIEW bug_list_view;
-DROP VIEW announcement_view;
-
 DROP TABLE bug;
 DROP TABLE bug_category;
 DROP TABLE bug_comment;

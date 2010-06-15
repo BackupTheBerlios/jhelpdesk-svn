@@ -90,18 +90,7 @@ $BODY$
   LANGUAGE 'plpgsql'
 ;
 
---- PROCEDURY DO TRIGGERóW
-
-CREATE OR REPLACE FUNCTION drop_announcement_body()
-  RETURNS trigger AS
-$BODY$
-  BEGIN
-    DELETE FROM announcement_body WHERE announcement_id=OLD.announcement_id;
-    RETURN OLD;
-  END;
-$BODY$
-  LANGUAGE 'plpgsql'
-;
+--- PROCEDURY DO TRIGGERï¿½W
 
 CREATE OR REPLACE FUNCTION set_category_position()
   RETURNS trigger AS
@@ -318,7 +307,7 @@ CREATE TABLE article_comment (
 ) WITH (OIDS=FALSE)
 ;
 
---- ### wiazanie zgloszen z artykul‚ami w bazie wiedzy
+--- ### wiazanie zgloszen z artykulï¿½ami w bazie wiedzy
 
 CREATE TABLE article_ticket
 (
@@ -364,12 +353,6 @@ CREATE TABLE announcement_body (
 ;
 
 --- TRIGGERY DO TABEL
-CREATE TRIGGER drop_announcement_body_trg
-  BEFORE DELETE
-  ON announcement
-  FOR EACH ROW
-  EXECUTE PROCEDURE drop_announcement_body()
-;
 
 CREATE TRIGGER set_category_position_trg
   BEFORE INSERT
@@ -377,3 +360,4 @@ CREATE TRIGGER set_category_position_trg
   FOR EACH ROW
   EXECUTE PROCEDURE set_category_position()
 ;
+
