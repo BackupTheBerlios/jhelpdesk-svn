@@ -1,0 +1,10 @@
+body { background: #f3f3f3;}
+#loginpage {position: absolute;left: 50%;width: 440px;margin-left: -220px;margin-top: 150px;font-size: small;}
+#loginpage div.infobox1 {background: #D0DBFB url(../i/boxTop440.jpg) no-repeat 0 0;}
+#loginpage div.infobox2 {background: transparent url(../i/boxBottom440.jpg) no-repeat 0 100%;}
+#loginpage form {margin: 0;}
+#loginpage table {width: 100%;margin: 0;}
+#loginpage td {font-size: 11px;background: #D0DBFB;}
+#loginpage td.labels {text-align: left;width: 10%;}
+#loginpage td.inputs {text-align: left;width: 40%;}
+#loginpage td.images {background: transparent url(../i/icons/64/gnome-xterm.png) no-repeat 50%;}

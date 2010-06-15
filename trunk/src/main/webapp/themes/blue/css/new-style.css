@@ -1,0 +1,337 @@
+body {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    background: #ccd0dd;
+}
+div#header {
+    position: relative;
+    height: 80px;
+    background: url(i/logo_bg.png) repeat-x;
+    border-bottom: 2px solid #5d6a9a;
+    z-index: 100;
+}
+div#header img.logoimg {
+}
+
+div#formlink {
+
+}
+
+div#formlink a {
+    width: 80px;
+    margin-top: 6px;
+    display: block;
+    float: right;
+    text-decoration: none;
+    color:  #5d6a9a;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Verdana;
+    text-align: center;
+    background: url(i/showlink.png) no-repeat;
+}
+div#infocomments {
+
+}
+
+#infocommentstab {
+    width: 100%;
+    border: 1px solid red;
+}
+#infocommentstab .header {
+    background: #ffcc66;
+    color: blue;
+}
+#infocommentstab .hiddentr {
+    display: none;
+}
+
+#infoproblemhistorytab {
+    width: 100%;
+    border: 1px solid gray;
+}
+#infoproblemhistorytab .header {
+    background: #ffcc66;
+    color: black;
+}
+
+div#container {
+    width: 724px;
+    height: 100%;
+    padding-left: 28px;
+    padding-right: 28px;
+    background: url(i/bg.png);
+    text-align: left;
+}
+div#formlink {
+    text-align: right;
+}
+div#form {
+    display: none;
+    margin-top: 17px;
+    margin-left: 1px;
+    padding-top: 10px;
+    border: 1px solid #5d6a9a;
+    background: white;
+}
+
+div#maincontent {
+    background: white;
+    border: 1px solid #5d6a9a;
+    margin-left: 1px;
+    margin-top: 17px;
+    margin-bottom: 5px;
+    padding-left: 2px;
+    padding-bottom: 2px;
+}
+div#footer {
+    height: 16px;
+    font-family; Arial;
+    font-size: 12px;
+    text-align: left;
+    border-top: 1px solid #5d6a9a;
+    color: #6b759a;
+}
+div#copy {
+    font-family; Verdana;
+    font-size: 11px;
+    margin-left: 2px;
+}
+
+div#nav { 
+    position: absolute;
+    top: 55px; right: 0px;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Helvetica;
+    float: left;
+    margin: 5px 0 0 -1px;
+    border: 1px solid #aaaaaa;
+    text-align: left;
+}
+div#nav ul { margin: 0; padding: 0; background: white; border: 1px solid #aaaaaa; border-width: 0 1px; }
+div#nav li { position: relative; list-style: none; margin: 0; float: left; width: 7.9em; }
+div#nav li.submenu { border-left: 0.4em solid #ffffff;}
+div#nav li.submenu:hover { background: #ffffff ; border-left: 0.4em solid #cccccc; }
+div#nav li a { display: block; padding: 0.25em 0 0.25em 0.5em; text-decoration: none; width: 8.2em; color: #5d6a9a; }
+div#nav>ul a { width: auto; }
+div#nav ul ul { position: absolute; width: 11em; display: none; }
+div#nav ul ul li { border-bottom: 1px solid #cccccc; width: 11em; border-left: 0.4em solid #cccccc; }
+div#nav ul ul li:hover { border-left: 0.4em solid gray; }
+div#nav li.submenu li.submenu:hover { background-color: #eedddd;}
+div#nav ul.level1 li.submenu:hover ul.level2 { display: block; }
+div#nav ul.level2 li.submenu:hover ul.level3 { display: block; }
+div#nav ul.level2 { top: 1.6em;  border-top: 1px solid #cccccc; }
+div#nav ul.level3 { top: -1px; left:  10.5em; border-top: 1px solid #cccccc; }
+
+div#maincontent span.linker {
+    position: absolute;
+    border: 1px solid gray;
+    top: 224px; width: 200px;
+    text-align: justify;
+    padding: 10px 2em 10px 2em;
+    display: none;
+}
+div#maincontent span.pagebanner {
+    display: block;
+    padding: 4px 0px 4px 2px;
+    font-size: 12px;
+    font-family: Tahoma;
+    font-weight: bold;
+    color: gray;
+}
+div#forminfoaboutnotyfier {
+    border: 1px solid #5d6a9a;
+    width: 600px;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 15px;
+}
+html>body #forminfoaboutnotyfier {
+    margin-top: 12px;
+}
+
+div#problemcomments {
+    border: 1px solid #5d6a9a;
+    width: 600px;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 15px;
+}
+html>body #problemcomments {
+    margin-top: 12px;
+}
+
+div#forminfoaboutnotyfier .tabtitle {
+    padding: 2px 0 2px 5px;
+    font-size: 12px;
+    font-family: Tahoma;
+    font-weight: normal;
+    color: gray;
+}
+div#forminfoaboutnotyfier input {
+    font-size: 11px;
+    font-family: Verdana;
+    font-weight: normal;
+    padding: 2px 2px 2px 4px;
+    color: gray;
+}
+
+div#forminfoaboutnotyfier input:focus {
+    font-size: 11px;
+    font-family: Verdana;
+    font-weight: normal;
+    border: 2px solid black;
+    color: black;
+}
+
+div#aboutproblem {
+    border: 1px solid white;
+    position: relative;
+    width: 620px;
+}
+div#aboutnotyfier {
+    border: 1px solid white;
+    position: relative;
+    width: 620px;
+}
+div#comment {
+    border: 1px solid white;
+    position: relative;
+    width: 620px;
+}
+
+div#forminfoaboutproblem {
+    display: block;
+    border: 1px solid #5d6a9a;
+    width: 600px;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 15px;
+}
+html>body #forminfoaboutproblem {
+    margin-top: 12px;
+}
+
+div#forminfoaboutproblem .tabtitle {
+    padding: 2px 0 2px 2px;
+    font-size: 12px;
+    font-family: Tahoma;
+    font-weight: normal;
+    color: gray;
+}
+
+div#forminfoaboutproblem textarea {
+    border: 1px solid;
+    width: 584px;
+    font-size: 11px;
+    font-family: Verdana;
+    font-weight: normal;
+    padding: 2px 2px 2px 4px;
+    color: gray;
+}
+
+div#forminfoaboutproblem textarea:focus { 
+    width: 584px;
+    font-size: 11px;
+    font-family: Verdana;
+    font-weight: normal;
+    padding: 2px 2px 2px 4px;
+    color: black;
+    border: 2px solid black;
+}
+
+div#problemcomments textarea {
+    border: 1px solid;
+    width: 584px;
+    font-size: 11px;
+    font-family: Verdana;
+    font-weight: normal;
+    padding: 2px 2px 2px 4px;
+    color: gray;
+}
+
+div#problemcomments textarea:focus { 
+    width: 584px;
+    font-size: 11px;
+    font-family: Verdana;
+    font-weight: normal;
+    padding: 2px 2px 2px 4px;
+    color: black;
+    border: 2px solid black;
+}
+
+div#forminfoaboutproblemlink a {
+    width: 80px;
+    display: block;
+    float: right;
+    text-decoration: none;
+    color:  #5d6a9a;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Verdana;
+    text-align: center;
+}
+div#forminfoaboutnotyfierlink a {
+    width: 80px;
+    display: block;
+    float: right;
+    text-decoration: none;
+    color:  #5d6a9a;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Verdana;
+    text-align: center;
+}
+div#problemcommentslink a {
+    width: 80px;
+    display: block;
+    float: right;
+    text-decoration: none;
+    color:  #5d6a9a;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Verdana;
+    text-align: center;
+    padding: 0;
+}
+
+div#formbtns {
+    display: block;
+    border: 1px solid #5d6a9a;
+    width: 600px;
+    padding: 10px 10px 10px 10px;
+    text-align: right;
+}
+div#formbtns input {
+    width: 70px;
+    font-size: 10px;
+    font-family: Verdana;
+    font-weight: bold;
+    text-align: center;
+    color: gray;
+}
+div#formbtns input:hover {
+    width: 70px;
+    font-size: 10px;
+    font-family: Verdana;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+}
+
+#ticketsIterator {
+    width: 100%;
+    border: 1px solid #525e66;
+}
+
+th {
+    font-size: 12px;
+    font-family: Tahoma;
+    color: black;
+    background: #dfe2e3;
+    padding: 2px 4px 2px 4px;
+}
+tr.odd {
+    background: #ededed;
+}
+tr.even {
+    background: #f5f5f5;
+}
