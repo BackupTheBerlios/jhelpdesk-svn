@@ -23,7 +23,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.User;
@@ -35,7 +34,6 @@ import de.berlios.jhelpdesk.model.User;
  * @author jjhop
  */
 @Controller
-@SessionAttributes({"user", "logged"})
 public class AuthenticationController {
 
     @Autowired
@@ -66,14 +64,15 @@ public class AuthenticationController {
      */
     // TODO: przeniesienie na domyślny widok użytkownika
     @RequestMapping(value = "/login.html", method = RequestMethod.POST)
-    protected String processLogin(@ModelAttribute("user") User user, ModelMap map) {
-        // TODO: w DAO metoda authenticate to wywalenia... uwierzytleniamy sprawdzajac
+    protected String processLogin(@ModelAttribute("user") User user, HttpSession session) {
+        // TODO: w DAO metoda authenticate do wywalenia... uwierzytleniamy sprawdzajac
         // czy gosc podal pasujace haslo i login (email) oraz czy moze sie logowac (isActive)
         boolean isAuthenticatedWithJpa = userDAOJpa.authenticate(user.getLogin(), user.getPassword());
         if (isAuthenticatedWithJpa) {
-            map.addAttribute("user", userDAOJpa.getByLoginFetchFilters(user.getLogin()));
-            map.addAttribute("logged", Boolean.TRUE);
-            return "redirect:/desktop/main.html";
+            User loggedUser = userDAOJpa.getByLoginFetchFilters(user.getLogin());
+            session.setAttribute("user", loggedUser);
+            session.setAttribute("logged", Boolean.TRUE);
+            return "redirect:" + loggedUser.getWelcomePage();
         }
         return "login";
     }
@@ -86,8 +85,7 @@ public class AuthenticationController {
      * @return identyfikator widoku do wyświetlenia po wylogowaniu
      */
     @RequestMapping(value = "/logout.html")
-    public String processLogout(HttpSession session, ModelMap map) {
-        map.clear();
+    public String processLogout(HttpSession session) {
         session.invalidate();
         return "redirect:/login.html";
     }
