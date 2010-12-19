@@ -15,6 +15,7 @@
     <class>de.berlios.jhelpdesk.model.AdditionalFile</class>
     <class>de.berlios.jhelpdesk.model.TicketFilter</class>
     <class>de.berlios.jhelpdesk.model.LookAndFeelPreferences</class>
+    <class>de.berlios.jhelpdesk.model.DisplayListsPreferences</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <!--<property name="openjpa.jdbc.DBDictionary" value=""/>-->
