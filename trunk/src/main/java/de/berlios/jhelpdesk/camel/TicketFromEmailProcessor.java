@@ -60,30 +60,22 @@ public class TicketFromEmailProcessor implements Processor {
 
     public void process(Exchange exchange) throws Exception {
         MailMessage in = exchange.getIn(MailMessage.class);
-        User u = null;
+        User user = null;
         TicketPriority priority = TicketPriority.LOW; // TODO: jakiś default powinien być
         for (Map.Entry<String, Object> e : in.getHeaders().entrySet()) {
             if (e.getKey().startsWith("From")) {
-                u = extractUserEmail(e.getValue());
+                user = extractUserEmail(e.getValue());
             } else if (e.getKey().startsWith("X-Priority")) {
                 priority = extractTicketPriority(e.getValue());
             }
         }
-        if (u != null && u.isActive()) {
-            Ticket ticket = new Ticket();
-            ticket.setTicketStatus(TicketStatus.NOTIFIED);
-            ticket.setTicketPriority(priority);
-            ticket.setCreateDate(new Date());
-            ticket.setNotifier(u);
-            ticket.setInputer(u);
+        if (user != null && user.isActive()) {
             // TODO: kategoria powinna być albo na podstawie zawartości maila, albo
             //       ticketCategoryDAO.getDefault() jeśli to co zostanie zwrócone nie jest null
-            ticket.setTicketCategory(ticketCategoryDAO.getById(1L));
-            ticket.setSubject(in.getMessage().getSubject());
-            ticket.setDescription((String) in.getMessage().getContent());
-            ticket.setAddFilesList(in.hasAttachments() 
-                                        ? extractAttachments(in.getAttachments())
-                                        : null);
+            Ticket ticket = Ticket.create(priority,ticketCategoryDAO.getById(1L),
+                    in.getMessage().getSubject(),(String) in.getMessage().getContent(),
+                    in.hasAttachments() ? extractAttachments(in.getAttachments()) : null,
+                    user, user);
             ticketDAO.save(ticket);
         }
     }
