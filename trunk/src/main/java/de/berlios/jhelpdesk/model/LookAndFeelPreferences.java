@@ -54,6 +54,12 @@ public class LookAndFeelPreferences implements Serializable {
     @Column(name = "locale")
     private Locale preferredLocale;
 
+    @Column(name = "filter_id")
+    private Long filterId;
+
+    @Column(name = "new_ticket_form_view")
+    private String newTicketFormView;
+
     public Long getId() {
         return id;
     }
@@ -93,4 +99,21 @@ public class LookAndFeelPreferences implements Serializable {
     public void setWelcomePage(String welcomePage) {
         this.welcomePage = welcomePage;
     }
+
+    public void setFilterId(Long filterId) {
+        this.filterId = filterId;
+    }
+
+    public Long getFilterId() {
+        return this.filterId;
+    }
+
+    public void setNewTicketFormView(String view) {
+        this.newTicketFormView = view;
+    }
+
+    public String getNewTicketFormView() {
+        return this.newTicketFormView;
+    }
+
 }

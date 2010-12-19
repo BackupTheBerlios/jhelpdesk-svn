@@ -17,8 +17,10 @@ package de.berlios.jhelpdesk.dao.jpa;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.EntityManager;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaTemplate;
@@ -28,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.User;
+import org.springframework.orm.jpa.JpaCallback;
 
 /**
  *
@@ -88,6 +91,20 @@ public class UserDAOJpa implements UserDAO {
         } else {
             this.jpaTemplate.merge(user);
         }
+    }
+
+    @Transactional(readOnly = false)
+    public void updatePasswordAndSalt(final User user, final String password) {
+        this.jpaTemplate.execute(new JpaCallback<Object>() {
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                User u = em.find(User.class, user.getUserId());
+                if (u != null) {
+                    u.setPassword(password); // TODO: zbadać czy to ma sens (vide moppee)
+                    em.merge(u);
+                }
+                return null;
+            }
+        });
     }
 
     public void refresh(User user) {

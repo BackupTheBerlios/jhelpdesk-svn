@@ -199,6 +199,23 @@ public class Ticket implements Serializable {
      */
     @ManyToMany(mappedBy="associatedTickets")
     private Set<Article> articles;
+
+    public static Ticket create(TicketPriority priority, TicketCategory category,
+                                String subject, String description,
+                                List<AdditionalFile> additionalFiles,
+                                User notifier, User inputer) {
+        Ticket ticket = new Ticket();
+        ticket.setTicketStatus(TicketStatus.NOTIFIED);
+        ticket.setTicketPriority(priority);
+        ticket.setCreateDate(new Date());
+        ticket.setNotifier(notifier);
+        ticket.setInputer(inputer);
+        ticket.setTicketCategory(category);
+        ticket.setSubject(subject);
+        ticket.setDescription(description);
+        ticket.setAddFilesList(additionalFiles);
+        return ticket;
+    }
     
     /**
      * Podstawowy konstruktor. Inicjalizuje kolekcje obiektu.

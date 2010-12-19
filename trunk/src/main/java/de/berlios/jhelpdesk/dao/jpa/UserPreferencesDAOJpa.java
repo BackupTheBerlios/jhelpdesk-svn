@@ -23,6 +23,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.berlios.jhelpdesk.dao.UserPreferencesDAO;
+import de.berlios.jhelpdesk.model.DisplayListsPreferences;
 import de.berlios.jhelpdesk.model.LookAndFeelPreferences;
 
 /**
@@ -46,6 +47,15 @@ public class UserPreferencesDAOJpa implements UserPreferencesDAO {
             this.jpaTemplate.merge(lafPrefs);
         } else {
             this.jpaTemplate.persist(lafPrefs);
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public void save(DisplayListsPreferences dlPrefs) {
+        if (dlPrefs.getId() != null) {
+            this.jpaTemplate.merge(dlPrefs);
+        } else {
+            this.jpaTemplate.persist(dlPrefs);
         }
     }
 }

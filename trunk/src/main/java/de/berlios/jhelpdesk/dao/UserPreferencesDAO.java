@@ -15,6 +15,7 @@
  */
 package de.berlios.jhelpdesk.dao;
 
+import de.berlios.jhelpdesk.model.DisplayListsPreferences;
 import de.berlios.jhelpdesk.model.LookAndFeelPreferences;
 
 /**
@@ -24,4 +25,6 @@ import de.berlios.jhelpdesk.model.LookAndFeelPreferences;
 public interface UserPreferencesDAO {
 
     void save(LookAndFeelPreferences lafPrefs);
+
+    void save(DisplayListsPreferences dlPrefs);
 }

@@ -146,6 +146,10 @@ public class User implements Serializable {
     @JoinColumn(name = "laf_preferences_id")
     private LookAndFeelPreferences lafPreferences;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dl_preferences_id")
+    private DisplayListsPreferences dlPreferences;
+
     /**
      * Przechowuje kolekcję artykułów, których autorem jest użytkownik.
      */
@@ -382,6 +386,14 @@ public class User implements Serializable {
         this.lafPreferences = lafPreferences;
     }
 
+    public DisplayListsPreferences getDlPreferences() {
+        return dlPreferences;
+    }
+
+    public void setDlPreferences(DisplayListsPreferences dlPreferences) {
+        this.dlPreferences = dlPreferences;
+    }
+
     /**
      * Zwraca numer telefonu komórkowego użytkownika.
      *
@@ -489,7 +501,48 @@ public class User implements Serializable {
     }
 
     public Integer getPreferedTicketsListSize() {
-        return 20; // TODO: wartość z bazy danych
+        DisplayListsPreferences dlPrefs = getDlPreferences();
+        return dlPrefs != null 
+            ? dlPrefs.getTicketsListSize()
+            : 10;
+    }
+
+    public Integer getAnnouncementsListSize() {
+        DisplayListsPreferences dlPrefs = getDlPreferences();
+        return dlPrefs != null
+            ? dlPrefs.getAnnouncementsListSize()
+            : 10;
+    }
+
+    public Integer getFiltersListSize() {
+        DisplayListsPreferences dlPrefs = getDlPreferences();
+        return dlPrefs != null
+            ? dlPrefs.getFiltersListSize()
+            : 10;
+    }
+
+    public Integer getUsersListSize() {
+        DisplayListsPreferences dlPrefs = getDlPreferences();
+        return dlPrefs != null
+            ? dlPrefs.getUsersListSize()
+            : 10;
+    }
+
+    public String getWelcomePage() {
+        String welcomePage = getLafPreferences().getWelcomePage();
+        if (welcomePage.equalsIgnoreCase("desktop")) {
+            return "/desktop/main.html";
+        } else if (welcomePage.equalsIgnoreCase("tickets")) {
+            return "/tickets/byFilter/" + getLafPreferences().getFilterId() + "/list.html";
+        } else if (welcomePage.equalsIgnoreCase("newTicket")) {
+            String formView = getLafPreferences().getNewTicketFormView();
+            return "form".equalsIgnoreCase(formView)
+                ? "/tickets/new.html"
+                : "/tickets/wizzard.html";
+        } else if (welcomePage.equalsIgnoreCase("kBase")) {
+            return "/help/base/showAll.html";
+        }
+        throw new RuntimeException("*!*!@#");
     }
 
     @PrePersist

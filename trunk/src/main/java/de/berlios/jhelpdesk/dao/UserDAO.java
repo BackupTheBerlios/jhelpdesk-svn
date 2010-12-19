@@ -121,4 +121,6 @@ public interface UserDAO {
     void saveOrUpdate(User user);
 
     void refresh(User user);
+
+    void updatePasswordAndSalt(User currentUser, String password);
 }
