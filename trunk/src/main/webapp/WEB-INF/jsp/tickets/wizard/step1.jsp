@@ -42,7 +42,7 @@
                                                                class="hintanchor" onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
                                                            </c:if>
                                                            />
-                                                    <input type="image" name="_checkLogin" value="true" src="<c:url value="/themes/hd/i/find.gif"/>" style="border: 0" align="top" />
+                                                    <input type="image" name="_checkLogin" alt="Znajdź" value="true" src="<c:url value="/themes/blue/i/find.gif"/>" style="border: 0" align="top" />
                                                 </c:otherwise>
                                             </c:choose>
                                         </spring:bind>
