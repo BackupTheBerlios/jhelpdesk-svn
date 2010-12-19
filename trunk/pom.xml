@@ -135,6 +135,8 @@
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
+                    <stopKey>STOP_JH</stopKey>
+                    <stopPort>9876</stopPort>
                     <contextPath>/jhd</contextPath>
                 </configuration>
             </plugin>
@@ -345,7 +347,7 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <configuration>
                     <targetJdk>1.5</targetJdk>
-                    <encoding>UTF-8</encoding>
+                    <sourceEncoding>UTF-8</sourceEncoding>
                 </configuration>
             </plugin>
             <plugin>
