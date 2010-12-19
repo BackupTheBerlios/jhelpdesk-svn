@@ -17,6 +17,7 @@ package de.berlios.jhelpdesk.web.preferences;
 
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,12 +33,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.util.WebUtils;
 
 import de.berlios.jhelpdesk.dao.UserPreferencesDAO;
 import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.model.LookAndFeelPreferences;
-import javax.servlet.http.Cookie;
-import org.springframework.web.util.WebUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 
@@ -45,6 +46,8 @@ import org.springframework.web.util.WebUtils;
  */
 @Controller
 public class LookAndFeelEditController {
+
+    private static final int SECONDS_BY_WEEK = 604800; // 24*3600*7
 
     @Autowired
     private UserPreferencesDAO userPreferencesDAO;
@@ -66,6 +69,7 @@ public class LookAndFeelEditController {
 
     @RequestMapping(value = "/preferences/lookAndFeel.html", method = RequestMethod.POST)
     public String processForm(@ModelAttribute("preferences") LookAndFeelPreferences lafPreferences,
+                              @RequestParam(value = "filterId", required = false) Long filterId,
                               HttpServletRequest request, HttpServletResponse respone,
                               ModelMap map, HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
@@ -82,7 +86,7 @@ public class LookAndFeelEditController {
 
     private Cookie createCookie(HttpServletRequest req, Locale loc) {
         Cookie cookie = new Cookie("jhd_locale", loc.getLanguage());
-        cookie.setMaxAge(24*3600*7); // tydzień
+        cookie.setMaxAge(SECONDS_BY_WEEK);
         cookie.setPath(req.getContextPath());
         return cookie;
     }

@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import de.berlios.jhelpdesk.model.NotifyFrequency;
-import de.berlios.jhelpdesk.web.form.EventNotifyForm;
+import de.berlios.jhelpdesk.model.EventNotifyPreferences;
 import de.berlios.jhelpdesk.web.tools.NotifyFrequencyEditor;
 
 /**
@@ -50,14 +50,14 @@ public class NotifyEditController {
 
     @RequestMapping(value = "/preferences/eventNotify.html", method = RequestMethod.GET)
     public String prepareForm(ModelMap map) {
-        map.addAttribute("preferences", new EventNotifyForm());
+        map.addAttribute("preferences", new EventNotifyPreferences());
         return "preferences/eventNotify";
     }
 
     // TODO: może warto po zapisaniu z sukcesem wrocic na podstawowy widok i wyswietlic
     // na krótką chwilkę komunikat (na zielonym tle - a jakże), że się udało???
     @RequestMapping(value = "/preferences/eventNotify.html", method = RequestMethod.POST)
-    public String processForm(@ModelAttribute("preferences") EventNotifyForm form,
+    public String processForm(@ModelAttribute("preferences") EventNotifyPreferences form,
                               ModelMap map) {
         if (log.isDebugEnabled()) {
             log.debug("START ---------------------------------------");
