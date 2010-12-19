@@ -18,7 +18,7 @@
                                 </tr>
                                 <tr class="numberofitems">
                                     <td class="blank">&nbsp;</td>
-                                    <td>Po zdarzeniu</td>
+                                    <td>Od razu</td>
                                     <td>1 raz / dzień</td>
                                     <td>1 raz / tydzień</td>
                                     <td>1 raz / miesiąć</td>

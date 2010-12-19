@@ -31,6 +31,7 @@
                             <li>jjhop - core development</li>
                             <li>jackpi - layout &amp; design</li>
                             <li>yogurth - core development</li>
+                            <li>bezul555 - layout &amp; design</li>
                         </ul>
                         Developerka odbywała się z wykorzytaniem Tomcata 5.5 i Postgresql'a 8.1 na WindowsXP i FreeBSD
                         <div>

@@ -55,6 +55,14 @@
                                     <td class="lastcol"><c:out value="${hdticket.subject}"/></td>
                                 </tr>
                                 <tr>
+                                    <td class="desc">Kategoria</td>
+                                    <td class="lastcol"><c:out value="${hdticket.ticketCategory.categoryName}"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="desc">Ważność</td>
+                                    <td class="lastcol"><c:out value="${hdticket.ticketPriority.priorityName}"/></td>
+                                </tr>
+                                <tr>
                                     <td class="desc">Opis</td>
                                     <td class="lastcol"><c:out value="${hdticket.description}" escapeXml="false"/></td>
                                 </tr>

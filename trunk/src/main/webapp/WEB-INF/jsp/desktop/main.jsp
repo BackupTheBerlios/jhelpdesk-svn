@@ -7,8 +7,8 @@
             <tr>
                 <td id="pagecontentheaderleft"><h2><fmt:message key="desktop.title"/></h2></td>
                 <td id="pagecontentheaderright">
-                    <a href="<c:url value="/newTicket.html"/>"><img src="<c:url value="/themes/hd/i/icons/48/evolution.png"/>" alt="s1" width="48" height="48"/></a>
-                    <a href="<c:url value="/help/base/showAll.html"/>"><img src="<c:url value="/themes/hd/i/icons/48/gnome-help.png"/>" alt="s5" width="48" height="48"/></a>
+                    <a href="<c:url value="/tickets/new.html"/>"><img src="<c:url value="/themes/blue/i/icons/48/evolution.png"/>" alt="s1" width="48" height="48"/></a>
+                    <a href="<c:url value="/help/base/showAll.html"/>"><img src="<c:url value="/themes/blue/i/icons/48/gnome-help.png"/>" alt="s5" width="48" height="48"/></a>
                 </td>
             </tr>
         </table>
@@ -28,15 +28,13 @@
                                 <tr>
                                     <th>Zdarzenie</th>
                                     <th>Rodzaj</th>
-                                    <th>Data</th>
-                                    <th class="lastcol">&nbsp;</th>
+                                    <th class="lastcol">Data</th>
                                 </tr>
                                 <c:forEach var="event" items="${lastEvents}">
                                     <tr>
-                                        <td><c:out value="${event.evtSubject}"/></td>
+                                        <td><a href="<c:url value="/tickets/${event.ticket.ticketId}/details.html"/>"><c:out value="${event.evtSubject}"/></a></td>
                                         <td><c:out value="${event.eventType}"/></td>
-                                        <td><fmt:formatDate value="${event.evtDate}" pattern="dd/MM/yyyy HH:mm"/></td>
-                                        <td class="lastcol"><a href="<c:url value="/tickets/${event.ticket.ticketId}/details.html"/>">wiecej</a></td>
+                                        <td class="lastcol"><fmt:formatDate value="${event.evtDate}" pattern="dd/MM/yyyy HH:mm"/></td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -53,12 +51,11 @@
                                     <th>Zgłaszający</th>
                                     <th>Kategoria</th>
                                     <th>Priorytet</th>
-                                    <th>Data</th>
-                                    <th class="lastcol">&nbsp;</th>
+                                    <th class="lastcol">Data</th>
                                 </tr>
                                 <c:forEach var="ticket" items="${lastTickets}">
                                     <tr>
-                                        <td><c:out value="${ticket.subject}"/></td>
+                                        <td><a href="<c:url value="/tickets/${ticket.ticketId}/details.html"/>"><c:out value="${ticket.subject}"/></a></td>
                                         <td><c:out value="${ticket.notifier}"/></td>
                                         <td>
                                             <c:choose>
@@ -71,8 +68,7 @@
                                             </c:choose>
                                         </td>
                                         <td><c:out value="${ticket.ticketPriority}"/></td>
-                                        <td><fmt:formatDate value="${ticket.createDate}" pattern="dd/MM/yyyy HH:mm"/></td>
-                                        <td class="lastcol"><a href="<c:url value="/tickets/${ticket.ticketId}/details.html"/>">wiecej</a></td>
+                                        <td class="lastcol"><fmt:formatDate value="${ticket.createDate}" pattern="dd/MM/yyyy HH:mm"/></td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -101,7 +97,7 @@
                                 <c:forEach var="article" items="${lastArticles}">
                                     <tr>
                                         <td><a href="<c:url value="/help/base/showOne.html?id=${article.articleId}"/>"><c:out value="${article.title}"/></a></td>
-                                        <td class="lastcol"><c:out value="${article.createDate}"/></td>
+                                        <td class="lastcol"><fmt:formatDate value="${article.createDate}" pattern="dd/MM/yyyy HH:mm"/></td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -119,7 +115,7 @@
                                 </tr>
                                 <c:forEach var="announcement" items="${lastAnnouncements}">
                                     <tr>
-                                        <td><c:out value="${announcement.createDate}"/></td>
+                                        <td><fmt:formatDate value="${announcement.createDate}" pattern="dd/MM/yyyy HH:mm"/></td>
                                         <td class="lastcol">
                                             <a href="<c:url value="/announcements/${announcement.announcementId}/show.html"/>"><c:out value="${announcement.title}"/></a>
                                         </td>
