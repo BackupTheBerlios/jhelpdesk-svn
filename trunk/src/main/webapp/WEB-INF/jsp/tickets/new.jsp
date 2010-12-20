@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<h1>formularz nowego zgłoszenia</h1>
+<h1>Formularz nowego zgłoszenia</h1>
 <form:form commandName="ticket">
     <form:hidden path="ticketstamp"/>
     <div class="contenttop"></div>
