@@ -171,7 +171,7 @@ public class AdditionalFile implements Serializable {
      * po zapisaniu go po raz pierwszy z tej metody powinnie korzystać tylko mechanizm
      * przepisywania informacji z bazy danych.
      * 
-     * @param fileDate zawartość pliku
+     * @param fileData zawartość pliku
      *
      * @see #fileData
      * @see #getFileData() 

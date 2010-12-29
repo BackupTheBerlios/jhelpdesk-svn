@@ -56,8 +56,6 @@ public class AuthenticationController {
      * uzupełnia sesję.
      *
      * @param user użytkownik do uwierzytelnienia
-     * @param map model widoku (uzupełniemy go jeśli użytkownik zostanie
-     *            prawidłowo uwierzytelniony).
      * @return identyfikator widoku do wyświetlenia, będzie to widok formularza
      *         jeśli nie uwierzytelnienie nie powiedzie się i widok domyślny
      *         dla użytkownika jeśli uda się uwierzytelnić
@@ -81,7 +79,6 @@ public class AuthenticationController {
      * Metoda unieważnia sesję użytkownika w systemie.
      *
      * @param session sesja użytkownika
-     * @param map
      * @return identyfikator widoku do wyświetlenia po wylogowaniu
      */
     @RequestMapping(value = "/logout.html")
