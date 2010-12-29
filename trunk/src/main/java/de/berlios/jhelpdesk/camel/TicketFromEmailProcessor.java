@@ -15,7 +15,6 @@
  */
 package de.berlios.jhelpdesk.camel;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +36,6 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.AdditionalFile;
 import de.berlios.jhelpdesk.model.Ticket;
 import de.berlios.jhelpdesk.model.TicketPriority;
-import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
 
 /**
@@ -60,24 +58,28 @@ public class TicketFromEmailProcessor implements Processor {
 
     public void process(Exchange exchange) throws Exception {
         MailMessage in = exchange.getIn(MailMessage.class);
-        User user = null;
+        User emailAuthor = null;
         TicketPriority priority = TicketPriority.LOW; // TODO: jakiś default powinien być
         for (Map.Entry<String, Object> e : in.getHeaders().entrySet()) {
             if (e.getKey().startsWith("From")) {
-                user = extractUserEmail(e.getValue());
+                emailAuthor = extractUserEmail(e.getValue());
             } else if (e.getKey().startsWith("X-Priority")) {
                 priority = extractTicketPriority(e.getValue());
             }
         }
-        if (user != null && user.isActive()) {
+        if (existsAndActive(emailAuthor)) {
             // TODO: kategoria powinna być albo na podstawie zawartości maila, albo
             //       ticketCategoryDAO.getDefault() jeśli to co zostanie zwrócone nie jest null
-            Ticket ticket = Ticket.create(priority,ticketCategoryDAO.getById(1L),
-                    in.getMessage().getSubject(),(String) in.getMessage().getContent(),
+            Ticket ticket = Ticket.create(priority, ticketCategoryDAO.getById(1L),
+                    in.getMessage().getSubject(), (String) in.getMessage().getContent(),
                     in.hasAttachments() ? extractAttachments(in.getAttachments()) : null,
-                    user, user);
+                    emailAuthor);
             ticketDAO.save(ticket);
         }
+    }
+
+    private boolean existsAndActive(User user) {
+        return user != null && user.isActive();
     }
 
     // TODO: przechwycić załączniki i zapisać razem z Ticketem

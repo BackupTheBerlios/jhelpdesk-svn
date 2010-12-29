@@ -216,6 +216,13 @@ public class Ticket implements Serializable {
         ticket.setAddFilesList(additionalFiles);
         return ticket;
     }
+
+    public static Ticket create(TicketPriority priority, TicketCategory category,
+                                String subject, String description,
+                                List<AdditionalFile> additionalFiles,
+                                User notifier) {
+        return create(priority, category, subject, description, additionalFiles, notifier, notifier);
+    }
     
     /**
      * Podstawowy konstruktor. Inicjalizuje kolekcje obiektu.
@@ -449,7 +456,7 @@ public class Ticket implements Serializable {
     /**
      * Ustawia użytkownika, który będzie dalej zajmował się rozwiązaniem problemu.
      * 
-     * @param saviour użytkownik, który dalej będzie zajmował się problemem
+     * @param newSaviour użytkownik, który dalej będzie zajmował się problemem
      *
      * @see #saviour
      * @see #getSaviour() 
@@ -572,8 +579,6 @@ public class Ticket implements Serializable {
 
     /**
      * Zwraca kolekcję plików dołączonych do zgłoszenia.
-     * 
-     * @param addFilesList kolekcja plików dołączonych do zgłoszenia
      * 
      * @see #addFilesList
      * @see AdditionalFile
