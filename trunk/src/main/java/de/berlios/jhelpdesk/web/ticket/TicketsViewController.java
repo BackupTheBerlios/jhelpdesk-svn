@@ -56,6 +56,8 @@ import de.berlios.jhelpdesk.web.tools.UserEditor;
 @Controller
 public class TicketsViewController {
 
+    private static final String TICKETS_LIST_VIEW = "tickets/list";
+
     @Autowired
     private TicketFilterDAO ticketFilterDAO;
 
@@ -103,7 +105,7 @@ public class TicketsViewController {
     }
 
     @ModelAttribute("saviours")
-    public List<User> populateSaviuours() {
+    public List<User> populateSaviours() {
         return userDAO.getByRole(Role.TICKETKILLER);
     }
 
@@ -154,9 +156,9 @@ public class TicketsViewController {
             map.addAttribute("filter", currentFilter);
             map.addAttribute("ticketsListSize", numOfTicketsWithFilter);
         } else {
-            map.addAttribute("message", currentFilter == null ? "nie znaleziono filtra..." : null);
+            map.addAttribute("message", "nie znaleziono filtra...");
         }
-        return "tickets/list";
+        return TICKETS_LIST_VIEW;
     }
 
 }

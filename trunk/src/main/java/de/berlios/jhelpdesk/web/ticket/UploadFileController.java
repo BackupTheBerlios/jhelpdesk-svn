@@ -38,10 +38,12 @@ import de.berlios.jhelpdesk.web.tools.FileUploadBean;
 @RequestMapping("/tickets/uploadFile.html")
 public class UploadFileController {
 
+    private static final String TICKETS_UPLOAD_VIEW = "tickets/upload";
+
     @RequestMapping(method = RequestMethod.GET)
     protected String prepareForm(ModelMap map) {
         map.addAttribute("fileBean", new FileUploadBean());
-        return "tickets/upload";
+        return TICKETS_UPLOAD_VIEW;
     }
 
     // Wrzuca wszystkie załączniki do katalogu tymczasowego, będą tam odnalezione
@@ -62,14 +64,14 @@ public class UploadFileController {
             System.out.println("ticketstamp => " + ticketstamp);
 
             addTicketstampToSession(session, ticketstamp);
-            
+
             String path = session.getServletContext().getRealPath("./ticket_attachements/");
             File f = new File(new File(path, ticketstamp), file.getOriginalFilename());
             System.out.println("path => " + path);
             System.out.println("abs => " + f.getAbsolutePath());
         }
         map.addAttribute("uploaded", Boolean.TRUE);
-        return "tickets/upload";
+        return TICKETS_UPLOAD_VIEW;
     }
 
     private void addTicketstampToSession(HttpSession session, String ticketStamp) {

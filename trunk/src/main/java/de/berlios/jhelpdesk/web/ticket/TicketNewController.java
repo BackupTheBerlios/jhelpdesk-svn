@@ -53,6 +53,8 @@ import de.berlios.jhelpdesk.web.tools.UserEditor;
 @SessionAttributes("ticket")
 public class TicketNewController {
 
+    private final static String NEW_TICKET_VIEW = "tickets/new";
+
     @Autowired
     private TicketValidator validator;
 
@@ -96,7 +98,7 @@ public class TicketNewController {
         t.setTicketstamp(ticketstamp);
         t.setInputer(u);
         map.addAttribute("ticket", t);
-        return "tickets/new";
+        return NEW_TICKET_VIEW;
     }
 
     @RequestMapping(value = "/tickets/new.html", method = RequestMethod.POST)
@@ -109,7 +111,7 @@ public class TicketNewController {
             ticketDaoJpa.save(ticket);
             status.setComplete();
         } else {
-            return "tickets/new";
+            return NEW_TICKET_VIEW;
         }
         return "redirect:/tickets/" + ticket.getTicketId() + "/details.html";
     }

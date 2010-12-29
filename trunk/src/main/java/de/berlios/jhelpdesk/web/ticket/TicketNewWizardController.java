@@ -154,8 +154,6 @@ public class TicketNewWizardController {
             case 1:
                 partialValidator.validateSubjectAndDescription(ticket, status);
                 break;
-            default:
-                return;
         }
     }
 
