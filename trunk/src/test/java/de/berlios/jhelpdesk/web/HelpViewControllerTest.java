@@ -54,14 +54,25 @@ public class HelpViewControllerTest {
                 .andReturn(Collections.<ArticleCategory>emptyList());
         EasyMock.replay(articleCategoryDAOMock);
 
+        ArticleDAO articleDAOMock = EasyMock.createMock(ArticleDAO.class);
+        // 10 to => HelpViewController.NUM_OF_LAST_ADDED_ARTICLES (private)
+        EasyMock.expect(articleDAOMock.getLastAddedArticles(10))
+                .andReturn(Collections.<Article>emptyList());
+        EasyMock.replay(articleDAOMock);
+
         Field f = HelpViewController.class.getDeclaredField("articleCategoryDAO");
         f.setAccessible(true);
         f.set(controllerInstance, articleCategoryDAOMock);
+
+        Field f2 = HelpViewController.class.getDeclaredField("articleDAO");
+        f2.setAccessible(true);
+        f2.set(controllerInstance, articleDAOMock);
 
         String expResult = "help/base";
         String result = controllerInstance.knowledgeBaseView(map);
         assertEquals(expResult, result);
         assertNotNull(map.get("categories"));
+        assertNotNull(map.get("latest"));
     }
 
     /**
