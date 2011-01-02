@@ -13,7 +13,7 @@
                         <table cellspacing="0">
                             <tr>
                                 <td>
-                                    <a class="btn" href="<c:url value="/manage/knowledge/category/edit.html"/>">Dodaj nową sekcję</a>
+                                    <a class="btn" href="<c:url value="/manage/kb/category/edit.html"/>">Dodaj nową sekcję</a>
                                 </td>
                             </tr>
                         </table>
@@ -26,25 +26,25 @@
                                     <th class="artnumber">Ilość art.</th>
                                     <th colspan="5" class="lastcol">Akcje</th>
                                 </tr>
-                                <c:forEach var="category" items="${categories}">
+                                <c:forEach var="c" items="${categories}">
                                     <tr>
                                         <td class="rowNumber">.</td>
-                                        <td><c:out value="${category.categoryName}"/></td>
-                                        <td class="artnumber"><c:out value="${category.articlesCount}"/></td>
+                                        <td><c:out value="${c.categoryName}"/></td>
+                                        <td class="artnumber"><c:out value="${c.articlesCount}"/></td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/showAll.html?categoryId=${category.articleCategoryId}"/>">Art</a>
+                                            <a href="<c:url value="/manage/kb/category/${c.articleCategoryId}/articles.html"/>">Art</a>
                                         </td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/category/edit.html?categoryId=${category.articleCategoryId}"/>">Edit</a>
+                                            <a href="<c:url value="/manage/kb/category/${c.articleCategoryId}/edit.html"/>">Edit</a>
                                         </td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/category/remove.html?categoryId=${category.articleCategoryId}"/>">Del</a>
+                                            <a href="<c:url value="/manage/kb/category/${c.articleCategoryId}/remove.html"/>">Del</a>
                                         </td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/category/up.html?categoryId=${category.articleCategoryId}"/>">Up</a>
+                                            <a href="<c:url value="/manage/kb/category/${c.articleCategoryId}/up.html"/>">Up</a>
                                         </td>
                                         <td class="lastcol ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/category/down.html?categoryId=${category.articleCategoryId}"/>">Down</a>
+                                            <a href="<c:url value="/manage/kb/category/${c.articleCategoryId}/down.html"/>">Down</a>
                                         </td>
                                     </tr>
                                 </c:forEach>

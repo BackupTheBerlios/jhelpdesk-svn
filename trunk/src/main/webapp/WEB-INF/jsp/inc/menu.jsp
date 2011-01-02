@@ -34,15 +34,14 @@
                 <li class="first"><a href="<c:url value="/announcements/list.html"/>"><span>Wiadomości</span></a></li>
                 <li class="last"><a href="<c:url value="/manage/users/list.html"/>"><span>Użytkownicy</span></a></li>
                 <li><a href="<c:url value="/manage/category/showAll.html"/>"><span>Kategorie zgłoszeń</span></a></li>
-                <li class="last"><a href="<c:url value="/manage/knowledge/category/showAll.html"/>"><span>Baza wiedzy - sekcje</span></a></li>
-                <li class="last"><a href="<c:url value="/manage/knowledge/article/showAll.html"/>"><span>Baza wiedzy - artykuły</span></a></li>
+                <li class="last"><a href="<c:url value="/manage/kb/categories/all.html"/>"><span>Baza wiedzy - sekcje</span></a></li>
             </ul>
         </li>
     </auth:check>
     <li class="submenu"><a href="javascript:none();"><span><fmt:message key="main.menu.help"/></span></a>
         <ul class="level2">
             <li class="first"><a href="<c:url value="/help/index.html"/>"><span>Spis treści</span></a></li>
-            <li><a href="<c:url value="/help/base/showAll.html"/>"><span>Baza wiedzy</span></a></li>
+            <li><a href="<c:url value="/help/kb/index.html"/>"><span>Baza wiedzy</span></a></li>
             <li class="last"><a href="<c:url value="/help/about.html"/>"><span>O programie</span></a></li>
         </ul>
     </li>

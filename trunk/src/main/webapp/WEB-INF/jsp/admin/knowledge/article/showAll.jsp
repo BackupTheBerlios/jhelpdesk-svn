@@ -13,7 +13,8 @@
                         <table cellspacing="0">
                             <tr>
                                 <td>
-                                    <a class="btn" href="<c:url value="/manage/knowledge/article/edit.html?categoryId=${categoryId}"/>">Dodaj nowy artykuł</a>
+                                    <a href="<c:url value="/manage/kb/category/${categoryId}/articles/new.html"/>"
+                                       class="btn">Dodaj nowy artykuł</a>
                                 </td>
                             </tr>
                         </table>
@@ -33,16 +34,16 @@
                                         <td><c:out value="${article.author}"/></td>
                                         <td><c:out value="${article.createDate}"/></td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/edit.html?articleId=${article.articleId}"/>">Edit</a>
+                                            <a href="<c:url value="/manage/kb/category/${categoryId}/articles/${article.articleId}/edit.html"/>">Edit</a>
                                         </td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/remove.html?articleId=${article.articleId}"/>">Del</a>
+                                            <a href="<c:url value="/manage/kb/category/${categoryId}/articles/${article.articleId}/remove.html"/>">Del</a>
                                         </td>
                                         <td class="ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/up.html?articleId=${article.articleId}"/>">Up</a>
+                                            <a href="<c:url value="/manage/kb/article/up.html?articleId=${article.articleId}"/>">Up</a>
                                         </td>
                                         <td class="lastcol ticketEdit">
-                                            <a href="<c:url value="/manage/knowledge/article/down.html?articleId=${article.articleId}"/>">Down</a>
+                                            <a href="<c:url value="/manage/kb/article/down.html?articleId=${article.articleId}"/>">Down</a>
                                         </td>
                                     </tr>
                                 </c:forEach>

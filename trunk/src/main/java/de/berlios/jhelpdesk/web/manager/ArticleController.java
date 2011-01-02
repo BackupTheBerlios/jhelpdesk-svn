@@ -30,6 +30,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,12 +40,12 @@ import de.berlios.jhelpdesk.dao.ArticleDAO;
 import de.berlios.jhelpdesk.model.Article;
 import de.berlios.jhelpdesk.model.ArticleCategory;
 import de.berlios.jhelpdesk.model.User;
+import de.berlios.jhelpdesk.utils.LuceneIndexer;
 import de.berlios.jhelpdesk.web.tools.ArticleCategoryEditor;
+import de.berlios.jhelpdesk.web.tools.ArticleValidator;
 import de.berlios.jhelpdesk.web.tools.UserEditor;
 
 /**
- *
- * TODO: walidator do artykułu
  * TODO: dokumentacja
  *
  * @author jjhop
@@ -53,12 +54,22 @@ import de.berlios.jhelpdesk.web.tools.UserEditor;
 public class ArticleController {
 
     private static Log log = LogFactory.getLog(ArticleController.class);
-    
+
+    private final static String MANAGE_KB_ARTICLE_SHOW = "manage/knowledge/article/show";
+    private final static String MANAGE_KB_ARTICLE_EDIT = "manage/knowledge/article/edit";
+    private final static String MANAGE_KB_ARTICLE_LIST = "manage/knowledge/article/showAll";
+
     @Autowired
     private ArticleDAO articleDAOJpa;
 
     @Autowired
     private ArticleCategoryDAO articleCategoryDAO;
+
+    @Autowired
+    private ArticleValidator articleValidator;
+
+    @Autowired
+    private LuceneIndexer luceneIndexer;
 
     @Autowired
     private ArticleCategoryEditor articleCategoryEditor;
@@ -74,58 +85,31 @@ public class ArticleController {
         binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, nf, true));
     }
 
-    /**
-     * TODO: usunąć {@code required=false} z parametru.
-     * 
-     * @param categoryId
-     * @return
-     * @throws java.lang.Exception
-     */
-    @RequestMapping("/manage/knowledge/article/showAll.html")
-    public String showAllArticles(
-                  @RequestParam(value = "categoryId", required = false) Long categoryId,
-                  ModelMap map) {
-
-        try {
-            map.addAttribute("articles", articleDAOJpa.getForSection(categoryId));
-            map.addAttribute("categoryId", categoryId);
-        } catch (Exception ex) {
-            log.error(ex);
-            return "redirect:/manage/knowledge/category/showAll.html";
-        }
-        return "manage/knowledge/article/showAll";
+    @RequestMapping("/manage/kb/category/{id}/articles.html")
+    public String showAllArticles(@PathVariable("id") Long categoryId, ModelMap map) {
+        map.addAttribute("articles", articleDAOJpa.getForSection(categoryId));
+        map.addAttribute("categoryId", categoryId);
+        return MANAGE_KB_ARTICLE_LIST;
     }
 
-    @RequestMapping("/manage/knowledge/article/show.html")
-    public String showArticle(
-                  @RequestParam(value = "articleId") Long articleId,
-                  ModelMap map) {
-
-        try {
-            map.addAttribute("article", articleDAOJpa.getById(articleId));
-        } catch (Exception ex) {
-            log.error(ex);
-            return "redirect:/manage/knowledge/category/showAll.html";
-        }
-        return "manage/knowledge/article/show";
+    @RequestMapping("/manage/kb/category/{cId}/articles/{aId}/show.html")
+    public String showArticle(@PathVariable("aId") Long articleId, ModelMap map) {
+        map.addAttribute("article", articleDAOJpa.getById(articleId));
+        return MANAGE_KB_ARTICLE_SHOW;
     }
 
-    @RequestMapping("/manage/knowledge/article/remove.html")
-    public String remove(@RequestParam("articleId") Long articleId) {
-        try {
-            articleDAOJpa.delete(articleId);
-        } catch (Exception ex) {
-            log.error(ex);
-        }
-        return "/manage/knowledge/article/show.html?articledId=" + articleId;
+    @RequestMapping("/manage/kb/category/{cId}/articles/{aId}/remove.html")
+    public String remove(@PathVariable("cId") Long categoryId,
+                         @PathVariable("aId") Long articleId) {
+        articleDAOJpa.delete(articleId);
+        luceneIndexer.removeIndexedArticle(articleId);
+        return "redirect:/manage/kb/category/" + categoryId + "/articles.html";
     }
 
-    @RequestMapping(value = "/manage/knowledge/article/edit.html", method = RequestMethod.GET)  
-    public String prepareForm(
-                  @RequestParam(value = "articleId", required = false) Long articleId,
-                  @RequestParam(value = "categoryId", required = false) Long categoryId,
-                  HttpSession session, ModelMap map) {
-        
+    @RequestMapping(value = "/manage/kb/category/{cId}/articles/{aId}/edit.html", method = RequestMethod.GET)
+    public String prepareFormForEdit(@PathVariable("cId") Long categoryId,
+                                     @PathVariable("aId") Long articleId,
+                                     HttpSession session, ModelMap map) throws Exception {
         Article article = null;
         if (articleId == null) {
             article = new Article();
@@ -134,20 +118,37 @@ public class ArticleController {
         } else {
             article = articleDAOJpa.getById(articleId);
         }
-
         map.addAttribute("article", article);
-        return "manage/knowledge/article/edit";
+        map.addAttribute("formAction", "edit");
+        return MANAGE_KB_ARTICLE_EDIT;
     }
 
-    @RequestMapping(value = "/manage/knowledge/article/edit.html", method = RequestMethod.POST)
-    public String processSubmit(
-                  @ModelAttribute("article") Article article,
-                  BindingResult result, HttpSession session) {
+    /**
+     * Przygotowuje formularz tworzenia nowego artykułu.
+     */
+    @RequestMapping(value = "/manage/kb/category/{cId}/articles/new.html", method = RequestMethod.GET)
+    public String prepareFormForNew(@PathVariable("cId") Long categoryId,
+                                    HttpSession session, ModelMap map) {
+        Article article = new Article();
+        article.setCategory(articleCategoryDAO.getById(categoryId));
+        article.setAuthor((User) session.getAttribute("user"));
+        map.addAttribute("article", article);
+        map.addAttribute("formAction", "save");
+        return MANAGE_KB_ARTICLE_EDIT;
+    }
 
+    @RequestMapping(value = "/manage/kb/articles/save.html", method = RequestMethod.POST)
+    public String processSubmitNew(@ModelAttribute("article") Article article,
+                                   BindingResult result, ModelMap map) {
+        articleValidator.validate(article, result);
         if (result.hasErrors()) {
-            return "manage/knowledge/article/edit";
+            map.addAttribute("formAction", "save");
+            return MANAGE_KB_ARTICLE_EDIT;
         }
         articleDAOJpa.saveOrUpdate(article);
-        return "redirect:showAll.html";
+        luceneIndexer.addToIndex(article);
+        System.out.println("artykul [" + article.getArticleId() + "] dodany do indeksu");
+        return "redirect:/manage/kb/category/" + article.getCategory().getArticleCategoryId() +
+                "/articles/" + article.getArticleId() + "/show.html";
     }
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import de.berlios.jhelpdesk.dao.ArticleCategoryDAO;
 import de.berlios.jhelpdesk.dao.ArticleDAO;
+import de.berlios.jhelpdesk.utils.LuceneIndexer;
 
 /**
  * Obsługa funkcji znajdujących się w menu "Pomoc" programu (w tym obsługa
@@ -34,11 +35,22 @@ import de.berlios.jhelpdesk.dao.ArticleDAO;
 @Controller
 public class HelpViewController {
 
+    private final static int NUM_OF_LAST_ADDED_ARTICLES = 10;
+
+    private final static String HELP_INDEX = "help/index";
+    private final static String HELP_ABOUT = "help/about";
+    private final static String HELP_KB_INDEX = "help/base"; // zamienić na help/kb/index
+    private final static String HELP_KB_ARTICLE = "help/base/one";
+    private final static String HELP_KB_SEARCH_RESULT = "help/kb/searchResult";
+
     @Autowired
     private ArticleDAO articleDAO;
     
     @Autowired
     private ArticleCategoryDAO articleCategoryDAO;
+
+    @Autowired
+    private LuceneIndexer luceneIndexer;
 
     /**
      * Wyświetla pomoc do programu.
@@ -47,7 +59,7 @@ public class HelpViewController {
      */
     @RequestMapping("/help/index.html")
     public String indexView() {
-        return "help/index";
+        return HELP_INDEX;
     }
 
     /**
@@ -57,21 +69,26 @@ public class HelpViewController {
      */
     @RequestMapping("/help/about.html")
     public String aboutView() {
-        return "help/about";
+        return HELP_ABOUT;
     }
 
     /**
      * Obsługuje przeglądanie bazy wiedzy działu wsparcia.
      *
-     * @param id identyfikator artykułu z bazy wiedzy, może mieć wartość {@code null}
-     * @param key
      * @param map model widoku
      * @return identyfikator widoku
      */
-    @RequestMapping(value = "/help/base/showAll.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/help/kb/index.html", method = RequestMethod.GET)
     public String knowledgeBaseView(ModelMap map) {
         map.addAttribute("categories", articleCategoryDAO.getAllCategories());
-        return "help/base";
+        map.addAttribute("latest", articleDAO.getLastAddedArticles(NUM_OF_LAST_ADDED_ARTICLES));
+        return HELP_KB_INDEX;
+    }
+
+    @RequestMapping(value = "/help/kb/search.html", method = RequestMethod.GET)
+    public String knowledgeBaseSearch(@RequestParam("query") String query, ModelMap map) {
+        map.addAttribute("result", luceneIndexer.search(query));
+        return HELP_KB_SEARCH_RESULT;
     }
 
     /**
@@ -84,6 +101,6 @@ public class HelpViewController {
     @RequestMapping(value = "/help/base/showOne.html", method = RequestMethod.GET)
     public String knowledgeBaseItemView(@RequestParam("id") Long id, ModelMap map) {
         map.addAttribute("article", articleDAO.getById(id));
-        return "help/base/one";
+        return HELP_KB_ARTICLE;
     }
 }

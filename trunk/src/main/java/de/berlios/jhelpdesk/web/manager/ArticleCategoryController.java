@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,14 +44,14 @@ public class ArticleCategoryController {
     @Autowired
     private ArticleCategoryDAO categoryDAO;
 
-    @RequestMapping("/manage/knowledge/category/showAll.html")
+    @RequestMapping("/manage/kb/categories/all.html")
     public String showAll(ModelMap map) throws Exception {
         map.addAttribute("categories", categoryDAO.getAllCategories());
         return "manager/knowledge/category/showAll";
     }
 
-    @RequestMapping("/manage/knowledge/category/show.html")
-    public String showOne(@RequestParam("categoryId") Long categoryId, ModelMap map) {
+    @RequestMapping("/manage/kb/category/{id}/show.html")
+    public String showOne(@PathVariable("id") Long categoryId, ModelMap map) {
         try {
             map.addAttribute("category", categoryDAO.getById(categoryId));
         } catch (Exception ex) {
@@ -59,7 +60,7 @@ public class ArticleCategoryController {
         return "manager/knowledge/category/show";
     }
 
-    @RequestMapping("/manage/knowledge/category/remove.html")
+    @RequestMapping("/manage/kb/category/remove.html")
     public String processRemove(@RequestParam("categoryId") Long categoryId) {
         try {
             categoryDAO.delete(categoryId);
@@ -69,7 +70,7 @@ public class ArticleCategoryController {
         return "redirect:/manage/knowledge/category/showAll.html";
     }
 
-    @RequestMapping("/manage/knowledge/category/up.html")
+    @RequestMapping("/manage/kb/category/up.html")
     public String moveUp(@RequestParam("categoryId") Long categoryId) {
         try {
             categoryDAO.moveUp(categoryId);
@@ -79,7 +80,7 @@ public class ArticleCategoryController {
         return "redirect:/manage/knowledge/category/showAll.html";
     }
 
-    @RequestMapping("/manage/knowledge/category/down.html")
+    @RequestMapping("/manage/kb/category/down.html")
     public String moveDown(@RequestParam("categoryId") Long categoryId) {
         try {
             categoryDAO.moveDown(categoryId);
@@ -89,11 +90,9 @@ public class ArticleCategoryController {
         return "redirect:/manage/knowledge/category/showAll.html";
     }
 
-    @RequestMapping(value = "/manage/knowledge/category/edit.html", method = RequestMethod.GET)
-    public String prepareForm(
-                  @RequestParam(value = "categoryId", required = false) Long categoryId,
-                  ModelMap map) throws Exception {
-        
+    @RequestMapping(value = "/manage/kb/category/edit.html", method = RequestMethod.GET)
+    public String prepareForm(@RequestParam(value = "categoryId", required = false) Long categoryId,
+                              ModelMap map) throws Exception {
         if (categoryId == null) {
             map.addAttribute("category", new ArticleCategory());
         } else {
@@ -102,10 +101,9 @@ public class ArticleCategoryController {
         return "manager/knowledge/category/edit";
     }
 
-    @RequestMapping(value = "/manage/knowledge/category/edit.html", method = RequestMethod.POST)
-    public String processSubmit(
-                  @ModelAttribute("category")  ArticleCategory category,
-                  BindingResult result, SessionStatus status) throws Exception {
+    @RequestMapping(value = "/manage/kb/category/edit.html", method = RequestMethod.POST)
+    public String processSubmit(@ModelAttribute("category")  ArticleCategory category,
+                                BindingResult result, SessionStatus status) throws Exception {
 
         validator.validate(category, result);
         if (result.hasErrors()) {
@@ -113,6 +111,6 @@ public class ArticleCategoryController {
         }
         categoryDAO.saveOrUpdate(category);
         status.setComplete();
-        return "redirect:/manage/knowledge/category/showAll.html";
+        return "redirect:/manage/kb/category/showAll.html";
     }
 }

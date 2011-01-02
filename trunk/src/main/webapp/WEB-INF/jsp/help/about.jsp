@@ -10,33 +10,10 @@
                 <div id="content">
                     <div class="contenttop"></div>
                     <div class="contentmiddle">
-                        Podczas tworzenia tej aplikacji wykorzystane zostaly nastepujace biblioteki i frameworki
-                        <ul>
-                            <li>springframework</li>
-                            <li>JFreeChart</li>
-                            <li>cewolf</li>
-                            <li>displaytable</li>
-                            <li>tiles</li>
-                            <li>commons-validator</li>
-                            <li>jstl</li>
-                            <li>log4j</li>
-                            <li>...inne biblioteki wymagane przez wczesniej wymienione</li>
-                        </ul>
-                        a także
-                        <ul>
-                            <li>TinyMCE</li>
-                        </ul>
-                        Developerzy:
-                        <ul>
-                            <li>jjhop - core development</li>
-                            <li>jackpi - layout &amp; design</li>
-                            <li>yogurth - core development</li>
-                            <li>bezul555 - layout &amp; design</li>
-                        </ul>
-                        Developerka odbywała się z wykorzytaniem Tomcata 5.5 i Postgresql'a 8.1 na WindowsXP i FreeBSD
-                        <div>
-                            W wiekszej cześci procesu powstawania programu towarzyszyła mi muzyka Queensryche i Chemical Brothers :) (jjhop)
-                        </div>
+                        Informacje o wersji.<br/>
+                        Informacje o stronie domowej (developer.berlios.de/projects/jhelpdesk) i komercyjnym wsparciu.<br/>
+                        Informacje o licencji (GPL oraz komercyjna).<br/>
+                        Informacja o developerach.<br/>
                     </div>
                     <div class="contentbottom"></div>
                 </div>

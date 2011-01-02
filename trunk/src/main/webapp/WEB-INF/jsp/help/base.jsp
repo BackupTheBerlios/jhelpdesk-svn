@@ -11,37 +11,22 @@
                 <div id="content">
                     <div class="contenttop"></div>
                     <div class="contentmiddle">
-                        <form action="" method="post">
+                        <form action="<c:url value="/help/kb/search.html"/>">
                             <table cellspacing="0" class="standardtable">
                                 <tr>
-                                    <th colspan="2" class="lastcol">Kryteria wyszukiwania</th>
-                                </tr>
-                                <tr>
-                                    <td>Od</td>
-                                    <td class="lastcol"><input type="text" size="10" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Do</td>
-                                    <td class="lastcol"><input type="text" size="10" /></td>
+                                    <th colspan="4" class="lastcol">Kryteria wyszukiwania</th>
                                 </tr>
                                 <tr>
                                     <td>Szukana fraza</td>
-                                    <td class="lastcol"><input type="text" size="40" /></td>
-                                </tr>
-                            </table>
-                            <br />
-                            <table cellspacing="0">
-                                <tr>
-                                    <td colspan="2">
-                                        <input type="submit" name="search" src="<c:url value="szukaj"/>" class="btn" />
-                                    </td>
+                                    <td colspan="2"><input type="text" name="query" size="70" /></td>
+                                    <td class="lastcol"><input type="submit" value="Szukaj" class="btn" /></td>
                                 </tr>
                             </table>
                         </form>
                         <br /><br />
                         <table cellspacing="0" class="standardtable">
                             <tr>
-                                <th colspan="2" class="lastcol">Lista wpisów</th>
+                                <th colspan="2" class="lastcol">Ostatnie artykuły</th>
                             </tr>
                             <tr>
                                 <td class="lastcol">

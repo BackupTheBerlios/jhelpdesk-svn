@@ -119,6 +119,14 @@ public class Article implements Serializable {
         this.createDate = new Date();
     }
 
+    public Article(Long id, String title, String lead, Date createdAt) {
+        this.comments = new HashSet<ArticleComment>();
+        this.createDate = createdAt;
+        this.articleId = id;
+        this.title = title;
+        this.lead = lead;
+    }
+
     /**
      * @return Returns the createDate.
      */
