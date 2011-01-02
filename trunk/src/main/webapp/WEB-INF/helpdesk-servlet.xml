@@ -20,6 +20,7 @@
         <property name="locations">
             <list>
                 <value>classpath:props.properties</value>
+                <value>classpath:lucene.properties</value>
             </list>
         </property>
     </bean>
@@ -35,9 +36,7 @@
     <!--  inne beany widoku -->
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename">
-            <value>message</value>
-        </property>
+        <property name="basename" value="message"/>
     </bean>
 
     <bean id="tilesConfigurator"
@@ -51,12 +50,8 @@
 
     <bean id="tilesViewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-        <property name="viewClass">
-            <value>org.springframework.web.servlet.view.tiles2.TilesView</value>
-        </property>
-        <property name="requestContextAttribute">
-            <value>rc</value>
-        </property>
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+        <property name="requestContextAttribute" value="rc"/>
     </bean>
 
     <bean id="multipartResolver"

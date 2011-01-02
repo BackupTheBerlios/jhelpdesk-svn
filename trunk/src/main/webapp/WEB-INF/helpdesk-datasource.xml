@@ -10,21 +10,11 @@
        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
     <bean id="dataSource"
           class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName">
-            <value>org.postgresql.Driver</value>
-        </property>
-        <property name="url">
-            <value>jdbc:postgresql://localhost:5432/helpdesk</value>
-        </property>
-        <property name="username">
-            <value>helpdesk</value>
-        </property>
-        <property name="password">
-            <value>helpdesk</value>
-        </property>
-        <property name="defaultAutoCommit">
-            <value>true</value>
-        </property>
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/helpdesk"/>
+        <property name="username" value="helpdesk"/>
+        <property name="password" value="helpdesk"/>
+        <property name="defaultAutoCommit" value="true"/>
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
