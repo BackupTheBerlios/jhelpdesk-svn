@@ -194,8 +194,8 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <version>1.5.8</version>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>javax.persistence</groupId>
