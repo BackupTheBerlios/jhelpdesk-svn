@@ -15,7 +15,6 @@
  */
 package de.berlios.jhelpdesk.web.tools;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -23,8 +22,7 @@ import org.springframework.validation.Validator;
 
 import de.berlios.jhelpdesk.model.Announcement;
 
-@Component("announcementValidator")
-@Scope("prototype")
+@Component
 public class AnnouncementValidator implements Validator {
 
 	// implementujemy Validator.supports(Class), dlatego SuppressWarnings

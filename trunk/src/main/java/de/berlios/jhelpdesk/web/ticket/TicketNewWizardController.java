@@ -47,6 +47,7 @@ import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.TicketStatus;
 import de.berlios.jhelpdesk.model.User;
+import de.berlios.jhelpdesk.utils.StampUtils;
 import de.berlios.jhelpdesk.web.tools.TicketCategoryEditor;
 import de.berlios.jhelpdesk.web.tools.TicketPartialValidator;
 import de.berlios.jhelpdesk.web.tools.TicketPriorityEditor;
@@ -72,7 +73,7 @@ public class TicketNewWizardController {
         "ticketWizard/summary" };
 
     @Autowired
-    private TicketDAO ticketDao;
+    private TicketDAO ticketDAO;
 
     @Autowired
     private TicketPartialValidator partialValidator;
@@ -121,6 +122,8 @@ public class TicketNewWizardController {
     public String prepareWizzard(ModelMap map, HttpServletRequest request, HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
         Ticket ticket = new Ticket();
+        ticket.setTicketstamp(
+            StampUtils.craeteStampFromObjects(currentUser, currentUser.getUserId()));
         ticket.setTicketStatus(TicketStatus.NOTIFIED);
         ticket.setInputer(currentUser);
         map.addAttribute("hdticket", ticket);
@@ -201,7 +204,7 @@ public class TicketNewWizardController {
     }
     
     private String processFinnish(Ticket ticket, SessionStatus status) throws Exception {
-        ticketDao.save(ticket);
+        ticketDAO.save(ticket);
         status.setComplete();
         return "redirect:/tickets/" + ticket.getTicketId() + "/details.html";
     }

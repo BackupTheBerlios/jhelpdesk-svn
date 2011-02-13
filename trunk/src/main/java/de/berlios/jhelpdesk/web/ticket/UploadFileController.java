@@ -15,11 +15,18 @@
  */
 package de.berlios.jhelpdesk.web.ticket;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.util.Map;
+import java.io.FileOutputStream;
+import java.util.Queue;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import de.berlios.jhelpdesk.utils.FileUtils;
 import de.berlios.jhelpdesk.web.tools.FileUploadBean;
 
 /**
@@ -38,7 +46,15 @@ import de.berlios.jhelpdesk.web.tools.FileUploadBean;
 @RequestMapping("/tickets/uploadFile.html")
 public class UploadFileController {
 
-    private static final String TICKETS_UPLOAD_VIEW = "tickets/upload";
+    private final static Logger log = LoggerFactory.getLogger(UploadFileController.class);
+
+    private final static String TICKETS_UPLOAD_VIEW = "tickets/upload";
+
+    @Value("${tickets.attachments.tmpdir}")
+    private String attachmentsTmpDir;
+
+    @Autowired
+    private FileUtils fileUtils;
 
     @RequestMapping(method = RequestMethod.GET)
     protected String prepareForm(ModelMap map) {
@@ -56,28 +72,30 @@ public class UploadFileController {
                                    ModelMap map, HttpSession session) {
 
         MultipartFile file = uploadedFile.getFile();
-
         if (file != null) {
-            System.out.println("file.getOriginalFilename() => " + file.getOriginalFilename());
-            System.out.println("file.getContentType() => " + file.getContentType());
-            System.out.println("file.getSize() => " + file.getSize());
-            System.out.println("ticketstamp => " + ticketstamp);
+            File targetDir = fileUtils.createTmpDirForTicketstamp(ticketstamp);
+            File targetFile = new File(targetDir, file.getOriginalFilename());
+            addPathToSession(session, targetDir.getAbsolutePath());
 
-            addTicketstampToSession(session, ticketstamp);
-
-            String path = session.getServletContext().getRealPath("./ticket_attachements/");
-            File f = new File(new File(path, ticketstamp), file.getOriginalFilename());
-            System.out.println("path => " + path);
-            System.out.println("abs => " + f.getAbsolutePath());
+            try {
+                BufferedOutputStream buff =
+                        new BufferedOutputStream(new FileOutputStream(targetFile));
+                buff.write(uploadedFile.getFile().getBytes());
+                buff.flush();
+                buff.close();
+            } catch (Exception e) {
+                log.error("Wystąpił problem z przetworzeniem pliku.", e);
+                // obsługa wyjątku?
+            }
         }
         map.addAttribute("uploaded", Boolean.TRUE);
         return TICKETS_UPLOAD_VIEW;
     }
 
-    private void addTicketstampToSession(HttpSession session, String ticketStamp) {
-        Map<String, Boolean> stampsList = (Map<String, Boolean>) session.getAttribute("stampsList");
-
-        stampsList.put(ticketStamp, Boolean.TRUE);
-        session.setAttribute("stampsList", stampsList);
+    private synchronized void addPathToSession(HttpSession session, String path) {
+        Queue<String> paths = (Queue<String>) session.getAttribute("paths");
+        if (!paths.contains(path)) {
+            paths.add(path);
+        }
     }
 }

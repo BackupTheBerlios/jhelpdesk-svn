@@ -15,10 +15,13 @@
  */
 package de.berlios.jhelpdesk.web.ticket;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.iterators.ArrayListIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,6 +42,7 @@ import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.model.TicketPriority;
 import de.berlios.jhelpdesk.model.User;
 import de.berlios.jhelpdesk.utils.StampUtils;
+import de.berlios.jhelpdesk.utils.FileUtils;
 import de.berlios.jhelpdesk.web.tools.TicketCategoryEditor;
 import de.berlios.jhelpdesk.web.tools.TicketPriorityEditor;
 import de.berlios.jhelpdesk.web.tools.TicketValidator;
@@ -59,7 +63,7 @@ public class TicketNewController {
     private TicketValidator validator;
 
     @Autowired
-    private TicketDAO ticketDaoJpa;
+    private TicketDAO ticketDAO;
 
     @Autowired
     private TicketCategoryDAO ticketCategoryDao;
@@ -94,25 +98,37 @@ public class TicketNewController {
     public String prepareForm(ModelMap map, HttpSession session) {
         Ticket t = new Ticket();
         User u = (User) session.getAttribute("user");
-        String ticketstamp = StampUtils.craeteStampFromObjects(u, u.getUserId());
-        t.setTicketstamp(ticketstamp);
+        t.setTicketstamp(StampUtils.craeteStampFromObjects(u, u.getUserId()));
         t.setInputer(u);
         map.addAttribute("ticket", t);
         return NEW_TICKET_VIEW;
     }
 
     @RequestMapping(value = "/tickets/new.html", method = RequestMethod.POST)
-    public String processSubmit(@ModelAttribute("ticket") Ticket ticket,
-                                BindingResult result, SessionStatus status) throws DAOException {
-
+    public String processSubmit(@ModelAttribute("ticket") Ticket ticket, BindingResult result,
+                                SessionStatus status, HttpSession session) throws DAOException {
         validator.validate(ticket, result);
-
         if (!result.hasErrors()) {
-            ticketDaoJpa.save(ticket);
+            ticketDAO.save(ticket);
+            // tutaj ustalamy pojedynczą ścieżkę
+            Collection<String> paths =  (Collection<String>) session.getAttribute("paths");
+            cleanTicketTempDir(paths, ticket.getTicketstamp());
             status.setComplete();
         } else {
             return NEW_TICKET_VIEW;
         }
         return "redirect:/tickets/" + ticket.getTicketId() + "/details.html";
+    }
+
+    private void cleanTicketTempDir(Collection<String> paths, String ticketstamp) {
+        List<String> a = new ArrayList<String>();
+        out: for (String path : paths) {
+            if (path.endsWith(ticketstamp)) {
+                a.add(path);        // dodajemy do kolekcji do usuniecią
+                paths.remove(path); // i usuwamy z kolekcji w sesji
+                break out;
+            }
+        }
+        FileUtils.cleanPaths(a);
     }
 }

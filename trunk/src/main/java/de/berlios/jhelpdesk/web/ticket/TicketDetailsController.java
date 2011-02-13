@@ -42,10 +42,10 @@ import de.berlios.jhelpdesk.model.User;
 public class TicketDetailsController {
     
     @Autowired
-    private TicketDAO ticketDaoJpa;
+    private TicketDAO ticketDAO;
 
     @Autowired
-    private TicketCategoryDAO ticketCategoryDao;
+    private TicketCategoryDAO ticketCategoryDAO;
 
     /**
      *
@@ -63,13 +63,13 @@ public class TicketDetailsController {
                                     @ModelAttribute("user") User user) throws Exception {
 
         TicketComment comm = new TicketComment();
-        Ticket ticket = ticketDaoJpa.getTicketById(ticketId);
+        Ticket ticket = ticketDAO.getTicketById(ticketId);
         comm.setTicket(ticket);
         comm.setNotForPlainUser(notForPlain);
         comm.setCommentAuthor(user);
         comm.setCommentText(addComm);
         ticket.addComment(comm);
-        ticketDaoJpa.save(ticket);
+        ticketDAO.save(ticket);
         // tutaj jeszcze id komentarz jako część strony w URLu
         return "redirect:/tickets/" + ticketId + "/details.html";
     }
@@ -86,11 +86,11 @@ public class TicketDetailsController {
     public String showTicket(@PathVariable("ticketId") Long ticketId,
                              ModelMap mav) throws Exception {
 
-        Ticket ticket = ticketDaoJpa.getTicketById(ticketId);
+        Ticket ticket = ticketDAO.getTicketById(ticketId);
         mav.addAttribute("ticket", ticket);
         mav.addAttribute("ticketPriorities", TicketPriority.values());
         mav.addAttribute("ticketStatuses", TicketStatus.values());
-        mav.addAttribute("ticketCategories", ticketCategoryDao.getAllCategories());
+        mav.addAttribute("ticketCategories", ticketCategoryDAO.getAllCategories());
         return "ticketDetails";
     }
 }
