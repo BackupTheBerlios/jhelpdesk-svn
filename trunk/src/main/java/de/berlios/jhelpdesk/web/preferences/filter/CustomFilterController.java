@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketFilterDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.TicketFilter;
@@ -78,9 +79,13 @@ public class CustomFilterController {
         User currentUser = (User) session.getAttribute("user");
         TicketFilter filter = ticketFilterDAO.getById(filterId);
         if (filter != null && filter.isOwnedBy(currentUser)) {
-            ticketFilterDAO.delete(filter);
-            session.setAttribute("user", userDAO.getById(currentUser.getUserId()));
-            map.addAttribute("message", null);
+            try {
+                ticketFilterDAO.delete(filter);
+                session.setAttribute("user", userDAO.getById(currentUser.getUserId()));
+                map.addAttribute("message", null);
+            } catch (DAOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         map.addAttribute("filters", ticketFilterDAO.getAllFiltersForUser(currentUser));
         return "preferences/filters/showAll";

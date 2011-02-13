@@ -65,7 +65,7 @@ public class AnnouncementDAOJpa implements AnnouncementDAO {
         return this.jpaTemplate.findByNamedQuery("Announcement.allOrderByCreateDateDesc");
     }
 
-    public List<Announcement> getLastFew(final int howMuch) {
+    public List<Announcement> getLastAnnouncements(final int howMuch) {
         try {
              return (List<Announcement>)this.jpaTemplate.executeFind(new JpaCallback() {
                 public Object doInJpa(EntityManager em) throws PersistenceException {

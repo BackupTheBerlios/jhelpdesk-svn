@@ -38,6 +38,11 @@ public class ArticleCategoryController {
 
     private static final Log log = LogFactory.getLog(ArticleCategoryController.class);
 
+    private final static String MANAGE_KB_CATEGORY_LIST_RDR = "redirect:/manage/kb/categories/all.html";
+    private final static String MANAGE_KB_CATEGORY_LIST = "manager/knowledge/category/showAll";
+    private final static String MANAGE_KB_CATEGORY_SHOW = "manager/knowledge/category/show";
+    private final static String MANAGE_KB_CATEGORY_EDIT = "manager/knowledge/category/edit";
+
     @Autowired
     private ArticleCategoryValidator validator;
 
@@ -47,7 +52,7 @@ public class ArticleCategoryController {
     @RequestMapping("/manage/kb/categories/all.html")
     public String showAll(ModelMap map) throws Exception {
         map.addAttribute("categories", categoryDAO.getAllCategories());
-        return "manager/knowledge/category/showAll";
+        return MANAGE_KB_CATEGORY_LIST;
     }
 
     @RequestMapping("/manage/kb/category/{id}/show.html")
@@ -55,19 +60,26 @@ public class ArticleCategoryController {
         try {
             map.addAttribute("category", categoryDAO.getById(categoryId));
         } catch (Exception ex) {
-            return "redirect:/manager/knowledge/category/showAll";
+            return MANAGE_KB_CATEGORY_LIST_RDR;
         }
-        return "manager/knowledge/category/show";
+        return MANAGE_KB_CATEGORY_SHOW;
     }
 
-    @RequestMapping("/manage/kb/category/remove.html")
-    public String processRemove(@RequestParam("categoryId") Long categoryId) {
+    @RequestMapping("/manage/kb/category/{id}/remove.html")
+    public String processRemove(@PathVariable("id") Long categoryId, ModelMap map) {
         try {
-            categoryDAO.delete(categoryId);
+            ArticleCategory category = categoryDAO.getById(categoryId);
+            if (category.getArticlesCount() > 0) {
+                // todo: i18n dla komunikatu
+                map.addAttribute("message", "Nie można usunąć kategorii, w której sa artykuły");
+                // tutaj warto przejść na jakis widok z komunikatem
+            } else {
+                categoryDAO.delete(categoryId);
+            }
         } catch (Exception ex) {
             log.error(ex);
         }
-        return "redirect:/manage/knowledge/category/showAll.html";
+        return MANAGE_KB_CATEGORY_LIST_RDR;
     }
 
     @RequestMapping("/manage/kb/category/up.html")
@@ -77,7 +89,7 @@ public class ArticleCategoryController {
         } catch (Exception ex) {
             log.error(ex);
         }
-        return "redirect:/manage/knowledge/category/showAll.html";
+        return MANAGE_KB_CATEGORY_LIST_RDR;
     }
 
     @RequestMapping("/manage/kb/category/down.html")
@@ -87,7 +99,7 @@ public class ArticleCategoryController {
         } catch (Exception ex) {
             log.error(ex);
         }
-        return "redirect:/manage/knowledge/category/showAll.html";
+        return MANAGE_KB_CATEGORY_LIST_RDR;
     }
 
     @RequestMapping(value = "/manage/kb/category/edit.html", method = RequestMethod.GET)
@@ -98,19 +110,18 @@ public class ArticleCategoryController {
         } else {
             map.addAttribute("category", categoryDAO.getById(categoryId));
         }
-        return "manager/knowledge/category/edit";
+        return MANAGE_KB_CATEGORY_EDIT;
     }
 
     @RequestMapping(value = "/manage/kb/category/edit.html", method = RequestMethod.POST)
     public String processSubmit(@ModelAttribute("category")  ArticleCategory category,
                                 BindingResult result, SessionStatus status) throws Exception {
-
         validator.validate(category, result);
         if (result.hasErrors()) {
-            return "manager/knowledge/category/edit";
+            return MANAGE_KB_CATEGORY_EDIT;
         }
         categoryDAO.saveOrUpdate(category);
         status.setComplete();
-        return "redirect:/manage/kb/category/showAll.html";
+        return MANAGE_KB_CATEGORY_LIST_RDR;
     }
 }

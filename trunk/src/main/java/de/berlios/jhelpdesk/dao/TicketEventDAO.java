@@ -76,7 +76,7 @@ public interface TicketEventDAO {
      * @param howMuch
      * @return
      */
-    List<TicketEvent> getLastFewEvents(int howMuch);
+    List<TicketEvent> getLastEvents(int howMuch);
 
     /**
      *

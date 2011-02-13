@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import de.berlios.jhelpdesk.dao.ArticleCategoryDAO;
 import de.berlios.jhelpdesk.dao.ArticleDAO;
+import de.berlios.jhelpdesk.model.Article;
 import de.berlios.jhelpdesk.utils.LuceneIndexer;
 
 /**
@@ -81,7 +82,7 @@ public class HelpViewController {
     @RequestMapping(value = "/help/kb/index.html", method = RequestMethod.GET)
     public String knowledgeBaseView(ModelMap map) {
         map.addAttribute("categories", articleCategoryDAO.getAllCategories());
-        map.addAttribute("latest", articleDAO.getLastAddedArticles(NUM_OF_LAST_ADDED_ARTICLES));
+        map.addAttribute("latest", articleDAO.getLastArticles(NUM_OF_LAST_ADDED_ARTICLES));
         return HELP_KB_INDEX;
     }
 
@@ -100,7 +101,12 @@ public class HelpViewController {
      */
     @RequestMapping(value = "/help/base/showOne.html", method = RequestMethod.GET)
     public String knowledgeBaseItemView(@RequestParam("id") Long id, ModelMap map) {
-        map.addAttribute("article", articleDAO.getById(id));
+        Article article = articleDAO.getById(id);
+        if (article != null) {
+            map.addAttribute("article", article);
+        } else {
+            map.addAttribute("message", "Nie znaleziono");
+        }
         return HELP_KB_ARTICLE;
     }
 }

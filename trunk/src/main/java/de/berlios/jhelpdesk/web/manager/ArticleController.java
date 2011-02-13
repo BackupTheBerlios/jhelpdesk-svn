@@ -19,9 +19,6 @@ import java.text.NumberFormat;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
@@ -33,7 +30,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import de.berlios.jhelpdesk.dao.ArticleCategoryDAO;
 import de.berlios.jhelpdesk.dao.ArticleDAO;
@@ -52,8 +48,6 @@ import de.berlios.jhelpdesk.web.tools.UserEditor;
  */
 @Controller
 public class ArticleController {
-
-    private static Log log = LogFactory.getLog(ArticleController.class);
 
     private final static String MANAGE_KB_ARTICLE_SHOW = "manage/knowledge/article/show";
     private final static String MANAGE_KB_ARTICLE_EDIT = "manage/knowledge/article/edit";

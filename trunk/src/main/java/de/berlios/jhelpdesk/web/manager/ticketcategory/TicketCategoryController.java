@@ -18,6 +18,7 @@ package de.berlios.jhelpdesk.web.manager.ticketcategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,7 +38,7 @@ public class TicketCategoryController {
      * 
      * @return
      */
-    @RequestMapping("/manage/category/showAll.html")
+    @RequestMapping("/manage/category/list.html")
     public String showAllCategories(ModelMap map) {
         map.addAttribute("categories", categoryDAO.getAllCategories());
         return "manager/category/showAll";
@@ -49,10 +50,8 @@ public class TicketCategoryController {
      * @param map
      * @return
      */
-    @RequestMapping("/manager/category/show.html")
-    public String showOneCategory(
-                  @RequestParam("catId") Long categoryId,
-                  ModelMap map) {
+    @RequestMapping("/manage/category/{id}/show.html")
+    public String showOneCategory(@PathVariable("id") Long categoryId, ModelMap map) {
         map.addAttribute("category", categoryDAO.getById(categoryId));
         return null;
     }
@@ -62,10 +61,10 @@ public class TicketCategoryController {
      * @param categoryId
      * @return
      */
-    @RequestMapping("/manage/category/remove.html")
-    public String removeCategory(@RequestParam("catId") Long categoryId) {
+    @RequestMapping("/manage/category/{id}/remove.html")
+    public String removeCategory(@PathVariable("id") Long categoryId) {
         categoryDAO.deleteCategory(categoryDAO.getById(categoryId));
-        return "redirect:/manage/category/showAll.html";
+        return "redirect:/manage/category/list.html";
     }
 
     /**
@@ -76,7 +75,7 @@ public class TicketCategoryController {
     @RequestMapping("/manage/category/up.html")
     public String moveUp(@RequestParam("categoryId") Long categoryId) {
         // TODO: zaimplementować
-        return "redirect:/manage/category/showAll.html";
+        return "redirect:/manage/category/list.html";
     }
 
     /**
@@ -87,6 +86,6 @@ public class TicketCategoryController {
     @RequestMapping("/manage/category/down.html")
     public String moveDown(@RequestParam("categoryId") Long categoryId) {
         // TODO: zaimplementować
-        return "redirect:/manage/category/showAll.html";
+        return "redirect:/manage/category/list.html";
     }
 }

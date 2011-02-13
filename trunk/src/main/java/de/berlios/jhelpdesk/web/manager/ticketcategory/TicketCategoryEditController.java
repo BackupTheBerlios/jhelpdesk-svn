@@ -22,44 +22,44 @@ import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.model.TicketCategory;
 import de.berlios.jhelpdesk.web.tools.TicketCategoryValidator;
 
+// TODO: dorobić widok metoda dla save.html w odróżnieniu od update
 @Controller
 public class TicketCategoryEditController {
 
+    private final static String MANAGE_TICKET_CATEGORY_EDIT = "manager/category/edit";
+
     @Autowired
     private TicketCategoryDAO categoryDAO;
-    
+
     @Autowired
     private TicketCategoryValidator validator;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Long.class, null,
-            new CustomNumberEditor(Long.class, NumberFormat.getNumberInstance(), true));
+                new CustomNumberEditor(Long.class, NumberFormat.getNumberInstance(), true));
         binder.registerCustomEditor(Boolean.class, null, new CustomBooleanEditor(true));
     }
 
-    @RequestMapping(value = "/manage/category/edit.html", method = RequestMethod.POST)
-    public String processSubmit(
-                  @ModelAttribute("category") TicketCategory category,
-                  BindingResult result, SessionStatus status,
-                  ModelMap map) {
-
+    @RequestMapping(value = "/manage/category/update.html", method = RequestMethod.POST)
+    public String processSubmit(@ModelAttribute("category") TicketCategory category,
+                                BindingResult result, SessionStatus status, ModelMap map) {
         validator.validate(category, result);
         if (result.hasErrors()) {
-            return "manager/category/edit";
+            return MANAGE_TICKET_CATEGORY_EDIT;
         }
 
         // jeśli walidacja się powiedzie to można przystąpić do zapisania kategorii
@@ -74,18 +74,24 @@ public class TicketCategoryEditController {
             }
         }
         status.setComplete();
-        return "redirect:/manage/category/show.html?catId=" + category.getTicketCategoryId();
+        return "redirect:/manage/category/" + category.getTicketCategoryId() + "/show.html";
     }
 
-    @RequestMapping(value = "/manage/category/edit.html", method = RequestMethod.GET)
-    public String prepareForm(
-                  @RequestParam(value = "catId", required = false) Long catId,
-                  ModelMap map) {
-        if (catId == null) {
-            map.addAttribute("category", new TicketCategory());
-        } else {
-            map.addAttribute("category", categoryDAO.getById(catId));
-        }
-        return "manager/category/edit";
+    @RequestMapping(value = "/manage/category/{id}/edit.html", method = RequestMethod.GET)
+    public String prepareForm(@PathVariable("id") Long catId, ModelMap map) {
+        map.addAttribute("category", categoryDAO.getById(catId));
+        return MANAGE_TICKET_CATEGORY_EDIT;
+    }
+
+    @RequestMapping(value = "/manage/category/new.html", method = RequestMethod.GET)
+    public String prepareFormForNew(ModelMap map) {
+        map.addAttribute("category", new TicketCategory());
+        return MANAGE_TICKET_CATEGORY_EDIT; // todo: może tutaj jakiś widok inny? -> new?
+    }
+
+    @RequestMapping(value = "/manage/category/{parent}/new.html", method = RequestMethod.GET)
+    public String prepareFormForNew(@PathVariable("parent") Long parent, ModelMap map) {
+        map.addAttribute("category", new TicketCategory());
+        return MANAGE_TICKET_CATEGORY_EDIT; // todo: może tutaj jakiś widok inny? -> new?
     }
 }

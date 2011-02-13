@@ -35,8 +35,12 @@ import de.berlios.jhelpdesk.web.tools.AnnouncementValidator;
 
 /**
  * Kontroler obsługujący zarządzanie ogłoszeniami z działu wsparcia.
- * 
+ *
  * @author jjhop
+ * 
+ * @see Announcement
+ * @see AnnouncementDAO
+ * @see AnnouncementValidator
  */
 @Controller
 public class AnnouncementController {
@@ -105,11 +109,6 @@ public class AnnouncementController {
      * @param infoId identyfikator ogłoszenia do edycji
      * @param map model widoku
      * @return identyfikato widoku
-     * 
-     * @see Announcement
-     * @see AnnouncementDAO
-     * 
-     * @see ModelMap
      */
     @RequestMapping(value = "/announcements/{infoId}/edit.html", method = RequestMethod.GET)
     protected String prepareEditForm(@PathVariable("infoId") Long infoId, ModelMap map) {
@@ -126,19 +125,13 @@ public class AnnouncementController {
     /**
      * Obsługuje wysłany formularz i zapisuje podany obiekt. Decyzję o tym czy
      * jest to update czy dodanie nowego podejmuje stosowny obiekt DAO.
-     * 
-     * @param announcement obiekt ogłoszenia do zapisania (po poprawnym
-     * zwalidowaniu)
+     *
+     * @param announcement obiekt ogłoszenia do zapisania (po poprawnym zwalidowaniu)
+     *
      * @param result
      * @param status
      * @return identyfikator widoku do wyświetlenia
      * 
-     * @see Announcement
-     * @see AnnouncementDAO
-     * @see AnnouncementValidator
-     * 
-     * @see BindingResult
-     * @see SessionStatus
      */
     @RequestMapping(value = "/announcements/save.html", method = RequestMethod.POST)
     protected String processSubmit(@ModelAttribute("announcement") Announcement announcement,

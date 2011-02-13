@@ -15,12 +15,16 @@
  */
 package de.berlios.jhelpdesk.web.manager.users;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
+import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.UserDAO;
 
 /**
@@ -35,6 +39,8 @@ import de.berlios.jhelpdesk.dao.UserDAO;
 @Controller
 public class UserController {
 
+    private final static Logger log = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserDAO userDAO;
 
@@ -45,11 +51,15 @@ public class UserController {
      * @param map modelu widoku
      * @return identyfikator widoku prezentującego użytkownika
      */
-    @RequestMapping("/manage/users/{userId}/show.html")
-    public ModelAndView showUser(@PathVariable("userId") Long userId) {
-        ModelAndView mav = new ModelAndView("manager/users/show");
-        mav.addObject("user", userDAO.getById(userId));
-        return mav;
+    @RequestMapping("/manage/users/{id}/show.html")
+    public String showUser(@PathVariable("id") Long userId, ModelMap map) {
+        try {
+            map.addAttribute("user", userDAO.getById(userId));
+        } catch (DAOException ex) {
+            log.error("Komunikat....", ex);
+            throw new RuntimeException(ex);
+        }
+        return "manager/users/show";
     }
 
     /**
@@ -60,10 +70,14 @@ public class UserController {
      * @return identyfikator widoku prezentującego listę użytkowników
      */
     @RequestMapping("/manage/users/list.html")
-    public ModelAndView showAllUsers() {
-        ModelAndView mav = new ModelAndView("manager/users/showAll");
-        mav.addObject("users", userDAO.getAllUsers());
-        return mav;
+    public String showAllUsers(ModelMap map) {
+        try {
+            map.addAttribute("users", userDAO.getAllUsers());
+        } catch (DAOException ex) {
+            log.error("Komunikat....", ex);
+            throw new RuntimeException(ex);
+        }
+        return "manager/users/showAll";
     }
 
     /**
@@ -74,9 +88,9 @@ public class UserController {
      * @param userId identyfikator uzytkownika do usunięcia
      * @return identyfikator widoku do wyświetlenia po usunięciu użytkownika
      */
-    @RequestMapping("/manage/users/{userId}/remove.html")
-    public String removeUser(@PathVariable("userId") Long userId) {
+    @RequestMapping("/manage/users/{id}/remove.html")
+    public String removeUser(@PathVariable("id") Long userId) {
 //        userDAO.remove(userId);
-        return "redirect:/manage/users/showAll.html";
+        return "redirect:/manage/users/list.html";
     }
 }

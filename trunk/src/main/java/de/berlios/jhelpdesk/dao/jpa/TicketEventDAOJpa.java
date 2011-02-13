@@ -73,7 +73,7 @@ public class TicketEventDAOJpa implements TicketEventDAO {
         return this.jpaTemplate.findByNamedQuery("TicketEvent.getByUserIdOrderByEventDateDESC", userId);
     }
 
-    public List<TicketEvent> getLastFewEvents(final int howMuch) {
+    public List<TicketEvent> getLastEvents(final int howMuch) {
         return (List<TicketEvent>)this.jpaTemplate.execute(new JpaCallback() {
             public Object doInJpa(EntityManager em) throws PersistenceException {
                 Query q = em.createNamedQuery("TicketEvent.getLastFewEventsOrderByEventDateDESC");

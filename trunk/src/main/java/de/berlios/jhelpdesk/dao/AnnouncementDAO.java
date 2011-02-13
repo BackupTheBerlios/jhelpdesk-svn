@@ -43,7 +43,7 @@ public interface AnnouncementDAO {
      * @param howMuch
      * @return
      */
-    List<Announcement> getLastFew(int howMuch);
+    List<Announcement> getLastAnnouncements(int howMuch);
 
     /**
      * 

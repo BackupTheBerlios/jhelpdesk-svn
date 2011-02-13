@@ -18,6 +18,9 @@ package de.berlios.jhelpdesk.web.manager.users;
 import java.text.NumberFormat;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
@@ -30,8 +33,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.support.SessionStatus;
 
+import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.User;
@@ -44,11 +47,18 @@ import de.berlios.jhelpdesk.web.tools.UserValidator;
  * wywołań initBinder(...) i populateRoles() dla każdego żądania, co niepotrzebnie
  * obciążało wszystkie żądania (takżę te, które nie wymagały tych działań).
  *
+ *
+ * @see User
+ * @see UserDAO
+ * @see UserValidator
+ * 
  * @author jjhop
  */
 @Controller
 public class UserEditController {
 
+    private final static Logger log = LoggerFactory.getLogger(UserEditController.class);
+    
     @Autowired
     private UserDAO userDAO;
     
@@ -95,7 +105,12 @@ public class UserEditController {
      */
     @RequestMapping(value = "/manage/users/{userId}/edit.html", method = RequestMethod.GET)
     protected String prepareForm(@PathVariable("userId") Long userId, ModelMap map) {
-        map.addAttribute("user", userDAO.getById(userId));
+        try {
+            map.addAttribute("user", userDAO.getById(userId));
+        } catch (DAOException ex) {
+            log.error("Komunikat....", ex);
+            throw new RuntimeException(ex);
+        }
         return "manager/users/edit";
     }
 
@@ -111,15 +126,8 @@ public class UserEditController {
      *
      * @param user obiekt użytkownika do zapisania
      * @param result
-     * @param status
      * @return identyfikator widoku do wyświetlenia
-     *
-     * @see User
-     * @see UserDAO
-     * @see UserValidator
-     *
-     * @see BindingResult
-     * @see SessionStatus
+     * 
      */
     @RequestMapping(value = "/manage/users/save.html", method = RequestMethod.POST)
     protected String processSubmit(@ModelAttribute("user") User user, BindingResult result) {
@@ -127,7 +135,12 @@ public class UserEditController {
         if (result.hasErrors()) {
             return "manager/users/edit";
         }
-        userDAO.saveOrUpdate(user);
+        try {
+            userDAO.saveOrUpdate(user);
+        }catch (DAOException ex) {
+            log.error("Komunikat....", ex);
+            throw new RuntimeException(ex);
+        }
         return "redirect:/manage/users/" + user.getUserId() + "/show.html";
     }
 }

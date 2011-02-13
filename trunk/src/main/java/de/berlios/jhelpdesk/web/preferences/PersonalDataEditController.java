@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.User;
 
@@ -80,6 +81,10 @@ public class PersonalDataEditController {
     }
 
     private User getUserFromSession(HttpSession session) {
-        return userDAO.getById(((User) session.getAttribute("user")).getUserId());
+        try {
+            return userDAO.getById(((User) session.getAttribute("user")).getUserId());
+        } catch (DAOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

@@ -21,6 +21,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -50,9 +55,12 @@ import de.berlios.jhelpdesk.model.Article;
 @Component
 public class LuceneIndexer {
 
+    private final static Logger log = LoggerFactory.getLogger(LuceneIndexer.class);
+
     private final static int DEFAULT_SEARCH_RESULT_LIMIT = 25;
 
     private @Value("${lucene.dir}") String indexDirectory;
+    
     private QueryParser parser = new QueryParser(Version.LUCENE_30, "body", new SimpleAnalyzer());
 
     public List<Article> search(String searchQuery) {
@@ -69,6 +77,7 @@ public class LuceneIndexer {
             indexSearcher.close();
             return result;
         } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }
@@ -77,11 +86,10 @@ public class LuceneIndexer {
         IndexWriter indexWriter = null;
         try {
             indexWriter = getIndexWriter();
-            System.out.println("przed: " + indexWriter.numDocs());
             indexWriter.addDocument(articleToDocument(article));
             indexWriter.commit();
-            System.out.println("po: " + indexWriter.numDocs());
         } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         } finally {
             closeWriter(indexWriter);
@@ -95,13 +103,22 @@ public class LuceneIndexer {
             return new IndexWriter(directory, new StandardAnalyzer(Version.LUCENE_30),
                                    false, IndexWriter.MaxFieldLength.UNLIMITED);
         } catch (IOException ex) {
-            // można tutaj zalogować coś...
+            log.info(ex.getMessage());
         }
-        // domyslnie tworzymy nowy indeks
+        log.info("Tworzymy index...");
         return new IndexWriter(directory, new StandardAnalyzer(Version.LUCENE_30),
-                               !indexDir.exists(), IndexWriter.MaxFieldLength.UNLIMITED);
+                               true, IndexWriter.MaxFieldLength.UNLIMITED);
     }
 
+    private void closeWriter(IndexWriter writer) {
+        try {
+            writer.close(true);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            throw new RuntimeException(ex);
+        }
+    }
+    
     public synchronized void updateIndexedArticle(Article article) {
         IndexWriter indexWriter = null;
         try {
@@ -111,6 +128,7 @@ public class LuceneIndexer {
                     new Term("id", String.valueOf(article.getArticleId())), document);
             indexWriter.commit();
         } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         } finally {
             closeWriter(indexWriter);
@@ -124,6 +142,7 @@ public class LuceneIndexer {
             indexWriter.deleteDocuments(new Term("id", String.valueOf(articleId)));
             indexWriter.commit();
         } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         } finally {
             closeWriter(indexWriter);
@@ -151,10 +170,14 @@ public class LuceneIndexer {
         return new Article(articleId, doc.get("title"), doc.get("lead"), createdAt);
     }
 
-    private void closeWriter(IndexWriter writer) {
+    @PostConstruct
+    protected final void initializeIndex() {
         try {
-            writer.close(true);
+            IndexWriter w = getIndexWriter();
+            w.commit();
+            w.close();
         } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
             throw new RuntimeException(ex);
         }
     }

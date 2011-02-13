@@ -23,7 +23,7 @@ import de.berlios.jhelpdesk.model.User;
 
 /**
  * Podstawowe DAO dla obiektów User. Wykonuje wszystkie istotne operacje bazodanowe
- * związane z użytkownikiem, czyli nieco ponad standardowy CRUD.
+ * związane z użytkownikiem, czyli nieco ponadstandardowy CRUD.
  * 
  * @author jjhop
  */
@@ -37,7 +37,7 @@ public interface UserDAO {
      *
      * @see User
      */
-    List<User> getAllUsers();
+    List<User> getAllUsers() throws DAOException;
 
     /**
      * Zwraca wszystkich użytkowników sytemu z podaną rolą. Jeśli nie zostanie znaleziony
@@ -60,7 +60,7 @@ public interface UserDAO {
      *
      * @see User
      */
-    User getById(Long id);
+    User getById(Long id) throws DAOException;
 
     /**
      * Zwraca użytkownika o podanym loginie lub {@code null} jeśli
@@ -100,7 +100,7 @@ public interface UserDAO {
      * @return {@code true} jeśli odnajdzie użytkownika z podanym hasłem oraz {@code false}
      *     w każdym innym wypadku
      */
-    boolean authenticate(String login, String passw);
+    boolean authenticate(String login, String passw) throws DAOException;
 
     /**
      * Loguje użytkownika w systemie. Zapisuje informacje o czasie logowania.
@@ -118,7 +118,7 @@ public interface UserDAO {
      *
      * @param user obiekt użytkownika do zapisania lub uaktualnienia
      */
-    void saveOrUpdate(User user);
+    void saveOrUpdate(User user) throws DAOException;
 
     void refresh(User user);
 

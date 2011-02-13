@@ -17,12 +17,13 @@ package de.berlios.jhelpdesk.dao.jpa;
 
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManager;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaCallback;
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import de.berlios.jhelpdesk.dao.UserDAO;
 import de.berlios.jhelpdesk.model.Role;
 import de.berlios.jhelpdesk.model.User;
-import org.springframework.orm.jpa.JpaCallback;
 
 /**
  *

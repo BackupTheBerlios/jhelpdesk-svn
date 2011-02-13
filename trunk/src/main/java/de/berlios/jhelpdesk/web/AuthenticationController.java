@@ -62,7 +62,7 @@ public class AuthenticationController {
      */
     // TODO: przeniesienie na domyślny widok użytkownika
     @RequestMapping(value = "/login.html", method = RequestMethod.POST)
-    protected String processLogin(@ModelAttribute("user") User user, HttpSession session) {
+    protected String processLogin(@ModelAttribute("user") User user, HttpSession session) throws Exception {
         // TODO: w DAO metoda authenticate do wywalenia... uwierzytleniamy sprawdzajac
         // czy gosc podal pasujace haslo i login (email) oraz czy moze sie logowac (isActive)
         boolean isAuthenticatedWithJpa = userDAOJpa.authenticate(user.getLogin(), user.getPassword());

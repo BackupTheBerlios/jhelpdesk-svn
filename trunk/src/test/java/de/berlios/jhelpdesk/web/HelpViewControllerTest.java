@@ -56,7 +56,7 @@ public class HelpViewControllerTest {
 
         ArticleDAO articleDAOMock = EasyMock.createMock(ArticleDAO.class);
         // 10 to => HelpViewController.NUM_OF_LAST_ADDED_ARTICLES (private)
-        EasyMock.expect(articleDAOMock.getLastAddedArticles(10))
+        EasyMock.expect(articleDAOMock.getLastArticles(10))
                 .andReturn(Collections.<Article>emptyList());
         EasyMock.replay(articleDAOMock);
 

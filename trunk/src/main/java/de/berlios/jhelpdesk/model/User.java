@@ -34,6 +34,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -54,6 +55,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 @Entity
 @Table(name = "users")
+@SequenceGenerator(name = "user_sequence", sequenceName = "user_id_seq", allocationSize = 1)
 @NamedQueries({
     @NamedQuery(name = "User.byLoginAndHashedPassoword", query = "SELECT u FROM User u WHERE u.login=?1 AND u.hashedPassword=?2"),
     @NamedQuery(name = "User.byLogin", query = "SELECT u FROM User u WHERE u.login=?1"),
@@ -64,11 +66,13 @@ import org.apache.commons.codec.digest.DigestUtils;
 })
 public class User implements Serializable {
 
+    private final static int DEFAULT_LIST_SIZE = 10;
+
     /**
      * Identyfikator bazodanowy użytkownika.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     @Column(name = "user_id")
     private Long userId;
 
@@ -504,28 +508,28 @@ public class User implements Serializable {
         DisplayListsPreferences dlPrefs = getDlPreferences();
         return dlPrefs != null 
             ? dlPrefs.getTicketsListSize()
-            : 10;
+            : DEFAULT_LIST_SIZE;
     }
 
     public Integer getAnnouncementsListSize() {
         DisplayListsPreferences dlPrefs = getDlPreferences();
         return dlPrefs != null
             ? dlPrefs.getAnnouncementsListSize()
-            : 10;
+            : DEFAULT_LIST_SIZE;
     }
 
     public Integer getFiltersListSize() {
         DisplayListsPreferences dlPrefs = getDlPreferences();
         return dlPrefs != null
             ? dlPrefs.getFiltersListSize()
-            : 10;
+            : DEFAULT_LIST_SIZE;
     }
 
     public Integer getUsersListSize() {
         DisplayListsPreferences dlPrefs = getDlPreferences();
         return dlPrefs != null
             ? dlPrefs.getUsersListSize()
-            : 10;
+            : DEFAULT_LIST_SIZE;
     }
 
     public String getWelcomePage() {

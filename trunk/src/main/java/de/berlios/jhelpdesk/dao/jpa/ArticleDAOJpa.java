@@ -89,7 +89,7 @@ public class ArticleDAOJpa implements ArticleDAO {
         return Collections.<Article>emptyList();
     }
 
-    public List<Article> getLastAddedArticles(final int howMuch) {
+    public List<Article> getLastArticles(final int howMuch) {
         try {
             return (List<Article>) this.jpaTemplate.executeFind(new JpaCallback() {
                 public Object doInJpa(EntityManager em) throws PersistenceException {

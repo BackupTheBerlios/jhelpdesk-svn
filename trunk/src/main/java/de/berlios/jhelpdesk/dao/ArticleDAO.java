@@ -90,5 +90,5 @@ public interface ArticleDAO {
      * @see Article
      * @see Article#getCreateDate()
      */
-    List<Article> getLastAddedArticles(int howMuch);
+    List<Article> getLastArticles(int howMuch);
 }

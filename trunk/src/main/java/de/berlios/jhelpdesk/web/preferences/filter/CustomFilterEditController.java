@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import de.berlios.jhelpdesk.dao.DAOException;
 import de.berlios.jhelpdesk.dao.TicketCategoryDAO;
 import de.berlios.jhelpdesk.dao.TicketFilterDAO;
 import de.berlios.jhelpdesk.dao.UserDAO;
@@ -108,7 +109,11 @@ public class CustomFilterEditController {
 
     @ModelAttribute("notifiers")
     public List<User> populateNotifiers() {
-        return userDAO.getAllUsers();
+        try {
+            return userDAO.getAllUsers();
+        } catch (DAOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @RequestMapping(value = "/preferences/filters/{filterId}/edit.html", method = GET)
@@ -135,8 +140,12 @@ public class CustomFilterEditController {
         ticketFilterValidator.validate(filter, result);
         if (!result.hasErrors()) {
             ticketFilterDAO.saveOrUpdate(filter);
-            map.addAttribute("message", "Filtr został zapisany.");
-            session.setAttribute("user", userDAO.getById(currentUser.getUserId()));
+            map.addAttribute("message", "Filtr został zapisany."); // todo: ms.get(...
+            try {
+                session.setAttribute("user", userDAO.getById(currentUser.getUserId()));
+            } catch (DAOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         map.addAttribute(filter);
         
