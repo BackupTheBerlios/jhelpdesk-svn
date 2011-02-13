@@ -20,20 +20,6 @@ h1, h2, h3, h4, h5, h6 {
 td {
 	padding: 0;
 }
-/*
-a:link {
-	color: #4C609E;
-}
-a:visited {
-	color: #7A4C9E;
-}
-a:hover {
-	color: #344579;
-}
-a:active {
-	color: #344579;
-}
-*/
 a {
 	color: #4C609E;
 }
@@ -439,7 +425,7 @@ div.panelsBg {
 	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale src='/helpdesk/i/transFilter.png');
 }
 .panelsBg {
-	background-image: url(/helpdesk/i/transFilter.png);
+	background-image: url(../i/transFilter.png);
 }
 #panels {
 	width: 561px;

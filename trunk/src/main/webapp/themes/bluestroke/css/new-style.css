@@ -6,7 +6,7 @@ body {
 div#header {
 	position: relative;
 	height: 80px;
-	background: url(i/logo_bg.png) repeat-x;
+	background: url(../i/logo_bg.png) repeat-x;
 	border-bottom: 2px solid #5d6a9a;
 	z-index: 100;
 }
@@ -28,7 +28,7 @@ div#formlink a {
 	font-weight: bold;
 	font-family: Verdana;
 	text-align: center;
-	background: url(i/showlink.png) no-repeat;
+	background: url(../i/showlink.png) no-repeat;
 }
 div#infocomments {
 
@@ -60,7 +60,7 @@ div#container {
 	height: 100%;
 	padding-left: 28px;
 	padding-right: 28px;
-	background: url(i/bg.png);
+	background: url(../i/bg.png);
 	text-align: left;
 }
 div#formlink {
@@ -86,14 +86,14 @@ div#maincontent {
 }
 div#footer {
 	height: 16px;
-	font-family; Arial;
+	font-family: Arial;
 	font-size: 12px;
 	text-align: left;
 	border-top: 1px solid #5d6a9a;
 	color: #6b759a;
 }
 div#copy {
-	font-family; Verdana;
+	font-family: Verdana;
 	font-size: 11px;
 	margin-left: 2px;
 }

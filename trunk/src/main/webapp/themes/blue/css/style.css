@@ -206,7 +206,7 @@ div.infobox2 h2 {
 }
 .tablebox {
     padding-bottom: 15px;
-    background: url(/helpdesk/i/tableBoxFooter.jpg) no-repeat 0 100%;
+    background: url(../i/tableBoxFooter.jpg) no-repeat 0 100%;
 }
 #formlink {
     margin-bottom: 20px;
