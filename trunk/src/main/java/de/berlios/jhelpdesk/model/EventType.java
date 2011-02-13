@@ -138,7 +138,7 @@ public enum EventType {
      * 
      * @param code identyfikator zdarzenia
      * @return prawidłowy obiekt zdarzenia
-     * @throws RuntimeExceptionjesli podana liczba jest spoza spodziewanego
+     * @throws RuntimeException jesli podana liczba jest spoza spodziewanego
      * zbioru
      * 
      * @see #code
