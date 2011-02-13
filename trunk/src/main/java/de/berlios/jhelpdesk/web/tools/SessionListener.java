@@ -15,8 +15,10 @@
  */
 package de.berlios.jhelpdesk.web.tools;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import de.berlios.jhelpdesk.utils.FileUtils;
+
+import java.util.Collection;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -27,16 +29,13 @@ import javax.servlet.http.HttpSessionListener;
  */
 public class SessionListener implements HttpSessionListener {
 
-    public void sessionCreated(HttpSessionEvent se) {
-        se.getSession().setAttribute(
-                "stampsList", new ConcurrentHashMap<String, Boolean>());
+    public void sessionCreated(HttpSessionEvent evt) {
+        evt.getSession().setAttribute("paths", new ConcurrentLinkedQueue<String>());
     }
 
-    public void sessionDestroyed(HttpSessionEvent se) {
-        Map<String, Boolean> stampsList =
-                (Map<String, Boolean>) se.getSession().getAttribute("stampsList");
-        for (String stamp : stampsList.keySet()) {
-            System.out.println("do czyszczenia: " + stamp);
-        }
+    public void sessionDestroyed(HttpSessionEvent evt) {
+        Collection<String> paths = (Collection<String>) evt.getSession().getAttribute("paths");
+        FileUtils.cleanPaths(paths);
     }
 }
+
