@@ -141,7 +141,7 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+        </build>
     <repositories>
         <repository>
             <id>org.jboss.repository.maven</id>
