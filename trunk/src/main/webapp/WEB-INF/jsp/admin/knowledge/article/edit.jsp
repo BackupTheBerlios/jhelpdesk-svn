@@ -28,6 +28,7 @@
                                                        onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
                                                    </c:if>/>
                                         </spring:bind>
+                                        <form:errors path="title"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -40,6 +41,7 @@
                                                     onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
                                                 </c:if>><c:out value="${status.value}"/></textarea>
                                         </spring:bind>
+                                        <form:errors path="lead"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -52,6 +54,7 @@
                                                     onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
                                                 </c:if>><c:out value="${status.value}"/></textarea>
                                         </spring:bind>
+                                        <form:errors path="body"/>
                                     </td>
                                 </tr>
                             </table>

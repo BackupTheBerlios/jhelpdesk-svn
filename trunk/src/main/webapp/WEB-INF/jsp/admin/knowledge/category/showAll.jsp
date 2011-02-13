@@ -16,6 +16,9 @@
                                     <a class="btn" href="<c:url value="/manage/kb/category/edit.html"/>">Dodaj nową sekcję</a>
                                 </td>
                             </tr>
+                            <c:if test="${message != null}">
+                                <tr><td style="color: #dc143c;"><c:out value="message"/>sdf</td></tr>
+                            </c:if>
                         </table>
                         <c:if test="${not empty categories}">
                             <br />

@@ -1,5 +1,6 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <%@include file="/WEB-INF/jsp/inc/taglibs.jsp" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <div id="editannouncement" class="management">
     <div id="pagecontentheader"><h2>Zarządzanie</h2></div>
@@ -26,11 +27,13 @@
                                                        onMouseover="showhint('<c:out value="${status.errorMessage}"/>', this, event, '150px')"
                                                    </c:if>/>
                                         </spring:bind>
+                                        <form:errors path="announcement.title"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Skrót</td>
                                     <td class="lastcol">
+                                        <form:errors path="announcement.lead"/>
                                         <spring:bind path="announcement.lead">
                                             <textarea
                                                 name="<c:out value="${status.expression}"/>" rows="4" cols="30"

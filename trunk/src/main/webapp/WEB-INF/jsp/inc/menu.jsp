@@ -33,7 +33,7 @@
             <ul class="level2">
                 <li class="first"><a href="<c:url value="/announcements/list.html"/>"><span>Wiadomości</span></a></li>
                 <li class="last"><a href="<c:url value="/manage/users/list.html"/>"><span>Użytkownicy</span></a></li>
-                <li><a href="<c:url value="/manage/category/showAll.html"/>"><span>Kategorie zgłoszeń</span></a></li>
+                <li><a href="<c:url value="/manage/category/list.html"/>"><span>Kategorie zgłoszeń</span></a></li>
                 <li class="last"><a href="<c:url value="/manage/kb/categories/all.html"/>"><span>Baza wiedzy - sekcje</span></a></li>
             </ul>
         </li>

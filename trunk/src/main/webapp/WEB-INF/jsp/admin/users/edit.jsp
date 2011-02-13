@@ -70,7 +70,6 @@
                                 </tr>
                             </table>
                         </form:form>
-                        </form>
                     </div>
                     <div class="contentbottom"></div>
                 </div>

@@ -25,35 +25,37 @@
                         </div>
                     </td>
                     <td id="middlecenter">
+                        <span>
+                            <script type="text/javascript" src="<c:url value="/js/jquery-1.3.1.min.js"/>"></script>
+                                <script type="text/javascript">
+                                    $(document).ready(function() {
+                                        $("a.group").fancybox({
+                                            'hideOnContentClick': false,
+                                            'hideOnOverlayClick': false,
+                                            'frameWidth' : 320,
+                                            'frameHeight' : 150
+                                        });
+                                    });
+                                </script>
+                                <script type="text/javascript" src="<c:url value="/js/jquery.easing.1.3.js"/>"></script>
+                                <link rel="stylesheet" type="text/css" href="<c:url value="/js/fancybox/fancybox.css"/>"/>
+                                <script type="text/javascript" src="<c:url value="/js/fancybox/fancybox1.js"/>"></script>
+                                <a class="group iframe"
+                                   href="<c:url value="/tickets/uploadFile.html?ticketstamp=${ticket.ticketstamp}"/>">Dołącz plik</a>
+                        </span>
+                        <c:forEach var="file" items="${hdticket.addFilesList}" varStatus="status">
+                        <ul>
+                            <td class="tdnumber"><c:out value="${status.count}"/></td>
+                            <td class="tdfile"><c:out value="${file.originalFileName}"/></td>
+                            <td class="tdsize"><c:out value="${file.fileSize}"/></td>
+                            <td class="tdlink lastcol"><input type="image" name="x" src="<c:url value="/themes/blue/i/delete.gif"/>" /></td>
+                            <ul>
+                                </c:forEach>
                         <form action="<c:url value="${formURL}"/>" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="currentPage" value="4"/>
-                            <c:if test="${not empty hdticket.addFilesList}">
-                                <table id="table2" class="files standardtable" cellspacing="0">
-                                    <tr class="header">
-                                        <td class="tdnumber">Lp.</td>
-                                        <td class="tdfile">Nazwa</td>
-                                        <td class="tdsize">Rozmiar</td>
-                                        <td class="tdlink lastcol">D</td>
-                                    </tr>
-                                    <c:forEach var="file" items="${hdticket.addFilesList}" varStatus="status">
-                                        <tr>
-                                            <td class="tdnumber"><c:out value="${status.count}"/></td>
-                                            <td class="tdfile"><c:out value="${file.originalFileName}"/></td>
-                                            <td class="tdsize"><c:out value="${file.fileSize}"/></td>
-                                            <td class="tdlink lastcol"><input type="image" name="x" src="<c:url value="/i/delete.gif"/>" /></td>
-                                        </tr>
-                                    </c:forEach>
-                                </table>
-                            </c:if>
                             <table class="upload" cellspacing="0">
                                 <tr>
                                     <td style="color: red; font-weight: bold; font-size: 15px">Do obczajenia jeszcze ten mechanizm!</td>
-                                </tr>
-                                <tr class="inputs">
-                                    <td>
-                                        <input id="fileinput" type="file" name="uploadedFile" />
-                                        <input class="btn" type="submit" name="_file" value="Dodaj plik" />
-                                    </td>
                                 </tr>
                                 <tr class="buttons">
                                     <td>

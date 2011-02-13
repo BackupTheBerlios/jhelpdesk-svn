@@ -29,13 +29,16 @@
 		<th>Aktywna</th>
 		<th colspan="3" class="lastcol">&nbsp;</th>
 	</tr>
-	<c:forEach var="category" items="${categories}">
+	<c:forEach var="c" items="${categories}">
 	<tr>
-		<td style="padding-left: <c:out value="${category.depth}"/>0px"><span style="padding-left: 10px"><c:out value="${category.categoryName}"/></span></td>
-		<td><c:out value="${category.active}"/></td>
-		<td class="ticketEdit"><a href="<c:url value="/manage/category/edit.html?catId=${category.ticketCategoryId}"/>">Edit</a></td>
-		<td class="ticketView"><a href="<c:url value="/manage/category/new.html?parentId=${category.ticketCategoryId}"/>">Add</a></td>
-		<td class="lastcol ticketDrop"><a href="<c:url value="/manage/category/remove.html?catId=${category.ticketCategoryId}"/>">Drop</a></td>
+		<td style="padding-left: <c:out value="${c.depth}"/>0px"><span style="padding-left: 10px"><c:out value="${c.categoryName}"/></span></td>
+		<td>
+            <c:if test="${not c.active}">NIE</c:if>
+		    <c:if test="${c.active}">TAK</c:if>
+        </td>
+		<td class="ticketEdit"><a href="<c:url value="/manage/category/${c.ticketCategoryId}/edit.html"/>">Edit</a></td>
+		<td class="ticketView"><a href="<c:url value="/manage/category/new.html?parentId=${c.ticketCategoryId}"/>">Add</a></td>
+		<td class="lastcol ticketDrop"><a href="<c:url value="/manage/category/${c.ticketCategoryId}/remove.html"/>">Drop</a></td>
 	</tr>
 	</c:forEach>
 </table>

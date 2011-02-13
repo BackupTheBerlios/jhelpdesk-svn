@@ -3,11 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div id="knowledgebase" class="management">
-    <div id="pagecontentheader"><h2>Pomoc</h2></div>
+    <div id="pagecontentheader"><h2>Baza wiedzy</h2></div>
     <table cellspacing="0">
         <tr>
             <td class="rightcells">
-                <div id="pagecontentsubheader"><h3>Baza wiedzy</h3></div>
+                <div id="pagecontentsubheader"><h3>a co tutaj?</h3></div>
                 <div id="content">
                     <div class="contenttop"></div>
                     <div class="contentmiddle">
